@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=DM+Mono:wght@400;500&display=swap">
+<script src="./ngwisa-wix.js"></script>
+<template id="__bundler_thumbnail"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" fill="#141110"></rect><text x="50" y="62" text-anchor="middle" font-family="sans-serif" font-weight="800" font-size="34" fill="#E3A72F">NS</text></svg></template>
+<style>html,body{margin:0;height:100%;background:#FBF8F2;color:#141110;overflow:hidden}*{box-sizing:border-box}a{color:#D81219;text-decoration:none}a:hover{color:#141110}select{appearance:none;-webkit-appearance:none}</style>
+</helmet>
+<div style="position:fixed;inset:0;display:flex;background:#FBF8F2;color:#141110;font-family:'Bricolage Grotesque',sans-serif">
+
+<sc-if value="{{ desk }}" hint-placeholder-val="{{ true }}">
+<nav style="width:236px;flex:none;background:#141110;color:#FBF8F2;display:flex;flex-direction:column;overflow:auto">
+<div style="display:flex;flex-direction:column;gap:8px;padding:28px 20px 24px;border-bottom:1.5px dashed rgba(251,248,242,.25)">
+<span style="font:800 26px/1 'Bricolage Grotesque';letter-spacing:.02em">NGWISA</span>
+<span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.2em;color:#E3A72F">STUDIO · IN WIX</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:18px;padding:18px 0;flex:1">
+<sc-for list="{{ nav }}" as="g" hint-placeholder-count="4">
+<div style="display:flex;flex-direction:column;gap:2px">
+<span style="padding:0 20px 6px;font:500 9px/1 'DM Mono',monospace;letter-spacing:.2em;color:#BDB4A9">{{ g.label }}</span>
+<sc-for list="{{ g.items }}" as="n" hint-placeholder-count="2">
+<button onClick="{{ n.go }}" style="display:flex;justify-content:space-between;align-items:center;gap:10px;width:100%;padding:10px 20px;border:0;background:{{ n.bg }};color:{{ n.fg }};font:500 15px/1.2 'Bricolage Grotesque';cursor:pointer;text-align:left">{{ n.label }}<sc-if value="{{ n.hasBadge }}" hint-placeholder-val="{{ false }}"><span style="min-width:20px;height:20px;padding:0 6px;border-radius:999px;background:#E3A72F;color:#141110;font:500 10px/20px 'DM Mono',monospace;text-align:center">{{ n.badge }}</span></sc-if></button>
+</sc-for>
+</div>
+</sc-for>
+</div>
+<div style="display:flex;flex-direction:column;gap:6px;padding:18px 20px 24px;border-top:1.5px dashed rgba(251,248,242,.25)">
+<span style="font:500 9px/1 'DM Mono',monospace;letter-spacing:.2em;color:#BDB4A9">SIGNED IN THROUGH WIX</span>
+<span style="font:600 16px/1.2 'Bricolage Grotesque'">{{ roleName }}</span>
+<span style="font:400 13px/1.4 'Bricolage Grotesque';color:#BDB4A9;text-wrap:pretty">{{ roleNote }}</span>
+<button onClick="{{ logout }}" style="align-self:flex-start;margin-top:8px;height:36px;padding:0 14px;border:1.5px solid rgba(251,248,242,.4);border-radius:999px;background:transparent;color:#FBF8F2;font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer;white-space:nowrap">SIGN OUT</button>
+</div>
+</nav>
+</sc-if>
+
+<main ref="{{ mainRef }}" style="position:relative;flex:1;min-width:0;overflow:auto;display:block">
+<sc-if value="{{ mob }}" hint-placeholder-val="{{ false }}">
+<div style="position:sticky;top:0;z-index:20;display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 16px;background:#141110;color:#FBF8F2">
+<div style="display:flex;flex-direction:column;gap:5px"><span style="font:800 20px/1 'Bricolage Grotesque'">NGWISA</span><span style="font:500 9px/1 'DM Mono',monospace;letter-spacing:.2em;color:#E3A72F">STUDIO · {{ roleUp }}</span></div>
+<button onClick="{{ openNav }}" style="height:44px;padding:0 18px;border:1.5px solid rgba(251,248,242,.5);border-radius:999px;background:transparent;color:#FBF8F2;font:500 11px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer;white-space:nowrap">MENU · {{ titleUp }}</button>
+</div>
+</sc-if>
+
+<header style="flex:none;display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;padding:clamp(20px,3vw,36px) clamp(16px,3vw,40px) 22px;border-bottom:1.5px dashed rgba(20,17,16,.3)">
+<div style="flex:0 1 640px;display:flex;flex-direction:column;gap:10px;min-width:0">
+<h1 style="margin:0;font:800 clamp(34px,3.8vw,56px)/.95 'Bricolage Grotesque';letter-spacing:-.04em">{{ title }}</h1>
+<p style="margin:0;font:400 16px/1.5 'Bricolage Grotesque';color:#3A3430;text-wrap:pretty">{{ sub }}</p>
+<sc-if value="{{ showWix }}" hint-placeholder-val="{{ true }}"><span style="font:500 10px/1.4 'DM Mono',monospace;letter-spacing:.14em;color:#6A6057">WIX · {{ wixL }}</span></sc-if>
+</div>
+<div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
+<span style="height:44px;padding:0 16px;border-radius:999px;display:inline-flex;align-items:center;background:{{ stBg }};border:1.5px solid {{ stBd }};font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em;white-space:nowrap">{{ stL }}</span>
+<button onClick="{{ undo }}" title="Undo last change" style="height:44px;padding:0 18px;border:1.5px solid #141110;border-radius:999px;background:transparent;color:#141110;font:500 11px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer;opacity:{{ undoOp }};white-space:nowrap">↶ UNDO</button>
+<a href="/" target="_blank" style="height:44px;padding:0 18px;border:1.5px solid #141110;border-radius:999px;color:#141110;font:500 11px/1 'DM Mono',monospace;letter-spacing:.14em;display:inline-flex;align-items:center;white-space:nowrap">PREVIEW DRAFT ↗</a>
+<button onClick="{{ openPub }}" style="height:44px;padding:0 22px;border:0;border-radius:999px;background:#D81219;color:#FBF8F2;font:500 11px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer;opacity:{{ pubOp }};white-space:nowrap" style-hover="background:#141110">{{ pubL }}</button>
+</div>
+</header>
+
+<div style="padding:28px clamp(16px,3vw,40px) 80px;display:flex;flex-direction:column;gap:28px">
+
+<!-- SITE MAP -->
+<sc-if value="{{ isMap }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;gap:32px;flex-wrap:wrap;align-items:flex-start">
+<div style="flex:1 1 520px;min-width:0;display:flex;flex-direction:column;gap:40px">
+<sc-for list="{{ mapPages }}" as="pg" hint-placeholder-count="3">
+<div style="display:flex;flex-direction:column;gap:18px">
+<div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;padding-bottom:10px;border-bottom:1.5px dashed rgba(20,17,16,.3)"><h2 style="margin:0;font:700 26px/1 'Bricolage Grotesque';letter-spacing:-.02em">{{ pg.page }}</h2><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#6A6057">{{ pg.meta }}</span></div>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:22px 16px;align-items:end">
+<sc-for list="{{ pg.slots }}" as="s" hint-placeholder-count="4">
+<div style="display:flex;flex-direction:column;gap:8px;min-width:0">
+<button onClick="{{ s.tap }}" onDragOver="{{ s.dOver }}" onDragLeave="{{ s.dLeave }}" onDrop="{{ s.drop }}" style="position:relative;display:block;width:100%;aspect-ratio:{{ s.ratio }};border-radius:{{ s.rad }};overflow:hidden;padding:0;border:0;outline:{{ s.outline }};outline-offset:3px;background:rgba(20,17,16,.07);cursor:pointer">
+<sc-if value="{{ s.notVid }}" hint-placeholder-val="{{ true }}"><img ref="{{ mref }}" data-v="{{ s.src }}" alt="" draggable="false" style="width:100%;height:100%;object-fit:cover;object-position:{{ s.pos }};display:block"></sc-if>
+<sc-if value="{{ s.isVid }}" hint-placeholder-val="{{ false }}"><video ref="{{ mref }}" data-v="{{ s.vsrc }}" muted="{{ true }}" autoPlay="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" style="width:100%;height:100%;object-fit:cover;display:block"></video></sc-if>
+<sc-if value="{{ s.empty }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;inset:8px;border:1.5px dashed rgba(20,17,16,.4);border-radius:{{ s.rad }};display:flex;align-items:center;justify-content:center;padding:10px;text-align:center;font:500 9px/1.4 'DM Mono',monospace;letter-spacing:.14em;color:#6A6057">{{ s.emptyL }}</span></sc-if>
+<span style="position:absolute;left:8px;right:8px;bottom:8px;display:flex;gap:4px;flex-wrap:wrap;align-items:center">
+<span style="padding:5px 7px;border-radius:999px;background:#141110;color:#FBF8F2;font:500 9px/1 'DM Mono',monospace;letter-spacing:.12em">{{ s.kindL }}</span>
+<sc-if value="{{ s.draft }}" hint-placeholder-val="{{ false }}"><span style="padding:5px 7px;border-radius:999px;background:#E3A72F;color:#141110;font:500 9px/1 'DM Mono',monospace;letter-spacing:.12em">DRAFT</span></sc-if>
+<sc-if value="{{ s.hasWarn }}" hint-placeholder-val="{{ false }}"><span style="width:19px;height:19px;border-radius:50%;background:{{ s.warnBg }};color:{{ s.warnFg }};font:700 11px/19px 'DM Mono',monospace;text-align:center">!</span></sc-if>
+</span>
+</button>
+<div style="display:flex;flex-direction:column;gap:5px;min-width:0"><span style="font:500 9px/1 'DM Mono',monospace;letter-spacing:.16em;color:#6A6057">{{ s.sec }}</span><span style="font:600 14px/1.25 'Bricolage Grotesque'">{{ s.label }}</span></div>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-for>
+</div>
+
+<aside style="flex:0 1 350px;min-width:min(100%,290px);position:sticky;top:20px;display:flex;flex-direction:column;gap:22px">
+<sc-if value="{{ hasIns }}" hint-placeholder-val="{{ true }}">
+<div ref="{{ asideRef }}" style="display:flex;flex-direction:column;gap:14px;padding:20px;border-radius:22px;background:#141110;color:#FBF8F2">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><span style="font:500 10px/1.3 'DM Mono',monospace;letter-spacing:.16em;color:#E3A72F">{{ ins.where }}</span><button onClick="{{ ins.close }}" aria-label="Close" style="width:36px;height:36px;border-radius:50%;border:1.5px solid rgba(251,248,242,.4);background:transparent;color:#FBF8F2;font:400 16px/1 'DM Mono',monospace;cursor:pointer">×</button></div>
+<h3 style="margin:0;font:700 26px/1.05 'Bricolage Grotesque';letter-spacing:-.02em">{{ ins.label }}</h3>
+<div style="width:{{ ins.pw }};margin:0 auto;aspect-ratio:{{ ins.ratio }};border-radius:{{ ins.rad }};overflow:hidden;background:rgba(251,248,242,.08)">
+<sc-if value="{{ ins.notVid }}" hint-placeholder-val="{{ true }}"><img ref="{{ mref }}" data-v="{{ ins.src }}" alt="" style="width:100%;height:100%;object-fit:cover;object-position:{{ ins.pos }};display:block"></sc-if>
+<sc-if value="{{ ins.isVid }}" hint-placeholder-val="{{ false }}"><video ref="{{ mref }}" data-v="{{ ins.vsrc }}" muted="{{ true }}" autoPlay="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" style="width:100%;height:100%;object-fit:cover;display:block"></video></sc-if>
+</div>
+<span style="font:500 10px/1.5 'DM Mono',monospace;letter-spacing:.08em;color:#BDB4A9;overflow-wrap:anywhere">{{ ins.fileL }}</span>
+<sc-for list="{{ ins.warns }}" as="w" hint-placeholder-count="0"><div style="display:flex;gap:10px;align-items:flex-start"><span style="flex:none;width:8px;height:8px;margin-top:6px;border-radius:50%;background:{{ w.dot }}"></span><span style="font:400 14px/1.45 'Bricolage Grotesque';color:#FBF8F2;text-wrap:pretty">{{ w.t }}</span></div></sc-for>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<button onClick="{{ ins.pick }}" style="height:44px;border:0;border-radius:999px;background:#FBF8F2;color:#141110;font:500 10px/1 'DM Mono',monospace;letter-spacing:.12em;cursor:pointer;white-space:nowrap" style-hover="background:#E3A72F">FROM LIBRARY</button>
+<label style="height:44px;border:1.5px solid rgba(251,248,242,.5);border-radius:999px;color:#FBF8F2;font:500 10px/1 'DM Mono',monospace;letter-spacing:.12em;cursor:pointer;display:flex;align-items:center;justify-content:center;white-space:nowrap"><input type="file" accept="{{ ins.accept }}" onChange="{{ ins.upload }}" style="display:none">UPLOAD NEW</label>
+<sc-if value="{{ ins.canCrop }}" hint-placeholder-val="{{ true }}"><button onClick="{{ ins.crop }}" style="height:44px;border:1.5px solid rgba(251,248,242,.5);border-radius:999px;background:transparent;color:#FBF8F2;font:500 10px/1 'DM Mono',monospace;letter-spacing:.12em;cursor:pointer;white-space:nowrap">CROP &amp; FOCUS</button></sc-if>
+<sc-if value="{{ ins.has }}" hint-placeholder-val="{{ true }}"><button onClick="{{ ins.clear }}" style="height:44px;border:1.5px solid rgba(251,248,242,.5);border-radius:999px;background:transparent;color:#FBF8F2;font:500 10px/1 'DM Mono',monospace;letter-spacing:.12em;cursor:pointer;white-space:nowrap">EMPTY SPOT</button></sc-if>
+</div>
+<sc-if value="{{ ins.has }}" hint-placeholder-val="{{ true }}">
+<label style="display:flex;flex-direction:column;gap:8px"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#BDB4A9">{{ ins.altL }}</span><textarea value="{{ ins.alt }}" onChange="{{ ins.setAlt }}" rows="2" placeholder="Describe the piece and who wears it" style="padding:12px 16px;border-radius:18px;border:1.5px solid rgba(251,248,242,.4);background:transparent;color:#FBF8F2;font:400 15px/1.4 'Bricolage Grotesque';outline:none;resize:vertical"></textarea></label>
+</sc-if>
+</div>
+</sc-if>
+
+<div style="display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;justify-content:space-between;gap:10px"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em">{{ trayHead }}</span><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#6A6057">{{ trayN }}</span></div>
+<div style="display:flex;gap:6px;flex-wrap:wrap"><sc-for list="{{ trayF }}" as="f" hint-placeholder-count="6"><button onClick="{{ f.go }}" style="height:32px;padding:0 12px;border-radius:999px;border:1.5px solid #141110;background:{{ f.bg }};color:{{ f.fg }};font:500 9px/1 'DM Mono',monospace;letter-spacing:.12em;cursor:pointer;white-space:nowrap">{{ f.label }}</button></sc-for></div>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">
+<sc-for list="{{ tray }}" as="t" hint-placeholder-count="9">
+<button draggable="true" onDragStart="{{ t.drag }}" onClick="{{ t.tap }}" title="{{ t.name }}" style="position:relative;aspect-ratio:3/4;border-radius:12px;overflow:hidden;padding:0;border:0;cursor:grab;background:rgba(20,17,16,.07)">
+<sc-if value="{{ t.notVid }}" hint-placeholder-val="{{ true }}"><img ref="{{ mref }}" data-v="{{ t.src }}" alt="" draggable="false" style="width:100%;height:100%;object-fit:cover;object-position:{{ t.pos }};display:block;pointer-events:none"></sc-if>
+<sc-if value="{{ t.isVid }}" hint-placeholder-val="{{ false }}"><video ref="{{ mref }}" data-v="{{ t.vsrc }}" muted="{{ true }}" style="width:100%;height:100%;object-fit:cover;display:block;pointer-events:none"></video></sc-if>
+<sc-if value="{{ t.film }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;left:6px;bottom:6px;padding:4px 6px;border-radius:999px;background:#141110;color:#FBF8F2;font:500 8px/1 'DM Mono',monospace;letter-spacing:.12em">FILM</span></sc-if>
+</button>
+</sc-for>
+</div>
+<span style="font:400 13px/1.45 'Bricolage Grotesque';color:#6A6057;text-wrap:pretty">{{ trayHint }}</span>
+</div>
+</aside>
+</div>
+</sc-if>
+
+<!-- LIBRARY -->
+<sc-if value="{{ isLib }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;gap:32px;flex-wrap:wrap;align-items:flex-start">
+<div style="flex:1 1 520px;min-width:0;display:flex;flex-direction:column;gap:20px">
+<div style="display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:center">
+<div style="display:flex;gap:6px;flex-wrap:wrap"><sc-for list="{{ libF }}" as="f" hint-placeholder-count="6"><button onClick="{{ f.go }}" style="height:38px;padding:0 14px;border-radius:999px;border:1.5px solid #141110;background:{{ f.bg }};color:{{ f.fg }};font:500 10px/1 'DM Mono',monospace;letter-spacing:.12em;cursor:pointer;display:inline-flex;gap:8px;align-items:center;white-space:nowrap">{{ f.label }}<span style="opacity:.6">{{ f.n }}</span></button></sc-for></div>
+<input value="{{ q }}" onChange="{{ setQ }}" placeholder="Search file names and alt text" style="height:40px;padding:0 16px;border-radius:999px;border:1.5px solid #141110;background:transparent;font:400 14px 'Bricolage Grotesque';color:#141110;outline:none;width:min(100%,280px)">
+</div>
+<label onDragOver="{{ dzOver }}" onDragLeave="{{ dzLeave }}" onDrop="{{ dzDrop }}" style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding:22px 24px;border-radius:22px;border:1.5px dashed #141110;background:{{ dzBg }};cursor:pointer">
+<input type="file" multiple="{{ true }}" accept="image/*,video/*" onChange="{{ libUpload }}" style="display:none">
+<div style="display:flex;flex-direction:column;gap:6px;min-width:0"><span style="font:700 20px/1.1 'Bricolage Grotesque'">Drop photos or films here</span><span style="font:400 14px/1.4 'Bricolage Grotesque';color:#3A3430">Goes to Media Manager › {{ upFolder }}. Heavy or small files are flagged before they go live.</span>
+<sc-if value="{{ wixOn }}" hint-placeholder-val="{{ false }}"><span style="display:flex;gap:8px;align-items:center;font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em"><span style="width:8px;height:8px;border-radius:50%;background:#2E7D4F"></span>{{ mmChip }}</span></sc-if>
+<sc-if value="{{ wixOff }}" hint-placeholder-val="{{ true }}"><span style="display:flex;gap:8px;align-items:center;font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em;color:#D81219"><span style="width:8px;height:8px;border-radius:50%;background:#D81219"></span>NOT CONNECTED · PREVIEW ONLY</span></sc-if></div>
+<span style="height:44px;padding:0 20px;border-radius:999px;background:#141110;color:#FBF8F2;font:500 11px/44px 'DM Mono',monospace;letter-spacing:.14em;white-space:nowrap">CHOOSE FILES</span>
+</label>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:20px 14px">
+<sc-for list="{{ lib }}" as="t" hint-placeholder-count="12">
+<button onClick="{{ t.tap }}" style="display:flex;flex-direction:column;gap:8px;padding:0;border:0;background:transparent;text-align:left;cursor:pointer;min-width:0;color:#141110">
+<span style="position:relative;display:block;width:100%;aspect-ratio:1/1;border-radius:14px;overflow:hidden;outline:{{ t.outline }};outline-offset:3px;background:rgba(20,17,16,.07)">
+<sc-if value="{{ t.notVid }}" hint-placeholder-val="{{ true }}"><img ref="{{ mref }}" data-v="{{ t.src }}" alt="" style="width:100%;height:100%;object-fit:cover;object-position:{{ t.pos }};display:block"></sc-if>
+<sc-if value="{{ t.isVid }}" hint-placeholder-val="{{ false }}"><video ref="{{ mref }}" data-v="{{ t.vsrc }}" muted="{{ true }}" style="width:100%;height:100%;object-fit:cover;display:block"></video></sc-if>
+<span style="position:absolute;left:7px;right:7px;bottom:7px;display:flex;gap:4px;flex-wrap:wrap;align-items:center">
+<sc-if value="{{ t.film }}" hint-placeholder-val="{{ false }}"><span style="padding:4px 6px;border-radius:999px;background:#141110;color:#FBF8F2;font:500 8px/1 'DM Mono',monospace;letter-spacing:.12em">FILM {{ t.dur }}</span></sc-if>
+<sc-if value="{{ t.used }}" hint-placeholder-val="{{ false }}"><span style="padding:4px 6px;border-radius:999px;background:#FBF8F2;color:#141110;font:500 8px/1 'DM Mono',monospace;letter-spacing:.12em">IN USE · {{ t.usedN }}</span></sc-if>
+<sc-if value="{{ t.hasWarn }}" hint-placeholder-val="{{ false }}"><span style="width:17px;height:17px;border-radius:50%;background:{{ t.warnBg }};color:{{ t.warnFg }};font:700 10px/17px 'DM Mono',monospace;text-align:center">!</span></sc-if>
+</span>
+<sc-if value="{{ t.uploading }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;left:0;right:0;top:0;height:5px;background:rgba(20,17,16,.25)"><span style="display:block;height:100%;width:{{ t.pct }};background:#D81219"></span></span></sc-if>
+</span>
+<span style="font:500 10px/1.3 'DM Mono',monospace;letter-spacing:.04em;color:#3A3430;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ t.name }}</span>
+</button>
+</sc-for>
+</div>
+<sc-if value="{{ libEmpty }}" hint-placeholder-val="{{ false }}"><p style="margin:0;font:400 16px/1.5 'Bricolage Grotesque';color:#6A6057">Nothing matches. Try another folder or search.</p></sc-if>
+</div>
+
+<sc-if value="{{ hasDet }}" hint-placeholder-val="{{ false }}">
+<aside style="flex:0 1 360px;min-width:min(100%,290px);position:sticky;top:20px;display:flex;flex-direction:column;gap:14px;padding:20px;border-radius:22px;background:#141110;color:#FBF8F2">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><span style="font:500 10px/1.3 'DM Mono',monospace;letter-spacing:.16em;color:#E3A72F">{{ det.folderL }} · {{ det.at }}</span><button onClick="{{ det.close }}" aria-label="Close" style="width:36px;height:36px;border-radius:50%;border:1.5px solid rgba(251,248,242,.4);background:transparent;color:#FBF8F2;font:400 16px/1 'DM Mono',monospace;cursor:pointer">×</button></div>
+<div style="border-radius:14px;overflow:hidden;background:rgba(251,248,242,.06);display:flex;justify-content:center">
+<sc-if value="{{ det.notVid }}" hint-placeholder-val="{{ true }}"><img ref="{{ mref }}" data-v="{{ det.src }}" alt="{{ det.alt }}" style="max-width:100%;max-height:320px;display:block"></sc-if>
+<sc-if value="{{ det.isVid }}" hint-placeholder-val="{{ false }}"><video ref="{{ mref }}" data-v="{{ det.vsrc }}" controls="{{ true }}" muted="{{ true }}" playsInline="{{ true }}" style="max-width:100%;max-height:320px;display:block"></video></sc-if>
+</div>
+<span style="font:600 16px/1.3 'Bricolage Grotesque';overflow-wrap:anywhere">{{ det.name }}</span>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding:12px 0;border-top:1.5px dashed rgba(251,248,242,.25);border-bottom:1.5px dashed rgba(251,248,242,.25)">
+<div style="display:flex;flex-direction:column;gap:6px"><span style="font:500 9px/1 'DM Mono',monospace;letter-spacing:.16em;color:#BDB4A9">SIZE</span><span style="font:500 13px/1 'DM Mono',monospace">{{ det.size }}</span></div>
+<div style="display:flex;flex-direction:column;gap:6px"><span style="font:500 9px/1 'DM Mono',monospace;letter-spacing:.16em;color:#BDB4A9">PIXELS</span><span style="font:500 13px/1 'DM Mono',monospace">{{ det.dims }}</span></div>
+<div style="display:flex;flex-direction:column;gap:6px"><span style="font:500 9px/1 'DM Mono',monospace;letter-spacing:.16em;color:#BDB4A9">TYPE</span><span style="font:500 13px/1 'DM Mono',monospace">{{ det.type }}</span></div>
+</div>
+<sc-for list="{{ det.warns }}" as="w" hint-placeholder-count="0"><div style="display:flex;gap:10px;align-items:flex-start"><span style="flex:none;width:8px;height:8px;margin-top:6px;border-radius:50%;background:{{ w.dot }}"></span><span style="font:400 14px/1.45 'Bricolage Grotesque';text-wrap:pretty">{{ w.t }}</span></div></sc-for>
+<label style="display:flex;flex-direction:column;gap:8px"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#BDB4A9">{{ det.altL }}</span><textarea value="{{ det.alt }}" onChange="{{ det.setAlt }}" rows="3" placeholder="e.g. Mimche dress in black velvet, gong embroidery at the bodice" style="padding:12px 16px;border-radius:18px;border:1.5px solid rgba(251,248,242,.4);background:transparent;color:#FBF8F2;font:400 15px/1.4 'Bricolage Grotesque';outline:none;resize:vertical"></textarea></label>
+<label style="display:flex;flex-direction:column;gap:8px"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#BDB4A9">FOLDER</span><select value="{{ det.folder }}" onChange="{{ det.setFolder }}" style="height:44px;padding:0 16px;border-radius:999px;border:1.5px solid rgba(251,248,242,.4);background:#141110;color:#FBF8F2;font:400 15px 'Bricolage Grotesque';outline:none"><sc-for list="{{ folderOpts }}" as="o" hint-placeholder-count="5"><option value="{{ o.id }}">{{ o.label }}</option></sc-for></select></label>
+<div style="display:flex;flex-direction:column;gap:8px"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#BDB4A9">USED IN</span><sc-for list="{{ det.uses }}" as="u" hint-placeholder-count="1"><span style="font:400 14px/1.4 'Bricolage Grotesque'">{{ u.t }}</span></sc-for><sc-if value="{{ det.unused }}" hint-placeholder-val="{{ false }}"><span style="font:400 14px/1.4 'Bricolage Grotesque';color:#BDB4A9">Not on the site yet.</span></sc-if></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<sc-if value="{{ det.canCrop }}" hint-placeholder-val="{{ true }}"><button onClick="{{ det.crop }}" style="height:44px;border:0;border-radius:999px;background:#FBF8F2;color:#141110;font:500 10px/1 'DM Mono',monospace;letter-spacing:.12em;cursor:pointer;white-space:nowrap" style-hover="background:#E3A72F">CROP &amp; FOCUS</button></sc-if>
+<button onClick="{{ det.remove }}" style="height:44px;border:1.5px solid rgba(251,248,242,.5);border-radius:999px;background:transparent;color:#FBF8F2;font:500 10px/1 'DM Mono',monospace;letter-spacing:.12em;cursor:pointer;white-space:nowrap" style-hover="border-color:#D81219;color:#D81219">DELETE</button>
+</div>
+</aside>
+</sc-if>
+</div>
+</sc-if>
+
+<!-- HERO FILM -->
+<sc-if value="{{ isHero }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;gap:24px;flex-wrap:wrap;align-items:flex-start">
+<sc-for list="{{ heroSlots }}" as="s" hint-placeholder-count="3">
+<div style="flex:{{ s.flex }};min-width:0;max-width:{{ s.maxW }};display:flex;flex-direction:column;gap:12px">
+<button onClick="{{ s.pick }}" onDragOver="{{ s.dOver }}" onDragLeave="{{ s.dLeave }}" onDrop="{{ s.drop }}" style="position:relative;display:block;width:100%;aspect-ratio:{{ s.ratio }};border-radius:{{ s.rad }};overflow:hidden;padding:0;border:0;outline:{{ s.outline }};outline-offset:3px;background:#141110;cursor:pointer">
+<sc-if value="{{ s.notVid }}" hint-placeholder-val="{{ true }}"><img ref="{{ mref }}" data-v="{{ s.src }}" alt="" style="width:100%;height:100%;object-fit:cover;object-position:{{ s.pos }};display:block"></sc-if>
+<sc-if value="{{ s.isVid }}" hint-placeholder-val="{{ false }}"><video ref="{{ mref }}" data-v="{{ s.vsrc }}" muted="{{ true }}" autoPlay="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" style="width:100%;height:100%;object-fit:cover;display:block"></video></sc-if>
+<span style="position:absolute;left:10px;bottom:10px;display:flex;gap:4px;flex-wrap:wrap"><span style="padding:6px 8px;border-radius:999px;background:#FBF8F2;color:#141110;font:500 9px/1 'DM Mono',monospace;letter-spacing:.12em">{{ s.kindL }}</span><sc-if value="{{ s.draft }}" hint-placeholder-val="{{ false }}"><span style="padding:6px 8px;border-radius:999px;background:#E3A72F;color:#141110;font:500 9px/1 'DM Mono',monospace;letter-spacing:.12em">DRAFT</span></sc-if></span>
+</button>
+<div style="display:flex;flex-direction:column;gap:6px"><span style="font:700 20px/1.1 'Bricolage Grotesque'">{{ s.label }}</span><span style="font:500 10px/1.5 'DM Mono',monospace;letter-spacing:.08em;color:#6A6057;overflow-wrap:anywhere">{{ s.fileL }}</span><span style="font:400 14px/1.45 'Bricolage Grotesque';color:#3A3430;text-wrap:pretty">{{ s.rule }}</span></div>
+<sc-for list="{{ s.warns }}" as="w" hint-placeholder-count="0"><div style="display:flex;gap:10px;align-items:flex-start"><span style="flex:none;width:8px;height:8px;margin-top:6px;border-radius:50%;background:{{ w.dot }}"></span><span style="font:400 14px/1.45 'Bricolage Grotesque';color:{{ w.c }};text-wrap:pretty">{{ w.t }}</span></div></sc-for>
+<div style="display:flex;gap:8px;flex-wrap:wrap">
+<label style="height:44px;padding:0 18px;border-radius:999px;background:#141110;color:#FBF8F2;font:500 10px/1 'DM Mono',monospace;letter-spacing:.12em;cursor:pointer;display:inline-flex;align-items:center;white-space:nowrap"><input type="file" accept="{{ s.accept }}" onChange="{{ s.upload }}" style="display:none">UPLOAD</label>
+<button onClick="{{ s.pick }}" style="height:44px;padding:0 18px;border:1.5px solid #141110;border-radius:999px;background:transparent;color:#141110;font:500 10px/1 'DM Mono',monospace;letter-spacing:.12em;cursor:pointer;white-space:nowrap">FROM LIBRARY</button>
+<sc-if value="{{ s.canCrop }}" hint-placeholder-val="{{ false }}"><button onClick="{{ s.crop }}" style="height:44px;padding:0 18px;border:1.5px solid #141110;border-radius:999px;background:transparent;color:#141110;font:500 10px/1 'DM Mono',monospace;letter-spacing:.12em;cursor:pointer;white-space:nowrap">CROP &amp; FOCUS</button></sc-if>
+</div>
+</div>
+</sc-for>
+</div>
+</sc-if>
+
+<!-- PRODUCTS -->
+<sc-if value="{{ isProd }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;gap:32px;flex-wrap:wrap;align-items:flex-start">
+<div style="flex:0 1 280px;min-width:min(100%,240px);display:flex;flex-direction:column;border-top:1.5px dashed rgba(20,17,16,.3)">
+<sc-for list="{{ prods }}" as="p" hint-placeholder-count="8">
+<button onClick="{{ p.tap }}" style="display:flex;gap:14px;align-items:center;padding:10px 12px;border:0;border-bottom:1.5px dashed rgba(20,17,16,.3);background:{{ p.bg }};color:{{ p.fg }};cursor:pointer;text-align:left">
+<span style="flex:none;width:42px;aspect-ratio:3/4;border-radius:60px 60px 6px 6px;overflow:hidden;background:rgba(20,17,16,.07)"><img ref="{{ mref }}" data-v="{{ p.src }}" alt="" style="width:100%;height:100%;object-fit:cover;object-position:{{ p.pos }};display:block"></span>
+<span style="flex:1;min-width:0;font:600 15px/1.25 'Bricolage Grotesque'">{{ p.name }}</span>
+<span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.12em;opacity:.7">{{ p.n }}</span>
+</button>
+</sc-for>
+</div>
+<div style="flex:1 1 480px;min-width:0;display:flex;flex-direction:column;gap:22px">
+<div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap"><h2 style="margin:0;font:800 clamp(28px,3vw,40px)/1 'Bricolage Grotesque';letter-spacing:-.03em">{{ pr.name }}</h2><button onClick="{{ pr.add }}" style="height:44px;padding:0 20px;border:0;border-radius:999px;background:#141110;color:#FBF8F2;font:500 11px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer;white-space:nowrap" style-hover="background:#D81219">+ ADD PHOTO</button></div>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:24px 16px">
+<sc-for list="{{ pr.photos }}" as="ph" hint-placeholder-count="3">
+<div style="display:flex;flex-direction:column;gap:10px;min-width:0">
+<div style="position:relative;aspect-ratio:3/4;border-radius:200px 200px 14px 14px;overflow:hidden;background:rgba(20,17,16,.07)"><img ref="{{ mref }}" data-v="{{ ph.src }}" alt="" style="width:100%;height:100%;object-fit:cover;object-position:{{ ph.pos }};display:block"><span style="position:absolute;left:8px;bottom:8px;padding:5px 7px;border-radius:999px;background:{{ ph.tagBg }};color:{{ ph.tagFg }};font:500 9px/1 'DM Mono',monospace;letter-spacing:.12em">{{ ph.n }} · {{ ph.role }}</span></div>
+<div style="display:flex;gap:6px;justify-content:space-between">
+<button onClick="{{ ph.left }}" aria-label="Move earlier" style="width:44px;height:44px;border-radius:50%;border:1.5px solid #141110;background:transparent;font:500 15px/1 'DM Mono',monospace;cursor:pointer;opacity:{{ ph.lOp }}">←</button>
+<button onClick="{{ ph.crop }}" style="flex:1;height:44px;border-radius:999px;border:1.5px solid #141110;background:transparent;font:500 9px/1 'DM Mono',monospace;letter-spacing:.12em;cursor:pointer">FOCUS</button>
+<button onClick="{{ ph.right }}" aria-label="Move later" style="width:44px;height:44px;border-radius:50%;border:1.5px solid #141110;background:transparent;font:500 15px/1 'DM Mono',monospace;cursor:pointer;opacity:{{ ph.rOp }}">→</button>
+<button onClick="{{ ph.remove }}" aria-label="Remove" style="width:44px;height:44px;border-radius:50%;border:1.5px solid #141110;background:transparent;font:500 15px/1 'DM Mono',monospace;cursor:pointer" style-hover="background:#D81219;color:#FBF8F2;border-color:#D81219">×</button>
+</div>
+</div>
+</sc-for>
+</div>
+<span style="font:500 10px/1.5 'DM Mono',monospace;letter-spacing:.12em;color:#6A6057">{{ pr.note }}</span>
+</div>
+</div>
+</sc-if>
+
+<!-- NEW IN -->
+<sc-if value="{{ isNew }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:14px;max-width:820px">
+<span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#6A6057">ON THE RAIL</span>
+<div style="position:relative;display:flex;gap:clamp(10px,2vw,22px);padding:0 10px;overflow-x:auto">
+<span style="position:absolute;left:0;right:0;top:0;height:2px;background:#D81219"></span>
+<sc-for list="{{ newin }}" as="r" hint-placeholder-count="4"><div style="flex:none;display:flex;flex-direction:column;align-items:center;width:clamp(78px,10vw,110px)"><span style="width:1.5px;height:22px;background:#141110"></span><span style="width:100%;aspect-ratio:3/4;border-radius:200px 200px 10px 10px;overflow:hidden;background:rgba(20,17,16,.07)"><img ref="{{ mref }}" data-v="{{ r.src }}" alt="" style="width:100%;height:100%;object-fit:cover;object-position:{{ r.pos }};display:block"></span></div></sc-for>
+</div>
+</div>
+<div style="display:flex;flex-direction:column;max-width:820px;border-top:1.5px dashed rgba(20,17,16,.3)">
+<sc-for list="{{ newin }}" as="r" hint-placeholder-count="4">
+<div style="display:flex;gap:16px;align-items:center;padding:14px 0;border-bottom:1.5px dashed rgba(20,17,16,.3)">
+<span style="width:26px;font:500 11px/1 'DM Mono',monospace;color:#6A6057">{{ r.n }}</span>
+<span style="flex:none;width:50px;aspect-ratio:3/4;border-radius:60px 60px 6px 6px;overflow:hidden;background:rgba(20,17,16,.07)"><img ref="{{ mref }}" data-v="{{ r.src }}" alt="" style="width:100%;height:100%;object-fit:cover;object-position:{{ r.pos }};display:block"></span>
+<span style="flex:1;min-width:0;font:600 18px/1.2 'Bricolage Grotesque'">{{ r.name }}</span>
+<button onClick="{{ r.up }}" aria-label="Move up" style="width:44px;height:44px;border-radius:50%;border:1.5px solid #141110;background:transparent;font:500 15px/1 'DM Mono',monospace;cursor:pointer;opacity:{{ r.uOp }}">↑</button>
+<button onClick="{{ r.down }}" aria-label="Move down" style="width:44px;height:44px;border-radius:50%;border:1.5px solid #141110;background:transparent;font:500 15px/1 'DM Mono',monospace;cursor:pointer;opacity:{{ r.dOp }}">↓</button>
+<button onClick="{{ r.remove }}" aria-label="Take off the rail" style="width:44px;height:44px;border-radius:50%;border:1.5px solid #141110;background:transparent;font:500 15px/1 'DM Mono',monospace;cursor:pointer" style-hover="background:#D81219;color:#FBF8F2;border-color:#D81219">×</button>
+</div>
+</sc-for>
+</div>
+<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;max-width:820px">
+<select value="{{ niPick }}" onChange="{{ setNiPick }}" style="height:44px;padding:0 18px;border-radius:999px;border:1.5px solid #141110;background:transparent;font:400 15px 'Bricolage Grotesque';color:#141110;outline:none;flex:1 1 240px;min-width:0"><option value="">Choose a piece to hang…</option><sc-for list="{{ niOpts }}" as="o" hint-placeholder-count="4"><option value="{{ o.id }}">{{ o.name }}</option></sc-for></select>
+<button onClick="{{ niAdd }}" style="height:44px;padding:0 20px;border:0;border-radius:999px;background:#141110;color:#FBF8F2;font:500 11px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer;opacity:{{ niOp }};white-space:nowrap" style-hover="background:#D81219">HANG ON THE RAIL</button>
+<span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em;color:#6A6057">{{ niCount }}</span>
+</div>
+</sc-if>
+
+<!-- PAIRS -->
+<sc-if value="{{ isPairs }}" hint-placeholder-val="{{ false }}">
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,320px),1fr));gap:18px">
+<sc-for list="{{ pairs }}" as="p" hint-placeholder-count="3">
+<div style="display:flex;flex-direction:column;gap:14px;padding:20px;border-radius:22px;border:1.5px dashed rgba(20,17,16,.4)">
+<div style="display:flex;justify-content:space-between;align-items:center"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#6A6057">PAIR {{ p.n }}</span><button onClick="{{ p.remove }}" style="padding:0;border:0;background:transparent;font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em;color:#D81219;cursor:pointer;height:32px">REMOVE</button></div>
+<div style="display:flex;align-items:center;gap:0">
+<span style="flex:none;width:96px;aspect-ratio:3/4;border-radius:200px 200px 10px 10px;overflow:hidden;background:rgba(20,17,16,.07)"><img ref="{{ mref }}" data-v="{{ p.aSrc }}" alt="" style="width:100%;height:100%;object-fit:cover;object-position:{{ p.aPos }};display:block"></span>
+<span style="flex:1;height:2px;background:#D81219"></span>
+<span style="flex:none;width:96px;aspect-ratio:3/4;border-radius:200px 200px 10px 10px;overflow:hidden;background:rgba(20,17,16,.07)"><img ref="{{ mref }}" data-v="{{ p.bSrc }}" alt="" style="width:100%;height:100%;object-fit:cover;object-position:{{ p.bPos }};display:block"></span>
+</div>
+<label style="display:flex;flex-direction:column;gap:8px"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#6A6057">PAIR NAME</span><input value="{{ p.name }}" onChange="{{ p.setName }}" style="height:44px;padding:0 16px;border-radius:999px;border:1.5px solid #141110;background:transparent;font:400 15px 'Bricolage Grotesque';color:#141110;outline:none;width:100%;min-width:0"></label>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<label style="display:flex;flex-direction:column;gap:8px;min-width:0"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#6A6057">THE CALL</span><select value="{{ p.a }}" onChange="{{ p.setA }}" style="height:44px;padding:0 14px;border-radius:999px;border:1.5px solid #141110;background:transparent;font:400 14px 'Bricolage Grotesque';color:#141110;outline:none;min-width:0"><sc-for list="{{ prodOpts }}" as="o" hint-placeholder-count="4"><option value="{{ o.id }}">{{ o.name }}</option></sc-for></select></label>
+<label style="display:flex;flex-direction:column;gap:8px;min-width:0"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#6A6057">THE ANSWER</span><select value="{{ p.b }}" onChange="{{ p.setB }}" style="height:44px;padding:0 14px;border-radius:999px;border:1.5px solid #141110;background:transparent;font:400 14px 'Bricolage Grotesque';color:#141110;outline:none;min-width:0"><sc-for list="{{ prodOpts }}" as="o" hint-placeholder-count="4"><option value="{{ o.id }}">{{ o.name }}</option></sc-for></select></label>
+</div>
+</div>
+</sc-for>
+<button onClick="{{ addPair }}" style="min-height:240px;border-radius:22px;border:1.5px dashed #141110;background:transparent;font:500 11px/1 'DM Mono',monospace;letter-spacing:.14em;color:#141110;cursor:pointer" style-hover="background:rgba(20,17,16,.05)">+ NEW PAIR</button>
+</div>
+</sc-if>
+
+<!-- APPEARANCES -->
+<sc-if value="{{ isEv }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;gap:32px;flex-wrap:wrap;align-items:flex-start">
+<div style="flex:0 1 300px;min-width:min(100%,250px);display:flex;flex-direction:column;gap:10px">
+<sc-for list="{{ evs }}" as="e" hint-placeholder-count="3">
+<button onClick="{{ e.tap }}" style="display:flex;gap:14px;align-items:center;padding:10px;border-radius:18px;border:1.5px solid {{ e.bd }};background:{{ e.bg }};color:{{ e.fg }};cursor:pointer;text-align:left">
+<span style="flex:none;width:52px;aspect-ratio:3/4;border-radius:60px 60px 6px 6px;overflow:hidden;background:rgba(20,17,16,.07)"><img ref="{{ mref }}" data-v="{{ e.src }}" alt="" style="width:100%;height:100%;object-fit:cover;object-position:{{ e.pos }};display:block"></span>
+<span style="display:flex;flex-direction:column;gap:6px;min-width:0"><span style="font:600 15px/1.25 'Bricolage Grotesque'">{{ e.t }}</span><span style="font:500 9px/1.3 'DM Mono',monospace;letter-spacing:.14em;opacity:.75">{{ e.meta }}</span></span>
+</button>
+</sc-for>
+<button onClick="{{ addEv }}" style="height:48px;border-radius:18px;border:1.5px dashed #141110;background:transparent;font:500 11px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer;color:#141110">+ NEW APPEARANCE</button>
+</div>
+<sc-if value="{{ hasEv }}" hint-placeholder-val="{{ true }}">
+<div style="flex:1 1 480px;min-width:0;display:flex;gap:28px;flex-wrap:wrap;align-items:flex-start">
+<div style="flex:0 1 220px;min-width:180px;display:flex;flex-direction:column;gap:10px">
+<button onClick="{{ ev.cover }}" style="position:relative;aspect-ratio:3/4;border-radius:200px 200px 14px 14px;overflow:hidden;padding:0;border:0;background:rgba(20,17,16,.07);cursor:pointer"><img ref="{{ mref }}" data-v="{{ ev.src }}" alt="" style="width:100%;height:100%;object-fit:cover;object-position:{{ ev.pos }};display:block"><span style="position:absolute;left:8px;bottom:8px;padding:6px 8px;border-radius:999px;background:#141110;color:#FBF8F2;font:500 9px/1 'DM Mono',monospace;letter-spacing:.12em">CHANGE COVER</span></button>
+<span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#6A6057">GALLERY</span>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px">
+<sc-for list="{{ ev.gal }}" as="g" hint-placeholder-count="3"><button onClick="{{ g.remove }}" title="Remove from gallery" style="position:relative;aspect-ratio:3/4;border-radius:10px;overflow:hidden;padding:0;border:0;cursor:pointer;background:rgba(20,17,16,.07)"><img ref="{{ mref }}" data-v="{{ g.src }}" alt="" style="width:100%;height:100%;object-fit:cover;object-position:{{ g.pos }};display:block"><span style="position:absolute;top:4px;right:4px;width:20px;height:20px;border-radius:50%;background:#141110;color:#FBF8F2;font:500 11px/20px 'DM Mono',monospace;text-align:center">×</span></button></sc-for>
+<button onClick="{{ ev.addGal }}" style="aspect-ratio:3/4;border-radius:10px;border:1.5px dashed #141110;background:transparent;font:500 16px/1 'DM Mono',monospace;cursor:pointer;color:#141110">+</button>
+</div>
+</div>
+<div style="flex:1 1 300px;min-width:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 10px">
+<label style="display:flex;flex-direction:column;gap:8px;grid-column:1 / -1"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#6A6057">TITLE</span><input value="{{ ev.t }}" onChange="{{ ev.setT }}" style="height:44px;padding:0 16px;border-radius:999px;border:1.5px solid #141110;background:transparent;font:400 15px 'Bricolage Grotesque';color:#141110;outline:none;width:100%;min-width:0"></label>
+<label style="display:flex;flex-direction:column;gap:8px;grid-column:1 / -1"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#6A6057">TYPE</span><input value="{{ ev.type }}" onChange="{{ ev.setType }}" placeholder="Runway, Conference, Showcase" style="height:44px;padding:0 16px;border-radius:999px;border:1.5px solid #141110;background:transparent;font:400 15px 'Bricolage Grotesque';color:#141110;outline:none;width:100%;min-width:0"></label>
+<label style="display:flex;flex-direction:column;gap:8px;min-width:0"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#6A6057">CITY</span><input value="{{ ev.city }}" onChange="{{ ev.setCity }}" style="height:44px;padding:0 16px;border-radius:999px;border:1.5px solid #141110;background:transparent;font:400 15px 'Bricolage Grotesque';color:#141110;outline:none;width:100%;min-width:0"></label>
+<label style="display:flex;flex-direction:column;gap:8px;min-width:0"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#6A6057">YEAR</span><input value="{{ ev.yr }}" onChange="{{ ev.setYr }}" inputMode="numeric" style="height:44px;padding:0 16px;border-radius:999px;border:1.5px solid #141110;background:transparent;font:400 15px 'Bricolage Grotesque';color:#141110;outline:none;width:100%;min-width:0"></label>
+<label style="display:flex;flex-direction:column;gap:8px;grid-column:1 / -1"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#6A6057">THE STORY</span><textarea value="{{ ev.body }}" onChange="{{ ev.setBody }}" rows="5" style="padding:14px 18px;border-radius:20px;border:1.5px solid #141110;background:transparent;font:400 15px/1.5 'Bricolage Grotesque';color:#141110;outline:none;resize:vertical"></textarea></label>
+<button onClick="{{ ev.remove }}" style="grid-column:1 / -1;justify-self:start;height:44px;padding:0 18px;border:1.5px solid #D81219;border-radius:999px;background:transparent;color:#D81219;font:500 10px/1 'DM Mono',monospace;letter-spacing:.12em;cursor:pointer">DELETE APPEARANCE</button>
+</div>
+</div>
+</sc-if>
+</div>
+</sc-if>
+
+<!-- WORN BY YOU -->
+<sc-if value="{{ isWorn }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap"><span style="font:500 10px/1.4 'DM Mono',monospace;letter-spacing:.16em">{{ wornSum }}</span><button onClick="{{ addWorn }}" style="height:44px;padding:0 20px;border:0;border-radius:999px;background:#141110;color:#FBF8F2;font:500 11px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer;white-space:nowrap" style-hover="background:#D81219">+ ADD PHOTOS</button></div>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,200px),1fr));gap:24px 16px">
+<sc-for list="{{ worn }}" as="w" hint-placeholder-count="6">
+<div style="display:flex;flex-direction:column;gap:10px;min-width:0">
+<div style="position:relative;aspect-ratio:1/1;border-radius:14px;overflow:hidden;background:rgba(20,17,16,.07)"><img ref="{{ mref }}" data-v="{{ w.src }}" alt="" style="width:100%;height:100%;object-fit:cover;object-position:{{ w.pos }};display:block;opacity:{{ w.op }}"><span style="position:absolute;left:8px;bottom:8px;padding:5px 7px;border-radius:999px;background:{{ w.tagBg }};color:{{ w.tagFg }};font:500 9px/1 'DM Mono',monospace;letter-spacing:.12em">{{ w.tag }}</span></div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+<input value="{{ w.h }}" onChange="{{ w.setH }}" placeholder="@handle" style="height:40px;padding:0 12px;border-radius:999px;border:1.5px solid #141110;background:transparent;font:400 14px 'Bricolage Grotesque';color:#141110;outline:none;min-width:0">
+<input value="{{ w.city }}" onChange="{{ w.setCity }}" placeholder="City" style="height:40px;padding:0 12px;border-radius:999px;border:1.5px solid #141110;background:transparent;font:400 14px 'Bricolage Grotesque';color:#141110;outline:none;min-width:0">
+</div>
+<button onClick="{{ w.toggleShow }}" style="height:40px;border-radius:999px;border:1.5px solid #141110;background:{{ w.sBg }};color:{{ w.sFg }};font:500 10px/1 'DM Mono',monospace;letter-spacing:.12em;cursor:pointer;opacity:{{ w.sOp }};white-space:nowrap">{{ w.sL }}</button>
+</div>
+</sc-for>
+</div>
+</sc-if>
+
+<!-- LOOKBOOK -->
+<sc-if value="{{ isLooks }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;gap:6px;flex-wrap:wrap"><sc-for list="{{ lookTabs }}" as="l" hint-placeholder-count="4"><button onClick="{{ l.go }}" style="height:40px;padding:0 16px;border-radius:999px;border:1.5px solid #141110;background:{{ l.bg }};color:{{ l.fg }};font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer;white-space:nowrap">{{ l.n }} · {{ l.k }}</button></sc-for></div>
+<div style="display:flex;gap:32px;flex-wrap:wrap;align-items:flex-start">
+<div style="flex:0 1 440px;min-width:min(100%,260px);display:flex;flex-direction:column;gap:10px">
+<div onClick="{{ lk.addSpot }}" style="position:relative;aspect-ratio:3/4;border-radius:200px 200px 14px 14px;overflow:hidden;cursor:crosshair;background:rgba(20,17,16,.07)">
+<img ref="{{ mref }}" data-v="{{ lk.src }}" alt="" draggable="false" style="width:100%;height:100%;object-fit:cover;object-position:{{ lk.pos }};display:block;user-select:none">
+<sc-for list="{{ lk.spots }}" as="p" hint-placeholder-count="2"><span style="position:absolute;left:{{ p.left }};top:{{ p.top }};transform:translate(-50%,-50%);width:34px;height:34px;border-radius:50%;background:#D81219;color:#FBF8F2;border:2px solid #FBF8F2;font:500 11px/30px 'DM Mono',monospace;text-align:center;pointer-events:none">{{ p.n }}</span></sc-for>
+</div>
+<div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center"><span style="font:400 14px/1.4 'Bricolage Grotesque';color:#6A6057">Tap the photo to drop a point.</span><button onClick="{{ lk.change }}" style="height:40px;padding:0 16px;border:1.5px solid #141110;border-radius:999px;background:transparent;font:500 10px/1 'DM Mono',monospace;letter-spacing:.12em;cursor:pointer;color:#141110;white-space:nowrap">CHANGE PHOTO</button></div>
+</div>
+<div style="flex:1 1 320px;min-width:0;display:flex;flex-direction:column;border-top:1.5px dashed rgba(20,17,16,.3)">
+<sc-for list="{{ lk.spots }}" as="p" hint-placeholder-count="2">
+<div style="display:flex;gap:12px;align-items:center;padding:12px 0;border-bottom:1.5px dashed rgba(20,17,16,.3)">
+<span style="flex:none;width:34px;height:34px;border-radius:50%;background:#D81219;color:#FBF8F2;font:500 11px/34px 'DM Mono',monospace;text-align:center">{{ p.n }}</span>
+<select value="{{ p.val }}" onChange="{{ p.set }}" style="flex:1;min-width:0;height:44px;padding:0 16px;border-radius:999px;border:1.5px solid #141110;background:transparent;font:400 15px 'Bricolage Grotesque';color:#141110;outline:none"><option value="">Which piece is this?</option><sc-for list="{{ prodOpts }}" as="o" hint-placeholder-count="4"><option value="{{ o.id }}">{{ o.name }}</option></sc-for></select>
+<button onClick="{{ p.remove }}" aria-label="Remove point" style="width:44px;height:44px;border-radius:50%;border:1.5px solid #141110;background:transparent;font:500 15px/1 'DM Mono',monospace;cursor:pointer" style-hover="background:#D81219;color:#FBF8F2;border-color:#D81219">×</button>
+</div>
+</sc-for>
+<sc-if value="{{ lk.none }}" hint-placeholder-val="{{ false }}"><p style="margin:14px 0 0;font:400 15px/1.5 'Bricolage Grotesque';color:#6A6057">No points yet. Tap the photo where a piece sits.</p></sc-if>
+</div>
+</div>
+</sc-if>
+
+<!-- COPY -->
+<sc-if value="{{ isCopy }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:22px;max-width:820px">
+<div style="display:flex;flex-wrap:wrap;gap:8px">
+<sc-for list="{{ copyTabs }}" as="p" hint-placeholder-count="6"><button onClick="{{ p.go }}" style="height:44px;padding:0 18px;border-radius:999px;border:1.5px solid #141110;background:{{ p.bg }};color:{{ p.fg }};font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer;display:flex;gap:8px;align-items:center;white-space:nowrap">{{ p.label }}<span style="opacity:.6">{{ p.n }}</span><sc-if value="{{ p.hasDraft }}" hint-placeholder-val="{{ false }}"><span style="width:8px;height:8px;border-radius:50%;background:#E3A72F"></span></sc-if></button></sc-for>
+</div>
+<p style="margin:0;font:400 15px/1.5 'Bricolage Grotesque';color:#6A6057;text-wrap:pretty">{{ copyHint }}</p>
+<sc-for list="{{ copySecs }}" as="g" hint-placeholder-count="3">
+<section style="display:flex;flex-direction:column;gap:18px;padding:24px;border-radius:24px;background:#FFFFFF;border:1.5px solid rgba(20,17,16,.12)">
+<div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap"><h3 style="margin:0;font:800 24px/1 'Bricolage Grotesque';letter-spacing:-.03em;color:#141110">{{ g.title }}</h3><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em;color:#6A6057">{{ g.where }}</span></div>
+<sc-for list="{{ g.fields }}" as="f" hint-placeholder-count="2">
+<label style="display:flex;flex-direction:column;gap:8px">
+<span style="display:flex;justify-content:space-between;gap:10px;align-items:center"><span style="display:flex;gap:8px;align-items:center;font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#3A3430">{{ f.label }}<sc-if value="{{ f.draft }}" hint-placeholder-val="{{ false }}"><span style="padding:4px 6px;border-radius:999px;background:#E3A72F;color:#141110;font:500 8px/1 'DM Mono',monospace;letter-spacing:.12em">DRAFT</span></sc-if></span><span style="display:flex;gap:12px;align-items:center"><sc-if value="{{ f.changed }}" hint-placeholder-val="{{ false }}"><button onClick="{{ f.reset }}" style="padding:0;border:0;background:none;color:#141110;font:500 10px/1 'DM Mono',monospace;letter-spacing:.12em;text-decoration:underline;cursor:pointer">RESET TO ORIGINAL</button></sc-if><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.1em;color:{{ f.cntC }}">{{ f.cnt }}</span></span></span>
+<sc-if value="{{ f.area }}" hint-placeholder-val="{{ false }}"><textarea value="{{ f.v }}" onChange="{{ f.set }}" rows="{{ f.rows }}" style="padding:14px 18px;border-radius:20px;border:1.5px solid {{ f.bd }};background:#FBF8F2;font:400 16px/1.5 'Bricolage Grotesque';color:#141110;outline:none;resize:vertical"></textarea></sc-if>
+<sc-if value="{{ f.line }}" hint-placeholder-val="{{ true }}"><input value="{{ f.v }}" onChange="{{ f.set }}" style="height:48px;padding:0 18px;border-radius:999px;border:1.5px solid {{ f.bd }};background:#FBF8F2;font:400 16px 'Bricolage Grotesque';color:#141110;outline:none;width:100%;min-width:0"></sc-if>
+</label>
+</sc-for>
+</section>
+</sc-for>
+</div>
+</sc-if>
+
+<!-- SIZE GUIDE -->
+<sc-if value="{{ isSizes }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;gap:6px;flex-wrap:wrap"><sc-for list="{{ sizeTabs }}" as="t" hint-placeholder-count="4"><button onClick="{{ t.go }}" style="height:40px;padding:0 16px;border-radius:999px;border:1.5px solid #141110;background:{{ t.bg }};color:{{ t.fg }};font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer;white-space:nowrap">{{ t.label }}</button></sc-for></div>
+<div style="max-width:880px;overflow-x:auto">
+<div style="display:grid;grid-template-columns:{{ szCols }};min-width:{{ szMin }};border-top:1.5px solid #141110">
+<span style="padding:14px 10px 14px 0;font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#6A6057;border-bottom:1.5px solid #141110">CM</span>
+<sc-for list="{{ sz.heads }}" as="h" hint-placeholder-count="5"><span style="padding:14px 4px;font:600 15px/1 'Bricolage Grotesque';text-align:center;border-bottom:1.5px solid #141110">{{ h.l }}</span></sc-for>
+<sc-for list="{{ sz.cells }}" as="c" hint-placeholder-count="15">
+<sc-if value="{{ c.head }}" hint-placeholder-val="{{ false }}"><span style="padding:8px 10px 8px 0;display:flex;align-items:center;font:600 16px/1.2 'Bricolage Grotesque';border-bottom:1.5px dashed rgba(20,17,16,.3)">{{ c.v }}</span></sc-if>
+<sc-if value="{{ c.cell }}" hint-placeholder-val="{{ true }}"><span style="padding:6px 4px;border-bottom:1.5px dashed rgba(20,17,16,.3)"><input value="{{ c.v }}" onChange="{{ c.set }}" style="width:100%;height:40px;padding:0 6px;border-radius:12px;border:1.5px solid {{ c.bd }};background:transparent;font:500 15px 'DM Mono',monospace;color:#141110;outline:none;text-align:center;min-width:0"></span></sc-if>
+</sc-for>
+</div>
+</div>
+<label style="display:flex;flex-direction:column;gap:8px;max-width:880px"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#6A6057">NOTE UNDER THE TABLE</span><input value="{{ sz.note }}" onChange="{{ sz.setNote }}" style="height:48px;padding:0 18px;border-radius:999px;border:1.5px solid #141110;background:transparent;font:400 16px 'Bricolage Grotesque';color:#141110;outline:none;width:100%;min-width:0"></label>
+</sc-if>
+
+<!-- TEAM -->
+<sc-if value="{{ isTeam }}" hint-placeholder-val="{{ false }}">
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,220px),1fr));gap:14px;max-width:980px">
+<sc-for list="{{ roles }}" as="r" hint-placeholder-count="3"><div style="display:flex;flex-direction:column;gap:10px;padding:20px;border-radius:22px;background:{{ r.bg }};color:{{ r.fg }}"><span style="font:700 22px/1 'Bricolage Grotesque'">{{ r.n }}</span><span style="font:400 15px/1.45 'Bricolage Grotesque';text-wrap:pretty">{{ r.d }}</span></div></sc-for>
+</div>
+<div style="display:flex;flex-direction:column;max-width:980px;border-top:1.5px dashed rgba(20,17,16,.3)">
+<sc-for list="{{ team }}" as="m" hint-placeholder-count="2">
+<div style="display:flex;gap:16px;align-items:center;padding:14px 0;border-bottom:1.5px dashed rgba(20,17,16,.3);flex-wrap:wrap">
+<div style="flex:1 1 220px;min-width:0;display:flex;flex-direction:column;gap:6px"><span style="font:600 17px/1.2 'Bricolage Grotesque'">{{ m.n }}</span><span style="font:500 11px/1.3 'DM Mono',monospace;color:#6A6057;overflow-wrap:anywhere">{{ m.e }}</span></div>
+<sc-if value="{{ m.fixed }}" hint-placeholder-val="{{ true }}"><span style="height:44px;padding:0 18px;border-radius:999px;background:#141110;color:#FBF8F2;font:500 10px/44px 'DM Mono',monospace;letter-spacing:.14em;white-space:nowrap">{{ m.rUp }}</span></sc-if>
+<sc-if value="{{ m.editable }}" hint-placeholder-val="{{ false }}">
+<select value="{{ m.r }}" onChange="{{ m.setR }}" style="height:44px;padding:0 18px;border-radius:999px;border:1.5px solid #141110;background:transparent;font:400 15px 'Bricolage Grotesque';color:#141110;outline:none"><option value="Editor">Editor</option><option value="Contributor">Contributor</option></select>
+<button onClick="{{ m.remove }}" style="height:44px;padding:0 16px;border:1.5px solid #141110;border-radius:999px;background:transparent;color:#141110;font:500 10px/1 'DM Mono',monospace;letter-spacing:.12em;cursor:pointer;white-space:nowrap" style-hover="border-color:#D81219;color:#D81219">REMOVE</button>
+</sc-if>
+</div>
+</sc-for>
+</div>
+<sc-if value="{{ canTeam }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;max-width:980px">
+<input value="{{ inv }}" onChange="{{ setInv }}" type="email" placeholder="Their email" style="flex:1 1 260px;height:48px;padding:0 18px;border-radius:999px;border:1.5px solid #141110;background:transparent;font:400 16px 'Bricolage Grotesque';color:#141110;outline:none;min-width:0">
+<select value="{{ invR }}" onChange="{{ setInvR }}" style="height:48px;padding:0 18px;border-radius:999px;border:1.5px solid #141110;background:transparent;font:400 15px 'Bricolage Grotesque';color:#141110;outline:none"><option value="Editor">Editor</option><option value="Contributor">Contributor</option></select>
+<button onClick="{{ sendInv }}" style="height:48px;padding:0 22px;border:0;border-radius:999px;background:#141110;color:#FBF8F2;font:500 11px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer;white-space:nowrap" style-hover="background:#D81219">SEND INVITE</button>
+</div>
+<span style="font:400 14px/1.45 'Bricolage Grotesque';color:#6A6057;max-width:640px;text-wrap:pretty">Wix sends the invite. They sign in with their own Wix account, and only see Ngwisa Studio and the parts their role allows.</span>
+</sc-if>
+<sc-if value="{{ noTeam }}" hint-placeholder-val="{{ false }}"><span style="font:400 15px/1.45 'Bricolage Grotesque';color:#6A6057">Only the owner can invite people or change roles.</span></sc-if>
+</sc-if>
+
+<!-- HISTORY -->
+<sc-if value="{{ isHist }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;gap:40px;flex-wrap:wrap;align-items:flex-start">
+<div style="flex:1 1 380px;min-width:0;display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap"><h2 style="margin:0;font:700 26px/1 'Bricolage Grotesque'">In this draft</h2><div style="display:flex;gap:8px"><button onClick="{{ undo }}" style="height:40px;padding:0 16px;border:1.5px solid #141110;border-radius:999px;background:transparent;font:500 10px/1 'DM Mono',monospace;letter-spacing:.12em;cursor:pointer;color:#141110;opacity:{{ undoOp }};white-space:nowrap">UNDO LAST</button><button onClick="{{ discard }}" style="height:40px;padding:0 16px;border:1.5px solid #D81219;border-radius:999px;background:transparent;color:#D81219;font:500 10px/1 'DM Mono',monospace;letter-spacing:.12em;cursor:pointer;opacity:{{ undoOp }};white-space:nowrap">DISCARD ALL</button></div></div>
+<div style="display:flex;flex-direction:column;border-top:1.5px dashed rgba(20,17,16,.3)">
+<sc-for list="{{ draftList }}" as="d" hint-placeholder-count="0"><div style="display:flex;justify-content:space-between;gap:14px;padding:13px 0;border-bottom:1.5px dashed rgba(20,17,16,.3)"><span style="font:400 15px/1.35 'Bricolage Grotesque';min-width:0;overflow-wrap:anywhere">{{ d.label }}</span><span style="flex:none;font:500 10px/1.5 'DM Mono',monospace;letter-spacing:.12em;color:#6A6057">{{ d.meta }}</span></div></sc-for>
+<sc-if value="{{ noDraft }}" hint-placeholder-val="{{ true }}"><p style="margin:14px 0 0;font:400 15px/1.5 'Bricolage Grotesque';color:#6A6057">No unpublished changes. The live site matches the latest version.</p></sc-if>
+</div>
+</div>
+<div style="flex:1 1 380px;min-width:0;display:flex;flex-direction:column;gap:14px">
+<h2 style="margin:0;font:700 26px/1 'Bricolage Grotesque'">Published</h2>
+<div style="display:flex;flex-direction:column;border-top:1.5px dashed rgba(20,17,16,.3)">
+<sc-for list="{{ versions }}" as="v" hint-placeholder-count="3">
+<div style="display:flex;gap:14px;align-items:center;padding:14px 0;border-bottom:1.5px dashed rgba(20,17,16,.3);flex-wrap:wrap">
+<span style="flex:none;width:44px;height:44px;border-radius:50%;background:{{ v.bg }};color:{{ v.fg }};font:500 11px/44px 'DM Mono',monospace;text-align:center">V{{ v.v }}</span>
+<div style="flex:1 1 180px;min-width:0;display:flex;flex-direction:column;gap:6px"><span style="font:600 15px/1.3 'Bricolage Grotesque'">{{ v.sum }}</span><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.12em;color:#6A6057">{{ v.meta }}</span></div>
+<sc-if value="{{ v.live }}" hint-placeholder-val="{{ false }}"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em;color:#D81219">LIVE</span></sc-if>
+<sc-if value="{{ v.old }}" hint-placeholder-val="{{ true }}"><button onClick="{{ v.restore }}" style="height:40px;padding:0 16px;border:1.5px solid #141110;border-radius:999px;background:transparent;font:500 10px/1 'DM Mono',monospace;letter-spacing:.12em;cursor:pointer;color:#141110;white-space:nowrap">RESTORE TO DRAFT</button></sc-if>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+</sc-if>
+
+</div>
+</main>
+</div>
+
+<!-- PICKER -->
+<sc-if value="{{ hasPick }}" hint-placeholder-val="{{ false }}">
+<div onClick="{{ closePick }}" style="position:fixed;inset:0;z-index:90;background:rgba(20,17,16,.6);display:flex;align-items:center;justify-content:center;padding:16px">
+<div onClick="{{ stop }}" style="width:min(100%,940px);max-height:88vh;display:flex;flex-direction:column;gap:16px;padding:clamp(18px,3vw,28px);border-radius:24px;background:#FBF8F2;color:#141110;overflow:auto">
+<div style="display:flex;justify-content:space-between;align-items:flex-start;gap:14px"><div style="display:flex;flex-direction:column;gap:8px"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#6A6057">CHOOSE FROM LIBRARY</span><h3 style="margin:0;font:800 30px/1 'Bricolage Grotesque';letter-spacing:-.03em">{{ pk.title }}</h3></div><button onClick="{{ closePick }}" aria-label="Close" style="flex:none;width:44px;height:44px;border-radius:50%;border:1.5px solid #141110;background:transparent;font:400 18px/1 'DM Mono',monospace;cursor:pointer">×</button></div>
+<div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:space-between;align-items:center"><div style="display:flex;gap:6px;flex-wrap:wrap"><sc-for list="{{ pk.folders }}" as="f" hint-placeholder-count="6"><button onClick="{{ f.go }}" style="height:36px;padding:0 14px;border-radius:999px;border:1.5px solid #141110;background:{{ f.bg }};color:{{ f.fg }};font:500 10px/1 'DM Mono',monospace;letter-spacing:.12em;cursor:pointer;white-space:nowrap">{{ f.label }}</button></sc-for></div>
+<label style="height:40px;padding:0 18px;border-radius:999px;background:#141110;color:#FBF8F2;font:500 10px/40px 'DM Mono',monospace;letter-spacing:.12em;cursor:pointer;white-space:nowrap"><input type="file" accept="{{ pk.accept }}" onChange="{{ pk.upload }}" style="display:none">UPLOAD NEW</label></div>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:12px">
+<sc-for list="{{ pk.items }}" as="t" hint-placeholder-count="10">
+<button onClick="{{ t.tap }}" style="position:relative;aspect-ratio:3/4;border-radius:12px;overflow:hidden;padding:0;border:0;cursor:pointer;background:rgba(20,17,16,.07)" style-hover="outline:2px solid #D81219;outline-offset:2px">
+<sc-if value="{{ t.notVid }}" hint-placeholder-val="{{ true }}"><img ref="{{ mref }}" data-v="{{ t.src }}" alt="" style="width:100%;height:100%;object-fit:cover;object-position:{{ t.pos }};display:block"></sc-if>
+<sc-if value="{{ t.isVid }}" hint-placeholder-val="{{ false }}"><video ref="{{ mref }}" data-v="{{ t.vsrc }}" muted="{{ true }}" style="width:100%;height:100%;object-fit:cover;display:block"></video></sc-if>
+<sc-if value="{{ t.hasWarn }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;right:6px;top:6px;width:17px;height:17px;border-radius:50%;background:{{ t.warnBg }};color:{{ t.warnFg }};font:700 10px/17px 'DM Mono',monospace;text-align:center">!</span></sc-if>
+</button>
+</sc-for>
+</div>
+<sc-if value="{{ pk.empty }}" hint-placeholder-val="{{ false }}"><p style="margin:0;font:400 15px/1.5 'Bricolage Grotesque';color:#6A6057">Nothing of this kind in this folder yet. Upload one.</p></sc-if>
+</div>
+</div>
+</sc-if>
+
+<!-- CROP -->
+<sc-if value="{{ hasCrop }}" hint-placeholder-val="{{ false }}">
+<div style="position:fixed;inset:0;z-index:95;background:#141110;color:#FBF8F2;display:flex;flex-direction:column;overflow:auto">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:14px;padding:18px clamp(16px,3vw,32px);border-bottom:1.5px dashed rgba(251,248,242,.25);flex-wrap:wrap">
+<div style="display:flex;flex-direction:column;gap:8px"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#E3A72F">CROP &amp; FOCUS · {{ cr.name }}</span><span style="font:700 22px/1.1 'Bricolage Grotesque'">Tap or drag to where the eye should land.</span></div>
+<div style="display:flex;gap:8px;flex-wrap:wrap"><button onClick="{{ cr.reset }}" style="height:44px;padding:0 18px;border:1.5px solid rgba(251,248,242,.5);border-radius:999px;background:transparent;color:#FBF8F2;font:500 10px/1 'DM Mono',monospace;letter-spacing:.12em;cursor:pointer;white-space:nowrap">CENTRE</button><button onClick="{{ cr.cancel }}" style="height:44px;padding:0 18px;border:1.5px solid rgba(251,248,242,.5);border-radius:999px;background:transparent;color:#FBF8F2;font:500 10px/1 'DM Mono',monospace;letter-spacing:.12em;cursor:pointer;white-space:nowrap">CANCEL</button><button onClick="{{ cr.save }}" style="height:44px;padding:0 22px;border:0;border-radius:999px;background:#D81219;color:#FBF8F2;font:500 11px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer;white-space:nowrap">SAVE FOCUS</button></div>
+</div>
+<div style="flex:1;display:flex;gap:32px;flex-wrap:wrap;align-items:flex-start;justify-content:center;padding:24px clamp(16px,3vw,32px) 40px">
+<div style="flex:0 1 auto;max-width:100%;display:flex;justify-content:center">
+<div onPointerDown="{{ cr.down }}" onPointerMove="{{ cr.move }}" onPointerUp="{{ cr.up }}" style="position:relative;display:inline-block;line-height:0;cursor:crosshair;touch-action:none;max-width:100%">
+<img ref="{{ mref }}" data-v="{{ cr.src }}" alt="" draggable="false" style="display:block;max-width:100%;max-height:min(66vh,620px);user-select:none;border-radius:10px">
+<span style="position:absolute;left:{{ cr.left }};top:{{ cr.top }};width:56px;height:56px;margin:-28px 0 0 -28px;border-radius:50%;border:2px solid #FBF8F2;box-shadow:0 0 0 2px #D81219;pointer-events:none"></span>
+<span style="position:absolute;left:{{ cr.left }};top:{{ cr.top }};width:8px;height:8px;margin:-4px 0 0 -4px;border-radius:50%;background:#D81219;pointer-events:none"></span>
+</div>
+</div>
+<div style="flex:0 1 380px;min-width:min(100%,280px);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 14px;align-items:end">
+<sc-for list="{{ cr.shapes }}" as="s" hint-placeholder-count="4">
+<div style="display:flex;flex-direction:column;gap:8px;min-width:0"><span style="display:block;width:100%;aspect-ratio:{{ s.ratio }};border-radius:{{ s.rad }};overflow:hidden;background:rgba(251,248,242,.08)"><img ref="{{ mref }}" data-v="{{ cr.src }}" alt="" style="width:100%;height:100%;object-fit:cover;object-position:{{ cr.pos }};display:block"></span><span style="font:500 9px/1.4 'DM Mono',monospace;letter-spacing:.14em;color:#BDB4A9">{{ s.l }}</span></div>
+</sc-for>
+</div>
+</div>
+</div>
+</sc-if>
+
+<!-- PUBLISH -->
+<sc-if value="{{ pubOpen }}" hint-placeholder-val="{{ false }}">
+<div onClick="{{ closePub }}" style="position:fixed;inset:0;z-index:96;background:rgba(20,17,16,.6);display:flex;align-items:center;justify-content:center;padding:16px">
+<div onClick="{{ stop }}" style="width:min(100%,580px);max-height:88vh;overflow:auto;display:flex;flex-direction:column;gap:16px;padding:clamp(20px,3vw,32px);border-radius:24px;background:#FBF8F2;color:#141110">
+<span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#6A6057">{{ pb.kicker }}</span>
+<h3 style="margin:0;font:800 clamp(30px,4vw,42px)/.95 'Bricolage Grotesque';letter-spacing:-.04em">{{ pb.title }}</h3>
+<div style="display:flex;flex-direction:column;border-top:1.5px dashed rgba(20,17,16,.3)"><sc-for list="{{ pb.items }}" as="i" hint-placeholder-count="3"><span style="padding:11px 0;border-bottom:1.5px dashed rgba(20,17,16,.3);font:400 15px/1.35 'Bricolage Grotesque'">{{ i.t }}</span></sc-for></div>
+<sc-if value="{{ pb.hasB }}" hint-placeholder-val="{{ false }}"><div style="display:flex;flex-direction:column;gap:8px;padding:16px 18px;border-radius:18px;background:#141110;color:#FBF8F2"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#E3A72F">FIX BEFORE PUBLISHING</span><sc-for list="{{ pb.B }}" as="b" hint-placeholder-count="1"><span style="font:400 14px/1.4 'Bricolage Grotesque'">{{ b.t }}</span></sc-for></div></sc-if>
+<sc-if value="{{ pb.hasW }}" hint-placeholder-val="{{ false }}"><div style="display:flex;flex-direction:column;gap:6px"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#6A6057">WORTH A LOOK · WON’T BLOCK</span><sc-for list="{{ pb.W }}" as="w" hint-placeholder-count="1"><div style="display:flex;gap:10px;align-items:flex-start"><span style="flex:none;width:8px;height:8px;margin-top:6px;border-radius:50%;background:#E3A72F"></span><span style="font:400 14px/1.4 'Bricolage Grotesque';color:#3A3430">{{ w.t }}</span></div></sc-for></div></sc-if>
+<div style="display:flex;gap:10px;justify-content:flex-end;flex-wrap:wrap"><button onClick="{{ closePub }}" style="height:48px;padding:0 20px;border:1.5px solid #141110;border-radius:999px;background:transparent;font:500 11px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer;color:#141110;white-space:nowrap">KEEP EDITING</button><button onClick="{{ pb.go }}" style="height:48px;padding:0 24px;border:0;border-radius:999px;background:#D81219;color:#FBF8F2;font:500 11px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer;opacity:{{ pb.op }};white-space:nowrap">{{ pb.goL }}</button></div>
+</div>
+</div>
+</sc-if>
+
+<!-- MOBILE NAV -->
+<sc-if value="{{ navOpen }}" hint-placeholder-val="{{ false }}">
+<div style="position:fixed;inset:0;z-index:97;background:#141110;color:#FBF8F2;overflow:auto;display:flex;flex-direction:column">
+<div style="display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1.5px dashed rgba(251,248,242,.25)"><span style="font:800 20px/1 'Bricolage Grotesque'">NGWISA STUDIO</span><button onClick="{{ closeNav }}" aria-label="Close" style="width:44px;height:44px;border-radius:50%;border:1.5px solid rgba(251,248,242,.5);background:transparent;color:#FBF8F2;font:400 18px/1 'DM Mono',monospace;cursor:pointer">×</button></div>
+<div style="display:flex;flex-direction:column;gap:18px;padding:18px 0 40px">
+<sc-for list="{{ nav }}" as="g" hint-placeholder-count="4"><div style="display:flex;flex-direction:column"><span style="padding:0 16px 6px;font:500 9px/1 'DM Mono',monospace;letter-spacing:.2em;color:#BDB4A9">{{ g.label }}</span><sc-for list="{{ g.items }}" as="n" hint-placeholder-count="2"><button onClick="{{ n.go }}" style="display:flex;justify-content:space-between;align-items:center;min-height:48px;padding:0 16px;border:0;background:{{ n.bg }};color:{{ n.fg }};font:600 20px/1 'Bricolage Grotesque';cursor:pointer;text-align:left">{{ n.label }}<sc-if value="{{ n.hasBadge }}" hint-placeholder-val="{{ false }}"><span style="min-width:22px;height:22px;padding:0 6px;border-radius:999px;background:#E3A72F;color:#141110;font:500 10px/22px 'DM Mono',monospace;text-align:center">{{ n.badge }}</span></sc-if></button></sc-for></div></sc-for>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ locked }}" hint-placeholder-val="{{ true }}">
+<div style="position:fixed;inset:0;z-index:200;background:#141110;color:#FBF8F2;display:flex;align-items:center;justify-content:center;padding:20px;font-family:'Bricolage Grotesque',sans-serif">
+<form onSubmit="{{ doLogin }}" style="width:min(100%,400px);display:flex;flex-direction:column;gap:16px">
+<div style="display:flex;flex-direction:column;gap:10px;margin-bottom:10px"><span style="font:800 40px/1 'Bricolage Grotesque';letter-spacing:.02em">NGWISA</span><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.2em;color:#E3A72F">STUDIO · OWNER SIGN IN</span></div>
+<label style="display:flex;flex-direction:column;gap:8px"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#BDB4A9">EMAIL</span><input value="{{ lu }}" onChange="{{ setLu }}" type="email" autocomplete="username" autoFocus="{{ true }}" style="height:52px;padding:0 20px;border-radius:999px;border:1.5px solid rgba(251,248,242,.5);background:transparent;color:#FBF8F2;font:400 16px 'Bricolage Grotesque';outline:none;width:100%"></label>
+<label style="display:flex;flex-direction:column;gap:8px"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#BDB4A9">PASSWORD</span><input value="{{ lp }}" onChange="{{ setLp }}" type="password" autocomplete="current-password" style="height:52px;padding:0 20px;border-radius:999px;border:1.5px solid rgba(251,248,242,.5);background:transparent;color:#FBF8F2;font:400 16px 'Bricolage Grotesque';outline:none;width:100%"></label>
+<sc-if value="{{ hasLErr }}" hint-placeholder-val="{{ false }}"><span style="font:400 14px/1.4 'Bricolage Grotesque';color:#FBF8F2;padding:12px 16px;border-radius:14px;background:#D81219">{{ lErr }}</span></sc-if>
+<button type="submit" style="height:52px;border:0;border-radius:999px;background:#FBF8F2;color:#141110;font:500 11px/1 'DM Mono',monospace;letter-spacing:.16em;cursor:pointer;white-space:nowrap;opacity:{{ lOp }}" style-hover="background:#E3A72F">{{ lBtn }}</button>
+<span style="font:400 13px/1.45 'Bricolage Grotesque';color:#BDB4A9;text-wrap:pretty">Sign in with the owner’s site account. Changes save straight to Wix.</span>
+</form>
+</div>
+</sc-if>
+<sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}"><div style="position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:99;padding:14px 22px;border-radius:999px;background:#141110;color:#FBF8F2;font:500 11px/1.3 'DM Mono',monospace;letter-spacing:.14em;max-width:calc(100% - 32px);text-align:center">{{ toast }}</div></sc-if>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;viewAs&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Owner&quot;,&quot;Editor&quot;,&quot;Contributor&quot;],&quot;default&quot;:&quot;Owner&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Preview&quot;},&quot;showWix&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Preview&quot;}}">
+const NG_WX = {"02542":"840628_630ac86f25494f9ea6f6ebe587021156~mv2.jpg","02571":"840628_230182ddf73c4ffe9dbf48066ee60f18~mv2.jpg","02604":"840628_503f1526a78a4099afb7de42fd82f6bb~mv2.jpg","02693":"840628_ce68efda824a4c859b6d81ef90c9cc0e~mv2.jpg","02706":"840628_f4d7988af81645298f3e2c4e89acb8ec~mv2.jpg","02759":"840628_b18b05eb2f1b4f72b151cc55306e47fa~mv2.jpg","02794":"840628_ae64187efca040b8ac8eb3d2ac452a69~mv2.jpg","02838":"840628_ed66fddacf46464b9e6a7d6285e2126f~mv2.jpg","03127":"840628_60e70b9ac6434ba8b453ec395525e404~mv2.jpg","03382":"840628_d7b311a630e94c7dba251927ff1184b0~mv2.jpg","03402":"840628_030e07a4c35b4ed985585037739476a6~mv2.jpg","03412":"840628_0edea388c81e4fb096e125a724ec7be2~mv2.jpg","03456":"840628_3cbbb96af3f340d4a0ab3670a1ff0b70~mv2.jpg","03462":"840628_581a9cebe1be40aaa1ebb22d76abeda3~mv2.jpg","03603":"840628_ea5058a857164b2484c07452aeadb27a~mv2.jpg","03604":"840628_a6dd7b2f0e2f42409ed3ec858ea24811~mv2.jpg","03607":"840628_72e447a2ca20484fbd6c2ab60764c0b6~mv2.jpg","03621":"840628_1194b99ba10d443584f3d4ee467f24c3~mv2.jpg","03622":"840628_3d8be738c2ca47d9b44641cfa45c7052~mv2.jpg","03947":"840628_539e209a11c9440db477a62ae68a8a34~mv2.jpg","04060":"840628_ad72189a69d741a89dc97b94866b6d63~mv2.jpg","04086":"840628_ddf699cfc3ca41d39c554dfc53080182~mv2.jpg","04258":"840628_ee068eb48b174058b1191e59587ddc21~mv2.jpg","04363":"840628_d99660942e8e45eb8f967b9d9abf11f8~mv2.jpg","04453":"840628_2d11be200ba84d80bd4e7e6498481328~mv2.jpg","04456":"840628_ab022e367ac94486903ea73420b7087e~mv2.jpg","04510":"840628_7c0a62e2a4794632a112d35a85d4469f~mv2.jpg","04659":"840628_4d9b09cbfd934cc4bcb503972373d550~mv2.jpg"};
+const I = n => NG_WX[n] ? 'https://static.wixstatic.com/media/' + NG_WX[n] + '/v1/fit/w_1200,h_1200,q_80/A67' + n + '.jpg' : '';
+const FULL = u => String(u || '').replace(/(static\.wixstatic\.com\/media\/[^/]+)\/v1\/.*$/, '$1');
+const clone = o => JSON.parse(JSON.stringify(o));
+const OWNER_ID = '84062810-740a-4954-aac6-a5e0ae7f9dc2'; // sjkgracee@gmail.com site member: the only account allowed to edit
+const fkb = v => v >= 1024 ? (v / 1024).toFixed(1) + ' MB' : v + ' KB';
+const FOLDERS = [['all', 'All'], ['campaign', 'SS27 campaign'], ['products', 'Products'], ['events', 'Appearances'], ['worn', 'Worn by you'], ['film', 'Film']];
+const FL = Object.fromEntries(FOLDERS);
+const SHAPE = { arch: ['3/4', '200px 200px 14px 14px', '70%'], rect: ['4/5', '14px', '70%'], wide: ['16/9', '14px', '100%'], tall: ['9/16', '14px', '46%'] };
+const SLOTS = [
+  ['Home', 'Hero', 'hero-film', 'Film · desktop', 'wide', 'video', 1920],
+  ['Home', 'Hero', 'hero-film-m', 'Film · phone', 'tall', 'video', 1080],
+  ['Home', 'Hero', 'hero-poster', 'Poster frame', 'wide', 'image', 2400],
+  ['Shop', 'Women / Men', 'deck-women', 'Women', 'arch', 'image', 1200],
+  ['Shop', 'Women / Men', 'deck-men', 'Men', 'arch', 'image', 1200],
+  ['Journal', 'Stories', 'jr-1', 'Toghu, beyond the ceremony', 'arch', 'image', 1200],
+  ['Journal', 'Stories', 'jr-2', 'Meet the main character', 'arch', 'image', 1200],
+  ['Journal', 'Stories', 'jr-3', 'Brought back, by request', 'arch', 'image', 1200],
+].map(r => ({ page: r[0], sec: r[1], id: r[2], label: r[3], shape: r[4], kind: r[5], min: r[6], consent: !!r[7] }));
+const NAV = [['SITE', [['map', 'Site map']]], ['MEDIA', [['library', 'Library']]],
+  ['CONTENT', [['hero', 'Hero film'], ['newin', 'New in rail'], ['pairs', 'Call & Answer'], ['events', 'Appearances'], ['worn', 'Worn by you'], ['copy', 'Site copy'], ['sizes', 'Size guide']]],
+  ['STUDIO', [['team', 'Team'], ['history', 'History']]]];
+const VIEW = {
+  map: ['Site map', 'Every image spot on the site, page by page. Drag from the library, drop a file straight onto a spot, or tap one to change it.', 'CMS › SITE SLOTS · FILES IN MEDIA MANAGER'],
+  library: ['Library', 'Everything uploaded for Ngwisa, in folders. Add alt text here once; it follows the file wherever it’s used.', 'MEDIA MANAGER › NGWISA'],
+  hero: ['Hero film', 'The first thing anyone sees. A wide cut for laptops, a vertical cut for phones, and a still that shows while the film loads.', 'CMS › SITE SLOTS · MEDIA MANAGER › FILM'],
+  products: ['Product photos', 'Photo order for each piece. The first is the shop card, the second shows on hover.', 'WIX STORES › PRODUCTS › MEDIA'],
+  newin: ['New in rail', 'The pieces hung on the New in rail, in order.', 'CMS › NEW IN RAIL'],
+  pairs: ['Call & Answer', 'A piece, and the piece that answers it. Answers show first under “Pairs with” on each product page.', 'CMS › PAIRS'],
+  events: ['Appearances', 'Runways, talks and showcases, newest first on the site.', 'CMS › APPEARANCES'],
+  worn: ['Worn by you', 'Photos on the “Worn. Filmed. Kept.” wall, in order.', 'CMS › WORN BY YOU'],
+  looks: ['Lookbook', 'Points on each SS27 look that open the piece when tapped.', 'CMS › LOOKBOOK'],
+  copy: ['Site copy', 'Every line of text on the site, page by page. Stay inside the counts so lines don’t break the layout.', 'CMS › HOME COPY'],
+  sizes: ['Size guide', 'Body measurements in centimetres. The site converts to inches for shoppers.', 'CMS › SIZE GUIDE'],
+  team: ['Team', 'Who can change the site, and how much.', 'SITE ROLES & PERMISSIONS'],
+  history: ['History', 'Every change in this draft, and every version that went live.', 'CMS › STUDIO VERSIONS'],
+};
+const ROLES = { Owner: 'Edits everything, publishes, and manages the team.', Editor: 'Edits everything and publishes. Can’t change the team.', Contributor: 'Uploads and drafts changes. The owner or an editor publishes them.' };
+const ALT = { '02706': 'Rahrah set: black velvet corset over red brushed fringe skirt', '03947': 'Main Character corset with the gong embroidered on each cup', '04453': 'SS27 look in toghu tailoring against a dark backdrop', '04060': 'Mimche dress, black velvet halter bodice with gong embroidery', '02794': 'Mawa leopard-print halter dress', '03622': 'Model walking the Gongbell runway in Manchester', '04258': 'SS27 campaign group image', '02693': 'Manyi zip-front top with twin gong design' };
+const COPY = [["wornTag","HOME · WORN BY YOU · TAG LINE",60,"Tag @_ngwisa_ and we’ll hang you here."],["wornTitle","HOME · WORN BY YOU · TITLE",30,"Worn. Filmed. Kept."],["bestA","HOME · BEST SELLERS · TITLE (RED)",24,"The ones that"],["bestB","HOME · BEST SELLERS · TITLE (ITALIC)",40,"keep leaving the rack."],["bestSub","HOME · BEST SELLERS · INTRO",140,"Hand-picked by the atelier — the four pieces we make, remake and still can’t keep on the rack."],["jrTitle","HOME · JOURNAL · TITLE",24,"Journal"],["jrKick","HOME · JOURNAL · KICKER",40,"STORIES FROM THE ATELIER"],["newsTitle","FOOTER · NEWSLETTER · TITLE",40,"Letters from the atelier"],["newsLine","FOOTER · NEWSLETTER · LINE",130,"New pieces, restocks and the odd story from Manchester. Only when there is something to say."],["newsDone","FOOTER · NEWSLETTER · THANK YOU",70,"You’re on the list. The next letter is yours."],["footLine","FOOTER · BRAND LINE",110,"Where heritage meets modernity. Cameroonian craftsmanship for today’s world."],["addr","FOOTER · ADDRESS (ONE LINE PER ROW)",80,"Wellington House\n4 Pollard Street East\nManchester M40 7FS"],["email","CONTACT · EMAIL",30,"info.ngwisa@gmail.com"],["phone","CONTACT · PHONE",30,"+44 7778 170330"],["location","CONTACT · LOCATION",60,"4 Pollard Street East, Manchester M40 7FS"],["quote","OUR STORY · FOUNDER QUOTE",140,"“We want every piece to feel special: not simply something you wear, but something you embody.”"],["desTitle","OUR STORY · DESIGN · TITLE",60,"Designed with the modern wearer in mind."],["des1","OUR STORY · DESIGN · PARAGRAPH 1",170,"Each piece is created with flattering silhouettes that enhance the body while offering comfort, sophistication and ease."],["des2","OUR STORY · DESIGN · PARAGRAPH 2",290,"At the heart of our designs is the hand-embroidered artistry of Cameroon’s traditional Toghu, integrated into contemporary silhouettes so every piece feels luxurious and unique without giving up wearability."],["des3","OUR STORY · DESIGN · PARAGRAPH 3",260,"Versatility is central. Our staples move from elevated everyday dressing to celebrations, styled your way. Timeless sophistication meets cultural identity: refined, yet distinctive."],["craftTitle","OUR STORY · CRAFT · TITLE",90,"Cultural craftsmanship doesn’t belong only in traditional dress."],["craftBody","OUR STORY · CRAFT · PARAGRAPH",330,"We bring Toghu into modern, sophisticated silhouettes, creating a space where heritage, luxury and contemporary design exist together. Worn for an occasion or every day, our designs ask you to embrace your individuality with elegance."],["visTitle","OUR STORY · VISION · TITLE",24,"Our vision"],["vis1h","OUR STORY · VISION 1 · HEADING",40,"Global heritage fashion"],["vis1","OUR STORY · VISION 1 · TEXT",360,"A globally recognised heritage brand redefining contemporary African luxury through Cameroonian craftsmanship, where Toghu is celebrated beyond its traditional context and creates lasting opportunities for the artisans and communities who preserve it."],["vis2h","OUR STORY · VISION 2 · HEADING",30,"Confidence & presence"],["vis2","OUR STORY · VISION 2 · TEXT",230,"Fashion that changes how people see themselves: entering any room feeling powerful, distinguished and worthy. Every garment an expression of personal art in style."],["tgTitle","TOGHU · INTRO · TITLE",50,"A cloth once reserved for kings."],["tgBody","TOGHU · INTRO · PARAGRAPH",290,"Toghu comes from the Grassfields of North-West Cameroon: black cloth, embroidered by hand in red, yellow and white. Each motif carries meaning, and wearing it once spoke of rank before a word was said."],["tgRegion","TOGHU · FACT · REGION",60,"The Grassfields, North-West Cameroon"],["tgAka","TOGHU · FACT · ALSO CALLED",24,"Atoghu"],["tgGround","TOGHU · FACT · GROUND",50,"Black cloth, today often velvet"],["tgThread","TOGHU · FACT · THREAD",50,"Red, yellow and white, by hand"],["tgWorn","TOGHU · FACT · WORN FOR",70,"Enthronements, weddings, funerals, festivals"],["ttTitle","TOGHU · THROUGH TIME · TITLE",24,"Through time"],["tt1h","TOGHU · THROUGH TIME 01 · HEADING",30,"Fons and queens"],["tt1","TOGHU · THROUGH TIME 01 · TEXT",140,"First worn by the Fon, his queens and title holders. The cloth showed rank before a word was spoken."],["tt2h","TOGHU · THROUGH TIME 02 · HEADING",24,"The big days"],["tt2","TOGHU · THROUGH TIME 02 · TEXT",120,"Enthronements, weddings and funerals. Toghu marks the moments a community gathers."],["tt3h","TOGHU · THROUGH TIME 03 · HEADING",24,"A shared pride"],["tt3","TOGHU · THROUGH TIME 03 · TEXT",100,"Worn far beyond the Grassfields, it became a symbol of Cameroon itself."],["tt4h","TOGHU · THROUGH TIME 04 · HEADING",24,"Home, carried"],["tt4","TOGHU · THROUGH TIME 04 · TEXT",110,"Graduations in London, weddings in Houston. A way to bring home into the room."],["tt5h","TOGHU · THROUGH TIME 05 · HEADING",24,"Every day"],["tt5","TOGHU · THROUGH TIME 05 · TEXT",120,"Ngwisa cuts it into corsets, dresses and tailoring, for days that aren’t ceremonies."],["colTitle","TOGHU · COLOURS · TITLE",24,"Four colours"],["colBlack","TOGHU · COLOUR · BLACK",120,"The ground. The land, the night and the ancestors who stand behind every wearer."],["colRed","TOGHU · COLOUR · RED",130,"Royalty and life. The colour of the Fon, and of the blood that ties a family together."],["colYellow","TOGHU · COLOUR · YELLOW",110,"Wealth and the harvest. Gold thread for a full granary and a prosperous house."],["colWhite","TOGHU · COLOUR · WHITE",120,"Peace and purity. The colour of blessing, worn when the community gives thanks."],["mkTitle","TOGHU · MADE BY HAND · TITLE",24,"Made by hand"],["mk1","TOGHU · STEP 01 · DRAW",100,"The motif is marked onto the velvet in chalk, by eye and by memory."],["mk2","TOGHU · STEP 02 · EMBROIDER",120,"Artisans stitch it thread by thread, by hand. No two pieces land exactly alike."],["mk3","TOGHU · STEP 03 · CUT",130,"The embroidered velvet becomes a modern shape: a corset, a shirt dress, a tiered skirt."],["mk4","TOGHU · STEP 04 · FINISH",80,"Every piece is checked, pressed and packed by hand."],["tgOut","TOGHU · CLOSING LINE",60,"Toghu, beyond its traditional context."],["apTitle","APPEARANCES · TITLE",40,"On the runway, in the room."],["apSub","APPEARANCES · INTRO",120,"The shows, conferences and showcases where Ngwisa has carried Toghu onto the stage."],["apInvTitle","APPEARANCES · INVITE · TITLE",50,"Bring the gong to your stage."],["apInv","APPEARANCES · INVITE · TEXT",200,"We take part in runway shows, panels, exhibitions and cultural showcases. For invitations, collaborations and press, write to the atelier."]];
+function seed() {
+  const lib = [];
+  const add = (id, folder) => lib.push({ id, src: I(id), poster: '', name: 'A67' + id + '_Export_Green.jpg', folder, kind: 'image', w: 4000, h: 6000, kb: 7400 + (parseInt(id, 10) % 41) * 130, alt: ALT[id] || '', consent: folder === 'worn' ? true : null, needsConsent: folder === 'worn', focal: { x: 50, y: 30 }, at: '28 SEP', inWix: true });
+  lib.push({ id: 'film-wide', src: '', poster: I('03622'), name: 'gongbell-film-16x9.mp4', folder: 'film', kind: 'video', w: 1920, h: 1080, kb: 48200, alt: 'The Gongbell collection walking the runway in Manchester', consent: null, needsConsent: false, focal: { x: 50, y: 40 }, at: '2 OCT', dur: '0:42' });
+  lib.push({ id: 'film-tall', src: '', poster: I('03621'), name: 'gongbell-film-9x16.mp4', folder: 'film', kind: 'video', w: 1080, h: 1920, kb: 71400, alt: '', consent: null, needsConsent: false, focal: { x: 50, y: 40 }, at: '2 OCT', dur: '0:42' });
+  ['04453', '04456', '04510', '04659', '04363', '04258'].forEach(id => add(id, 'campaign'));
+  ['02706', '02604', '03947', '03412', '02693', '02838', '02794', '03127', '04060', '04086', '03621', '03622'].forEach(id => add(id, 'products'));
+  ['03456', '03462', '02542'].forEach(id => add(id, 'events'));
+  ['02571', '03382', '02759', '03402', '03604', '03603', '03607'].forEach(id => add(id, 'worn'));
+  const fix = (id, o) => Object.assign(lib.find(x => x.id === id), o);
+  fix('04363', { w: 1100, h: 1650, kb: 860 }); ["03127","04258","02604","03402","02759","03607","02794"].forEach(id => fix(id, { consent: true })); fix('04510', { kb: 31200 }); fix('02759', { consent: null }); fix('03604', { consent: null }); fix('03603', { consent: null });
+  return {
+    lib,
+    slots: { 'hero-film': 'film-wide', 'hero-film-m': 'film-tall', 'hero-poster': '03622', 'deck-women': '02706', 'deck-men': '02542', 'jr-1': '03412', 'jr-2': '03947', 'jr-3': '02706' },
+    products: [["rahrah","Rahrah Set",["02706","02604","03604"]],["rahrah-white","Rahrah Set, White Fringe",["02604","02706","03607"]],["main-character","Main Character Corset",["03947","03412","03402"]],["manyi","Manyi Top",["02693","02838","03621"]],["mawa","Mawa Dress",["02794","03127","03603"]],["mimche","Mimche Dress",["04060","04086","03127"]],["muna","Muna Set",["03456","03462","03622"]],["mita-dress","Mita Dress",["04363","04510","04456"]],["yem","Yem Shirt Dress",["02759","03382"]],["mita-set","Mita Set",["04453","04659","04258"]],["tatah","Tatah Unisex Blazer",["04456","04510","02571"]],["gong-waistcoat","Gong Waistcoat",["02542","02571","04456"]]].map(p => ({ id: p[0], name: p[1], imgs: p[2] })),
+    newin: ["rahrah","rahrah-white","main-character","manyi","mawa","mimche","muna","mita-dress","yem","mita-set","gong-waistcoat"],
+    pairs: [],
+    events: [
+      { t: "The Gongbell, first walk", type: "Runway", city: "Manchester", yr: "2026", img: '03622', gal: ["03621","02706","04060"], body: "The whole Gongbell collection on one stage for the first time: the Rahrah corset, the Mimche ruffles, the tiered Muna skirt and the tailoring, every piece carrying the gong.\n\nA collection built on Toghu, walked in the city where it is cut and finished." },
+      { t: "Heritage in modern luxury", type: "Conference", city: "London", yr: "2026", img: '04659', gal: ["04453","04258","03947"], body: "A conversation on what it means to carry a ceremonial cloth into contemporary luxury, and how the artisans who keep Toghu alive can share in its future.\n\nWe spoke about the journey from chalk on velvet in Cameroon to a finished piece in Manchester." },
+      { t: "A showcase of diaspora design", type: "Fashion showcase", city: "London", yr: "2025", img: '03456', gal: ["03462","02794","03127"], body: "Ngwisa stood alongside designers carrying home into their work: graduations in London, weddings in Houston, Toghu every day.\n\nWe showed the Muna set and the Mawa dress, styled for the city." },
+      { t: "Toghu, up close", type: "Exhibition", city: "Manchester", yr: "2025", img: '02759', gal: ["03412","02693","02838"], body: "An invitation to look closely at the embroidery: the red of royalty, the gold of harvest, the white of blessing on black velvet.\n\nThe Yem shirt dress turned its back to the room so the gong could speak first." },
+      { t: "An evening at the atelier", type: "Showcase", city: "Manchester", yr: "2025", img: '03607', gal: ["02604","04363","04510"], body: "Our doors open at Wellington House: the rail, the fittings and the people who wear Ngwisa.\n\nAn evening for trying on, talking craft and meeting the pieces in person." }],
+    worn: [{"img":"03127","h":"","city":"","show":true},{"img":"04258","h":"","city":"","show":true},{"img":"02604","h":"","city":"","show":true},{"img":"03402","h":"","city":"","show":true},{"img":"02759","h":"","city":"","show":true},{"img":"03607","h":"","city":"","show":true},{"img":"02794","h":"","city":"","show":true}],
+    looks: [{ n: 'Look 01', img: '04453', spots: [{ x: 46, y: 34, p: 'main-character' }, { x: 52, y: 70, p: 'muna' }] }, { n: 'Look 02', img: '02706', spots: [{ x: 48, y: 36, p: 'rahrah' }] }, { n: 'Look 03', img: '04060', spots: [{ x: 50, y: 40, p: 'mimche' }] }, { n: 'Look 04', img: '04456', spots: [{ x: 50, y: 38, p: 'tatah' }] }],
+    copy: Object.fromEntries(COPY.map(c => [c[0], c[3]])),
+    sizes: [
+      { cat: 'Dresses & tops', sz: ['XS', 'S', 'M', 'L', 'XL'], rows: [['Bust', 80, 86, 92, 98, 104], ['Waist', 64, 70, 76, 82, 88], ['Hip', 88, 94, 100, 106, 112]], note: 'Liyah, Yefon, Na’foin, Rahrah Corset. UK 6–16.' },
+      { cat: 'Skirts & bottoms', sz: ['XS', 'S', 'M', 'L', 'XL'], rows: [['Waist', 64, 70, 76, 82, 88], ['Hip', 90, 96, 102, 108, 114], ['Inside leg', 78, 79, 80, 81, 82]], note: 'Linwe, Manyi, Nkeh. Inside leg for trousers only.' },
+      { cat: 'Outerwear & sets', sz: ['XS', 'S', 'M', 'L', 'XL', 'XXL'], rows: [['Chest', 84, 90, 96, 102, 108, 114], ['Shoulder', 38, 40, 42, 44, 46, 48], ['Sleeve', 58, 59, 60, 61, 62, 63]], note: 'Tatah Blazer is unisex, cut straight through the body.' },
+      { cat: 'Accessories', sz: ['ONE SIZE'], rows: [['Head circ.', '55–59'], ['Bell Bag (W×H×D)', '28×22×9']], note: 'Awa Crown band gives to fit. Bag handle drop 18 cm.' }],
+    team: [{ n: 'Ngwisa atelier', e: 'info.ngwisa@gmail.com', r: 'Owner' }],
+  };
+}
+const HIST = c => { const v2 = clone(c); v2.newin = ['rahrah', 'manyi', 'mawa', 'tatah']; v2.slots['hero-poster'] = '03621'; const v1 = clone(v2); v1.events = v1.events.slice(0, 2);
+  return [{ v: 3, at: '11 OCT · 16:52', by: 'Owner', sum: 'Mimche photos, sizes from the Wix catalogue', snap: clone(c) }, { v: 2, at: '9 OCT · 20:10', by: 'Owner', sum: 'New in rail, hero poster', snap: v2 }, { v: 1, at: '1 OCT · 11:05', by: 'Owner', sum: 'First import from the live site', snap: v1 }]; };
+
+class Component extends DCLogic {
+  state = (() => { const c = seed(); return { c, pub: clone(c), changes: [], hist: HIST(c), view: 'map', mob: false, sel: 'hero-poster', libSel: null, folder: 'all', q: '', tray: 'all', crop: null, cf: null, pick: null, pickF: 'all', prod: 'rahrah', ev: 0, look: 0, sc: 0, pubOpen: false, navOpen: false, toast: '', over: null, dz: false, up: {}, inv: '', invR: 'Editor', niPick: '' }; })();
+  mainRef = React.createRef(); asideRef = React.createRef();
+  async login() { const N = window.NGW, u = (this.state.lu || '').trim(), p = this.state.lp || '';
+    if (!u || !p) { this.setState({ lErr: 'Enter your email and password.' }); return; }
+    if (!N) { this.setState({ lErr: 'Wix is still loading. Try again in a moment.' }); return; }
+    this.setState({ lBusy: true, lErr: '' });
+    try { const r = await N.login(u, p);
+      if (r !== 'SUCCESS') { this.setState({ lBusy: false, lp: '', lErr: r === 'EMAIL_VERIFICATION_REQUIRED' ? 'Wix needs you to confirm your email first. Sign in once on the shop.' : 'That email and password don’t match.' }); return; }
+      await this.checkOwner();
+    } catch (er) { this.setState({ lBusy: false, lErr: er.message || 'Sign-in failed.' }); } }
+  async checkOwner() { const N = window.NGW, m = N ? await N.me() : null;
+    if (m && m.id === OWNER_ID) { this.setState({ authed: true, lBusy: false, lp: '', lErr: '' }); this.loadWix(); }
+    else this.setState({ authed: false, lBusy: false, lErr: m ? 'This account can’t edit the Studio.' : '' }); }
+  logout() { const N = window.NGW; this.setState({ authed: false, wixLive: false }); if (N) N.logout(); }
+  async q(id) { const r = await window.NGW.request('/wix-data/v2/items/query', { body: { dataCollectionId: id, query: { cursorPaging: { limit: 100 } } } }); return ((r && r.dataItems) || []).map(d => ({ ...d.data, _id: d.id || (d.data && d.data._id) })); }
+  mediaUrl(v) { if (!v) return ''; if (typeof v === 'object') v = v.url || ''; const m = String(v).match(/^wix:(image|video):\/\/v1\/([^/#]+)/); if (!m) return String(v); return m[1] === 'image' ? 'https://static.wixstatic.com/media/' + m[2] : 'https://video.wixstatic.com/video/' + m[2] + '/1080p/mp4/file.mp4'; }
+  libFor(c, url, folder, label) { if (!url) return null; const hit = c.lib.find(x => FULL(x.src) === url); if (hit) return hit.id;
+    const id = 'w-' + c.lib.length + '-' + Math.random().toString(36).slice(2, 7), vid = /video\.wixstatic|\.(mp4|mov|webm)/i.test(url);
+    c.lib.unshift({ id, src: !vid && url.indexOf('static.wixstatic.com/media/') >= 0 ? url + '/v1/fit/w_1200,h_1200,q_80/f.jpg' : url, poster: '', name: (label || 'From Wix') + ' · in Wix', folder: vid ? 'film' : folder, kind: vid ? 'video' : 'image', w: 0, h: 0, kb: 0, alt: '', consent: folder === 'worn' ? true : null, needsConsent: folder === 'worn', focal: { x: 50, y: 40 }, at: 'WIX', inWix: true });
+    return id; }
+  async loadWix() { try {
+    const ids = ['StudioHomeCopy', 'StudioSizeGuide', 'StudioSiteSlots', 'StudioProductPhotos', 'StudioNewInRail', 'StudioPairs', 'StudioAppearances', 'StudioWornByYou'];
+    const [copy, sizes, slots, pph, nir, prs, apps, worn] = await Promise.all(ids.map(id => this.q(id).catch(() => [])));
+    const W = this.wixIds = { copy: {}, sizes: {}, slots: {} };
+    const ord = a => a.slice().sort((x, y) => ((x.order || 0) - (y.order || 0)) || String(x._id).localeCompare(String(y._id)));
+    this.setState(st => { const c = clone(st.c);
+      copy.forEach(r => { W.copy[r.title] = r._id; if (typeof r.text === 'string' && r.text.trim()) c.copy[r.title] = r.text; });
+      ord(sizes).forEach((r, i) => { W.sizes[i] = r._id; if (c.sizes[i] && r.rows && r.rows.rows) Object.assign(c.sizes[i], { rows: r.rows.rows, note: r.note || '', sz: r.sizes || c.sizes[i].sz }); });
+      slots.forEach(r => { W.slots[r.title] = r._id; const url = this.mediaUrl(r.video || r.image || r.fileUrl); if (url && SLOTS.some(s => s.id === r.title)) c.slots[r.title] = this.libFor(c, url, 'campaign', r.label || r.title); });
+      if (nir.length) c.newin = ord(nir).map(r => r.productId).filter(id => c.products.some(p => p.id === id));
+      if (prs.length) c.pairs = ord(prs).map(r => ({ n: r.title || '', a: r.callProductId || '', b: r.answerProductId || '' }));
+      if (apps.length) c.events = ord(apps).map(r => ({ t: r.title || '', type: r.type || '', city: r.city || '', yr: r.year || '', img: this.libFor(c, this.mediaUrl(r.coverUrl || r.cover), 'events', r.title), gal: (r.gallery || []).map(u => this.libFor(c, u, 'events', r.title)).filter(Boolean), body: r.body || '' }));
+      if (worn.length) c.worn = ord(worn).map(r => { const id = this.libFor(c, this.mediaUrl(r.fileUrl || r.photo), 'worn', r.title || 'Worn by you'); const it = c.lib.find(x => x.id === id); if (it) it.consent = r.consent === false ? null : true; return { img: id, h: r.title || '', city: r.city || '', show: r.show !== false }; }).filter(w => w.img);
+      return { c, pub: clone(c), changes: [], wixLive: true }; });
+    this.flash('LOADED FROM WIX'); this.loadMM(); } catch (er) { this.flash('COULD NOT LOAD FROM WIX · ' + String(er.message || er).toUpperCase()); } }
+  mm(path, opts) { return window.NGW.request('/site-media/v1' + path, opts); }
+  async mmFolders() { if (this.mmF) return this.mmF;
+    const ls = async pid => ((await this.mm('/folders?parentFolderId=' + encodeURIComponent(pid) + '&paging.limit=100', { method: 'GET' })) || {}).folders || [];
+    const mk = async (displayName, parentFolderId) => ((await this.mm('/folders', { body: { displayName, parentFolderId } })) || {}).folder;
+    const root = (await ls('media-root')).find(f => f.displayName === 'Ngwisa Studio') || await mk('Ngwisa Studio', 'media-root');
+    const subs = await ls(root.id), map = { _root: root.id };
+    for (const [k, label] of FOLDERS.slice(1)) { const f = subs.find(x => x.displayName === label) || await mk(label, root.id); if (f) map[k] = f.id; }
+    return this.mmF = map; }
+  fromMM(f, folder) { const isV = f.mediaType === 'VIDEO', im = f.media && f.media.image && f.media.image.image, vd = (f.media && f.media.video) || {}, lab = f.labels || [];
+    const get = p => { const l = lab.find(x => String(x).indexOf(p) === 0); return l ? l.slice(p.length) : ''; }, fc = get('focal:').split(',').map(Number);
+    const res = (vd.resolutions || []).slice().sort((a, b) => (b.height || 0) - (a.height || 0));
+    const vurl = (res.find(r => (r.height || 0) <= 1080) || res[0] || {}).url || f.url;
+    return { id: 'mm-' + f.id, wixId: f.id, labels: lab, src: isV ? vurl : f.url + '/v1/fit/w_1200,h_1200,q_80/f.jpg', poster: isV && vd.posters && vd.posters[0] ? vd.posters[0].url : '', name: f.displayName || 'Wix file', folder, kind: isV ? 'video' : 'image',
+      w: (im && im.width) || (res[0] && res[0].width) || 0, h: (im && im.height) || (res[0] && res[0].height) || 0, kb: Math.round((+f.sizeInBytes || 0) / 1024), alt: get('alt:'), focal: fc.length === 2 && !isNaN(fc[0]) ? { x: fc[0], y: fc[1] } : { x: 50, y: 40 },
+      at: f.createdDate ? new Date(f.createdDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }).toUpperCase() : 'WIX', inWix: true, dur: vd.duration ? Math.floor(vd.duration / 60) + ':' + String(Math.round(vd.duration % 60)).padStart(2, '0') : '' }; }
+  async loadMM() { try { const F = await this.mmFolders(), byPid = {}; Object.keys(F).forEach(k => { if (k !== '_root') byPid[F[k]] = k; });
+      let files = [], cursor = null, n = 0;
+      do { const r = await this.mm('/files/search', { body: { rootFolder: 'MEDIA_ROOT', mediaTypes: ['IMAGE', 'VIDEO'], paging: { limit: 100, ...(cursor ? { cursor } : {}) } } }) || {};
+        files = files.concat(r.files || []); cursor = r.nextCursor && r.nextCursor.cursors && r.nextCursor.cursors.next; } while (cursor && ++n < 20);
+      files = files.filter(f => f.url && (!f.state || f.state === 'OK'));
+      this.setState(st => { const c = clone(st.c);
+        files.forEach(f => { const base = String(f.url).replace(/\/v1\/.*$/, ''), hit = c.lib.find(x => x.wixId === f.id || FULL(x.src) === base), m = this.fromMM(f, byPid[f.parentFolderId] || (hit && hit.folder) || (f.mediaType === 'VIDEO' ? 'film' : 'campaign'));
+          if (hit) Object.assign(hit, { wixId: f.id, labels: m.labels, inWix: true, name: m.name, kb: m.kb || hit.kb, w: m.w || hit.w, h: m.h || hit.h, alt: m.alt || hit.alt, folder: m.folder, ...(m.alt || f.labels && f.labels.some(l => /^focal:/.test(l)) ? { focal: m.focal } : {}), ...(m.kind === 'video' ? { src: m.src, poster: m.poster || hit.poster } : {}) });
+          else c.lib.push(m); });
+        const dead = new Set(c.lib.filter(x => !x.src).map(x => x.id)); c.lib = c.lib.filter(x => !dead.has(x.id)); Object.keys(c.slots).forEach(k => { if (dead.has(c.slots[k])) delete c.slots[k]; });
+        return { c, pub: clone(c), changes: [], mmLive: true, mmN: files.length, mmErr: '' }; });
+    } catch (e) { this.setState({ mmLive: false, mmErr: String((e && e.message) || e) }); } }
+  mmUpdate(it) { const F = this.mmF || {}, labels = (it.labels || []).filter(l => !/^(alt|focal):/.test(l)).concat(it.alt ? ['alt:' + it.alt.slice(0, 240)] : []).concat(['focal:' + it.focal.x + ',' + it.focal.y]);
+    return this.mm('/files/' + it.wixId, { method: 'PATCH', body: { file: { id: it.wixId, displayName: it.name, labels, ...(F[it.folder] ? { parentFolderId: F[it.folder] } : {}) } } }); }
+  async pushWix(c) { const N = window.NGW, W = this.wixIds; if (!N || !W) throw new Error('not connected');
+    const save = (id, list) => list.length ? N.request('/wix-data/v2/bulk/items/save', { body: { dataCollectionId: id, dataItems: list } }) : Promise.resolve();
+    const U = id => { const it = c.lib.find(x => x.id === id); if (!it) return ''; const u = FULL(it.src); return /^https?:/.test(u) ? u : ''; };
+    const pad = i => String(i).padStart(2, '0'), pname = id => (c.products.find(p => p.id === id) || {}).name || id;
+    const replace = async (id, rows) => { await save(id, rows.map(data => ({ data }))); const keep = new Set(rows.map(r => r._id));
+      const gone = (await this.q(id)).map(r => r._id).filter(x => x && !keep.has(x)); if (gone.length) await N.request('/wix-data/v2/bulk/items/remove', { body: { dataCollectionId: id, dataItemIds: gone } }); };
+    const copy = COPY.map(f => ({ data: { ...(W.copy[f[0]] ? { _id: W.copy[f[0]] } : {}), title: f[0], label: f[1], maxLength: f[2], text: c.copy[f[0]] || '' } }));
+    const sizes = c.sizes.map((z, i) => ({ data: { ...(W.sizes[i] ? { _id: W.sizes[i] } : {}), title: z.cat, sizes: z.sz, rows: { rows: z.rows }, note: z.note, order: i } }));
+    const slots = SLOTS.map(s => { const id = c.slots[s.id], it = id ? c.lib.find(x => x.id === id) : null, url = U(id); if (it && !url) return null;
+      return { data: { ...(W.slots[s.id] ? { _id: W.slots[s.id] } : {}), title: s.id, page: s.page, section: s.sec, label: s.label, shape: s.shape, kind: s.kind, minWidth: s.min, needsConsent: s.consent, fileUrl: url, image: s.kind === 'image' ? url : '', video: s.kind === 'video' ? url : '' } }; }).filter(Boolean);
+    await Promise.all([save('StudioHomeCopy', copy), save('StudioSizeGuide', sizes), save('StudioSiteSlots', slots),
+      replace('StudioNewInRail', c.newin.map((id, i) => ({ _id: 'ni-' + pad(i), title: pname(id), productId: id, order: i }))),
+      replace('StudioPairs', c.pairs.filter(p => p.a && p.b).map((p, i) => ({ _id: 'pr-' + pad(i), title: p.n || (pname(p.a) + ' + ' + pname(p.b)), callProductId: p.a, answerProductId: p.b, order: i }))),
+      replace('StudioAppearances', c.events.map((e, i) => ({ _id: 'ev-' + pad(i), title: e.t, type: e.type, city: e.city, year: e.yr, coverUrl: U(e.img), gallery: (e.gal || []).map(U).filter(Boolean), body: e.body || '' }))),
+      replace('StudioWornByYou', c.worn.map((w, i) => { const it = c.lib.find(x => x.id === w.img); return { _id: 'wb-' + pad(i), title: w.h || '', city: w.city || '', fileUrl: U(w.img), consent: true, show: !!w.show, order: i }; }))]);
+    const P = this.state.pub || { lib: [] }, was = id => P.lib.find(x => x.id === id) || {};
+    await Promise.all(c.lib.filter(it => it.wixId).filter(it => { const o = was(it.id); return o.alt !== it.alt || o.name !== it.name || o.folder !== it.folder || JSON.stringify(o.focal) !== JSON.stringify(it.focal); }).map(it => this.mmUpdate(it).catch(() => null)));
+    try { const [cp, sl, sz] = await Promise.all([this.q('StudioHomeCopy'), this.q('StudioSiteSlots'), this.q('StudioSizeGuide')]); cp.forEach(r => { W.copy[r.title] = r._id; }); sl.forEach(r => { W.slots[r.title] = r._id; }); sz.forEach(r => { if (r.order != null) W.sizes[r.order] = r._id; }); } catch (e) {} }
+  componentDidMount() { const tryAuth = n => { const N = window.NGW; if (!N) { if (n < 40) setTimeout(() => tryAuth(n + 1), 250); return; } if (N.isMember()) this.checkOwner(); }; tryAuth(0); this.onR = () => { const m = innerWidth < 900; if (m !== this.state.mob) this.setState({ mob: m }); }; this.onR(); addEventListener('resize', this.onR); }
+  componentWillUnmount() { removeEventListener('resize', this.onR); }
+  role() { return this.props.viewAs ?? 'Owner'; }
+  item(id) { return id ? this.state.c.lib.find(x => x.id === id) || null : null; }
+  prodById(id) { return this.state.c.products.find(p => p.id === id); }
+  flash(t) { this.setState({ toast: t }); clearTimeout(this.tT); this.tT = setTimeout(() => this.setState({ toast: '' }), 2600); }
+  edit(key, label, fn) {
+    this.setState(s => { const c = clone(s.c); fn(c); const last = s.changes[s.changes.length - 1], now = Date.now();
+      const changes = last && last.key === key && now - last.t < 2500 ? s.changes.slice(0, -1).concat([{ ...last, t: now, label }]) : s.changes.concat([{ key, label, t: now, prev: s.c, by: this.role(), area: s.view }]);
+      return { c, changes }; });
+  }
+  undo() { const ch = this.state.changes; if (!ch.length) return; const last = ch[ch.length - 1]; this.setState({ c: last.prev, changes: ch.slice(0, -1) }); this.flash('UNDONE · ' + last.label.toUpperCase()); }
+  editItem(id, key, label, patch) { this.edit(key + id, label, c => Object.assign(c.lib.find(x => x.id === id), patch)); }
+  media(it) { if (!it) return { has: false, empty: true, src: '', vsrc: '', isVid: false, notVid: false, pos: '50% 50%' }; const v = it.kind === 'video' && !it.poster;
+    return { has: true, empty: false, src: it.kind === 'video' ? (it.poster || '') : it.src, vsrc: it.src, isVid: v, notVid: !v, pos: it.focal.x + '% ' + it.focal.y + '%' }; }
+  warns(it, min, needC) { const w = []; if (!it) return w;
+    if (it.kind === 'image' && it.kb > 20000) w.push(['heavy', 'Over 20 MB (' + fkb(it.kb) + '). Export a lighter file so the page loads fast.']);
+    if (it.kind === 'video' && it.kb > 60000) w.push(['heavy', 'Heavy for a hero film (' + fkb(it.kb) + '). Aim for under 60 MB.']);
+    if (min && it.w && it.w < min) w.push(['soft', 'Only ' + it.w + 'px wide. This spot needs ' + min + 'px or it will look soft.']);
+    if (!it.alt) w.push(['alt', it.kind === 'video' ? 'No description. Add one for screen readers.' : 'No alt text. Describe the piece for screen readers and search.']);
+    
+    return w; }
+  wv(w) { return w.map(x => ({ t: x[1], dot: x[0] === 'consent' ? '#D81219' : '#E3A72F', c: x[0] === 'consent' ? '#D81219' : '#3A3430' })); }
+  wdot(w) { const red = w.some(x => x[0] === 'consent'); return { hasWarn: w.length > 0, warnBg: red ? '#D81219' : '#E3A72F', warnFg: red ? '#FBF8F2' : '#141110' }; }
+  usages(id) { const c = this.state.c, u = [];
+    SLOTS.forEach(s => { if (c.slots[s.id] === id) u.push(s.page + ' · ' + s.sec + ' · ' + s.label); });
+    c.events.forEach(e => { if (e.img === id || e.gal.includes(id)) u.push('Appearance · ' + e.t); });
+    c.worn.forEach(w => { if (w.img === id && w.show) u.push('Worn by you · ' + (w.h || 'untitled')); });
+    return u; }
+  checks() { const c = this.state.c, B = [], W = [], seen = new Set();
+    const look = (id, where, needC, min) => { const it = this.item(id); if (!it) return;
+      
+      if (!it.alt && !seen.has(id)) { seen.add(id); W.push('No alt text · ' + it.name); }
+      if (min && it.w && it.w < min) W.push('May look soft · ' + it.name + ' in ' + where);
+      if ((it.kind === 'image' && it.kb > 20000) || (it.kind === 'video' && it.kb > 60000)) { if (!seen.has('h' + id)) { seen.add('h' + id); W.push('Heavy file · ' + it.name + ' (' + fkb(it.kb) + ')'); } } };
+    SLOTS.forEach(s => look(c.slots[s.id], s.label, s.consent, s.min));
+    c.worn.filter(w => w.show).forEach(w => look(w.img, 'Worn by you', true));
+    c.events.forEach(e => [e.img].concat(e.gal).forEach(id => look(id, e.t)));
+    return { B, W }; }
+  assignSlot(sid, id) { const s = SLOTS.find(x => x.id === sid), it = this.item(id); if (!s || !it) return;
+    if (it.kind !== s.kind) { this.flash(s.kind === 'video' ? 'THIS SPOT TAKES A FILM' : 'THIS SPOT TAKES A PHOTO'); return; }
+    this.edit('slot-' + sid, s.label + ' → ' + it.name, c => { c.slots[sid] = id; }); this.flash(s.label.toUpperCase() + ' · UPDATED IN DRAFT'); }
+  upload(files, after, folderHint) { const arr = Array.from(files || []); if (!arr.length) return; const st = this.state;
+    arr.forEach((f, k) => { const id = 'u' + Date.now() + k, url = URL.createObjectURL(f), vid = (f.type || '').indexOf('video') === 0;
+      let folder = folderHint || (st.pick ? st.pickF : st.folder); if (!folder || folder === 'all') folder = vid ? 'film' : (st.view === 'worn' ? 'worn' : 'campaign'); if (vid) folder = 'film';
+      const it = { id, src: url, poster: '', name: f.name, folder, kind: vid ? 'video' : 'image', w: 0, h: 0, kb: Math.round(f.size / 1024), alt: '', consent: null, needsConsent: folder === 'worn', focal: { x: 50, y: 40 }, at: 'TODAY' };
+      this.edit('up-' + id, 'Uploaded ' + f.name, c => { c.lib.unshift(it); });
+      const dims = (w, h) => this.setState(s => ({ c: { ...s.c, lib: s.c.lib.map(x => x.id === id ? { ...x, w, h } : x) } }));
+      if (vid) { const v = document.createElement('video'); v.preload = 'metadata'; v.onloadedmetadata = () => dims(v.videoWidth, v.videoHeight); v.src = url; }
+      else { const im = new Image(); im.onload = () => dims(im.naturalWidth, im.naturalHeight); im.src = url; }
+      if (this.state.wixLive) this.sendToWix(id, f, it); else {
+      let p = 0; const tick = () => { p = Math.min(100, p + 15 + Math.random() * 25); this.setState(s => ({ up: { ...s.up, [id]: p } })); if (p < 100) setTimeout(tick, 200); else setTimeout(() => this.setState(s => { const u = { ...s.up }; delete u[id]; return { up: u }; }), 400); };
+      setTimeout(tick, 150); }
+      if (k === 0 && after) after(id);
+    });
+    this.flash(arr.length + (arr.length > 1 ? ' FILES' : ' FILE') + ' UPLOADING TO MEDIA MANAGER'); }
+  setUp(id, v) { this.setState(s => { const u = { ...s.up }; if (v == null) delete u[id]; else u[id] = v; return { up: u }; }); }
+  patchSilent(id, patch) { const f = l => l.map(x => x.id === id ? { ...x, ...patch } : x); this.setState(s => ({ c: { ...s.c, lib: f(s.c.lib) }, changes: s.changes.map(ch => ({ ...ch, prev: ch.prev && { ...ch.prev, lib: f(ch.prev.lib) } })) })); }
+  async sendToWix(id, f, it) { const N = window.NGW, mime = f.type || (it.kind === 'video' ? 'video/mp4' : 'image/jpeg');
+    const fail = m => { this.setUp(id, null); this.flash('NOT IN WIX YET · ' + m.toUpperCase()); };
+    try { this.setUp(id, 3);
+      let d, inMM = true;
+      try { const F = await this.mmFolders(); d = await N.request('/site-media/v1/files/generate-upload-url', { body: { mimeType: mime, fileName: f.name, sizeInBytes: String(f.size), parentFolderId: F[it.folder] || F._root } }); }
+      catch (e) { inMM = false; d = await N.request('/communication-channels-media/v1/upload-url', { body: {} }); }
+      if (!d || !d.uploadUrl) return fail('Wix gave no upload link');
+      const res = await new Promise((ok, no) => { const x = new XMLHttpRequest(); x.open('PUT', d.uploadUrl + (d.uploadUrl.includes('?') ? '&' : '?') + 'filename=' + encodeURIComponent(f.name)); x.setRequestHeader('Content-Type', mime);
+        x.upload.onprogress = e => { if (e.lengthComputable) this.setUp(id, Math.max(5, Math.round(e.loaded / e.total * 95))); };
+        x.onload = () => { if (x.status >= 200 && x.status < 300) { try { ok(JSON.parse(x.responseText)); } catch (e) { ok({}); } } else no(new Error('upload ' + x.status)); }; x.onerror = () => no(new Error('connection lost')); x.send(f); });
+      const file = res.file || {}, img = file.media && file.media.image && file.media.image.image;
+      if (!file.url) return fail('Wix did not return the file');
+      this.patchSilent(id, { src: file.url, wixId: inMM ? (file.id || '') : '', labels: file.labels || [], inWix: true, ...(img && img.width ? { w: img.width, h: img.height } : {}) });
+      if (inMM) this.setState(s => ({ mmN: (s.mmN || 0) + 1 }));
+      this.setUp(id, 100); setTimeout(() => this.setUp(id, null), 500); this.flash((inMM ? 'IN MEDIA MANAGER · ' + FL[it.folder].toUpperCase() + ' · ' : 'UPLOADED TO WIX (OUTSIDE MEDIA MANAGER) · ') + f.name.toUpperCase());
+    } catch (e) { fail(e.message || 'upload failed'); } }
+  openPick(o) { this.setState({ pick: o, pickF: o.folder || 'all' }); }
+  openCrop(id) { const it = this.item(id); if (!it || it.kind !== 'image') return; this.setState({ crop: id, cf: { ...it.focal } }); }
+  setF(e) { const r = e.currentTarget.getBoundingClientRect(); const x = Math.round(Math.max(0, Math.min(100, (e.clientX - r.left) / r.width * 100))), y = Math.round(Math.max(0, Math.min(100, (e.clientY - r.top) / r.height * 100))); this.setState({ cf: { x, y } }); }
+  goSlot(sid) { this.setState({ sel: sid }, () => { const m = this.mainRef.current, a = this.asideRef.current; if (this.state.mob && m && a) m.scrollTo({ top: a.offsetTop - 70, behavior: 'smooth' }); }); }
+  slotVM(s) { const st = this.state, it = this.item(st.c.slots[s.id]), sh = SHAPE[s.shape], w = this.warns(it, s.min, s.consent);
+    return { id: s.id, label: s.label, sec: s.sec.toUpperCase(), ...this.media(it), ...this.wdot(w), warns: this.wv(w), ratio: sh[0], rad: sh[1],
+      draft: st.c.slots[s.id] !== st.pub.slots[s.id], kindL: s.kind === 'video' ? 'FILM' + (it && it.dur ? ' ' + it.dur : '') : s.shape.toUpperCase(),
+      outline: st.over === s.id ? '2px solid #D81219' : st.sel === s.id && st.view === 'map' ? '2px solid #141110' : '2px solid transparent', emptyL: s.kind === 'video' ? 'DROP A FILM HERE' : 'EMPTY · DROP AN IMAGE',
+      fileL: it ? it.name + ' · ' + (it.w ? it.w + '×' + it.h : '—') + ' · ' + fkb(it.kb) : 'Nothing here yet', accept: s.kind === 'video' ? 'video/*' : 'image/*', canCrop: !!(it && it.kind === 'image'),
+      tap: () => this.goSlot(s.id), pick: () => this.openPick({ kind: s.kind, title: s.label, folder: s.kind === 'video' ? 'film' : 'all', apply: id => this.assignSlot(s.id, id) }),
+      crop: () => it && this.openCrop(it.id), upload: e => { this.upload(e.target.files, id => this.assignSlot(s.id, id)); e.target.value = ''; },
+      dOver: e => { e.preventDefault(); if (this.state.over !== s.id) this.setState({ over: s.id }); }, dLeave: () => this.setState({ over: null }),
+      drop: e => { e.preventDefault(); this.setState({ over: null }); const f = e.dataTransfer && e.dataTransfer.files; if (f && f.length) { this.upload(f, id => this.assignSlot(s.id, id)); return; }
+        const id = this.drag || (e.dataTransfer && e.dataTransfer.getData('text/plain')); this.drag = null; if (id) { this.assignSlot(s.id, id); this.setState({ sel: s.id }); } } }; }
+  tileVM(it, extra) { const st = this.state, w = this.warns(it), u = this.usages(it.id);
+    return { name: it.name, ...this.media(it), ...this.wdot(w), film: it.kind === 'video', dur: it.dur || '', used: u.length > 0, usedN: String(u.length), uploading: st.up[it.id] != null, pct: (st.up[it.id] || 0) + '%', ...extra }; }
+
+  renderVals() {
+    const st = this.state, c = st.c, role = this.role(), V = VIEW[st.view], canPub = role !== 'Contributor';
+    const cnt = {}; st.changes.forEach(ch => { cnt[ch.area] = (cnt[ch.area] || 0) + 1; });
+    const n = st.changes.length, chips = (list, cur, go) => list.map(f => ({ label: f[1].toUpperCase(), bg: cur === f[0] ? '#141110' : 'transparent', fg: cur === f[0] ? '#FBF8F2' : '#141110', go: () => go(f[0]) }));
+    const pimg = pid => { const p = this.prodById(pid); return this.media(p ? this.item(p.imgs[0]) : null); };
+    const prodOpts = c.products.map(p => ({ id: p.id, name: p.name }));
+    const out = {
+      desk: !st.mob, mob: st.mob, mainRef: this.mainRef, asideRef: this.asideRef, showWix: this.props.showWix ?? true,
+      roleName: role, roleUp: role.toUpperCase(), roleNote: ROLES[role], title: V[0], titleUp: V[0].toUpperCase(), sub: V[1], wixL: V[2],
+      nav: NAV.map(g => ({ label: g[0], items: g[1].map(x => { const on = st.view === x[0], k = cnt[x[0]] || 0; return { label: x[1], go: () => this.setState({ view: x[0], navOpen: false }), bg: on ? 'rgba(251,248,242,.09)' : 'transparent', fg: on ? '#E3A72F' : '#FBF8F2', hasBadge: k > 0, badge: String(k) }; }) })),
+      openNav: () => this.setState({ navOpen: true }), closeNav: () => this.setState({ navOpen: false }), navOpen: st.navOpen,
+      stL: n ? 'DRAFT · ' + n + (n > 1 ? ' CHANGES' : ' CHANGE') : 'LIVE · VERSION ' + st.hist[0].v, stBg: n ? '#E3A72F' : 'transparent', stBd: n ? '#E3A72F' : 'rgba(20,17,16,.3)',
+      undo: () => this.undo(), undoOp: n ? 1 : 0.35, discard: () => { if (!n) return; this.setState({ c: clone(st.pub), changes: [] }); this.flash('DRAFT DISCARDED · BACK TO VERSION ' + st.hist[0].v); },
+      pubL: canPub ? 'PUBLISH' + (n ? ' · ' + n : '') : 'SEND FOR REVIEW', pubOp: n ? 1 : 0.4, openPub: () => { if (n) this.setState({ pubOpen: true }); else this.flash('NOTHING TO PUBLISH YET'); },
+      isMap: st.view === 'map', isLib: st.view === 'library', isHero: st.view === 'hero', isProd: st.view === 'products', isNew: st.view === 'newin', isPairs: st.view === 'pairs', isEv: st.view === 'events', isWorn: st.view === 'worn', isLooks: st.view === 'looks', isCopy: st.view === 'copy', isSizes: st.view === 'sizes', isTeam: st.view === 'team', isHist: st.view === 'history',
+      prodOpts, mref: el => { if (el && el.dataset.v && el.getAttribute('src') !== el.dataset.v) el.setAttribute('src', el.dataset.v); }, stop: e => e.stopPropagation(), locked: !st.authed, logout: () => this.logout(),
+      lu: st.lu || '', lp: st.lp || '', setLu: e => this.setState({ lu: e.target.value, lErr: '' }), setLp: e => this.setState({ lp: e.target.value, lErr: '' }),
+      lBtn: st.lBusy ? 'SIGNING IN…' : 'SIGN IN', lOp: st.lBusy ? 0.6 : 1, doLogin: e => { if (e && e.preventDefault) e.preventDefault(); this.login(); }, hasLErr: !!st.lErr, lErr: st.lErr || '', hasToast: !!st.toast, toast: st.toast,
+    };
+
+    if (st.view === 'map') {
+      const pages = []; SLOTS.forEach(s => { let p = pages.find(x => x.page === s.page); if (!p) pages.push(p = { page: s.page, slots: [] }); p.slots.push(this.slotVM(s)); });
+      out.mapPages = pages.map(p => ({ ...p, meta: p.slots.length + ' SPOTS' + (p.slots.filter(x => x.empty).length ? ' · ' + p.slots.filter(x => x.empty).length + ' EMPTY' : '') }));
+      const s = SLOTS.find(x => x.id === st.sel); out.hasIns = !!s;
+      if (s) { const vm = this.slotVM(s), it = this.item(c.slots[s.id]);
+        out.ins = { ...vm, where: s.page.toUpperCase() + ' · ' + s.sec.toUpperCase(), pw: SHAPE[s.shape][2], close: () => this.setState({ sel: null }), clear: () => this.edit('slot-' + s.id, s.label + ' emptied', cc => { cc.slots[s.id] = null; }),
+          altL: it && it.kind === 'video' ? 'FILM DESCRIPTION' : 'ALT TEXT', alt: it ? it.alt : '', setAlt: e => it && this.editItem(it.id, 'alt-', 'Alt text · ' + it.name, { alt: e.target.value }),
+          cBg: it && it.consent ? '#E3A72F' : 'transparent', cMark: it && it.consent ? '✓' : '', cL: s.consent || (it && it.needsConsent) ? 'Consent recorded (required here)' : 'Shows a model: consent recorded',
+          toggleConsent: () => it && this.editItem(it.id, 'consent-', 'Consent · ' + it.name, { consent: !it.consent, needsConsent: it.needsConsent || !it.consent }) }; }
+      const tr = c.lib.filter(x => st.tray === 'all' || x.folder === st.tray);
+      out.trayF = chips(FOLDERS, st.tray, f => this.setState({ tray: f })); out.trayN = tr.length + ' FILES'; out.trayHead = s ? 'TAP TO PUT IN “' + s.label.toUpperCase() + '”' : 'LIBRARY · DRAG ONTO A SPOT';
+      out.trayHint = st.mob ? 'Tap a spot above, then tap a photo here to place it.' : 'Drag a photo onto any spot, or drop a file from your computer straight onto one.';
+      out.tray = tr.map(it => ({ ...this.media(it), name: it.name, film: it.kind === 'video', drag: e => { this.drag = it.id; try { e.dataTransfer.setData('text/plain', it.id); e.dataTransfer.effectAllowed = 'copy'; } catch (_) {} }, tap: () => { if (this.state.sel) this.assignSlot(this.state.sel, it.id); else this.flash('TAP A SPOT FIRST'); } }));
+    }
+
+    if (st.view === 'library') {
+      const q = st.q.trim().toLowerCase(), list = c.lib.filter(x => (st.folder === 'all' || x.folder === st.folder) && (!q || (x.name + ' ' + x.alt).toLowerCase().includes(q)));
+      out.libF = FOLDERS.map(f => ({ label: f[1].toUpperCase(), n: String(f[0] === 'all' ? c.lib.length : c.lib.filter(x => x.folder === f[0]).length), bg: st.folder === f[0] ? '#141110' : 'transparent', fg: st.folder === f[0] ? '#FBF8F2' : '#141110', go: () => this.setState({ folder: f[0] }) }));
+      out.q = st.q; out.setQ = e => this.setState({ q: e.target.value }); out.upFolder = st.folder === 'all' ? 'SS27 campaign (films to Film)' : FL[st.folder];
+      out.wixOn = !!st.wixLive; out.wixOff = !st.wixLive; out.mmChip = st.mmLive ? 'MEDIA MANAGER · ' + st.mmN + ' FILES · UPLOADS GO TO “NGWISA STUDIO”' : st.mmErr ? 'CMS CONNECTED · MEDIA MANAGER BLOCKED: ' + String(st.mmErr).toUpperCase().slice(0, 60) : 'CONNECTING TO MEDIA MANAGER…';
+      out.dzBg = st.dz ? 'rgba(216,18,25,.08)' : 'transparent'; out.dzOver = e => { e.preventDefault(); if (!this.state.dz) this.setState({ dz: true }); }; out.dzLeave = () => this.setState({ dz: false });
+      out.dzDrop = e => { e.preventDefault(); this.setState({ dz: false }); this.upload(e.dataTransfer.files, id => this.setState({ libSel: id })); };
+      out.libUpload = e => { this.upload(e.target.files, id => this.setState({ libSel: id })); e.target.value = ''; };
+      out.lib = list.map(it => this.tileVM(it, { outline: st.libSel === it.id ? '2px solid #141110' : '2px solid transparent', tap: () => this.setState({ libSel: it.id }) }));
+      out.libEmpty = !list.length; out.folderOpts = FOLDERS.slice(1).map(f => ({ id: f[0], label: f[1] }));
+      const it = this.item(st.libSel); out.hasDet = !!it;
+      if (it) { const u = this.usages(it.id);
+        out.det = { ...this.media(it), name: it.name, alt: it.alt, folder: it.folder, folderL: FL[it.folder].toUpperCase(), at: it.at, size: fkb(it.kb), dims: it.w ? it.w + '×' + it.h : '…', type: it.kind === 'video' ? 'FILM' : (it.name.split('.').pop() || '').toUpperCase(),
+          warns: this.wv(this.warns(it)), altL: it.kind === 'video' ? 'FILM DESCRIPTION' : 'ALT TEXT · WHAT’S IN THE PHOTO', canCrop: it.kind === 'image', needs: it.needsConsent,
+          nBg: it.needsConsent ? '#FBF8F2' : 'transparent', nMark: it.needsConsent ? '✓' : '', cBg: it.consent ? '#E3A72F' : 'transparent', cMark: it.consent ? '✓' : '',
+          uses: u.map(t => ({ t })), unused: !u.length, close: () => this.setState({ libSel: null }), crop: () => this.openCrop(it.id),
+          setAlt: e => this.editItem(it.id, 'alt-', 'Alt text · ' + it.name, { alt: e.target.value }),
+          toggleNeeds: () => this.editItem(it.id, 'needs-', 'Person in photo · ' + it.name, { needsConsent: !it.needsConsent }),
+          toggleConsent: () => this.editItem(it.id, 'consent-', 'Consent · ' + it.name, { consent: !it.consent }),
+          setFolder: e => this.editItem(it.id, 'folder-', it.name + ' → ' + FL[e.target.value], { folder: e.target.value }),
+          remove: () => { if (u.length) { this.flash('USED IN ' + u.length + (u.length > 1 ? ' PLACES' : ' PLACE') + ' · SWAP IT OUT FIRST'); return; } this.edit('del-' + it.id, 'Deleted ' + it.name, cc => { cc.lib = cc.lib.filter(x => x.id !== it.id); }); this.setState({ libSel: null });
+            if (it.wixId && this.state.mmLive) this.mm('/bulk/files/delete', { body: { fileIds: [it.wixId] } }).then(() => { this.setState(s => ({ mmN: Math.max(0, (s.mmN || 1) - 1) })); this.flash('MOVED TO WIX TRASH · RESTORE IT FROM MEDIA MANAGER'); }).catch(e => this.flash('WIX KEPT THE FILE · ' + String(e.message || e).toUpperCase())); } }; }
+    }
+
+    if (st.view === 'hero') {
+      const R = { 'hero-film': ['2 1 440px', '100%', 'Wide 16:9, at least 1920px across. Plays muted on a loop, so it needs no sound.'], 'hero-film-m': ['1 1 200px', '300px', 'Vertical 9:16 cut for phones. Keep the face in the middle third.'], 'hero-poster': ['2 1 440px', '100%', 'Shows while the film loads, and instead of it when a phone is saving data.'] };
+      out.heroSlots = ['hero-film', 'hero-film-m', 'hero-poster'].map(id => { const s = SLOTS.find(x => x.id === id); return { ...this.slotVM(s), flex: R[id][0], maxW: R[id][1], rule: R[id][2] }; });
+    }
+
+    if (st.view === 'products') {
+      const cur = this.prodById(st.prod) || c.products[0], pi = c.products.indexOf(cur);
+      out.prods = c.products.map(p => ({ name: p.name, n: String(p.imgs.length), ...this.media(this.item(p.imgs[0])), bg: p.id === cur.id ? '#141110' : 'transparent', fg: p.id === cur.id ? '#FBF8F2' : '#141110', tap: () => this.setState({ prod: p.id }) }));
+      const mv = (i, d) => this.edit('prod-' + cur.id, 'Photo order · ' + cur.name, cc => { const a = cc.products[pi].imgs, j = i + d; if (j < 0 || j >= a.length) return; [a[i], a[j]] = [a[j], a[i]]; });
+      out.pr = { name: cur.name, note: 'SYNCS TO WIX STORES › ' + cur.name.toUpperCase() + ' › MEDIA ON PUBLISH',
+        add: () => this.openPick({ kind: 'image', title: 'Add to ' + cur.name, folder: 'products', apply: id => this.edit('prod-' + cur.id, 'Photo added · ' + cur.name, cc => { if (!cc.products[pi].imgs.includes(id)) cc.products[pi].imgs.push(id); }) }),
+        photos: cur.imgs.map((id, i) => { const it = this.item(id); return { ...this.media(it), n: String(i + 1).padStart(2, '0'), role: i === 0 ? 'SHOP CARD' : i === 1 ? 'ON HOVER' : 'GALLERY', tagBg: i === 0 ? '#D81219' : '#141110', tagFg: '#FBF8F2', lOp: i ? 1 : 0.3, rOp: i < cur.imgs.length - 1 ? 1 : 0.3,
+          left: () => mv(i, -1), right: () => mv(i, 1), crop: () => this.openCrop(id), remove: () => { if (cur.imgs.length < 2) { this.flash('A PIECE NEEDS AT LEAST ONE PHOTO'); return; } this.edit('prod-' + cur.id, 'Photo removed · ' + cur.name, cc => { cc.products[pi].imgs.splice(i, 1); }); } }; }) };
+    }
+
+    if (st.view === 'newin') {
+      const ni = c.newin; out.newin = ni.map((pid, i) => ({ n: String(i + 1).padStart(2, '0'), name: (this.prodById(pid) || {}).name || pid, ...pimg(pid), uOp: i ? 1 : 0.3, dOp: i < ni.length - 1 ? 1 : 0.3,
+        up: () => this.edit('newin', 'New in rail order', cc => { if (i) [cc.newin[i - 1], cc.newin[i]] = [cc.newin[i], cc.newin[i - 1]]; }),
+        down: () => this.edit('newin', 'New in rail order', cc => { if (i < cc.newin.length - 1) [cc.newin[i + 1], cc.newin[i]] = [cc.newin[i], cc.newin[i + 1]]; }),
+        remove: () => this.edit('newin-rm-' + pid, 'Off the rail · ' + ((this.prodById(pid) || {}).name || pid), cc => { cc.newin = cc.newin.filter(x => x !== pid); }) }));
+      out.niOpts = prodOpts.filter(o => !ni.includes(o.id)); out.niPick = st.niPick; out.setNiPick = e => this.setState({ niPick: e.target.value });
+      out.niOp = ni.length < 6 && st.niPick ? 1 : 0.4; out.niCount = ni.length + ' / 6 ON THE RAIL';
+      out.niAdd = () => { const pid = this.state.niPick; if (!pid) { this.flash('CHOOSE A PIECE FIRST'); return; } if (ni.length >= 6) { this.flash('THE RAIL HOLDS SIX · TAKE ONE OFF FIRST'); return; } this.edit('newin-add-' + pid, 'On the rail · ' + this.prodById(pid).name, cc => { cc.newin.push(pid); }); this.setState({ niPick: '' }); };
+    }
+
+    if (st.view === 'pairs') {
+      out.pairs = c.pairs.map((p, i) => { const a = pimg(p.a), b = pimg(p.b); return { n: String(i + 1).padStart(2, '0'), name: p.n, a: p.a, b: p.b, aSrc: a.src, aPos: a.pos, bSrc: b.src, bPos: b.pos,
+        setName: e => this.edit('pair-n-' + i, 'Pair name · ' + e.target.value, cc => { cc.pairs[i].n = e.target.value; }),
+        setA: e => this.edit('pair-a-' + i, 'Pair ' + (i + 1) + ' call', cc => { cc.pairs[i].a = e.target.value; }), setB: e => this.edit('pair-b-' + i, 'Pair ' + (i + 1) + ' answer', cc => { cc.pairs[i].b = e.target.value; }),
+        remove: () => this.edit('pair-rm-' + i, 'Pair removed · ' + p.n, cc => { cc.pairs.splice(i, 1); }) }; });
+      out.addPair = () => this.edit('pair-add', 'New pair', cc => { cc.pairs.push({ n: 'New pair', a: c.products[0].id, b: c.products[1].id }); });
+    }
+
+    if (st.view === 'events') {
+      const ei = Math.min(st.ev, c.events.length - 1), e0 = c.events[ei]; out.hasEv = !!e0;
+      out.evs = c.events.map((e, i) => ({ t: e.t || 'Untitled', meta: [e.type, e.city, e.yr].filter(Boolean).join(' · ').toUpperCase(), ...this.media(this.item(e.img)), bg: i === ei ? '#141110' : 'transparent', fg: i === ei ? '#FBF8F2' : '#141110', bd: i === ei ? '#141110' : 'rgba(20,17,16,.25)', tap: () => this.setState({ ev: i }) }));
+      out.addEv = () => { this.edit('ev-add', 'New appearance', cc => { cc.events.unshift({ t: 'New appearance', type: '', city: '', yr: String(new Date().getFullYear()), img: '03456', gal: [], body: '' }); }); this.setState({ ev: 0 }); };
+      if (e0) { const fld = k => e => this.edit('ev-' + k + ei, 'Appearance · ' + (e0.t || 'untitled'), cc => { cc.events[ei][k] = e.target.value; });
+        out.ev = { ...e0, ...this.media(this.item(e0.img)), setT: fld('t'), setType: fld('type'), setCity: fld('city'), setYr: fld('yr'), setBody: fld('body'),
+          cover: () => this.openPick({ kind: 'image', title: 'Cover · ' + e0.t, folder: 'events', apply: id => this.edit('ev-img' + ei, 'Cover · ' + e0.t, cc => { cc.events[ei].img = id; }) }),
+          addGal: () => this.openPick({ kind: 'image', title: 'Gallery · ' + e0.t, folder: 'events', apply: id => this.edit('ev-gal' + ei, 'Gallery · ' + e0.t, cc => { cc.events[ei].gal.push(id); }) }),
+          gal: e0.gal.map((id, k) => ({ ...this.media(this.item(id)), remove: () => this.edit('ev-gal' + ei, 'Gallery · ' + e0.t, cc => { cc.events[ei].gal.splice(k, 1); }) })),
+          remove: () => { this.edit('ev-rm' + ei, 'Deleted appearance · ' + e0.t, cc => { cc.events.splice(ei, 1); }); this.setState({ ev: 0 }); } }; }
+    }
+
+    if (st.view === 'worn') {
+      const on = c.worn.filter(w => w.show).length, hid = c.worn.length - on;
+      out.wornSum = on + ' SHOWING · ' + hid + ' HIDDEN';
+      out.worn = c.worn.map((w, i) => { const it = this.item(w.img), ok = true, live = w.show, block = false;
+        return { ...this.media(it), h: w.h, city: w.city, op: live ? 1 : 0.55, tag: block ? 'BLOCKED · NO CONSENT' : live ? 'ON THE SITE' : 'HIDDEN', tagBg: block ? '#D81219' : live ? '#141110' : '#FBF8F2', tagFg: block || live ? '#FBF8F2' : '#141110',
+          cBg: ok ? '#141110' : 'transparent', cMark: ok ? '✓' : '', sBg: w.show ? '#141110' : 'transparent', sFg: w.show ? '#FBF8F2' : '#141110', sL: w.show ? 'SHOWING · HIDE' : 'SHOW ON SITE', sOp: ok || w.show ? 1 : 0.4,
+          setH: e => this.edit('worn-h' + i, 'Worn by you · handle', cc => { cc.worn[i].h = e.target.value; }), setCity: e => this.edit('worn-c' + i, 'Worn by you · city', cc => { cc.worn[i].city = e.target.value; }),
+          toggleConsent: () => it && this.edit('worn-ok' + i, 'Consent · ' + (w.h || it.name), cc => { const x = cc.lib.find(y => y.id === it.id); x.consent = !x.consent; x.needsConsent = true; if (!x.consent) cc.worn[i].show = false; }),
+          toggleShow: () => { this.edit('worn-s' + i, (w.show ? 'Hidden · ' : 'Showing · ') + (w.h || 'photo'), cc => { cc.worn[i].show = !cc.worn[i].show; }); } }; });
+      out.addWorn = () => this.openPick({ kind: 'image', title: 'Add to Worn by you', folder: 'worn', apply: id => this.edit('worn-add-' + id, 'Worn by you · new photo', cc => { const x = cc.lib.find(y => y.id === id); if (x) x.needsConsent = true; cc.worn.unshift({ img: id, h: '', city: '', show: false }); }) });
+    }
+
+    if (st.view === 'looks') {
+      const li = st.look, L = c.looks[li];
+      out.lookTabs = c.looks.map((l, i) => ({ n: l.n.toUpperCase(), k: l.spots.length + ' PTS', bg: i === li ? '#141110' : 'transparent', fg: i === li ? '#FBF8F2' : '#141110', go: () => this.setState({ look: i }) }));
+      out.lk = { ...this.media(this.item(L.img)), none: !L.spots.length,
+        addSpot: e => { const r = e.currentTarget.getBoundingClientRect(), x = Math.round((e.clientX - r.left) / r.width * 100), y = Math.round((e.clientY - r.top) / r.height * 100); this.edit('look-add' + li + Date.now(), L.n + ' · new point', cc => { cc.looks[li].spots.push({ x, y, p: '' }); }); },
+        change: () => this.openPick({ kind: 'image', title: L.n + ' photo', folder: 'campaign', apply: id => this.edit('look-img' + li, L.n + ' · photo', cc => { cc.looks[li].img = id; }) }),
+        spots: L.spots.map((p, k) => ({ n: String(k + 1), left: p.x + '%', top: p.y + '%', val: p.p, set: e => this.edit('look-p' + li + k, L.n + ' · point ' + (k + 1), cc => { cc.looks[li].spots[k].p = e.target.value; }), remove: () => this.edit('look-rm' + li + k, L.n + ' · point removed', cc => { cc.looks[li].spots.splice(k, 1); }) })) };
+    }
+
+    if (st.view === 'copy') { const parts = f => { const p = f[1].split(' · '); return p.length > 2 ? [p[0], p[1], p.slice(2).join(' · ')] : [p[0], 'General', p[1]]; };
+      const tc = s => s.toLowerCase().replace(/(^|[\s(])\S/g, m => m.toUpperCase()).replace(/\b(Of|And|By|In|On|To|The)\b/g, w => w.toLowerCase()).replace(/^\w/, m => m.toUpperCase());
+      const pages = [...new Set(COPY.map(f => parts(f)[0]))], cur = pages.includes(st.copyPage) ? st.copyPage : pages[0];
+      const dr = f => (c.copy[f[0]] || '') !== st.pub.copy[f[0]];
+      out.copyTabs = pages.map(p => { const fs = COPY.filter(f => parts(f)[0] === p), on = p === cur; return { label: p, n: String(fs.length), hasDraft: fs.some(dr), bg: on ? '#141110' : 'transparent', fg: on ? '#FBF8F2' : '#141110', go: () => this.setState({ copyPage: p }) }; });
+      out.copyHint = 'Editing the ' + tc(cur) + ' page' + (cur === 'FOOTER' || cur === 'CONTACT' ? ' (shown on every page)' : '') + '. Changes stay in draft until you publish. A blank field keeps the original wording.';
+      const secs = []; COPY.filter(f => parts(f)[0] === cur).forEach(f => { const [, sec, lab] = parts(f); let g = secs.find(x => x.sec === sec); if (!g) secs.push(g = { sec, fs: [] }); g.fs.push([f, lab]); });
+      out.copySecs = secs.map(g => ({ title: g.sec === 'General' ? tc(cur) + ' details' : tc(g.sec), where: g.fs.length + (g.fs.length > 1 ? ' FIELDS' : ' FIELD'),
+        fields: g.fs.map(([f, lab]) => { const v = c.copy[f[0]] || '', over = v.length > f[2];
+          return { label: lab, v, area: f[2] > 60, line: f[2] <= 60, rows: String(Math.min(6, Math.max(2, Math.ceil(f[2] / 70)))), cnt: v.length + ' / ' + f[2], cntC: over ? '#D81219' : '#6A6057', bd: over ? '#D81219' : 'rgba(20,17,16,.35)', draft: dr(f), changed: v !== f[3],
+            set: e => this.edit('copy-' + f[0], 'Text · ' + f[1].toLowerCase(), cc => { cc.copy[f[0]] = e.target.value; }), reset: e => { e.preventDefault(); this.edit('copy-' + f[0], 'Reset · ' + f[1].toLowerCase(), cc => { cc.copy[f[0]] = f[3]; }); } }; }) })); }
+
+    if (st.view === 'sizes') {
+      const si = st.sc, S = c.sizes[si], pS = st.pub.sizes[si] || S;
+      out.sizeTabs = c.sizes.map((s, i) => ({ label: s.cat.toUpperCase(), bg: i === si ? '#141110' : 'transparent', fg: i === si ? '#FBF8F2' : '#141110', go: () => this.setState({ sc: i }) }));
+      out.szCols = 'minmax(130px,1.4fr) repeat(' + S.sz.length + ',minmax(64px,1fr))'; out.szMin = (130 + S.sz.length * 70) + 'px';
+      const cells = []; S.rows.forEach((r, ri) => r.forEach((v, ci) => { if (!ci) cells.push({ head: true, cell: false, v }); else { const changed = String(v) !== String(((pS.rows[ri] || [])[ci])); cells.push({ head: false, cell: true, v: String(v), bd: changed ? '#E3A72F' : 'rgba(20,17,16,.25)',
+        set: e => this.edit('size-' + si + '-' + ri + '-' + ci, 'Size guide · ' + S.cat + ' ' + r[0] + ' ' + S.sz[ci - 1], cc => { cc.sizes[si].rows[ri][ci] = e.target.value; }) }); } }));
+      out.sz = { heads: S.sz.map(l => ({ l })), cells, note: S.note, setNote: e => this.edit('size-note' + si, 'Size guide note · ' + S.cat, cc => { cc.sizes[si].note = e.target.value; }) };
+    }
+
+    if (st.view === 'team') {
+      const own = role === 'Owner'; out.canTeam = own; out.noTeam = !own;
+      out.roles = ['Owner', 'Editor', 'Contributor'].map(r => ({ n: r, d: ROLES[r], bg: r === role ? '#141110' : 'rgba(20,17,16,.06)', fg: r === role ? '#FBF8F2' : '#141110' }));
+      out.team = c.team.map((m, i) => ({ n: m.n, e: m.e + (m.pending ? ' · invite sent' : ''), r: m.r, rUp: m.r.toUpperCase(), fixed: m.r === 'Owner' || !own, editable: m.r !== 'Owner' && own,
+        setR: e => this.edit('team-r' + i, 'Role · ' + m.e + ' → ' + e.target.value, cc => { cc.team[i].r = e.target.value; }), remove: () => this.edit('team-rm' + i, 'Removed · ' + m.e, cc => { cc.team.splice(i, 1); }) }));
+      out.inv = st.inv; out.setInv = e => this.setState({ inv: e.target.value }); out.invR = st.invR; out.setInvR = e => this.setState({ invR: e.target.value });
+      out.sendInv = () => { const e = st.inv.trim(); if (!/^\S+@\S+\.\S+$/.test(e)) { this.flash('ENTER A VALID EMAIL'); return; } this.edit('team-inv-' + e, 'Invited ' + e + ' as ' + st.invR, cc => { cc.team.push({ n: e.split('@')[0], e, r: st.invR, pending: true }); }); this.setState({ inv: '' }); this.flash('INVITE QUEUED · WIX SENDS IT ON PUBLISH'); };
+    }
+
+    if (st.view === 'history') {
+      const ago = t => { const m = Math.round((Date.now() - t) / 60000); return m < 1 ? 'JUST NOW' : m + ' MIN AGO'; };
+      out.draftList = st.changes.slice().reverse().map(ch => ({ label: ch.label, meta: ch.by.toUpperCase() + ' · ' + ago(ch.t) })); out.noDraft = !n;
+      out.versions = st.hist.map((h, i) => ({ v: String(h.v), sum: h.sum, meta: h.at + ' · ' + h.by.toUpperCase(), live: i === 0, old: i > 0, bg: i === 0 ? '#D81219' : 'rgba(20,17,16,.08)', fg: i === 0 ? '#FBF8F2' : '#141110',
+        restore: () => { this.edit('restore-' + h.v, 'Restored version ' + h.v, cc => { const s = clone(h.snap); Object.keys(s).forEach(k => { cc[k] = s[k]; }); }); this.flash('VERSION ' + h.v + ' IS NOW THE DRAFT · PUBLISH TO MAKE IT LIVE'); } }));
+    }
+
+    out.hasPick = !!st.pick;
+    if (st.pick) { const o = st.pick, items = c.lib.filter(x => (!o.kind || x.kind === o.kind) && (st.pickF === 'all' || x.folder === st.pickF));
+      out.pk = { title: o.title, accept: o.kind === 'video' ? 'video/*' : 'image/*', empty: !items.length, folders: chips(FOLDERS, st.pickF, f => this.setState({ pickF: f })),
+        items: items.map(it => ({ ...this.media(it), ...this.wdot(this.warns(it)), tap: () => { o.apply(it.id); this.setState({ pick: null }); } })),
+        upload: e => { this.upload(e.target.files, id => o.apply(id)); e.target.value = ''; this.setState({ pick: null }); } };
+    }
+    out.closePick = () => this.setState({ pick: null });
+
+    out.hasCrop = !!st.crop;
+    if (st.crop) { const it = this.item(st.crop), f = st.cf || it.focal;
+      out.cr = { name: it.name.toUpperCase(), src: it.src, left: f.x + '%', top: f.y + '%', pos: f.x + '% ' + f.y + '%',
+        shapes: [['ARCH · SHOP, CATEGORIES', '3/4', '200px 200px 14px 14px'], ['SQUARE · WORN BY YOU', '1/1', '14px'], ['PORTRAIT · STORY', '4/5', '14px'], ['BANNER · 16:9', '16/9', '14px']].map(s => ({ l: s[0], ratio: s[1], rad: s[2] })),
+        down: e => { this.cd = true; try { e.currentTarget.setPointerCapture(e.pointerId); } catch (_) {} this.setF(e); }, move: e => { if (this.cd) this.setF(e); }, up: () => { this.cd = false; },
+        reset: () => this.setState({ cf: { x: 50, y: 50 } }), cancel: () => this.setState({ crop: null, cf: null }),
+        save: () => { const ff = this.state.cf; this.editItem(it.id, 'focal-', 'Focus point · ' + it.name, { focal: ff }); this.setState({ crop: null, cf: null }); this.flash('FOCUS SAVED · EVERY FRAME FOLLOWS IT'); } };
+    }
+
+    out.pubOpen = st.pubOpen; out.closePub = () => this.setState({ pubOpen: false });
+    if (st.pubOpen) { const k = this.checks(), labels = [...new Set(st.changes.map(x => x.label))], blocked = k.B.length > 0;
+      out.pb = { kicker: canPub ? 'READY TO GO LIVE · VERSION ' + (st.hist[0].v + 1) : 'SEND TO THE OWNER', title: (canPub ? 'Publish ' : 'Send ') + n + (n > 1 ? ' changes' : ' change'),
+        items: labels.slice(-8).reverse().map(t => ({ t })).concat(labels.length > 8 ? [{ t: '+ ' + (labels.length - 8) + ' more' }] : []),
+        B: k.B.map(t => ({ t })), hasB: blocked, W: k.W.slice(0, 5).map(t => ({ t })).concat(k.W.length > 5 ? [{ t: '+ ' + (k.W.length - 5) + ' more' }] : []), hasW: k.W.length > 0,
+        op: blocked ? 0.4 : 1, goL: canPub ? 'PUBLISH TO THE SITE' : 'SEND FOR REVIEW',
+        go: () => { if (blocked) { this.flash('FIX THE ITEMS ABOVE FIRST'); return; }
+          if (!canPub) { this.setState({ pubOpen: false }); this.flash('SENT · THE OWNER WILL REVIEW AND PUBLISH'); return; }
+          const v = st.hist[0].v + 1, at = new Date().toLocaleString('en-GB', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }).toUpperCase().replace(',', ' ·');
+          this.setState({ pub: clone(c), changes: [], pubOpen: false, hist: [{ v, at, by: role, sum: labels.slice(-3).reverse().join(', ') + (labels.length > 3 ? ' +' + (labels.length - 3) : ''), snap: clone(c) }].concat(st.hist) });
+          this.pushWix(c).then(() => this.flash('LIVE ON WIX · VERSION ' + v)).catch(er => this.flash('WIX DIDN’T SAVE · ' + String(er.message || er).toUpperCase())); } };
+    }
+    return out;
+  }
+}
+
+</script>
+</body>
+</html>
