@@ -640,12 +640,12 @@ class Component extends DCLogic {
     if (!N) { this.setState({ lErr: 'Wix is still loading. Try again in a moment.' }); return; }
     this.setState({ lBusy: true, lErr: '' });
     try { const r = await N.login(u, p);
-      if (r !== 'SUCCESS') { this.setState({ lBusy: false, lp: '', lErr: r === 'EMAIL_VERIFICATION_REQUIRED' ? 'Wix needs you to confirm your email first. Sign in once on the shop.' : 'That email and password don’t match.' }); return; }
-      await this.checkOwner();
+      if (r !== 'SUCCESS') { this.setState({ lBusy: false, lp: '', lErr: /EMAIL_VERIFICATION/.test(r) ? 'Wix needs you to confirm your email first. Sign in once on the shop.' : /OWNER_APPROVAL/.test(r) ? 'This account is waiting for site owner approval in Wix.' : 'That email and password don’t match.' }); return; }
+      await this.checkOwner(true);
     } catch (er) { this.setState({ lBusy: false, lErr: er.message || 'Sign-in failed.' }); } }
-  async checkOwner() { const N = window.NGW, m = N ? await N.me() : null;
+  async checkOwner(fromLogin) { const N = window.NGW, m = N ? await N.me() : null;
     if (m && m.id === OWNER_ID) { this.setState({ authed: true, lBusy: false, lp: '', lErr: '' }); this.loadWix(); }
-    else this.setState({ authed: false, lBusy: false, lErr: m ? 'This account can’t edit the Studio.' : '' }); }
+    else this.setState({ authed: false, lBusy: false, lErr: m ? 'Signed in as ' + (m.email || 'a member') + ', but only the owner account can edit the Studio.' : fromLogin ? 'Signed in, but Wix didn’t return your member profile. Try again.' : '' }); }
   logout() { const N = window.NGW; this.setState({ authed: false, wixLive: false }); if (N) N.logout(); }
   async q(id) { const r = await window.NGW.request('/wix-data/v2/items/query', { body: { dataCollectionId: id, query: { cursorPaging: { limit: 100 } } } }); return ((r && r.dataItems) || []).map(d => ({ ...d.data, _id: d.id || (d.data && d.data._id) })); }
   mediaUrl(v) { if (!v) return ''; if (typeof v === 'object') v = v.url || ''; const m = String(v).match(/^wix:(image|video):\/\/v1\/([^/#]+)/); if (!m) return String(v); return m[1] === 'image' ? 'https://static.wixstatic.com/media/' + m[2] : 'https://video.wixstatic.com/video/' + m[2] + '/1080p/mp4/file.mp4'; }

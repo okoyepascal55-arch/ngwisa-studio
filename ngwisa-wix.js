@@ -100,7 +100,7 @@
       const fr = document.createElement('iframe'); fr.style.display = 'none';
       const done = () => { removeEventListener('message', on); clearTimeout(tm); fr.remove(); };
       const on = e => { const d = e.data; if (!d || d.state !== state) return; done(); if (d.error) reject(new Error('Sign-in was refused: ' + d.error)); else if (d.code) resolve(d.code); else reject(new Error('Sign-in could not finish.')); };
-      const tm = setTimeout(() => { done(); reject(new Error('Sign-in timed out. Please try again.')); }, 120000);
+      const tm = setTimeout(() => { done(); reject(new Error('Sign-in could not finish on ' + location.origin + '. Add this domain to the Wix headless app’s allowed redirect domains.')); }, 20000);
       addEventListener('message', on); fr.src = url; document.body.appendChild(fr);
     });
   }
