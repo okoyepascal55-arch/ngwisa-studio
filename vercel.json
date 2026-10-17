@@ -1,8 +1,10 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
+  "redirects": [
+    { "source": "/studio/(.*)", "destination": "/studio", "permanent": false }
+  ],
   "rewrites": [
     { "source": "/", "destination": "/Ngwisa%20Site%20Deploy.dc.html" },
-    { "source": "/studio", "destination": "/Ngwisa%20Site%20Deploy.dc.html" },
-    { "source": "/studio/(.*)", "destination": "/Ngwisa%20Site%20Deploy.dc.html" }
+    { "source": "/studio", "destination": "/Ngwisa%20Site%20Deploy.dc.html" }
   ]
 }
