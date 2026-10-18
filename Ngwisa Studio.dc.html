@@ -64,6 +64,93 @@
 
 <div style="padding:28px clamp(16px,3vw,40px) 80px;display:flex;flex-direction:column;gap:28px">
 
+<sc-if value="{{ hasBack }}" hint-placeholder-val="{{ false }}"><button onClick="{{ goBack }}" style="align-self:flex-start;height:38px;padding:0 16px;border-radius:999px;border:1.5px solid #141110;background:transparent;color:#141110;font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer;white-space:nowrap">← {{ backL }}</button></sc-if>
+
+<!-- PAGE: the site's pages and sections, in site order -->
+<sc-if value="{{ isPage }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;gap:32px;flex-wrap:wrap;align-items:flex-start">
+<div style="flex:1 1 520px;min-width:0;display:flex;flex-direction:column;gap:22px">
+<div style="display:flex;flex-wrap:wrap;gap:8px">
+<sc-for list="{{ pgSecs }}" as="p" hint-placeholder-count="6"><button onClick="{{ p.go }}" style="height:44px;padding:0 18px;border-radius:999px;border:1.5px solid #141110;background:transparent;color:#141110;font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer;display:flex;gap:8px;align-items:center;white-space:nowrap">{{ p.label }}<sc-if value="{{ p.hasDraft }}" hint-placeholder-val="{{ false }}"><span style="width:8px;height:8px;border-radius:50%;background:#E3A72F"></span></sc-if></button></sc-for>
+</div>
+<sc-for list="{{ pgSections }}" as="g" hint-placeholder-count="3">
+<section data-sec="{{ g.key }}" style="display:flex;flex-direction:column;gap:18px;padding:24px;scroll-margin-top:20px;border-radius:24px;background:#FFFFFF;border:1.5px solid rgba(20,17,16,.12)">
+<div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap"><div style="display:flex;gap:12px;align-items:baseline;min-width:0"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em;color:#D81219">{{ g.n }}</span><h3 style="margin:0;font:800 24px/1 'Bricolage Grotesque';letter-spacing:-.03em;color:#141110">{{ g.name }}</h3><sc-if value="{{ g.draft }}" hint-placeholder-val="{{ false }}"><span style="padding:4px 6px;border-radius:999px;background:#E3A72F;color:#141110;font:500 8px/1 'DM Mono',monospace;letter-spacing:.12em">DRAFT</span></sc-if></div><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em;color:#6A6057">{{ g.where }}</span></div>
+<sc-if value="{{ g.hasNote }}" hint-placeholder-val="{{ false }}"><p style="margin:0;font:400 15px/1.5 'Bricolage Grotesque';color:#6A6057;text-wrap:pretty">{{ g.note }}</p></sc-if>
+<sc-if value="{{ g.hasSlots }}" hint-placeholder-val="{{ false }}">
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:22px 16px;align-items:end">
+<sc-for list="{{ g.slots }}" as="s" hint-placeholder-count="2">
+<div style="display:flex;flex-direction:column;gap:8px;min-width:0">
+<button onClick="{{ s.tap }}" onDragOver="{{ s.dOver }}" onDragLeave="{{ s.dLeave }}" onDrop="{{ s.drop }}" style="position:relative;display:block;width:100%;aspect-ratio:{{ s.ratio }};border-radius:{{ s.rad }};overflow:hidden;padding:0;border:0;outline:{{ s.outline }};outline-offset:3px;background:rgba(20,17,16,.07);cursor:pointer">
+<sc-if value="{{ s.notVid }}" hint-placeholder-val="{{ true }}"><img ref="{{ mref }}" data-v="{{ s.src }}" alt="" draggable="false" style="width:100%;height:100%;object-fit:cover;object-position:{{ s.pos }};display:block"></sc-if>
+<sc-if value="{{ s.isVid }}" hint-placeholder-val="{{ false }}"><video ref="{{ mref }}" data-v="{{ s.vsrc }}" muted="{{ true }}" autoPlay="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" style="width:100%;height:100%;object-fit:cover;display:block"></video></sc-if>
+<sc-if value="{{ s.empty }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;inset:8px;border:1.5px dashed rgba(20,17,16,.4);border-radius:{{ s.rad }};display:flex;align-items:center;justify-content:center;padding:10px;text-align:center;font:500 9px/1.4 'DM Mono',monospace;letter-spacing:.14em;color:#6A6057">{{ s.emptyL }}</span></sc-if>
+<span style="position:absolute;left:8px;right:8px;bottom:8px;display:flex;gap:4px;flex-wrap:wrap;align-items:center">
+<span style="padding:5px 7px;border-radius:999px;background:#141110;color:#FBF8F2;font:500 9px/1 'DM Mono',monospace;letter-spacing:.12em">{{ s.kindL }}</span>
+<sc-if value="{{ s.draft }}" hint-placeholder-val="{{ false }}"><span style="padding:5px 7px;border-radius:999px;background:#E3A72F;color:#141110;font:500 9px/1 'DM Mono',monospace;letter-spacing:.12em">DRAFT</span></sc-if>
+<sc-if value="{{ s.hasWarn }}" hint-placeholder-val="{{ false }}"><span style="width:19px;height:19px;border-radius:50%;background:{{ s.warnBg }};color:{{ s.warnFg }};font:700 11px/19px 'DM Mono',monospace;text-align:center">!</span></sc-if>
+</span>
+</button>
+<div style="display:flex;flex-direction:column;gap:5px;min-width:0"><span style="font:500 9px/1 'DM Mono',monospace;letter-spacing:.16em;color:#6A6057">{{ s.sec }}</span><span style="font:600 14px/1.25 'Bricolage Grotesque'">{{ s.label }}</span></div>
+</div>
+</sc-for>
+</div>
+</sc-if>
+<sc-for list="{{ g.fields }}" as="f" hint-placeholder-count="2">
+<label style="display:flex;flex-direction:column;gap:8px">
+<span style="display:flex;justify-content:space-between;gap:10px;align-items:center"><span style="display:flex;gap:8px;align-items:center;font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#3A3430">{{ f.label }}<sc-if value="{{ f.draft }}" hint-placeholder-val="{{ false }}"><span style="padding:4px 6px;border-radius:999px;background:#E3A72F;color:#141110;font:500 8px/1 'DM Mono',monospace;letter-spacing:.12em">DRAFT</span></sc-if></span><span style="display:flex;gap:12px;align-items:center"><sc-if value="{{ f.changed }}" hint-placeholder-val="{{ false }}"><button onClick="{{ f.reset }}" style="padding:0;border:0;background:none;color:#141110;font:500 10px/1 'DM Mono',monospace;letter-spacing:.12em;text-decoration:underline;cursor:pointer">RESET TO ORIGINAL</button></sc-if><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.1em;color:{{ f.cntC }}">{{ f.cnt }}</span></span></span>
+<sc-if value="{{ f.area }}" hint-placeholder-val="{{ false }}"><textarea value="{{ f.v }}" onChange="{{ f.set }}" rows="{{ f.rows }}" style="padding:14px 18px;border-radius:20px;border:1.5px solid {{ f.bd }};background:#FBF8F2;font:400 16px/1.5 'Bricolage Grotesque';color:#141110;outline:none;resize:vertical"></textarea></sc-if>
+<sc-if value="{{ f.line }}" hint-placeholder-val="{{ true }}"><input value="{{ f.v }}" onChange="{{ f.set }}" style="height:48px;padding:0 18px;border-radius:999px;border:1.5px solid {{ f.bd }};background:#FBF8F2;font:400 16px 'Bricolage Grotesque';color:#141110;outline:none;width:100%;min-width:0"></sc-if>
+</label>
+</sc-for>
+<sc-if value="{{ g.hasLinks }}" hint-placeholder-val="{{ false }}"><div style="display:flex;flex-wrap:wrap;gap:8px">
+<sc-for list="{{ g.links }}" as="l" hint-placeholder-count="1"><button onClick="{{ l.go }}" style="height:44px;padding:0 18px;border:0;border-radius:999px;background:#141110;color:#FBF8F2;font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer;display:flex;gap:10px;align-items:center;white-space:nowrap" style-hover="background:#D81219">{{ l.label }}<span style="opacity:.6">{{ l.meta }}</span>→</button></sc-for>
+</div></sc-if>
+</section>
+</sc-for>
+</div>
+
+<aside style="flex:0 1 350px;min-width:min(100%,290px);position:sticky;top:20px;display:flex;flex-direction:column;gap:22px">
+<sc-if value="{{ hasIns }}" hint-placeholder-val="{{ true }}">
+<div ref="{{ asideRef }}" style="display:flex;flex-direction:column;gap:14px;padding:20px;border-radius:22px;background:#141110;color:#FBF8F2">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><span style="font:500 10px/1.3 'DM Mono',monospace;letter-spacing:.16em;color:#E3A72F">{{ ins.where }}</span><button onClick="{{ ins.close }}" aria-label="Close" style="width:36px;height:36px;border-radius:50%;border:1.5px solid rgba(251,248,242,.4);background:transparent;color:#FBF8F2;font:400 16px/1 'DM Mono',monospace;cursor:pointer">×</button></div>
+<h3 style="margin:0;font:700 26px/1.05 'Bricolage Grotesque';letter-spacing:-.02em">{{ ins.label }}</h3>
+<div style="width:{{ ins.pw }};margin:0 auto;aspect-ratio:{{ ins.ratio }};border-radius:{{ ins.rad }};overflow:hidden;background:rgba(251,248,242,.08)">
+<sc-if value="{{ ins.notVid }}" hint-placeholder-val="{{ true }}"><img ref="{{ mref }}" data-v="{{ ins.src }}" alt="" style="width:100%;height:100%;object-fit:cover;object-position:{{ ins.pos }};display:block"></sc-if>
+<sc-if value="{{ ins.isVid }}" hint-placeholder-val="{{ false }}"><video ref="{{ mref }}" data-v="{{ ins.vsrc }}" muted="{{ true }}" autoPlay="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" style="width:100%;height:100%;object-fit:cover;display:block"></video></sc-if>
+</div>
+<span style="font:500 10px/1.5 'DM Mono',monospace;letter-spacing:.08em;color:#BDB4A9;overflow-wrap:anywhere">{{ ins.fileL }}</span>
+<sc-for list="{{ ins.warns }}" as="w" hint-placeholder-count="0"><div style="display:flex;gap:10px;align-items:flex-start"><span style="flex:none;width:8px;height:8px;margin-top:6px;border-radius:50%;background:{{ w.dot }}"></span><span style="font:400 14px/1.45 'Bricolage Grotesque';color:#FBF8F2;text-wrap:pretty">{{ w.t }}</span></div></sc-for>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+<button onClick="{{ ins.pick }}" style="height:44px;border:0;border-radius:999px;background:#FBF8F2;color:#141110;font:500 10px/1 'DM Mono',monospace;letter-spacing:.12em;cursor:pointer;white-space:nowrap" style-hover="background:#E3A72F">FROM LIBRARY</button>
+<label style="height:44px;border:1.5px solid rgba(251,248,242,.5);border-radius:999px;color:#FBF8F2;font:500 10px/1 'DM Mono',monospace;letter-spacing:.12em;cursor:pointer;display:flex;align-items:center;justify-content:center;white-space:nowrap"><input type="file" accept="{{ ins.accept }}" onChange="{{ ins.upload }}" style="display:none">UPLOAD NEW</label>
+<sc-if value="{{ ins.canCrop }}" hint-placeholder-val="{{ true }}"><button onClick="{{ ins.crop }}" style="height:44px;border:1.5px solid rgba(251,248,242,.5);border-radius:999px;background:transparent;color:#FBF8F2;font:500 10px/1 'DM Mono',monospace;letter-spacing:.12em;cursor:pointer;white-space:nowrap">CROP &amp; FOCUS</button></sc-if>
+<sc-if value="{{ ins.has }}" hint-placeholder-val="{{ true }}"><button onClick="{{ ins.clear }}" style="height:44px;border:1.5px solid rgba(251,248,242,.5);border-radius:999px;background:transparent;color:#FBF8F2;font:500 10px/1 'DM Mono',monospace;letter-spacing:.12em;cursor:pointer;white-space:nowrap">EMPTY SPOT</button></sc-if>
+</div>
+<sc-if value="{{ ins.has }}" hint-placeholder-val="{{ true }}">
+<label style="display:flex;flex-direction:column;gap:8px"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#BDB4A9">{{ ins.altL }}</span><textarea value="{{ ins.alt }}" onChange="{{ ins.setAlt }}" rows="2" placeholder="Describe the piece and who wears it" style="padding:12px 16px;border-radius:18px;border:1.5px solid rgba(251,248,242,.4);background:transparent;color:#FBF8F2;font:400 15px/1.4 'Bricolage Grotesque';outline:none;resize:vertical"></textarea></label>
+</sc-if>
+</div>
+</sc-if>
+
+<div style="display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;justify-content:space-between;gap:10px"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em">{{ trayHead }}</span><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#6A6057">{{ trayN }}</span></div>
+<div style="display:flex;gap:6px;flex-wrap:wrap"><sc-for list="{{ trayF }}" as="f" hint-placeholder-count="6"><button onClick="{{ f.go }}" style="height:32px;padding:0 12px;border-radius:999px;border:1.5px solid #141110;background:{{ f.bg }};color:{{ f.fg }};font:500 9px/1 'DM Mono',monospace;letter-spacing:.12em;cursor:pointer;white-space:nowrap">{{ f.label }}</button></sc-for></div>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px">
+<sc-for list="{{ tray }}" as="t" hint-placeholder-count="9">
+<button draggable="true" onDragStart="{{ t.drag }}" onClick="{{ t.tap }}" title="{{ t.name }}" style="position:relative;aspect-ratio:3/4;border-radius:12px;overflow:hidden;padding:0;border:0;cursor:grab;background:rgba(20,17,16,.07)">
+<sc-if value="{{ t.notVid }}" hint-placeholder-val="{{ true }}"><img ref="{{ mref }}" data-v="{{ t.src }}" alt="" draggable="false" style="width:100%;height:100%;object-fit:cover;object-position:{{ t.pos }};display:block;pointer-events:none"></sc-if>
+<sc-if value="{{ t.isVid }}" hint-placeholder-val="{{ false }}"><video ref="{{ mref }}" data-v="{{ t.vsrc }}" muted="{{ true }}" style="width:100%;height:100%;object-fit:cover;display:block;pointer-events:none"></video></sc-if>
+<sc-if value="{{ t.film }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;left:6px;bottom:6px;padding:4px 6px;border-radius:999px;background:#141110;color:#FBF8F2;font:500 8px/1 'DM Mono',monospace;letter-spacing:.12em">FILM</span></sc-if>
+</button>
+</sc-for>
+</div>
+<span style="font:400 13px/1.45 'Bricolage Grotesque';color:#6A6057;text-wrap:pretty">{{ trayHint }}</span>
+</div>
+</aside>
+</div>
+</sc-if>
+
 <!-- SITE MAP -->
 <sc-if value="{{ isMap }}" hint-placeholder-val="{{ true }}">
 <div style="display:flex;gap:32px;flex-wrap:wrap;align-items:flex-start">
@@ -565,14 +652,14 @@ const FOLDERS = [['all', 'All'], ['campaign', 'SS27 campaign'], ['products', 'Pr
 const FL = Object.fromEntries(FOLDERS);
 const SHAPE = { arch: ['3/4', '200px 200px 14px 14px', '70%'], rect: ['4/5', '14px', '70%'], wide: ['16/9', '14px', '100%'], tall: ['9/16', '14px', '46%'] };
 const SLOTS = [
-  ['Home', 'Hero', 'hero-film', 'Film · desktop', 'wide', 'video', 1920],
-  ['Home', 'Hero', 'hero-film-m', 'Film · phone', 'tall', 'video', 1080],
-  ['Home', 'Hero', 'hero-poster', 'Poster frame', 'wide', 'image', 2400],
-  ['Shop', 'Women / Men', 'deck-women', 'Women', 'arch', 'image', 1200],
-  ['Shop', 'Women / Men', 'deck-men', 'Men', 'arch', 'image', 1200],
-  ['Journal', 'Stories', 'jr-1', 'Toghu, beyond the ceremony', 'arch', 'image', 1200],
-  ['Journal', 'Stories', 'jr-2', 'Meet the main character', 'arch', 'image', 1200],
-  ['Journal', 'Stories', 'jr-3', 'Brought back, by request', 'arch', 'image', 1200],
+  ['Home', 'Film', 'hero-film', 'Film · desktop', 'wide', 'video', 1920],
+  ['Home', 'Film', 'hero-film-m', 'Film · phone', 'tall', 'video', 1080],
+  ['Home', 'Film', 'hero-poster', 'Poster frame', 'wide', 'image', 2400],
+  ['Home', 'Women · Men', 'deck-women', 'Women', 'arch', 'image', 1200],
+  ['Home', 'Women · Men', 'deck-men', 'Men', 'arch', 'image', 1200],
+  ['Home', 'Journal', 'jr-1', 'Story 1 · Toghu, beyond the ceremony', 'arch', 'image', 1200],
+  ['Home', 'Journal', 'jr-2', 'Story 2 · Meet the main character', 'arch', 'image', 1200],
+  ['Home', 'Journal', 'jr-3', 'Story 3 · Brought back, by request', 'arch', 'image', 1200],
   ['Home', 'The Gongbell', 'home-cast', 'Cast photo behind the shop points', 'wide', 'image', 1920],
   ['Founder’s Voice', 'Voice', 'fd-voice', 'Opening photo', 'wide', 'image', 1920],
   ['Founder’s Voice', 'Our fashion', 'fd-fashion', 'Fashion photo', 'rect', 'image', 1200],
@@ -582,14 +669,59 @@ const SLOTS = [
   ['Heritage', 'Today', 'hr-today', 'Toghu today', 'wide', 'image', 1920],
   ['Journal', 'On stage', 'jn-hero', 'Opening photo', 'wide', 'image', 1920],
   ['Journal', 'Featured', 'jn-featured', 'Featured photo', 'rect', 'image', 1200],
-  ['Journal', 'From the atelier', 'jn-atelier-1', 'Atelier photo 1', 'rect', 'image', 1000],
-  ['Journal', 'From the atelier', 'jn-atelier-2', 'Atelier photo 2', 'rect', 'image', 1000],
-  ['Journal', 'From the atelier', 'jn-atelier-3', 'Atelier photo 3', 'rect', 'image', 1000],
+  ['Journal', 'Featured', 'jn-atelier-1', 'Gallery photo 1', 'rect', 'image', 1000],
+  ['Journal', 'Featured', 'jn-atelier-2', 'Gallery photo 2', 'rect', 'image', 1000],
+  ['Journal', 'Featured', 'jn-atelier-3', 'Gallery photo 3', 'rect', 'image', 1000],
   ['Account', 'Sign-in panel', 'acct-cast', 'Sign-in photo', 'rect', 'image', 1200],
 ].map(r => ({ page: r[0], sec: r[1], id: r[2], label: r[3], shape: r[4], kind: r[5], min: r[6], consent: !!r[7] }));
-const NAV = [['SITE', [['map', 'Site map']]], ['MEDIA', [['library', 'Library']]],
-  ['CONTENT', [['hero', 'Hero film'], ['newin', 'New in rail'], ['pairs', 'Call & Answer'], ['events', 'Appearances'], ['worn', 'Worn by you'], ['copy', 'Site copy'], ['sizes', 'Size guide']]],
-  ['STUDIO', [['team', 'Team'], ['history', 'History']]]];
+/* The site's pages and their sections, in the order they appear on the site. Each section lists the photo spots
+   (SLOTS ids) and copy fields ([COPY key, label]) shown in it, and links to list editors it uses. */
+const STORY = n => [['st' + n + 'T', 'Story ' + n + ' · title'], ['st' + n + 'K', 'Story ' + n + ' · kicker'], ['st' + n + 'P1', 'Story ' + n + ' · paragraph 1'], ['st' + n + 'P2', 'Story ' + n + ' · paragraph 2'], ['st' + n + 'P3', 'Story ' + n + ' · paragraph 3'], ['st' + n + 'Cta', 'Story ' + n + ' · button']];
+const PAGES = [
+  { id: 'home', name: 'Home', sub: 'Every section of the home page, top to bottom.', secs: [
+    { name: 'Film', slots: ['hero-film', 'hero-film-m', 'hero-poster'], note: 'Plays first. A wide cut for laptops, a vertical cut for phones, and a still while it loads.' },
+    { name: 'The Loop', fields: [['loopHead', 'Title'], ['loopBtn', 'Button']], links: [{ view: 'newin', label: 'New in rail' }] },
+    { name: 'Women · Men', slots: ['deck-women', 'deck-men'] },
+    { name: 'The Gongbell', slots: ['home-cast'], note: 'The shop points on this photo are set in the site code for now.' },
+    { name: 'The Rack', fields: [['rackHead', 'Title']], note: 'The four pieces on the rack are set in the site code for now.' },
+    { name: 'The Wall', fields: [['wornTitle', 'Title'], ['wornTag', 'Tag line'], ['wallTag', 'Hashtag'], ['wallShop', 'Shop button'], ['wallIg', 'Instagram link'], ['wallQ1K', 'Quote 1 · kicker'], ['wallQ1', 'Quote 1'], ['wallQ2K', 'Quote 2 · kicker'], ['wallQ2', 'Quote 2']], links: [{ view: 'worn', label: 'Worn by you photos' }] },
+    { name: 'Journal', slots: ['jr-1', 'jr-2', 'jr-3'], fields: [['jrTitle', 'Title'], ['jrKick', 'Kicker']].concat(STORY(1), STORY(2), STORY(3)) },
+    { name: 'Letters', fields: [['newsTitle', 'Newsletter · title'], ['newsKick', 'Newsletter · greeting'], ['newsLine', 'Newsletter · line'], ['newsBtn', 'Newsletter · button'], ['newsSealed', 'Newsletter · sealed'], ['newsDone', 'Newsletter · thank you'],
+      ['footLine', 'Footer · brand line'], ['footVisit', 'Footer · visit label'], ['addr', 'Footer · address'], ['footTalk', 'Footer · talk label'], ['email', 'Email · also on Founder’s Voice'], ['phone', 'Phone · also on Founder’s Voice'], ['igHandle', 'Instagram handle · also on Founder’s Voice'], ['footCopy', 'Footer · copyright']] }] },
+  { id: 'loop', name: 'The Loop', sub: 'Every piece in the collection.', secs: [
+    { name: 'Every piece', note: 'Pieces, prices and photos come from Wix Stores. Pieces on the New in rail get a NEW badge.', links: [{ view: 'newin', label: 'New in rail' }] }] },
+  { id: 'shop', name: 'Shop', sub: 'The shop page.', secs: [
+    { name: 'Best sellers', fields: [['bestA', 'Title (red)'], ['bestB', 'Title (italic)'], ['bestSub', 'Intro']] },
+    { name: 'All pieces', note: 'Pieces, prices and photos come from Wix Stores.' }] },
+  { id: 'heritage', name: 'Heritage', sub: 'The story of Toghu.', secs: [
+    { name: 'Toghu', slots: ['hr-hero'], fields: [['tgTitle', 'Title']] },
+    { name: 'Origins', fields: [['tgBody', 'Paragraph'], ['tgRegionL', 'Fact label · region'], ['tgRegion', 'Region'], ['tgAkaL', 'Fact label · also called'], ['tgAka', 'Also called'], ['tgGroundL', 'Fact label · ground'], ['tgGround', 'Ground'], ['tgThreadL', 'Fact label · thread'], ['tgThread', 'Thread'], ['tgWornL', 'Fact label · worn for'], ['tgWorn', 'Worn for']] },
+    { name: 'Through time', fields: [['ttTitle', 'Title']].concat(...[1, 2, 3, 4, 5].map(n => [['tt' + n + 'k', 'Era 0' + n + ' · label'], ['tt' + n + 'h', 'Era 0' + n + ' · heading'], ['tt' + n, 'Era 0' + n + ' · text']])) },
+    { name: 'Colours', fields: [['colTitle', 'Title']].concat(...['Black', 'Red', 'Yellow', 'White'].map(c => [['col' + c + 'N', c + ' · name'], ['col' + c, c + ' · meaning']])) },
+    { name: 'Made by hand', fields: [['mkTitle', 'Title']].concat(...[1, 2, 3, 4].map(n => [['mk' + n + 'k', 'Step 0' + n + ' · label'], ['mk' + n + 'h', 'Step 0' + n + ' · name'], ['mk' + n, 'Step 0' + n + ' · text']])) },
+    { name: 'Today', slots: ['hr-today'], fields: [['tgOut', 'Closing line'], ['tgShop', 'Button']] }] },
+  { id: 'founders', name: 'Founder’s Voice', sub: 'The founder’s story, vision and contact details.', secs: [
+    { name: 'Voice', slots: ['fd-voice'], fields: [['quote', 'Founder quote']] },
+    { name: 'Our fashion', slots: ['fd-fashion'], fields: [['desTitle', 'Title'], ['des1', 'Paragraph 1'], ['des2', 'Paragraph 2'], ['des3', 'Paragraph 3']] },
+    { name: 'Our project', slots: ['fd-project-1', 'fd-project-2'], fields: [['craftTitle', 'Title'], ['craftBody', 'Paragraph']] },
+    { name: 'Vision', fields: [['visTitle', 'Title'], ['vis1h', 'Vision 1 · heading'], ['vis1', 'Vision 1 · text'], ['vis2h', 'Vision 2 · heading'], ['vis2', 'Vision 2 · text']] },
+    { name: 'Contact', fields: [['email', 'Email · also in the footer'], ['phone', 'Phone · also in the footer'], ['location', 'Location'], ['igLabel', 'Instagram label'], ['igHandle', 'Instagram handle · also in the footer']] }] },
+  { id: 'journal', name: 'Journal', sub: 'Appearances, the featured show and the atelier stories.', secs: [
+    { name: 'On stage', slots: ['jn-hero'], fields: [['apTitle', 'Title'], ['apSub', 'Intro']] },
+    { name: 'Appearances', fields: [['jnAppH', 'Title']], links: [{ view: 'events', label: 'Appearances list' }] },
+    { name: 'Featured', slots: ['jn-featured', 'jn-atelier-1', 'jn-atelier-2', 'jn-atelier-3'], fields: [['apShow', 'Button']], note: 'Shows the newest appearance from the list.', links: [{ view: 'events', label: 'Appearances list' }] },
+    { name: 'From the atelier', fields: [['jnAtelierH', 'Title']], note: 'Shows the three stories from Home › Journal.', links: [{ page: 'home', sec: 6, label: 'Edit the stories' }] },
+    { name: 'Invite', fields: [['apInvTitle', 'Title'], ['apInv', 'Text'], ['apInvBtn', 'Button']] }] },
+  { id: 'product', name: 'Product pages', sub: 'What every product page shows around the piece.', secs: [
+    { name: 'Pairs with', note: 'Pieces that answer each other show first under “Pairs with”.', links: [{ view: 'pairs', label: 'Call & Answer' }] },
+    { name: 'Size guide', note: 'Measurements for each category. The size guide link on product pages doesn’t open a page yet.', links: [{ view: 'sizes', label: 'Size guide' }] },
+    { name: 'The wall', note: 'Uses the same wall text and photos as Home › The Wall.', links: [{ page: 'home', sec: 5, label: 'Edit the wall' }] }] },
+  { id: 'account', name: 'Account', sub: 'The sign-in and account panel.', secs: [
+    { name: 'Sign-in panel', slots: ['acct-cast'] }] },
+];
+// Which page a change made in a list editor belongs to (for the sidebar counts).
+const AREA_PAGE = { hero: 'home', newin: 'home', worn: 'home', events: 'journal', pairs: 'product', sizes: 'product' };
+const NAV = [['PAGES', PAGES.map(p => ['pg:' + p.id, p.name])], ['MEDIA', [['library', 'Library']]], ['STUDIO', [['team', 'Team'], ['history', 'History']]]];
 const VIEW = {
   map: ['Site map', 'Every image spot on the site, page by page. Drag from the library, drop a file straight onto a spot, or tap one to change it.', 'CMS › SITE SLOTS · FILES IN MEDIA MANAGER'],
   library: ['Library', 'Everything uploaded for Ngwisa, in folders. Add alt text here once; it follows the file wherever it’s used.', 'MEDIA MANAGER › NGWISA'],
@@ -650,7 +782,7 @@ const SNAP = c => { const U = id => { const it = id ? c.lib.find(x => x.id === i
 const HIST = c => [{ v: 0, at: 'BEFORE THE STUDIO', by: 'Site', sum: 'Original wording and photos', snap: SNAP(c) }];
 
 class Component extends DCLogic {
-  state = (() => { const c = seed(); return { c, pub: clone(c), changes: [], hist: HIST(c), view: 'map', mob: false, sel: 'hero-poster', libSel: null, folder: 'all', q: '', tray: 'all', crop: null, cf: null, pick: null, pickF: 'all', prod: 'rahrah', ev: 0, look: 0, sc: 0, pubOpen: false, navOpen: false, toast: '', over: null, dz: false, up: {}, inv: '', invR: 'Editor', niPick: '' }; })();
+  state = (() => { const c = seed(); return { c, pub: clone(c), changes: [], hist: HIST(c), view: 'page', pg: 'home', back: null, mob: false, sel: 'hero-poster', libSel: null, folder: 'all', q: '', tray: 'all', crop: null, cf: null, pick: null, pickF: 'all', prod: 'rahrah', ev: 0, look: 0, sc: 0, pubOpen: false, navOpen: false, toast: '', over: null, dz: false, up: {}, inv: '', invR: 'Editor', niPick: '' }; })();
   mainRef = React.createRef(); asideRef = React.createRef();
   async login() { const N = window.NGW, u = (this.state.lu || '').trim(), p = this.state.lp || '';
     if (!u || !p) { this.setState({ lErr: 'Enter your email and password.' }); return; }
@@ -762,7 +894,7 @@ class Component extends DCLogic {
   edit(key, label, fn) {
     // Apply fn now, inside the event: React resets a controlled field before a deferred updater would read e.target.value.
     const s = this.state, c = clone(s.c); fn(c); const last = s.changes[s.changes.length - 1], now = Date.now();
-    const changes = last && last.key === key && now - last.t < 2500 ? s.changes.slice(0, -1).concat([{ ...last, t: now, label }]) : s.changes.concat([{ key, label, t: now, prev: s.c, by: this.role(), area: s.view }]);
+    const changes = last && last.key === key && now - last.t < 2500 ? s.changes.slice(0, -1).concat([{ ...last, t: now, label }]) : s.changes.concat([{ key, label, t: now, prev: s.c, by: this.role(), area: s.view === 'page' ? 'pg:' + s.pg : s.view }]);
     this.setState({ c, changes });
   }
   undo() { const ch = this.state.changes; if (!ch.length) return; const last = ch[ch.length - 1]; this.setState({ c: last.prev, changes: ch.slice(0, -1) }); this.flash('UNDONE · ' + last.label.toUpperCase()); }
@@ -832,26 +964,41 @@ class Component extends DCLogic {
   slotVM(s) { const st = this.state, it = this.item(st.c.slots[s.id]), sh = SHAPE[s.shape], w = this.warns(it, s.min, s.consent);
     return { id: s.id, label: s.label, sec: s.sec.toUpperCase(), ...this.media(it), ...this.wdot(w), warns: this.wv(w), ratio: sh[0], rad: sh[1],
       draft: st.c.slots[s.id] !== st.pub.slots[s.id], kindL: s.kind === 'video' ? 'FILM' + (it && it.dur ? ' ' + it.dur : '') : s.shape.toUpperCase(),
-      outline: st.over === s.id ? '2px solid #D81219' : st.sel === s.id && st.view === 'map' ? '2px solid #141110' : '2px solid transparent', emptyL: s.kind === 'video' ? 'DROP A FILM HERE' : 'EMPTY · DROP AN IMAGE',
+      outline: st.over === s.id ? '2px solid #D81219' : st.sel === s.id && (st.view === 'map' || st.view === 'page') ? '2px solid #141110' : '2px solid transparent', emptyL: s.kind === 'video' ? 'DROP A FILM HERE' : 'EMPTY · DROP AN IMAGE',
       fileL: it ? it.name + ' · ' + (it.w ? it.w + '×' + it.h : '—') + ' · ' + fkb(it.kb) : 'Nothing here yet', accept: s.kind === 'video' ? 'video/*' : 'image/*', canCrop: !!(it && it.kind === 'image'),
       tap: () => this.goSlot(s.id), pick: () => this.openPick({ kind: s.kind, title: s.label, folder: s.kind === 'video' ? 'film' : 'all', apply: id => this.assignSlot(s.id, id) }),
       crop: () => it && this.openCrop(it.id), upload: e => { this.upload(e.target.files, id => this.assignSlot(s.id, id)); e.target.value = ''; },
       dOver: e => { e.preventDefault(); if (this.state.over !== s.id) this.setState({ over: s.id }); }, dLeave: () => this.setState({ over: null }),
       drop: e => { e.preventDefault(); this.setState({ over: null }); const f = e.dataTransfer && e.dataTransfer.files; if (f && f.length) { this.upload(f, id => this.assignSlot(s.id, id)); return; }
         const id = this.drag || (e.dataTransfer && e.dataTransfer.getData('text/plain')); this.drag = null; if (id) { this.assignSlot(s.id, id); this.setState({ sel: s.id }); } } }; }
+  fieldVM(k, lab, sec) { const f = COPY.find(x => x[0] === k); if (!f) return null; const st = this.state, v = st.c.copy[k] || '', over = v.length > f[2], where = (PAGES.find(p => p.id === st.pg) || PAGES[0]).name + (sec ? ' · ' + sec : '');
+    return { label: lab.toUpperCase(), v, area: f[2] > 60, line: f[2] <= 60, rows: String(Math.min(6, Math.max(2, Math.ceil(f[2] / 70)))), cnt: v.length + ' / ' + f[2], cntC: over ? '#D81219' : '#6A6057', bd: over ? '#D81219' : 'rgba(20,17,16,.35)',
+      draft: v !== (st.pub.copy[k] || ''), changed: v !== f[3],
+      set: e => this.edit('copy-' + k, 'Text · ' + where + ' · ' + lab.toLowerCase(), cc => { cc.copy[k] = e.target.value; }),
+      reset: e => { e.preventDefault(); this.edit('copy-' + k, 'Reset · ' + where + ' · ' + lab.toLowerCase(), cc => { cc.copy[k] = f[3]; }); } }; }
+  listMeta(view) { const c = this.state.c;
+    return { newin: c.newin.length + ' ON THE RAIL', worn: c.worn.filter(w => w.show).length + ' SHOWING', events: c.events.length + ' APPEARANCES', pairs: c.pairs.length + ' PAIRS', sizes: c.sizes.length + ' CATEGORIES', hero: '' }[view] || ''; }
+  openPage(pg, key) { this.setState({ view: 'page', pg, back: null, navOpen: false, sel: key ? this.state.sel : null }, () => { if (key) this.jump(key); else { const m = this.mainRef.current; if (m) m.scrollTop = 0; } }); }
+  jump(key) { setTimeout(() => { const el = document.querySelector('[data-sec="' + key + '"]'); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 60); }
   tileVM(it, extra) { const st = this.state, w = this.warns(it), u = this.usages(it.id);
     return { name: it.name, ...this.media(it), ...this.wdot(w), film: it.kind === 'video', dur: it.dur || '', used: u.length > 0, usedN: String(u.length), uploading: st.up[it.id] != null, pct: (st.up[it.id] || 0) + '%', ...extra }; }
 
   renderVals() {
-    const st = this.state, c = st.c, role = this.role(), V = VIEW[st.view], canPub = role !== 'Contributor';
+    const st = this.state, c = st.c, role = this.role(), PG = PAGES.find(p => p.id === st.pg) || PAGES[0], canPub = role !== 'Contributor';
+    const V = st.view === 'page' ? [PG.name, PG.sub, 'PAGE › ' + PG.name.toUpperCase() + ' · CMS › SITE COPY · SITE SLOTS'] : VIEW[st.view];
     const cnt = {}; st.changes.forEach(ch => { cnt[ch.area] = (cnt[ch.area] || 0) + 1; });
+    const pageCount = id => Object.keys(cnt).filter(a => (a.indexOf('pg:') === 0 ? a.slice(3) : AREA_PAGE[a]) === id).reduce((t, a) => t + cnt[a], 0);
     const n = st.changes.length, chips = (list, cur, go) => list.map(f => ({ label: f[1].toUpperCase(), bg: cur === f[0] ? '#141110' : 'transparent', fg: cur === f[0] ? '#FBF8F2' : '#141110', go: () => go(f[0]) }));
     const pimg = pid => { const p = this.prodById(pid); return this.media(p ? this.item(p.imgs[0]) : null); };
     const prodOpts = c.products.map(p => ({ id: p.id, name: p.name }));
     const out = {
       desk: !st.mob, mob: st.mob, mainRef: this.mainRef, asideRef: this.asideRef, showWix: this.props.showWix ?? true,
       roleName: role, roleUp: role.toUpperCase(), roleNote: ROLES[role], title: V[0], titleUp: V[0].toUpperCase(), sub: V[1], wixL: V[2],
-      nav: NAV.map(g => ({ label: g[0], items: g[1].map(x => { const on = st.view === x[0], k = cnt[x[0]] || 0; return { label: x[1], go: () => this.setState({ view: x[0], navOpen: false }), bg: on ? 'rgba(251,248,242,.09)' : 'transparent', fg: on ? '#E3A72F' : '#FBF8F2', hasBadge: k > 0, badge: String(k) }; }) })),
+      nav: NAV.map(g => ({ label: g[0], items: g[1].map(x => { const pg = x[0].indexOf('pg:') === 0 ? x[0].slice(3) : null;
+        const on = pg ? (st.view === 'page' ? st.pg === pg : !!st.back && st.back.pg === pg) : st.view === x[0], k = pg ? pageCount(pg) : cnt[x[0]] || 0;
+        return { label: x[1], go: () => pg ? this.openPage(pg) : this.setState({ view: x[0], back: null, navOpen: false }), bg: on ? 'rgba(251,248,242,.09)' : 'transparent', fg: on ? '#E3A72F' : '#FBF8F2', hasBadge: k > 0, badge: String(k) }; }) })),
+      hasBack: !!st.back && st.view !== 'page', backL: st.back ? 'BACK TO ' + st.back.label.toUpperCase() : '', goBack: () => { const b = st.back; if (b) this.openPage(b.pg, b.key); },
+      isPage: st.view === 'page',
       openNav: () => this.setState({ navOpen: true }), closeNav: () => this.setState({ navOpen: false }), navOpen: st.navOpen,
       stL: n ? 'DRAFT · ' + n + (n > 1 ? ' CHANGES' : ' CHANGE') : 'LIVE · VERSION ' + st.hist[0].v, stBg: n ? '#E3A72F' : 'transparent', stBd: n ? '#E3A72F' : 'rgba(20,17,16,.3)',
       undo: () => this.undo(), undoOp: n ? 1 : 0.35, discard: () => { if (!n) return; this.setState({ c: clone(st.pub), changes: [] }); this.flash('DRAFT DISCARDED · BACK TO VERSION ' + st.hist[0].v); },
@@ -862,10 +1009,22 @@ class Component extends DCLogic {
       lBtn: st.lBusy ? 'SIGNING IN…' : 'SIGN IN', lOp: st.lBusy ? 0.6 : 1, doLogin: e => { if (e && e.preventDefault) e.preventDefault(); this.login(); }, hasLErr: !!st.lErr, lErr: st.lErr || '', hasToast: !!st.toast, toast: st.toast,
     };
 
-    if (st.view === 'map') {
-      const pages = []; SLOTS.forEach(s => { let p = pages.find(x => x.page === s.page); if (!p) pages.push(p = { page: s.page, slots: [] }); p.slots.push(this.slotVM(s)); });
-      out.mapPages = pages.map(p => ({ ...p, meta: p.slots.length + ' SPOTS' + (p.slots.filter(x => x.empty).length ? ' · ' + p.slots.filter(x => x.empty).length + ' EMPTY' : '') }));
-      const s = SLOTS.find(x => x.id === st.sel); out.hasIns = !!s;
+    if (st.view === 'page') {
+      const pad = i => String(i + 1).padStart(2, '0'), secs = PG.secs.map((g, i) => {
+        const slots = (g.slots || []).map(id => SLOTS.find(s => s.id === id)).filter(Boolean).map(s => this.slotVM(s));
+        const fields = (g.fields || []).map(([k, lab]) => this.fieldVM(k, lab, g.name)).filter(Boolean);
+        const links = (g.links || []).map(l => ({ label: l.label.toUpperCase(), meta: l.view ? this.listMeta(l.view) : '',
+          go: () => l.view ? this.setState({ view: l.view, back: { pg: PG.id, key: PG.id + '-' + i, label: PG.name + ' · ' + g.name }, navOpen: false }, () => { const m = this.mainRef.current; if (m) m.scrollTop = 0; }) : this.openPage(l.page, l.page + '-' + l.sec) }));
+        const where = [slots.length && slots.length + (slots.length > 1 ? ' PHOTOS' : ' PHOTO'), fields.length && fields.length + (fields.length > 1 ? ' TEXTS' : ' TEXT')].filter(Boolean).join(' · ');
+        return { key: PG.id + '-' + i, n: pad(i), name: g.name, where: where || (links.length ? 'EDITED IN A LIST' : 'SET OUTSIDE THE STUDIO'), note: g.note || '', hasNote: !!g.note, slots, hasSlots: slots.length > 0, fields, links, hasLinks: links.length > 0,
+          draft: slots.some(s => s.draft) || fields.some(f => f.draft) }; });
+      out.pgSections = secs;
+      out.pgSecs = secs.map(g => ({ label: g.n + ' · ' + g.name.toUpperCase(), hasDraft: g.draft, go: () => this.jump(g.key) }));
+    }
+    if (st.view === 'map' || st.view === 'page') {
+      if (st.view === 'map') { const pages = []; SLOTS.forEach(s => { let p = pages.find(x => x.page === s.page); if (!p) pages.push(p = { page: s.page, slots: [] }); p.slots.push(this.slotVM(s)); });
+        out.mapPages = pages.map(p => ({ ...p, meta: p.slots.length + ' SPOTS' + (p.slots.filter(x => x.empty).length ? ' · ' + p.slots.filter(x => x.empty).length + ' EMPTY' : '') })); }
+      const s = SLOTS.find(x => x.id === st.sel && (st.view === 'map' || PG.secs.some(g => (g.slots || []).includes(x.id)))); out.hasIns = !!s;
       if (s) { const vm = this.slotVM(s), it = this.item(c.slots[s.id]);
         out.ins = { ...vm, where: s.page.toUpperCase() + ' · ' + s.sec.toUpperCase(), pw: SHAPE[s.shape][2], close: () => this.setState({ sel: null }), clear: () => this.edit('slot-' + s.id, s.label + ' emptied', cc => { cc.slots[s.id] = null; }),
           altL: it && it.kind === 'video' ? 'FILM DESCRIPTION' : 'ALT TEXT', alt: it ? it.alt : '', setAlt: e => it && this.editItem(it.id, 'alt-', 'Alt text · ' + it.name, { alt: e.target.value }),
