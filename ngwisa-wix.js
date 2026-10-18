@@ -77,7 +77,7 @@
       if (w.imgs && w.imgs.length) { p.imgs = w.imgs.slice(0, 6); p.img = w.imgs[0]; p.alt = w.imgs[1] || w.imgs[0]; }
       if (w.desc) p.desc = w.desc;
       if (m) {
-        if (m.title) p.name = m.title;
+        if (typeof m.displayName === 'string' && m.displayName.trim()) p.name = m.displayName.trim();
         if (m.category) p.cat = m.category;
         if (m.gender) p.g = m.gender;
         if (typeof m.hook === 'string' && m.hook.trim()) p.hook = m.hook;
