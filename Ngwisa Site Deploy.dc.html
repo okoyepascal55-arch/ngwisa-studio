@@ -510,7 +510,7 @@
 <p style="margin:0;max-width:540px;font:400 17px/1.55 'Bricolage Grotesque';color:#3A3430;text-wrap:pretty">{{ pp.desc }}</p>
 </div>
 <div style="display:flex;flex-direction:column;gap:14px">
-<div style="display:flex;justify-content:space-between;align-items:center;gap:12px"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#6A6057">SIZE</span><a href="Ngwisa Size and Care.dc.html" style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#141110;text-decoration:underline;text-underline-offset:3px">SIZE GUIDE →</a></div>
+<div style="display:flex;justify-content:space-between;align-items:center;gap:12px"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#6A6057">SIZE</span><button onClick="{{ openSG }}" style="padding:0;border:0;background:none;cursor:pointer;font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#141110;text-decoration:underline;text-underline-offset:3px">SIZE GUIDE →</button></div>
 <div style="display:flex;gap:6px;flex-wrap:wrap">
 <sc-for list="{{ pp.sizes }}" as="z" hint-placeholder-count="3">
 <button onClick="{{ z.pick }}" style="min-width:72px;padding:11px 14px;border-radius:14px;border:1.5px solid {{ z.bd }};background:{{ z.bg }};color:{{ z.ink }};display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;transition:background .25s,color .25s">
@@ -871,6 +871,71 @@
 </div>
 </sc-if>
 
+<sc-if value="{{ hasSG }}" hint-placeholder-val="{{ false }}">
+<div onClick="{{ closeSG }}" style="position:fixed;inset:0;z-index:80;background:rgba(20,17,16,.55)"></div>
+<aside role="dialog" aria-label="Size guide" style="position:fixed;top:8px;right:8px;bottom:8px;z-index:81;width:min(560px,calc(100vw - 16px));border-radius:18px;background:#FBF8F2;color:#141110;overflow-y:auto;padding:26px;display:flex;flex-direction:column;gap:22px">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+<h2 style="margin:0;font:800 clamp(30px,3.4vw,44px)/.95 'Bricolage Grotesque';letter-spacing:-.04em">Size guide</h2>
+<button onClick="{{ closeSG }}" style="height:38px;padding:0 16px;border:0;border-radius:999px;background:#141110;color:#FBF8F2;font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer">CLOSE ✕</button>
+</div>
+<div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap">
+<span style="font:400 15px/1.45 'Bricolage Grotesque';color:#3A3430;max-width:340px">Body measurements. Between sizes? Take the larger, or write to the atelier.</span>
+<div style="display:flex;gap:4px;padding:3px;border:1.5px solid #141110;border-radius:999px">
+<sc-for list="{{ sgUnits }}" as="u" hint-placeholder-count="2">
+<button onClick="{{ u.go }}" style="height:30px;padding:0 14px;border:0;border-radius:999px;background:{{ u.bg }};color:{{ u.ink }};font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer">{{ u.l }}</button>
+</sc-for>
+</div>
+</div>
+<sc-for list="{{ sgCats }}" as="g" hint-placeholder-count="2">
+<div style="display:flex;flex-direction:column;gap:8px;padding-top:16px;border-top:1.5px dashed rgba(20,17,16,.3)">
+<span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#D81219">{{ g.cat }}</span>
+<div style="overflow-x:auto">
+<div style="display:grid;grid-template-columns:{{ g.cols }};gap:0;min-width:max-content;font:500 12px/1 'DM Mono',monospace">
+<span style="padding:10px 8px 10px 0;color:#6A6057">SIZE</span>
+<sc-for list="{{ g.head }}" as="hd" hint-placeholder-count="5"><span style="padding:10px 8px;text-align:center;font-weight:500">{{ hd.x }}</span></sc-for>
+<sc-for list="{{ g.rows }}" as="r" hint-placeholder-count="3">
+<span style="padding:10px 8px 10px 0;border-top:1px solid rgba(20,17,16,.12);color:#3A3430">{{ r.l }}</span>
+<sc-for list="{{ r.vals }}" as="c" hint-placeholder-count="5"><span style="padding:10px 8px;border-top:1px solid rgba(20,17,16,.12);text-align:center">{{ c.v }}</span></sc-for>
+</sc-for>
+</div>
+</div>
+<sc-if value="{{ g.hasNote }}" hint-placeholder-val="{{ true }}"><span style="font:400 14px/1.45 'Bricolage Grotesque';color:#6A6057">{{ g.note }}</span></sc-if>
+</div>
+</sc-for>
+</aside>
+</sc-if>
+
+<sc-if value="{{ hasThanks }}" hint-placeholder-val="{{ false }}">
+<div style="position:fixed;inset:0;z-index:85;background:#141110;color:#FBF8F2;overflow-y:auto;display:flex;align-items:flex-start;justify-content:center;padding:clamp(80px,12vh,140px) 20px 60px">
+<div style="width:min(640px,100%);display:flex;flex-direction:column;gap:22px">
+<img src="assets/gong-mark.png" alt="" style="height:52px;width:auto;align-self:flex-start">
+<sc-if value="{{ thanksBusy }}" hint-placeholder-val="{{ false }}"><span style="font:500 11px/1 'DM Mono',monospace;letter-spacing:.16em;color:#DCD3C6">CONFIRMING YOUR ORDER…</span></sc-if>
+<sc-if value="{{ thanksDone }}" hint-placeholder-val="{{ true }}">
+<span style="font:500 11px/1 'DM Mono',monospace;letter-spacing:.16em;color:#E3A72F">{{ thanks.no }}</span>
+<h1 style="margin:0;font:800 clamp(48px,7vw,96px)/.9 'Bricolage Grotesque';letter-spacing:-.045em">Thank you.</h1>
+<p style="margin:0;font:400 19px/1.55 'Bricolage Grotesque';color:#DCD3C6;text-wrap:pretty">Your pieces are with the atelier now. {{ thanks.note }}</p>
+<sc-if value="{{ thanks.hasLines }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:10px;padding-top:18px;border-top:1.5px dashed rgba(251,248,242,.25)">
+<sc-for list="{{ thanks.lines }}" as="l" hint-placeholder-count="2">
+<div style="display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:14px;align-items:center">
+<div style="width:56px;height:70px;border-radius:28px 28px 8px 8px;overflow:hidden;background:#2A2421"><img loading="lazy" decoding="async" data-img="{{ l.img }}" alt="" style="width:100%;height:100%;object-fit:cover"></div>
+<div style="display:flex;flex-direction:column;gap:6px;min-width:0"><span style="font:400 17px/1.2 'Bricolage Grotesque'">{{ l.name }}</span><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.12em;color:#8F857A">{{ l.opts }}</span></div>
+<span style="font:500 13px/1 'DM Mono',monospace">{{ l.price }}</span>
+</div>
+</sc-for>
+<sc-if value="{{ thanks.hasTotal }}" hint-placeholder-val="{{ false }}"><div style="display:flex;justify-content:space-between;padding-top:10px;font:500 12px/1 'DM Mono',monospace;letter-spacing:.14em"><span>TOTAL</span><span>{{ thanks.total }}</span></div></sc-if>
+</div>
+</sc-if>
+<div style="display:flex;gap:10px;flex-wrap:wrap;padding-top:8px">
+<button onClick="{{ thanks.shop }}" style="height:50px;padding:0 26px;border:0;border-radius:999px;background:#D81219;color:#FBF8F2;font:500 11px/1 'DM Mono',monospace;letter-spacing:.16em;cursor:pointer">KEEP SHOPPING →</button>
+<sc-if value="{{ thanks.member }}" hint-placeholder-val="{{ false }}"><button onClick="{{ thanks.orders }}" style="height:50px;padding:0 26px;border:1.5px solid #FBF8F2;border-radius:999px;background:transparent;color:#FBF8F2;font:500 11px/1 'DM Mono',monospace;letter-spacing:.16em;cursor:pointer">YOUR ORDERS</button></sc-if>
+<button onClick="{{ thanks.home }}" style="height:50px;padding:0 26px;border:0;background:transparent;color:#DCD3C6;font:500 11px/1 'DM Mono',monospace;letter-spacing:.16em;cursor:pointer;text-decoration:underline;text-underline-offset:4px">HOME</button>
+</div>
+</sc-if>
+</div>
+</div>
+</sc-if>
+
 <div style="position:fixed;inset:0;z-index:90;background:#141110;display:flex;align-items:center;justify-content:center;gap:18px;transform:{{ curtainT }};transition:{{ curtainTr }};pointer-events:none">
 <img src="assets/gong-mark.png" alt="" style="height:64px;width:auto">
 <span style="font:400 clamp(40px,6vw,90px)/1 'Bricolage Grotesque';letter-spacing:-.04em;color:#FBF8F2">{{ curtainL }}</span>
@@ -977,6 +1042,17 @@ const SECS = {
   shop: [],
 };
 const NAV = [['home', 'HOME', 'Home'], ['loop', 'THE LOOP', 'The Loop'], ['shop', 'SHOP', 'Shop'], ['heritage', 'HERITAGE', 'Heritage'], ['founders', 'FOUNDER’S VOICE', 'Founder’s Voice'], ['journal', 'JOURNAL', 'Journal']];
+/* Every page and piece has its own address, so links can be shared, the back button works and search engines can
+   index each piece. api/page.js serves the same addresses with the right title, description and preview image. */
+const PATHS = { home: '/', loop: '/the-loop', shop: '/shop', heritage: '/heritage', founders: '/founders-voice', journal: '/journal' };
+const TITLES = { home: 'Ngwisa — Toghu, worn now', loop: 'The Loop — Ngwisa', shop: 'Shop — Ngwisa', heritage: 'Heritage — Ngwisa', founders: 'Founder’s Voice — Ngwisa', journal: 'Journal — Ngwisa' };
+const ROUTE = path => { const u = String(path || '/').replace(/\/+$/, '') || '/', m = u.match(/^\/shop\/([^/]+)$/);
+  if (/^\/studio/i.test(u)) return { studio: true };
+  if (m) { let slug = m[1]; try { slug = decodeURIComponent(slug); } catch (e) {} return { page: 'shop', slug }; }
+  if (u === '/thank-you') return { page: 'shop', thanks: true };
+  const page = Object.keys(PATHS).find(k => PATHS[k] === u) || (u === '/loop' ? 'loop' : u === '/founders' ? 'founders' : null);
+  return page ? { page } : { page: 'home', unknown: u !== '/' }; };
+const IN_EDITOR = () => !/^https?:$/.test(location.protocol) || /\.dc\.html?$/i.test(decodeURIComponent(location.pathname));
 // Placeholder appearances: replace titles, places, years and copy with the brand's real record.
 const EVT = [
   { t: 'The Gongbell, first walk', type: 'Runway', city: 'Manchester', yr: '2026', img: '03622', gal: ['03621', '02706', '04060'], paras: ['The whole Gongbell collection on one stage for the first time: the Rahrah corset, the Mimche ruffles, the tiered Muna skirt and the tailoring, every piece carrying the gong.', 'A collection built on Toghu, walked in the city where it is cut and finished.'] },
@@ -997,11 +1073,19 @@ const SPOTS = { 'home-cast': ['homeCast', 'The Gongbell cast', '50% 50%'], 'fd-v
   'jn-atelier-1': ['jnAtelier1', '', '50% 50%'], 'jn-atelier-2': ['jnAtelier2', '', '50% 50%'], 'jn-atelier-3': ['jnAtelier3', '', '50% 50%'], 'acct-cast': ['acctCast', 'The Ngwisa cast', '50% 30%'] };
 const DECKS = [['Women', 'w', ['rahrah', 'mimche', 'mawa', 'muna', 'main-character']], ['Men', 'm', ['gong-waistcoat', 'tatah']]];
 const MEN_EXTRA = [['02542', 'gong-waistcoat'], ['04510', 'tatah']];
+/* Size guide shown from product pages. The Studio's Size guide screen (StudioSizeGuide) replaces these. Centimetres. */
+const SIZE_DEF = [
+  { cat: 'Dresses & tops', sz: ['XS', 'S', 'M', 'L', 'XL'], rows: [['Bust', 80, 86, 92, 98, 104], ['Waist', 64, 70, 76, 82, 88], ['Hip', 88, 94, 100, 106, 112]], note: 'UK 6–16.' },
+  { cat: 'Skirts & bottoms', sz: ['XS', 'S', 'M', 'L', 'XL'], rows: [['Waist', 64, 70, 76, 82, 88], ['Hip', 90, 96, 102, 108, 114], ['Inside leg', 78, 79, 80, 81, 82]], note: 'Inside leg for trousers only.' },
+  { cat: 'Outerwear & sets', sz: ['XS', 'S', 'M', 'L', 'XL', 'XXL'], rows: [['Chest', 84, 90, 96, 102, 108, 114], ['Shoulder', 38, 40, 42, 44, 46, 48], ['Sleeve', 58, 59, 60, 61, 62, 63]], note: 'The Tatah blazer is unisex, cut straight through the body.' },
+  { cat: 'Accessories', sz: ['ONE SIZE'], rows: [['Head circ.', '55–59']], note: '' }];
+const SG_FOR = cat => /bottom|skirt|trouser|pant/i.test(cat || '') ? 'skirt' : /tailor|outer|set|jacket|blazer/i.test(cat || '') ? 'outer' : /access/i.test(cat || '') ? 'access' : 'dress';
+const CM_IN = (v, unit) => unit === 'in' && typeof v === 'number' ? (v / 2.54).toFixed(1) : unit === 'in' && /^\d+(–\d+)?$/.test(String(v)) ? String(v).split('–').map(x => (x / 2.54).toFixed(1)).join('–') : String(v);
 const FRAMES = { Oxblood: ['#3A0C0F', 'rgba(240,48,47,.18)'], Ink: ['#0E0C0B', 'rgba(251,248,242,.10)'], Ivory: ['#EFE8DC', 'rgba(20,17,16,.10)'], Gold: ['#8A5E12', 'rgba(246,203,94,.25)'], None: ['rgba(0,0,0,0)', 'rgba(0,0,0,0)'] };
 
 const COPY_DEF = {"wornTag":"Tag @_ngwisa_ and we’ll hang you here.","wornTitle":"Worn. Filmed. Kept.","bestA":"The ones that","bestB":"keep leaving the rack.","bestSub":"Hand-picked by the atelier — the four pieces we make, remake and still can’t keep on the rack.","jrTitle":"Journal","jrKick":"STORIES FROM THE ATELIER","newsTitle":"Letters from the atelier","newsLine":"New pieces, restocks and the odd story from Manchester. Only when there is something to say.","newsDone":"You’re on the list. The next letter is yours.","footLine":"Where heritage meets modernity. Cameroonian craftsmanship for today’s world.","addr":"Wellington House\n4 Pollard Street East\nManchester M40 7FS","email":"info.ngwisa@gmail.com","phone":"+44 7778 170330","location":"4 Pollard Street East, Manchester M40 7FS","quote":"“We want every piece to feel special: not simply something you wear, but something you embody.”","desTitle":"Designed with the modern wearer in mind.","des1":"Each piece is created with flattering silhouettes that enhance the body while offering comfort, sophistication and ease.","des2":"At the heart of our designs is the hand-embroidered artistry of Cameroon’s traditional Toghu, integrated into contemporary silhouettes so every piece feels luxurious and unique without giving up wearability.","des3":"Versatility is central. Our staples move from elevated everyday dressing to celebrations, styled your way. Timeless sophistication meets cultural identity: refined, yet distinctive.","craftTitle":"Cultural craftsmanship doesn’t belong only in traditional dress.","craftBody":"We bring Toghu into modern, sophisticated silhouettes, creating a space where heritage, luxury and contemporary design exist together. Worn for an occasion or every day, our designs ask you to embrace your individuality with elegance.","visTitle":"Our vision","vis1h":"Global heritage fashion","vis1":"A globally recognised heritage brand redefining contemporary African luxury through Cameroonian craftsmanship, where Toghu is celebrated beyond its traditional context and creates lasting opportunities for the artisans and communities who preserve it.","vis2h":"Confidence & presence","vis2":"Fashion that changes how people see themselves: entering any room feeling powerful, distinguished and worthy. Every garment an expression of personal art in style.","tgTitle":"A cloth once reserved for kings.","tgBody":"Toghu comes from the Grassfields of North-West Cameroon: black cloth, embroidered by hand in red, yellow and white. Each motif carries meaning, and wearing it once spoke of rank before a word was said.","tgRegion":"The Grassfields, North-West Cameroon","tgAka":"Atoghu","tgGround":"Black cloth, today often velvet","tgThread":"Red, yellow and white, by hand","tgWorn":"Enthronements, weddings, funerals, festivals","ttTitle":"Through time","tt1h":"Fons and queens","tt1":"First worn by the Fon, his queens and title holders. The cloth showed rank before a word was spoken.","tt2h":"The big days","tt2":"Enthronements, weddings and funerals. Toghu marks the moments a community gathers.","tt3h":"A shared pride","tt3":"Worn far beyond the Grassfields, it became a symbol of Cameroon itself.","tt4h":"Home, carried","tt4":"Graduations in London, weddings in Houston. A way to bring home into the room.","tt5h":"Every day","tt5":"Ngwisa cuts it into corsets, dresses and tailoring, for days that aren’t ceremonies.","colTitle":"Four colours","colBlack":"The ground. The land, the night and the ancestors who stand behind every wearer.","colRed":"Royalty and life. The colour of the Fon, and of the blood that ties a family together.","colYellow":"Wealth and the harvest. Gold thread for a full granary and a prosperous house.","colWhite":"Peace and purity. The colour of blessing, worn when the community gives thanks.","mkTitle":"Made by hand","mk1":"The motif is marked onto the velvet in chalk, by eye and by memory.","mk2":"Artisans stitch it thread by thread, by hand. No two pieces land exactly alike.","mk3":"The embroidered velvet becomes a modern shape: a corset, a shirt dress, a tiered skirt.","mk4":"Every piece is checked, pressed and packed by hand.","tgOut":"Toghu, beyond its traditional context.","apTitle":"On the runway, in the room.","apSub":"The shows, conferences and showcases where Ngwisa has carried Toghu onto the stage.","apInvTitle":"Bring the gong to your stage.","apInv":"We take part in runway shows, panels, exhibitions and cultural showcases. For invitations, collaborations and press, write to the atelier.","st1T":"Toghu, beyond the ceremony","st1K":"OUR PROJECT · 4 MIN","st1P1":"Toghu has always been worn for the big days: enthronements, weddings, the moments a community gathers. Its embroidery is dense with meaning, stitched by hand in red, yellow and white on black.","st1P2":"Our purpose is to challenge the idea that cultural craftsmanship belongs only in traditional dress. We bring Toghu into modern, sophisticated silhouettes — a corset, a shirt dress, a tiered skirt — creating a space where heritage, luxury and contemporary design can exist together.","st1P3":"Whether worn for an occasion or folded into everyday life, the pieces ask you to embrace your individuality with elegance.","st1Cta":"READ ABOUT TOGHU →","st2T":"Meet the main character","st2K":"THE GONGBELL · 3 MIN","st2P1":"Every collection needs one piece that ties everything together. In The Gongbell, it is the corset.","st2P2":"Strongly structured and waist-cinching, it follows the torso and tapers inward to create an hourglass. Each cup carries the detailed Ngwisa gong design.","st2P3":"It pairs with every other piece in the collection — the fringe skirts, the tiered ruffles, the tailoring. The main character, for real.","st2Cta":"SHOP THE CORSET →","st3T":"Brought back, by request","st3K":"THE ATELIER · 3 MIN","st3P1":"Some pieces don’t leave. The Rahrah set and the Manyi top both come from our previous collection, and they were so well loved that we had to bring them back.","st3P2":"This time they return carrying the gong: the Rahrah’s structured velvet corset over red brushed fringe, and the Manyi’s zip-front top with a twin gong design.","st3P3":"The Rahrah now comes in white fringe too, and once — just once — in baby blue.","st3Cta":"SHOP THE RAHRAH →","wallTag":"#WornByNgwisa","wallShop":"SHOP THE LOOK →","wallIg":"@_NGWISA_ ON INSTAGRAM →","wallQ1K":"FROM THE FOUNDER","wallQ1":"Not simply something you wear, but something you embody.","wallQ2K":"NGWISA","wallQ2":"Where heritage meets modernity.","loopHead":"New in","loopBtn":"VIEW THE PIECE →","rackHead":"Best sellers","newsKick":"DEAR READER,","newsBtn":"SUBSCRIBE","newsSealed":"SEALED.","footVisit":"VISIT","footTalk":"TALK","footCopy":"© 2026 NGWISA · WWW.NGWISA.COM","igLabel":"INSTAGRAM","igHandle":"@_ngwisa_","tgRegionL":"REGION","tgAkaL":"ALSO CALLED","tgGroundL":"GROUND","tgThreadL":"THREAD","tgWornL":"WORN FOR","tt1k":"01 · PALACE","tt2k":"02 · CEREMONY","tt3k":"03 · COUNTRY","tt4k":"04 · DIASPORA","tt5k":"05 · NOW","colBlackN":"Black","colRedN":"Red","colYellowN":"Yellow","colWhiteN":"White","mk1k":"01 · CAMEROON","mk1h":"Draw","mk2k":"02 · CAMEROON","mk2h":"Embroider","mk3k":"03 · MANCHESTER","mk3h":"Cut","mk4k":"04 · BY HAND","mk4h":"Finish","tgShop":"SHOP THE GONGBELL →","jnAppH":"Appearances","apShow":"SEE THE SHOW","jnAtelierH":"From the atelier","apInvBtn":"INVITE NGWISA"};
 class Component extends DCLogic {
-  state = { page: 'home', sec: 0, curtain: 'idle', curtainL: '', quick: null, qImg: 0, size: null, bag: [], bagOpen: false,
+  state = { page: (() => { try { const r = !IN_EDITOR() && ROUTE(location.pathname); return (r && r.page) || 'home'; } catch (e) { return 'home'; } })(), thanks: null, sg: false, sgUnit: 'cm', sizeGuide: null, sec: 0, curtain: 'idle', curtainL: '', quick: null, qImg: 0, size: null, bag: [], bagOpen: false,
     tab: 'all', cat: 'All', sort: 'featured', gh: null, env: false, nl: '', nlDone: false, filmOpen: false,
     lb: null, lbT: 0, article: null, event: null, acct: false, aTab: 'in', aStage: 'form', aEmail: '', aPass: '', aFirst: '', aLast: '', aCode: '', aErr: '', aBusy: false, member: null, aNav: 'orders', orders: null, ordErr: false, ordOpen: null, track: {}, addrs: null, addrDef: 0, af: null, afEdit: null, afErr: '', prof: null, profMsg: '', profBusy: false, roBusy: false, toast: '', mob: false, menu: false, saved: {}, hs: null, pp: null, ppI: 0, shov: null, deckTop: { w: 0, m: 0 }, deckHov: null, wallF: 'ALL' };
 
@@ -1075,19 +1159,16 @@ class Component extends DCLogic {
     this.flash('ADDING ' + p.name.toUpperCase() + '…');
     N.addToCart(p.wixId, size).then(c => { this.setState({ bag: this.wixBag(c) }); this.flash(p.name.toUpperCase() + ' · ADDED TO BAG'); }).catch(e => this.flash(String(e.message || e).toUpperCase())); }
   loadWix(tries) { const N = window.NGW; if (!N) { if ((tries || 0) < 40) setTimeout(() => this.loadWix((tries || 0) + 1), 250); return; }
-    N.products().then(all => { const ALLOW = new Set(["AWA CROWN","Rahrah corsetTOP","Rahrah SET","SHINE SET","LIYAH DRESS & SCARF","NKEH PANTS","MANYI SKIRT","TATAH Unisex Blazer","Lohchi DRESS","Beri SKIRT","Beri TOP","Ayeah SHIRT","Andy SHIRT","TANKO VEST","BELLA SILK SKIRT","Manyi TOP","TATAH","NESSI","LADY","YAYUH","MALIYA","MA'FOR","MA'YAH","FON'EYI","NA'FOIN","LINWE SKIRT","NA'MAFOR TOP","NA'MAFOR SKIRT","YE'FON","Rahrah Set, White Fringe","Main Character Corset","Mawa Dress","Mimche Dress","Muna Set","Mita Dress","Yem Shirt Dress"].map(N.norm)); const ws = all.filter(w => ALLOW.has(w.key)); const byKey = new Map(P.map(p => [N.norm(p.name), p])); const fresh = [];
-      ws.forEach(w => { const p = byKey.get(w.key); if (p) { p.wixId = w.wixId; if (w.price != null) p.price = w.price; const wi = (w.imgs && w.imgs.length ? w.imgs : (w.img ? [w.img] : [])).filter(Boolean); if (wi.length) { p.imgs = wi.slice(0, 6); p.img = wi[0]; p.alt = wi[1] || wi[0]; } return; }
-        const nm = w.name.replace(/\w\S*/g, s => s.charAt(0) + s.slice(1).toLowerCase()); const im = w.imgs.length ? w.imgs : (w.img ? [w.img] : []);
-        const np = { id: 'w-' + w.wixId, wixId: w.wixId, name: nm, price: w.price, img: im[0] || '', alt: im[1] || im[0] || '', imgs: im.slice(0, 3).length ? im.slice(0, 3) : [''], cat: 'Collection', g: /unisex|shirt|vest/i.test(w.name) ? 'u' : 'w', hook: '', desc: w.desc, sizes: [['ONE SIZE']], restock: true, best: 0, isNew: false };
-        P.push(np); fresh.push(np); });
-      this.forceUpdate();
-      P.filter(p => p.wixId).forEach(p => N.variants(p.wixId).then(vs => { if (!vs.length) return; const rows = vs.filter(v => v.label).map(v => [v.label, v.qty, null, !v.inStock]);
-        p.sizes = rows.length ? rows : [['ONE SIZE', vs[0].qty, null, !vs[0].inStock]]; p.wixSized = true; this.forceUpdate(); }).catch(() => {}));
-    }).catch(e => console.warn('Wix catalog', e));
+    /* Wix Stores is the catalogue: it decides which pieces exist, their prices, photos, descriptions, stock and URLs.
+       The Studio's Products screen (StudioProducts) decides visibility, category, gender, hook and best-seller rank.
+       The built-in pieces above only fill what neither has yet. Stock comes from one bulk inventory query. */
+    N.catalog(P).then(({ list }) => { list.slice(P.length).forEach(p => P.push(p)); this.catalogReady = true; this.forceUpdate(); this.syncRoute(true);
+      return N.stock(P).then(() => this.forceUpdate()); }).catch(e => { console.warn('Wix catalog', e); this.catalogReady = true; this.syncRoute(true); });
     N.cart().then(c => { if (c) this.setState({ bag: this.wixBag(c) }); }).catch(() => {}); if (N.isMember()) N.me().then(m => { if (m) { this.setState({ member: m }); this.loadAcct(m); } }); }
   componentDidMount() {
-    this.onHash = () => this.forceUpdate(); addEventListener('hashchange', this.onHash); addEventListener('popstate', this.onHash);
+    this.onHash = () => { this.syncRoute(this.catalogReady); this.forceUpdate(); }; addEventListener('hashchange', this.onHash); addEventListener('popstate', this.onHash);
     if (/^\/studio/i.test(location.pathname) || /^#\/?studio/i.test(location.hash)) return;
+    this.syncRoute(false);
     this.loadWix(0); this.loadStudio(0);
     this.mx = innerWidth / 2; this.my = innerHeight / 2; this.cx = this.mx; this.cy = this.my;
     this.wo = []; this.sw = 0; this.tilt = { x: 0, y: 0 };
@@ -1099,7 +1180,7 @@ class Component extends DCLogic {
       const el = this.sc; if (!el || e.ctrlKey || !el.contains(e.target)) return;
       if (Math.abs(e.deltaX) > Math.abs(e.deltaY)) return;
       if (!this.tops || !this.tops.length) return;
-      if (this.state.quick || this.state.bagOpen || this.state.lb || this.state.acct || this.state.article != null || this.state.event != null || this.state.filmOpen || this.state.pp) return;
+      if (this.state.quick || this.state.bagOpen || this.state.lb || this.state.acct || this.state.article != null || this.state.event != null || this.state.filmOpen || this.state.pp || this.state.sg || this.state.thanks) return;
       e.preventDefault();
       const now = performance.now(), gap = now - (this.lastWheel || 0); this.lastWheel = now;
       if (this.locked) return;
@@ -1111,7 +1192,7 @@ class Component extends DCLogic {
     this.onPageKey = e => {
       if (!this.sc || !this.tops || !this.tops.length || this.locked) return;
       const t = e.target; if (t && (t.tagName === 'INPUT' || t.tagName === 'TEXTAREA' || t.tagName === 'SELECT' || t.isContentEditable)) return;
-      if (this.state.quick || this.state.bagOpen || this.state.lb || this.state.acct || this.state.article != null || this.state.event != null || this.state.filmOpen || this.state.pp) return;
+      if (this.state.quick || this.state.bagOpen || this.state.lb || this.state.acct || this.state.article != null || this.state.event != null || this.state.filmOpen || this.state.pp || this.state.sg || this.state.thanks) return;
       if (['ArrowDown', 'PageDown', ' '].includes(e.key)) { e.preventDefault(); this.advance(1); }
       if (['ArrowUp', 'PageUp'].includes(e.key)) { e.preventDefault(); this.advance(-1); }
     };
@@ -1164,7 +1245,7 @@ class Component extends DCLogic {
     };
     this.raf = requestAnimationFrame(tick);
     this.lbTimer = setInterval(() => { const lb = this.state.lb; if (!lb || !lb.reel) return; const t = this.state.lbT + 100; if (t >= 2600) { this.setState({ lb: { ...lb, i: (lb.i + 1) % lb.items.length }, lbT: 0 }); } else this.setState({ lbT: t }); }, 100);
-    this.onKey = e => { if (e.key === 'Escape' && this.state.pp && !this.state.bagOpen) { this.closePP(); return; } if (e.key === 'Escape') this.setState({ quick: null, bagOpen: false, filmOpen: false, lb: null, article: null, event: null, acct: false, menu: false }); };
+    this.onKey = e => { if (e.key === 'Escape' && this.state.sg) { this.setState({ sg: false }); return; } if (e.key === 'Escape' && this.state.pp && !this.state.bagOpen) { this.closePP(); return; } if (e.key === 'Escape') this.setState({ quick: null, bagOpen: false, filmOpen: false, lb: null, article: null, event: null, acct: false, menu: false }); };
     addEventListener('keydown', this.onKey);
     this.onNgOpen = e => this.openQuick(e.detail.id);
     this.onNgLink = e => { const t = e.target && e.target.closest ? e.target.closest('[data-link]') : null; const l = t ? t.getAttribute('data-link') : 'shop';
@@ -1177,7 +1258,7 @@ class Component extends DCLogic {
     document.removeEventListener('click', this.onClickCap, true); document.removeEventListener('scroll', this.onScrollCap, true); removeEventListener('keydown', this.onKey); document.removeEventListener('ng-open', this.onNgOpen); document.removeEventListener('ng-link', this.onNgLink);
     if (this.io) this.io.disconnect(); removeEventListener('resize', this.onResize2); document.removeEventListener('wheel', this.onWheel); removeEventListener('keydown', this.onPageKey); cancelAnimationFrame(this.anRaf);
   }
-  componentDidUpdate() { this.syncImgs(); if (this.lastPP !== this.state.pp) { this.lastPP = this.state.pp; setTimeout(() => this.refreshEls(), 150); } }
+  componentDidUpdate() { this.syncImgs(); if (!IN_EDITOR()) { const t = this.docTitle(); if (document.title !== t) document.title = t; } if (this.lastPP !== this.state.pp) { this.lastPP = this.state.pp; setTimeout(() => this.refreshEls(), 150); } }
   syncImgs() { document.querySelectorAll('img[data-img]').forEach(i => { const s = i.getAttribute('data-img'); if (s && s.indexOf('{{') < 0 && i.dataset.raw !== s) { i.dataset.raw = s; i.setAttribute('src', RZ(s, SHOWN(i))); } }); }
   setupWhenReady(el, tries) {
     clearTimeout(this.swrT);
@@ -1270,8 +1351,37 @@ class Component extends DCLogic {
     });
   }
   flash(t) { clearTimeout(this.tt); this.setState({ toast: t }); this.tt = setTimeout(() => this.setState({ toast: '' }), 2400); }
+  /* Address bar <-> state. nav() records a new address; syncRoute() applies the current one (first load, back/forward). */
+  nav(path, replace) { if (IN_EDITOR() || !path) return; const cur = location.pathname + location.search; if (cur === path) return;
+    try { history[replace ? 'replaceState' : 'pushState']({ ng: 1 }, '', path); } catch (e) {} }
+  syncRoute(afterCatalog) {
+    if (IN_EDITOR()) return; const r = ROUTE(location.pathname); if (r.studio) return;
+    const set = {}; if (r.page && r.page !== this.state.page) Object.assign(set, { page: r.page, sec: 0 });
+    if (r.slug) { const p = P.find(x => x.slug === r.slug || x.id === r.slug);
+      if (p && !p.hidden) { if (this.state.pp !== p.id) Object.assign(set, { pp: p.id, ppI: 0, size: null }); this.ensureSizes(p);
+        if (p.slug && p.slug !== r.slug) this.nav('/shop/' + encodeURIComponent(p.slug), true); }
+      else if (afterCatalog) { this.flash('THAT PIECE ISN’T IN THE SHOP RIGHT NOW'); this.nav('/shop', true); Object.assign(set, { pp: null, page: 'shop' }); } }
+    else if (this.state.pp) set.pp = null;
+    if (r.unknown && afterCatalog === false) this.nav('/', true);
+    if (r.thanks && !this.state.thanks) this.showThanks();
+    if (Object.keys(set).length) this.setState(set); }
+  docTitle() { const st = this.state, p = st.pp ? this.find(st.pp) : null;
+    if (st.thanks) return 'Thank you — Ngwisa'; if (p) return ((p.seo && p.seo.title) || p.name) + ' — Ngwisa';
+    const t = (this.state.copy || {})['seo' + st.page.charAt(0).toUpperCase() + st.page.slice(1) + 'T']; return t || TITLES[st.page] || 'Ngwisa'; }
+  /* Sizes for a piece come from its Wix variants; fetched when the piece is opened, not for every piece on load. */
+  ensureSizes(p) { const N = window.NGW; if (!p || !p.wixId || p.wixSized || !N) return Promise.resolve(p);
+    if (!p._vs) p._vs = N.variants(p.wixId).then(vs => { if (vs.length) { p.variants = vs; p.sizes = N.variantRows(vs) || p.sizes; p.soldOut = vs.every(v => !v.inStock); } p.wixSized = true; this.forceUpdate(); return p; }).catch(() => { p._vs = null; return p; });
+    return p._vs; }
+  showThanks() { const N = window.NGW; this.setState({ thanks: { loading: true, order: null } });
+    const run = () => { const m = this.state.member;
+      N.confirmation(m && m.id).then(o => this.setState({ thanks: { loading: false, order: o } })).catch(() => this.setState({ thanks: { loading: false, order: null } }));
+      N.cart().then(c => this.setState({ bag: this.wixBag(c) })).catch(() => this.setState({ bag: [] }));
+      try { sessionStorage.removeItem('ngwisa-checkout'); } catch (e) {} };
+    if (N) setTimeout(run, N.isMember() && !this.state.member ? 900 : 0); else setTimeout(() => this.showThanks(), 300); }
+  closeThanks(page) { this.setState({ thanks: null }); this.nav(PATHS[page || 'shop']); if (page && page !== this.state.page) this.go(page); }
   go(page, extra) {
-    if (page === this.state.page && this.state.curtain === 'idle') { if (this.sc) this.smoothTo(0); this.setState({ menu: false, ...(extra || {}) }); return; }
+    this.nav(PATHS[page] || '/');
+    if (page === this.state.page && this.state.curtain === 'idle') { if (this.sc) this.smoothTo(0); this.setState({ menu: false, pp: null, ...(extra || {}) }); return; }
     const lab = NAV.find(n => n[0] === page)[2];
     this.setState({ curtain: 'in', curtainL: lab, menu: false, article: null, event: null });
     setTimeout(() => this.setState({ page, sec: 0, curtain: 'out', ...(extra || {}) }), 650);
@@ -1279,13 +1389,14 @@ class Component extends DCLogic {
   }
   find(id) { return P.find(p => p.id === id); }
   openQuick(id) {
-    const p = this.find(id); if (!p) return;
+    const p = this.find(id); if (!p) return; this.ensureSizes(p); this.nav('/shop/' + encodeURIComponent(p.slug || p.id));
     if (this.state.pp) { this.setState({ pp: id, ppI: 0, size: null }); const o = document.querySelector('[data-pp]'); if (o) o.scrollTo({ top: 0, behavior: 'smooth' }); return; }
     this.setState({ curtain: 'in', curtainL: p.name, menu: false });
     setTimeout(() => this.setState({ pp: id, ppI: 0, size: null, curtain: 'out', quick: null, bagOpen: false, lb: null, article: null, filmOpen: false }), 650);
     setTimeout(() => this.setState({ curtain: 'idle' }), 1350);
   }
   closePP() {
+    this.nav(PATHS[this.state.page] || '/shop');
     this.setState({ curtain: 'in', curtainL: NAV.find(x => x[0] === this.state.page)[2] });
     setTimeout(() => this.setState({ pp: null, curtain: 'out' }), 650);
     setTimeout(() => this.setState({ curtain: 'idle' }), 1350);
@@ -1294,7 +1405,8 @@ class Component extends DCLogic {
   async loadStudio(n) { const N = window.NGW; if (!N) { if (n < 40) setTimeout(() => this.loadStudio(n + 1), 250); return; }
     const q = id => N.request('/wix-data/v2/items/query', { body: { dataCollectionId: id, query: { cursorPaging: { limit: 1000 } } } }).then(r => ((r && r.dataItems) || []).map(x => x.data || {})).catch(() => []);
     const mu = v => { if (!v) return ''; if (typeof v === 'object') v = v.url || ''; const m = String(v).match(/^wix:(image|video):\/\/v1\/([^/#]+)/); if (!m) return String(v); return m[1] === 'image' ? 'https://static.wixstatic.com/media/' + m[2] : 'https://video.wixstatic.com/video/' + m[2] + '/1080p/mp4/file.mp4'; };
-    const [copy, slots, nir, prs, apps, worn] = await Promise.all(['StudioHomeCopy', 'StudioSiteSlots', 'StudioNewInRail', 'StudioPairs', 'StudioAppearances', 'StudioWornByYou'].map(q));
+    const [copy, slots, nir, prs, apps, worn, sizes] = await Promise.all(['StudioHomeCopy', 'StudioSiteSlots', 'StudioNewInRail', 'StudioPairs', 'StudioAppearances', 'StudioWornByYou', 'StudioSizeGuide'].map(q));
+    if (sizes.length) this.setState({ sizeGuide: ord(sizes).map(r => ({ cat: r.title || '', sz: r.sizes || [], rows: (r.rows && r.rows.rows) || [], note: r.note || '' })).filter(g => g.rows.length) });
     const ord = a => a.slice().sort((x, y) => ((x.order || 0) - (y.order || 0)) || String(x._id).localeCompare(String(y._id)));
     const cp = {}; copy.forEach(r => { if (r.title && typeof r.text === 'string' && r.text.trim()) cp[r.title] = r.text; });
     const sl = {}, sm = {}; slots.forEach(r => { const u = mu(r.video || r.image || r.fileUrl); if (r.title && u) { sl[r.title] = u; sm[r.title] = { alt: r.alt || '', pos: r.focalX != null && r.focalY != null ? r.focalX + '% ' + r.focalY + '%' : '' }; } });
@@ -1317,9 +1429,10 @@ class Component extends DCLogic {
     const secLabels = SECS[st.page];
     const scrollTo = i => () => { if (this.sc && this.tops && this.tops[i] != null) this.smoothTo(this.tops[i]); };
 
-    let list = P.slice();
-    if (st.tab === 'best') list = P.filter(p => p.best).sort((a, b) => a.best - b.best);
-    if (st.cat === 'Best sellers') list = P.filter(p => p.best && p.best <= 4).sort((a, b) => a.best - b.best);
+    const PV = P.filter(p => !p.hidden); /* pieces hidden in the Studio's Products screen stay out of every list */
+    let list = PV.slice();
+    if (st.tab === 'best') list = PV.filter(p => p.best).sort((a, b) => a.best - b.best);
+    if (st.cat === 'Best sellers') list = PV.filter(p => p.best && p.best <= 4).sort((a, b) => a.best - b.best);
     if (st.cat === 'Women') list = list.filter(p => p.g !== 'm');
     else if (st.cat === 'Men') list = list.filter(p => p.g !== 'w');
     else if (st.cat !== 'All' && st.cat !== 'Best sellers') list = list.filter(p => p.cat === st.cat);
@@ -1374,21 +1487,21 @@ const sCard = (p, i, pre) => { const key = pre + p.id, on = st.shov === key;
       secs: secLabels.map((l, i) => ({ go: scrollTo(i), lab: i === st.sec ? String(i + 1).padStart(2, '0') + ' ' + l.toUpperCase() : '', w: i === st.sec ? '28px' : '12px', o: i === st.sec ? 1 : 0.45 })),
       mref: el => { if (!el) return; const v = el.dataset.v || (el.dataset.w ? WXS + el.dataset.w : ''); if (v && el.dataset.raw !== v) { el.dataset.raw = v; el.setAttribute('src', RZ(v, SHOWN(el))); } }, bagCount: st.bag.length, openBag: () => this.setState({ bagOpen: true }), closeBag: () => this.setState({ bagOpen: false }), bagOpen: st.bagOpen, bagEmpty: !st.bag.length,
       bagLines: st.bag.map((b, i) => ({ ...b, price: fmt(b.price), remove: () => { if (b.lineId && window.NGW) window.NGW.removeLine(b.lineId).then(c => this.setState({ bag: this.wixBag(c) })).catch(e => this.flash(String(e.message || e).toUpperCase())); else this.setState({ bag: st.bag.filter((_, j) => j !== i) }); } })),
-      goCheckout: () => { if (!window.NGW) return; this.setState({ ckBusy: true }); window.NGW.checkoutUrl(this.prefill()).then(u => { (window.top || window).location.href = u; }).catch(e => { this.setState({ ckBusy: false }); this.flash(String(e.message || e).toUpperCase()); }); },
+      goCheckout: () => { if (!window.NGW) return; this.setState({ ckBusy: true }); window.NGW.checkoutUrl(this.prefill(), location.pathname).then(u => { (window.top || window).location.href = u; }).catch(e => { this.setState({ ckBusy: false }); this.flash(String(e.message || e).toUpperCase()); }); },
       bagFill: !!this.prefill(), bagFillTo: (() => { const p = this.prefill(); return p ? [p.address.line1, p.address.postcode].filter(Boolean).join(', ').toUpperCase() : ''; })(),
       checkoutL: st.ckBusy ? 'OPENING SECURE CHECKOUT…' : 'CHECKOUT →',
       subtotal: '£' + bagSub.toFixed(2),
-      loopCards: P.filter(p => p.isNew).map(p => ({ name: p.name, price: fmt(p.price), img: p.img, alt: p.alt, open: open(p.id) })),
+      loopCards: PV.filter(p => p.isNew).map(p => ({ name: p.name, price: fmt(p.price), img: p.img, alt: p.alt, open: open(p.id) })),
       decks: [['Women', SL['deck-women'] || '02706', (SM['deck-women'] || {}).pos || '50% 22%', 'red'], ['Men', SL['deck-men'] || '02542', (SM['deck-men'] || {}).pos || '50% 20%', 'gold']].map(d => ({ l: d[0], img: IMG(d[1]), pos: d[2], tone: d[3], cta: 'SHOP ' + d[0].toUpperCase() + ' →', go: go('shop', { cat: d[0], tab: 'all' }) })),
       openFilm: () => this.setState({ filmOpen: true }), closeFilm: () => this.setState({ filmOpen: false }), filmOpen: st.filmOpen,
-      rack: P.filter(p => p.best).sort((x, y) => x.best - y.best).map(p => ({ name: p.name, price: fmt(p.price), img: p.img, rank: p.best, open: open(p.id) })),
+      rack: PV.filter(p => p.best).sort((x, y) => x.best - y.best).map(p => ({ name: p.name, price: fmt(p.price), img: p.img, rank: p.best, open: open(p.id) })),
       wallIn: () => { this.wallHover = true; }, wallOut: () => { this.wallHover = false; this.hReel = null; },
       wallCols: WALL.map((c, ci) => ({ dir: ci % 2 ? '-1' : '1', tiles: c.concat(c).map(t => tile(t)) })),
       wallFilters: ['ALL', 'REELS', 'PHOTOS', 'FILM'].map(f => ({ l: f, go: () => this.setState({ wallF: f }), bg: st.wallF === f ? '#FBF8F2' : 'transparent', ink: st.wallF === f ? '#141110' : '#FBF8F2' })),
       articles: ART.map((x, i) => ({ n: String(i + 1).padStart(2, '0'), t: x.t, k: x.k, k2: (x.k.split(' · ')[1] || '').toLowerCase().replace('min', 'min read'), img: x.img, open: () => this.setState({ article: i, event: null }) })),
       hasArticle: !!a, closeArticle: () => this.setState({ article: null, event: null }),
       art: a ? { ...a, paras: a.paras.map(x => ({ x })), gal: (a.gal || []).map(g => ({ img: IMG(g) })), hasGal: !!(a.gal && a.gal.length), cta: () => { this.setState({ article: null, event: null }); if (a.go === 'heritage' || a.go === 'shop') this.go(a.go); else this.openQuick(a.go); } } : { paras: [], gal: [] },
-      ppWallCols: (() => { const p = st.pp ? this.find(st.pp) : null; if (!p) return []; const others = P.filter(x => x.id !== p.id); const o = k => others[(P.indexOf(p) * 3 + k * 2) % others.length]; const I = p.imgs;
+      ppWallCols: (() => { const p = st.pp ? this.find(st.pp) : null; if (!p) return []; const others = PV.filter(x => x.id !== p.id); const o = k => others[(P.indexOf(p) * 3 + k * 2) % others.length]; const I = p.imgs;
         const cols = [[{ k: 'PHOTO', f: [I[0]] }, { k: 'QUOTE', text: p.hook }, { k: 'REEL', f: [I[1], I[2], I[0]], pid: p.id }, { k: 'PHOTO', f: [o(0).img], pid: o(0).id }],
           [{ k: 'REEL', f: [I[2], I[0], I[1]], pid: p.id }, { k: 'PHOTO', f: [I[1]] }, { k: 'TAG' }, { k: 'PHOTO', f: [o(1).img], pid: o(1).id }],
           [{ k: 'PHOTO', f: [I[2]] }, { k: 'FILM', f: ['03622'] }, { k: 'PHOTO', f: [o(2).img], pid: o(2).id }, { k: 'QUOTE', q: 'wallQ2', text: 'Where heritage meets modernity.' }]];
@@ -1403,17 +1516,18 @@ const sCard = (p, i, pre) => { const key = pre + p.id, on = st.shov === key;
       cats: ['All', 'Women', 'Men', 'Tops', 'Bottoms', 'Dresses', 'Sets', 'Outerwear', 'Accessories', 'Jumpsuits'].map(c => ({ l: c, go: () => this.setState({ cat: c }), ...((on) => ({ bs: on ? 'solid' : 'dashed', bd: on ? '#141110' : '#C4C1BC', bg: on ? '#141110' : 'transparent', ink: on ? '#FFFFFF' : '#45423E' }))(st.cat === c) })),
       sort: st.sort, onSort: e => this.setState({ sort: e.target.value }),
       shopCount: list.length + ' PIECES ON THE NEEDLE', shopEmpty: !list.length, showAll: () => this.setState({ cat: 'All', tab: 'all' }),
-      shopCards: list.map(p => { const badge = st.tab === 'best' && p.best ? 'BEST SELLER № ' + p.best : p.best ? 'BEST SELLER' : p.isNew ? 'NEW' : '';
+      shopCards: list.map(p => { const badge = p.soldOut ? 'SOLD OUT' : st.tab === 'best' && p.best ? 'BEST SELLER № ' + p.best : p.best ? 'BEST SELLER' : p.isNew ? 'NEW' : '';
         return { name: p.name, cat: p.cat, price: p.price == null ? 'Price on request' : '£' + p.price.toFixed(2), img: p.img, badge, hasBadge: !!badge, open: open(p.id),
           saved: !!st.saved[p.id], unsaved: !st.saved[p.id], save: () => this.setState({ saved: { ...st.saved, [p.id]: !st.saved[p.id] } }),
           addL: p.price == null ? 'ASK —' : 'ADD —',
-          add: () => { if (p.price == null) { this.openQuick(p.id); return; } const z = p.sizes.find(z => !z[3]); if (!z) { this.flash('SOLD OUT'); return; } this.addWix(p, z[0]); } }; }),
+          add: () => { if (p.price == null) { this.openQuick(p.id); return; } if (p.soldOut) { this.flash('SOLD OUT'); return; }
+            this.ensureSizes(p).then(() => { const z = p.sizes.find(z => !z[3]); if (!z) { this.flash('SOLD OUT'); return; } this.addWix(p, z[0]); }); } }; }),
       hotspots: [['yem', 12, 70], ['rahrah-white', 26, 55], ['mawa', 39, 74], ['tatah', 51, 50], ['mita-dress', 61, 64], ['manyi', 79, 40]].map((s, i) => { const p = this.find(s[0]); const on = st.hs === i;
         return { x: s[1] + '%', y: s[2] + '%', z: on ? 25 : 20, on, cat: p.cat, name: p.name, price: p.price == null ? 'Price on request' : '£' + p.price.toFixed(2),
           anim: on ? 'none' : 'hotspotPulse 2.6s ease-in-out infinite', halo: on ? 1.12 : 1, top: s[2] < 50 ? '24px' : 'auto', bottom: s[2] < 50 ? 'auto' : '24px',
           toggle: () => this.setState({ hs: on ? null : i }), open: open(p.id) }; }),
       goFounders: go('founders'),
-      bestCards: P.filter(p => p.best && p.best <= 4).sort((a, b) => a.best - b.best).map((p, i) => sCard(p, i, 'b')),
+      bestCards: PV.filter(p => p.best && p.best <= 4).sort((a, b) => a.best - b.best).map((p, i) => sCard(p, i, 'b')),
       gridCards: list.map((p, i) => sCard(p, i, 'g')),
       catChips: ['All', 'Women', 'Men', 'Best sellers'].map(c => { const on = st.cat === c;
         return { l: c.toUpperCase(), go: () => this.setState({ cat: c, tab: 'all' }), bg: on ? '#D81219' : 'transparent', ink: on ? '#FBF8F2' : '#6A6057', sh: on ? 'inset 0 2px 0 rgba(255,255,255,.25),inset 0 -3px 0 #6E080C' : 'none' }; }),
@@ -1421,13 +1535,13 @@ const sCard = (p, i, pre) => { const key = pre + p.id, on = st.shov === key;
         return { l: s[1], go: () => this.setState({ sort: s[0] }), bg: on ? '#D81219' : 'transparent', ink: on ? '#FBF8F2' : '#6A6057', bd: on ? '#D81219' : '#D9D2C7' }; }),
       scrollAll: () => { const el = this.sc && this.sc.querySelector('[data-shopall]'); if (el) this.smoothTo(el.offsetTop); },
       frame: (FRAMES[this.props.frameTint] || FRAMES.Oxblood)[0], frameLine: (FRAMES[this.props.frameTint] || FRAMES.Oxblood)[1],
-      loopNewJson: JSON.stringify(P.filter(p => p.isNew).sort((a, b) => (a.newOrder ?? 99) - (b.newOrder ?? 99)).map(p => ({ id: p.id, img: p.img, imgs: p.imgs, hook: p.hook, desc: p.desc, label: p.cat.toUpperCase(), title: p.name, price: fmt(p.price) }))),
-      loopAllJson: JSON.stringify(P.map(p => ({ id: p.id, img: p.img, imgs: p.imgs, hook: p.hook, desc: p.desc, label: p.cat.toUpperCase(), title: p.name, price: fmt(p.price) }))),
-      rackJson: JSON.stringify(P.filter(p => p.best && p.best <= 4).sort((x, y) => x.best - y.best).map(p => ({ id: p.id, name: p.name, price: p.price, img: p.img, img2: p.alt }))),
+      loopNewJson: JSON.stringify(PV.filter(p => p.isNew).sort((a, b) => (a.newOrder ?? 99) - (b.newOrder ?? 99)).map(p => ({ id: p.id, img: p.img, imgs: p.imgs, hook: p.hook, desc: p.desc, label: p.cat.toUpperCase(), title: p.name, price: fmt(p.price) }))),
+      loopAllJson: JSON.stringify(PV.map(p => ({ id: p.id, img: p.img, imgs: p.imgs, hook: p.hook, desc: p.desc, label: p.cat.toUpperCase(), title: p.name, price: fmt(p.price) }))),
+      rackJson: JSON.stringify(PV.filter(p => p.best && p.best <= 4).sort((x, y) => x.best - y.best).map(p => ({ id: p.id, name: p.name, price: p.price, img: p.img, img2: p.alt }))),
       hasPP: !!st.pp, closePP: () => this.closePP(),
       pp: (() => { const p = st.pp ? this.find(st.pp) : null; if (!p) return { thumbs: [], sizes: [], pairs: [] };
         const imgs = p.imgs, main = imgs[st.ppI % imgs.length];
-        const others = P.filter(x => x.id !== p.id && (x.g === p.g || x.g === 'u' || p.g === 'u')); const auto = [0, 1, 2, 3, 4, 5].map(k => others[(P.indexOf(p) * 3 + k * 2) % others.length]); const fixed = ((this.pairMap || {})[p.id] || []).map(id => this.find(id)).filter(Boolean); const pairs = fixed.concat(auto).filter((x, i, a) => x && a.indexOf(x) === i).slice(0, 3);
+        const others = PV.filter(x => x.id !== p.id && (x.g === p.g || x.g === 'u' || p.g === 'u')); const auto = [0, 1, 2, 3, 4, 5].map(k => others[(P.indexOf(p) * 3 + k * 2) % others.length]); const fixed = ((this.pairMap || {})[p.id] || []).map(id => this.find(id)).filter(Boolean); const pairs = fixed.concat(auto).filter((x, i, a) => x && a.indexOf(x) === i).slice(0, 3);
         return { name: p.name, n: String(P.indexOf(p) + 1).padStart(2, '0') + ' / ' + String(P.length).padStart(2, '0'), cat: p.cat.toUpperCase(), hook: p.hook, desc: p.desc, price: fmt(p.price) === 'PRICE ON REQUEST' ? 'On request' : fmt(p.price), main,
           thumbs: imgs.map((src, k) => ({ src, ring: k === st.ppI ? '#E3A72F' : '#FBF8F2', pick: () => this.setState({ ppI: k }) })),
           sizes: this.szRows(p.sizes),
@@ -1464,6 +1578,20 @@ const sCard = (p, i, pre) => { const key = pre + p.id, on = st.shov === key;
           doVerify: () => { const N = window.NGW; if (!N || busy) return; this.setState({ aBusy: true, aErr: '' }); N.verify(st.aCode.trim()).then(s => this.afterAuth(s)).catch(e => this.setState({ aBusy: false, aErr: e.message })); },
           shop: () => { this.setState({ acct: false }); this.go('shop'); }, out: () => { if (!st.member) { this.flash('PREVIEW — NOT SIGNED IN'); return; } this.setState({ member: null, orders: null, addrs: null, ordOpen: null, aNav: 'orders' }); if (window.NGW) window.NGW.logout(); },
           hasErr: !!st.aErr, err: st.aErr }; })(),
+      hasSG: !!st.sg, openSG: () => this.setState({ sg: true }), closeSG: () => this.setState({ sg: false }),
+      sgUnits: [['cm', 'CM'], ['in', 'INCHES']].map(u => ({ l: u[1], go: () => this.setState({ sgUnit: u[0] }), bg: st.sgUnit === u[0] ? '#141110' : 'transparent', ink: st.sgUnit === u[0] ? '#FBF8F2' : '#141110' })),
+      sgCats: (() => { const pc = st.pp ? (this.find(st.pp) || {}).cat : '', want = SG_FOR(pc), all = (st.sizeGuide && st.sizeGuide.length ? st.sizeGuide : SIZE_DEF);
+        return all.slice().sort((a, b) => (SG_FOR(b.cat) === want) - (SG_FOR(a.cat) === want)).map(g => ({ cat: g.cat.toUpperCase(), note: g.note || '', hasNote: !!g.note,
+          head: g.sz.map(x => ({ x })), cols: '120px repeat(' + g.sz.length + ',minmax(44px,1fr))',
+          rows: g.rows.map(r => ({ l: r[0], vals: r.slice(1).map(v => ({ v: CM_IN(v, st.sgUnit) })) })) })); })(),
+      hasThanks: !!st.thanks, thanksBusy: !!(st.thanks && st.thanks.loading), thanksDone: !!(st.thanks && !st.thanks.loading),
+      thanks: (() => { const o = st.thanks && st.thanks.order, gbp = v => '£' + Number(v || 0).toFixed(2).replace(/\.00$/, '');
+        return { no: o && o.number ? 'ORDER #' + o.number : 'ORDER PLACED', hasLines: !!(o && o.lines && o.lines.length),
+          lines: ((o && o.lines) || []).map(l => ({ name: l.name, img: l.img, opts: [l.opts, 'QTY ' + l.qty].filter(Boolean).join(' · ').toUpperCase(), price: gbp(l.price * l.qty) })),
+          total: o && o.total != null ? gbp(o.total) : '', hasTotal: !!(o && o.total != null),
+          note: st.member ? 'A confirmation is on its way to ' + (st.member.email || 'your inbox') + '. You can follow the order from your account.' : 'A confirmation is on its way to the email you used at checkout.',
+          member: !!st.member, shop: () => this.closeThanks('shop'), home: () => this.closeThanks('home'),
+          orders: () => { this.setState({ thanks: null, acct: true, aNav: 'orders' }); this.nav('/shop'); if (st.member) this.loadAcct(st.member); } }; })(),
       toast: st.toast, hasToast: !!st.toast,
     };
   }
