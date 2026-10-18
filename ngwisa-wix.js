@@ -160,5 +160,5 @@
     try { const r = await req('/members/v1/members/my?fieldsets=FULL', { method: 'GET' }); const c = (r.member && r.member.contact) || {};
       return (c.addresses || []).map(a => ({ id: a.id || a._id, line1: a.addressLine || (a.streetAddress && [a.streetAddress.number, a.streetAddress.name].filter(Boolean).join(' ')) || '', line2: a.addressLine2 || '', city: a.city || '', region: a.subdivision || '', postcode: a.postalCode || '', country: a.country || '' })); } catch (e) { return []; }
   }
-  window.NGW = { request: req, products, variants, addToCart, cart, removeLine, checkoutUrl, norm, img, login, register, verify, me, logout, isMember, orders, tracking, reorder, updateMe, myAddresses };
+  window.NGW = { request: req, accessToken: token, products, variants, addToCart, cart, removeLine, checkoutUrl, norm, img, login, register, verify, me, logout, isMember, orders, tracking, reorder, updateMe, myAddresses };
 })();

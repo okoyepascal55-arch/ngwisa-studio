@@ -62,7 +62,7 @@
 </section>
 
 <section data-sec="1" data-screen-label="Home 02 The Loop" style="position:relative;min-height:100svh;scroll-snap-align:start;background:#FBF8F2;display:flex;flex-direction:column;justify-content:center;padding:0 0 32px">
-<x-import component-from-global-scope="ng-loop" headsize="clamp(28px,3.6vw,60px)" from="./ngwisa-parts.js" items="{{ loopNewJson }}" heading="New in" button="VIEW THE PIECE →" size="h2" showcase="1" stitched="1" vhoffset="330" data-link="loop" hint-size="100%,90vh"></x-import>
+<x-import component-from-global-scope="ng-loop" headsize="clamp(28px,3.6vw,60px)" from="./ngwisa-parts.js" items="{{ loopNewJson }}" heading="{{ tx.loopHead }}" button="{{ tx.loopBtn }}" size="h2" showcase="1" stitched="1" vhoffset="330" data-link="loop" hint-size="100%,90vh"></x-import>
 </section>
 
 <section data-sec="1" data-screen-label="Home 03 Women and Men" style="position:relative;min-height:100svh;scroll-snap-align:start;background:#141110;color:#FBF8F2;display:flex;flex-wrap:wrap;gap:8px;padding:84px 8px 8px">
@@ -79,13 +79,13 @@
 </section>
 
 <section data-sec="1" data-screen-label="Home 04 Film" style="position:relative;height:100svh;scroll-snap-align:start;overflow:hidden;background:#0A0807">
-<img data-kb="1" ref="{{ mref }}" data-w="840628_1194b99ba10d443584f3d4ee467f24c3~mv2.jpg" alt="The Gongbell cast" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.62) contrast(1.1)">
+<img data-kb="1" ref="{{ mref }}" data-v="{{ si.homeCast }}" data-w="840628_1194b99ba10d443584f3d4ee467f24c3~mv2.jpg" alt="{{ si.homeCastAlt }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:{{ si.homeCastPos }};filter:brightness(.62) contrast(1.1)">
 <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 70% at 50% 50%,rgba(10,8,7,0) 30%,rgba(10,8,7,.7))"></div>
 <button onClick="{{ openFilm }}" data-cursor="Play" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:132px;height:132px;border-radius:50%;border:1.5px solid rgba(251,248,242,.8);background:rgba(20,17,16,.25);color:#FBF8F2;font:500 11px/1 'DM Mono',monospace;letter-spacing:.18em;cursor:pointer;transition:transform .5s cubic-bezier(.3,0,.2,1),background .4s" style-hover="background:#D81219;border-color:#D81219" aria-label="Play the film"><span style="font-size:22px;margin-left:4px">▶</span></button>
 </section>
 
 <section data-sec="1" data-screen-label="Home 05 The Rack" style="position:relative;min-height:100svh;scroll-snap-align:start;background:#FBF8F2;display:flex;flex-direction:column;justify-content:center;padding:0 0 40px;overflow:hidden">
-<x-import component-from-global-scope="ng-rack" headsize="clamp(28px,3.6vw,60px)" from="./ngwisa-parts.js" items="{{ rackJson }}" heading="Best sellers" stitched="1" fill="1" data-link="shop-best" hint-size="100%,640px"></x-import>
+<x-import component-from-global-scope="ng-rack" headsize="clamp(28px,3.6vw,60px)" from="./ngwisa-parts.js" items="{{ rackJson }}" heading="{{ tx.rackHead }}" stitched="1" fill="1" data-link="shop-best" hint-size="100%,640px"></x-import>
 </section>
 
 <section data-sec="1" data-screen-label="Home 06 The Wall" onMouseEnter="{{ wallIn }}" onMouseLeave="{{ wallOut }}" style="position:relative;height:100svh;scroll-snap-align:start;background:#141110;color:#FBF8F2;overflow:hidden">
@@ -105,13 +105,13 @@
 </sc-if>
 <sc-if value="{{ t.isTag }}" hint-placeholder-val="{{ false }}">
 <div style="position:absolute;inset:0;padding:clamp(14px,1.6vw,22px);display:flex;flex-direction:column;justify-content:space-between;color:#FBF8F2;background-color:#D81219;background-image:repeating-linear-gradient(90deg,rgba(255,255,255,.12) 0 1px,transparent 1px 4px),repeating-linear-gradient(90deg,rgba(70,4,7,.3) 0 1px,transparent 1px 4px)">
-<div style="display:flex;flex-direction:column;gap:8px"><span style="font:800 clamp(20px,2vw,32px)/.95 'Bricolage Grotesque';letter-spacing:-.03em">#WornByNgwisa</span><span style="font:400 14px/1.4 'Bricolage Grotesque'">{{ tx.wornTag }}</span></div>
+<div style="display:flex;flex-direction:column;gap:8px"><span style="font:800 clamp(20px,2vw,32px)/.95 'Bricolage Grotesque';letter-spacing:-.03em">{{ tx.wallTag }}</span><span style="font:400 14px/1.4 'Bricolage Grotesque'">{{ tx.wornTag }}</span></div>
 </div>
 </sc-if>
 <sc-if value="{{ t.hasShop }}" hint-placeholder-val="{{ false }}">
 <div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;gap:8px;padding:12px;background:linear-gradient(180deg,rgba(20,17,16,0) 45%,rgba(20,17,16,.85));opacity:0;transition:opacity .4s" style-hover="opacity:1">
 <span style="font:700 16px/1.1 'Bricolage Grotesque';color:#FBF8F2">{{ t.name }}</span>
-<button onClick="{{ t.shop }}" style="padding:8px 12px;border:0;border-radius:999px;background:#FBF8F2;color:#141110;font:500 9px/1 'DM Mono',monospace;letter-spacing:.16em;cursor:pointer" style-hover="background:#D81219;color:#FBF8F2">SHOP THE LOOK →</button>
+<button onClick="{{ t.shop }}" style="padding:8px 12px;border:0;border-radius:999px;background:#FBF8F2;color:#141110;font:500 9px/1 'DM Mono',monospace;letter-spacing:.16em;cursor:pointer" style-hover="background:#D81219;color:#FBF8F2">{{ tx.wallShop }}</button>
 </div>
 </sc-if>
 </div>
@@ -130,7 +130,7 @@
 </div>
 </div>
 <div style="position:absolute;left:0;right:0;bottom:0;padding:0 clamp(20px,4vw,56px) 30px;display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap">
-<a href="https://instagram.com/_ngwisa_" target="_blank" style="font:500 11px/1 'DM Mono',monospace;letter-spacing:.16em;color:#FBF8F2">@_NGWISA_ ON INSTAGRAM →</a>
+<a href="https://instagram.com/_ngwisa_" target="_blank" style="font:500 11px/1 'DM Mono',monospace;letter-spacing:.16em;color:#FBF8F2">{{ tx.wallIg }}</a>
 </div>
 </section>
 
@@ -160,15 +160,15 @@
 <div style="position:absolute;inset:0;border-radius:6px;background:#DCD3C6"></div>
 <div onClick="{{ stop }}" style="position:absolute;left:5%;right:5%;top:5%;height:90%;z-index:1;pointer-events:{{ letterPE }};border-radius:4px;background:#FBF8F2;color:#141110;padding:clamp(16px,3vw,28px);display:flex;flex-direction:column;gap:12px;transform:translateY({{ letterY }});transition:transform .9s cubic-bezier(.6,0,.2,1) .45s;box-shadow:0 -10px 30px rgba(0,0,0,.15)">
 <sc-if value="{{ nlForm }}" hint-placeholder-val="{{ true }}">
-<span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.18em;color:#D81219">DEAR READER,</span>
+<span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.18em;color:#D81219">{{ tx.newsKick }}</span>
 <p style="margin:0;font:400 clamp(15px,1.6vw,18px)/1.45 'Bricolage Grotesque';color:#4A433D;text-wrap:pretty">{{ tx.newsLine }}</p>
 <div style="display:flex;gap:8px;flex-wrap:wrap">
 <input value="{{ nl }}" onChange="{{ nlType }}" placeholder="Your email" style="flex:1 1 180px;min-width:0;height:46px;padding:0 18px;border-radius:999px;border:1.5px solid #141110;background:transparent;font:400 16px 'Bricolage Grotesque';color:#141110;outline:none">
-<button onClick="{{ nlSend }}" style="height:46px;padding:0 22px;border:0;border-radius:999px;background:#141110;color:#FBF8F2;font:500 11px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer" style-hover="background:#D81219">SUBSCRIBE</button>
+<button onClick="{{ nlSend }}" style="height:46px;padding:0 22px;border:0;border-radius:999px;background:#141110;color:#FBF8F2;font:500 11px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer" style-hover="background:#D81219">{{ tx.newsBtn }}</button>
 </div>
 </sc-if>
 <sc-if value="{{ nlDone }}" hint-placeholder-val="{{ false }}">
-<span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.18em;color:#D81219">SEALED.</span>
+<span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.18em;color:#D81219">{{ tx.newsSealed }}</span>
 <p style="margin:0;font:400 clamp(22px,2.6vw,32px)/1.1 'Bricolage Grotesque';letter-spacing:-.03em">{{ tx.newsDone }}</p>
 </sc-if>
 </div>
@@ -187,17 +187,17 @@
 </div>
 <div style="display:flex;gap:clamp(28px,5vw,72px);flex-wrap:wrap">
 <div style="display:flex;flex-direction:column;gap:8px">
-<span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.18em;color:#BDB4A9">VISIT</span>
+<span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.18em;color:#BDB4A9">{{ tx.footVisit }}</span>
 <span style="font:400 14px/1.5 'Bricolage Grotesque';white-space:pre-line">{{ tx.addr }}</span>
 </div>
 <div style="display:flex;flex-direction:column;gap:8px">
-<span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.18em;color:#BDB4A9">TALK</span>
+<span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.18em;color:#BDB4A9">{{ tx.footTalk }}</span>
 <a href="mailto:{{ tx.email }}" style="font:400 14px/1.5 'Bricolage Grotesque';color:#FBF8F2">{{ tx.email }}</a>
 <a href="tel:+447778170330" style="font:400 14px/1.5 'Bricolage Grotesque';color:#FBF8F2">{{ tx.phone }}</a>
-<a href="https://instagram.com/_ngwisa_" target="_blank" style="font:400 14px/1.5 'Bricolage Grotesque';color:#FBF8F2">@_ngwisa_</a>
+<a href="https://instagram.com/_ngwisa_" target="_blank" style="font:400 14px/1.5 'Bricolage Grotesque';color:#FBF8F2">{{ tx.igHandle }}</a>
 </div>
 </div>
-<span style="width:100%;font:500 10px/1 'DM Mono',monospace;letter-spacing:.18em;color:#8C847B">© 2026 NGWISA · WWW.NGWISA.COM</span>
+<span style="width:100%;font:500 10px/1 'DM Mono',monospace;letter-spacing:.18em;color:#8C847B">{{ tx.footCopy }}</span>
 </footer>
 </section>
 </div>
@@ -311,14 +311,14 @@
 <sc-if value="{{ isFounders }}" hint-placeholder-val="{{ false }}">
 <div ref="{{ scRef }}" onScroll="{{ onScroll }}" style="position:absolute;inset:0;overflow-y:auto;scroll-snap-type:y mandatory;background:#141110">
 <section data-sec="1" data-screen-label="Founders 01 Voice" style="position:relative;height:100svh;scroll-snap-align:start;overflow:hidden;background:#141110;color:#FBF8F2">
-<img data-kb="1" ref="{{ mref }}" data-w="840628_4d9b09cbfd934cc4bcb503972373d550~mv2.jpg" alt="Ngwisa" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 30%;filter:brightness(.5)">
+<img data-kb="1" ref="{{ mref }}" data-v="{{ si.fdVoice }}" data-w="840628_4d9b09cbfd934cc4bcb503972373d550~mv2.jpg" alt="{{ si.fdVoiceAlt }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:{{ si.fdVoicePos }};filter:brightness(.5)">
 <div style="position:absolute;left:0;right:0;bottom:0;padding:0 clamp(20px,4vw,56px) 44px;display:flex;flex-direction:column;gap:22px">
 <h1 data-rv="1" style="margin:0;max-width:1200px;font:400 clamp(28px,3.6vw,60px)/1 'Bricolage Grotesque';letter-spacing:-.045em;text-wrap:balance">{{ tx.quote }}</h1>
 </div>
 </section>
 <section data-sec="1" data-screen-label="Founders 02 Our fashion" style="position:relative;min-height:100svh;scroll-snap-align:start;background:#FBF8F2;color:#141110;display:flex;flex-wrap:wrap;gap:clamp(28px,4vw,64px);align-items:center;padding:110px clamp(20px,4vw,56px) 56px">
 <div style="flex:1 1 320px;max-width:520px;aspect-ratio:3/4;border-radius:380px 380px 28px 28px;overflow:hidden;background:#F4F0EA">
-<img ref="{{ mref }}" data-w="840628_2d11be200ba84d80bd4e7e6498481328~mv2.jpg" alt="Ngwisa piece" style="width:100%;height:100%;object-fit:cover">
+<img ref="{{ mref }}" data-v="{{ si.fdFashion }}" data-w="840628_2d11be200ba84d80bd4e7e6498481328~mv2.jpg" alt="{{ si.fdFashionAlt }}" style="width:100%;height:100%;object-fit:cover;object-position:{{ si.fdFashionPos }}">
 </div>
 <div data-rv="1" style="flex:1.2 1 380px;display:flex;flex-direction:column;gap:22px;max-width:640px">
 <div style="width:100%;max-width:1200px"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.desTitle }}" tone="red" size="clamp(28px,3.6vw,60px)" hint-size="100%,90px"></x-import></div>
@@ -332,8 +332,8 @@
 <div style="display:flex;flex-wrap:wrap;gap:28px;align-items:flex-end;justify-content:space-between">
 <p style="margin:0;max-width:560px;font:400 18px/1.55 'Bricolage Grotesque';color:#BDB4A9;text-wrap:pretty">{{ tx.craftBody }}</p>
 <div style="display:flex;gap:10px">
-<div style="width:clamp(110px,12vw,170px);aspect-ratio:3/4;border-radius:200px 200px 14px 14px;overflow:hidden"><img ref="{{ mref }}" data-w="840628_d7b311a630e94c7dba251927ff1184b0~mv2.jpg" alt="" style="width:100%;height:100%;object-fit:cover"></div>
-<div style="width:clamp(110px,12vw,170px);aspect-ratio:3/4;border-radius:200px 200px 14px 14px;overflow:hidden;margin-top:40px"><img ref="{{ mref }}" data-w="840628_230182ddf73c4ffe9dbf48066ee60f18~mv2.jpg" alt="" style="width:100%;height:100%;object-fit:cover"></div>
+<div style="width:clamp(110px,12vw,170px);aspect-ratio:3/4;border-radius:200px 200px 14px 14px;overflow:hidden"><img ref="{{ mref }}" data-v="{{ si.fdProject1 }}" data-w="840628_d7b311a630e94c7dba251927ff1184b0~mv2.jpg" alt="{{ si.fdProject1Alt }}" style="width:100%;height:100%;object-fit:cover;object-position:{{ si.fdProject1Pos }}"></div>
+<div style="width:clamp(110px,12vw,170px);aspect-ratio:3/4;border-radius:200px 200px 14px 14px;overflow:hidden;margin-top:40px"><img ref="{{ mref }}" data-v="{{ si.fdProject2 }}" data-w="840628_230182ddf73c4ffe9dbf48066ee60f18~mv2.jpg" alt="{{ si.fdProject2Alt }}" style="width:100%;height:100%;object-fit:cover;object-position:{{ si.fdProject2Pos }}"></div>
 </div>
 </div>
 </section>
@@ -361,7 +361,7 @@
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:24px;padding-top:28px;border-top:1.5px dashed rgba(251,248,242,.25)">
 <div style="display:flex;flex-direction:column;gap:8px"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.18em;color:#BDB4A9">PHONE</span><span style="font:400 20px/1.4 'Bricolage Grotesque'">{{ tx.phone }}</span></div>
 <div style="display:flex;flex-direction:column;gap:8px"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.18em;color:#BDB4A9">LOCATION</span><span style="font:400 20px/1.4 'Bricolage Grotesque'">{{ tx.location }}</span></div>
-<div style="display:flex;flex-direction:column;gap:8px"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.18em;color:#BDB4A9">INSTAGRAM</span><a href="https://instagram.com/_ngwisa_" target="_blank" style="font:400 20px/1.4 'Bricolage Grotesque';color:#FBF8F2">@_ngwisa_</a></div>
+<div style="display:flex;flex-direction:column;gap:8px"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.18em;color:#BDB4A9">{{ tx.igLabel }}</span><a href="https://instagram.com/_ngwisa_" target="_blank" style="font:400 20px/1.4 'Bricolage Grotesque';color:#FBF8F2">{{ tx.igHandle }}</a></div>
 </div>
 </section>
 </div>
@@ -370,7 +370,7 @@
 <sc-if value="{{ isHeritage }}" hint-placeholder-val="{{ false }}">
 <div ref="{{ scRef }}" onScroll="{{ onScroll }}" style="position:absolute;inset:0;overflow-y:auto;scroll-snap-type:y mandatory;background:#141110">
 <section data-sec="1" data-screen-label="Heritage 01 Toghu" style="position:relative;height:100svh;scroll-snap-align:start;overflow:hidden;background:#141110;color:#FBF8F2">
-<img data-kb="1" ref="{{ mref }}" data-w="840628_b18b05eb2f1b4f72b151cc55306e47fa~mv2.jpg" alt="Toghu embroidery" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 40%;filter:brightness(.5)">
+<img data-kb="1" ref="{{ mref }}" data-v="{{ si.hrHero }}" data-w="840628_b18b05eb2f1b4f72b151cc55306e47fa~mv2.jpg" alt="{{ si.hrHeroAlt }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:{{ si.hrHeroPos }};filter:brightness(.5)">
 <div style="position:absolute;left:0;right:0;bottom:0;padding:0 clamp(20px,4vw,56px) 44px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap">
 <div style="display:flex;flex-direction:column;gap:16px">
 <div data-rv="1" style="width:100%;max-width:1200px"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.tgTitle }}" tone="gold" size="clamp(28px,3.6vw,60px)" hint-size="100%,90px"></x-import></div>
@@ -380,11 +380,11 @@
 <section data-sec="1" data-screen-label="Heritage 02 Origins" style="position:relative;min-height:100svh;scroll-snap-align:start;background:#FBF8F2;color:#141110;display:flex;flex-direction:column;justify-content:center;gap:40px;padding:110px clamp(20px,4vw,56px) 56px">
 <p data-rv="1" style="margin:0;max-width:1100px;font:400 clamp(20px,2vw,30px)/1.3 'Bricolage Grotesque';letter-spacing:-.03em;text-wrap:pretty">{{ tx.tgBody }}</p>
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:8px">
-<div style="border-radius:18px;background:#141110;color:#FBF8F2;padding:22px;display:flex;flex-direction:column;gap:30px;min-height:150px;justify-content:space-between"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em">REGION</span><span style="font:400 20px/1.2 'Bricolage Grotesque'">{{ tx.tgRegion }}</span></div>
-<div style="border-radius:18px;background:#E3A72F;color:#141110;padding:22px;display:flex;flex-direction:column;gap:30px;min-height:150px;justify-content:space-between"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em">ALSO CALLED</span><span style="font:400 20px/1.2 'Bricolage Grotesque'">{{ tx.tgAka }}</span></div>
-<div style="border-radius:18px;background:#F4F0EA;color:#141110;padding:22px;display:flex;flex-direction:column;gap:30px;min-height:150px;justify-content:space-between"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em">GROUND</span><span style="font:400 20px/1.2 'Bricolage Grotesque'">{{ tx.tgGround }}</span></div>
-<div style="border-radius:18px;background:#2B4C8C;color:#FBF8F2;padding:22px;display:flex;flex-direction:column;gap:30px;min-height:150px;justify-content:space-between"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em">THREAD</span><span style="font:400 20px/1.2 'Bricolage Grotesque'">{{ tx.tgThread }}</span></div>
-<div style="border-radius:18px;background:#2F6B4F;color:#FBF8F2;padding:22px;display:flex;flex-direction:column;gap:30px;min-height:150px;justify-content:space-between"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em">WORN FOR</span><span style="font:400 20px/1.2 'Bricolage Grotesque'">{{ tx.tgWorn }}</span></div>
+<div style="border-radius:18px;background:#141110;color:#FBF8F2;padding:22px;display:flex;flex-direction:column;gap:30px;min-height:150px;justify-content:space-between"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em">{{ tx.tgRegionL }}</span><span style="font:400 20px/1.2 'Bricolage Grotesque'">{{ tx.tgRegion }}</span></div>
+<div style="border-radius:18px;background:#E3A72F;color:#141110;padding:22px;display:flex;flex-direction:column;gap:30px;min-height:150px;justify-content:space-between"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em">{{ tx.tgAkaL }}</span><span style="font:400 20px/1.2 'Bricolage Grotesque'">{{ tx.tgAka }}</span></div>
+<div style="border-radius:18px;background:#F4F0EA;color:#141110;padding:22px;display:flex;flex-direction:column;gap:30px;min-height:150px;justify-content:space-between"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em">{{ tx.tgGroundL }}</span><span style="font:400 20px/1.2 'Bricolage Grotesque'">{{ tx.tgGround }}</span></div>
+<div style="border-radius:18px;background:#2B4C8C;color:#FBF8F2;padding:22px;display:flex;flex-direction:column;gap:30px;min-height:150px;justify-content:space-between"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em">{{ tx.tgThreadL }}</span><span style="font:400 20px/1.2 'Bricolage Grotesque'">{{ tx.tgThread }}</span></div>
+<div style="border-radius:18px;background:#2F6B4F;color:#FBF8F2;padding:22px;display:flex;flex-direction:column;gap:30px;min-height:150px;justify-content:space-between"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em">{{ tx.tgWornL }}</span><span style="font:400 20px/1.2 'Bricolage Grotesque'">{{ tx.tgWorn }}</span></div>
 </div>
 </section>
 <section data-sec="1" data-screen-label="Heritage 03 Through time" style="position:relative;min-height:100svh;scroll-snap-align:start;background:#141110;color:#FBF8F2;display:flex;flex-direction:column;justify-content:center;gap:36px;padding:110px 0 56px">
@@ -392,11 +392,11 @@
 <div style="display:inline-block"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.ttTitle }}" tone="gold" size="clamp(28px,3.6vw,60px)" nowrap="1" hint-size="auto,130px"></x-import></div>
 </div>
 <div data-drag="1" style="display:flex;gap:10px;overflow-x:auto;padding:0 clamp(20px,4vw,56px);cursor:grab;user-select:none">
-<div style="flex:none;width:clamp(260px,26vw,380px);min-height:380px;border-radius:200px 200px 18px 18px;background:#2A2421;padding:clamp(24px,2.6vw,36px);display:flex;flex-direction:column;justify-content:flex-end;gap:14px"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#E3A72F">01 · PALACE</span><h3 style="margin:0;font:400 34px/1 'Bricolage Grotesque';letter-spacing:-.03em">{{ tx.tt1h }}</h3><p style="margin:0;font:400 16px/1.5 'Bricolage Grotesque';color:#BDB4A9">{{ tx.tt1 }}</p></div>
-<div style="flex:none;width:clamp(260px,26vw,380px);min-height:380px;border-radius:18px;background:#F4F0EA;color:#141110;padding:clamp(24px,2.6vw,36px);display:flex;flex-direction:column;justify-content:flex-end;gap:14px"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#D81219">02 · CEREMONY</span><h3 style="margin:0;font:400 34px/1 'Bricolage Grotesque';letter-spacing:-.03em">{{ tx.tt2h }}</h3><p style="margin:0;font:400 16px/1.5 'Bricolage Grotesque';color:#4A433D">{{ tx.tt2 }}</p></div>
-<div style="flex:none;width:clamp(260px,26vw,380px);min-height:380px;border-radius:18px;background:#2A2421;padding:clamp(24px,2.6vw,36px);display:flex;flex-direction:column;justify-content:flex-end;gap:14px"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#E3A72F">03 · COUNTRY</span><h3 style="margin:0;font:400 34px/1 'Bricolage Grotesque';letter-spacing:-.03em">{{ tx.tt3h }}</h3><p style="margin:0;font:400 16px/1.5 'Bricolage Grotesque';color:#BDB4A9">{{ tx.tt3 }}</p></div>
-<div style="flex:none;width:clamp(260px,26vw,380px);min-height:380px;border-radius:18px;background:#F4F0EA;color:#141110;padding:clamp(24px,2.6vw,36px);display:flex;flex-direction:column;justify-content:flex-end;gap:14px"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#D81219">04 · DIASPORA</span><h3 style="margin:0;font:400 34px/1 'Bricolage Grotesque';letter-spacing:-.03em">{{ tx.tt4h }}</h3><p style="margin:0;font:400 16px/1.5 'Bricolage Grotesque';color:#4A433D">{{ tx.tt4 }}</p></div>
-<div style="flex:none;width:clamp(260px,26vw,380px);min-height:380px;border-radius:18px;background:#D81219;padding:clamp(24px,2.6vw,36px);display:flex;flex-direction:column;justify-content:flex-end;gap:14px"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em">05 · NOW</span><h3 style="margin:0;font:400 34px/1 'Bricolage Grotesque';letter-spacing:-.03em">{{ tx.tt5h }}</h3><p style="margin:0;font:400 16px/1.5 'Bricolage Grotesque'">{{ tx.tt5 }}</p></div>
+<div style="flex:none;width:clamp(260px,26vw,380px);min-height:380px;border-radius:200px 200px 18px 18px;background:#2A2421;padding:clamp(24px,2.6vw,36px);display:flex;flex-direction:column;justify-content:flex-end;gap:14px"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#E3A72F">{{ tx.tt1k }}</span><h3 style="margin:0;font:400 34px/1 'Bricolage Grotesque';letter-spacing:-.03em">{{ tx.tt1h }}</h3><p style="margin:0;font:400 16px/1.5 'Bricolage Grotesque';color:#BDB4A9">{{ tx.tt1 }}</p></div>
+<div style="flex:none;width:clamp(260px,26vw,380px);min-height:380px;border-radius:18px;background:#F4F0EA;color:#141110;padding:clamp(24px,2.6vw,36px);display:flex;flex-direction:column;justify-content:flex-end;gap:14px"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#D81219">{{ tx.tt2k }}</span><h3 style="margin:0;font:400 34px/1 'Bricolage Grotesque';letter-spacing:-.03em">{{ tx.tt2h }}</h3><p style="margin:0;font:400 16px/1.5 'Bricolage Grotesque';color:#4A433D">{{ tx.tt2 }}</p></div>
+<div style="flex:none;width:clamp(260px,26vw,380px);min-height:380px;border-radius:18px;background:#2A2421;padding:clamp(24px,2.6vw,36px);display:flex;flex-direction:column;justify-content:flex-end;gap:14px"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#E3A72F">{{ tx.tt3k }}</span><h3 style="margin:0;font:400 34px/1 'Bricolage Grotesque';letter-spacing:-.03em">{{ tx.tt3h }}</h3><p style="margin:0;font:400 16px/1.5 'Bricolage Grotesque';color:#BDB4A9">{{ tx.tt3 }}</p></div>
+<div style="flex:none;width:clamp(260px,26vw,380px);min-height:380px;border-radius:18px;background:#F4F0EA;color:#141110;padding:clamp(24px,2.6vw,36px);display:flex;flex-direction:column;justify-content:flex-end;gap:14px"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#D81219">{{ tx.tt4k }}</span><h3 style="margin:0;font:400 34px/1 'Bricolage Grotesque';letter-spacing:-.03em">{{ tx.tt4h }}</h3><p style="margin:0;font:400 16px/1.5 'Bricolage Grotesque';color:#4A433D">{{ tx.tt4 }}</p></div>
+<div style="flex:none;width:clamp(260px,26vw,380px);min-height:380px;border-radius:18px;background:#D81219;padding:clamp(24px,2.6vw,36px);display:flex;flex-direction:column;justify-content:flex-end;gap:14px"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em">{{ tx.tt5k }}</span><h3 style="margin:0;font:400 34px/1 'Bricolage Grotesque';letter-spacing:-.03em">{{ tx.tt5h }}</h3><p style="margin:0;font:400 16px/1.5 'Bricolage Grotesque'">{{ tx.tt5 }}</p></div>
 </div>
 </section>
 <section data-sec="1" data-screen-label="Heritage 04 Colours" style="position:relative;min-height:100svh;scroll-snap-align:start;background:#FBF8F2;color:#141110;display:flex;flex-direction:column;justify-content:center;gap:28px;padding:110px clamp(20px,4vw,56px) 56px">
@@ -404,10 +404,10 @@
 <div style="display:inline-block"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.colTitle }}" tone="red" size="clamp(28px,3.6vw,60px)" nowrap="1" hint-size="auto,130px"></x-import></div>
 </div>
 <div style="display:flex;flex-direction:column">
-<div style="display:grid;grid-template-columns:clamp(60px,10vw,160px) minmax(0,1fr);gap:24px;align-items:center;padding:20px 0;border-top:1.5px dashed rgba(20,17,16,.3)"><div style="height:18px;border-radius:9px;background:repeating-linear-gradient(90deg,#141110 0 3px,#3A3230 3px 4.6px)"></div><div style="display:flex;gap:20px;flex-wrap:wrap;align-items:baseline"><span style="font:400 clamp(28px,3vw,44px)/1 'Bricolage Grotesque';letter-spacing:-.03em;min-width:140px">Black</span><span style="flex:1 1 300px;font:400 17px/1.5 'Bricolage Grotesque';color:#4A433D">{{ tx.colBlack }}</span></div></div>
-<div style="display:grid;grid-template-columns:clamp(60px,10vw,160px) minmax(0,1fr);gap:24px;align-items:center;padding:20px 0;border-top:1.5px dashed rgba(20,17,16,.3)"><div style="height:18px;border-radius:9px;background:repeating-linear-gradient(90deg,#DA1219 0 3px,#A80D12 3px 4.6px)"></div><div style="display:flex;gap:20px;flex-wrap:wrap;align-items:baseline"><span style="font:400 clamp(28px,3vw,44px)/1 'Bricolage Grotesque';letter-spacing:-.03em;min-width:140px">Red</span><span style="flex:1 1 300px;font:400 17px/1.5 'Bricolage Grotesque';color:#4A433D">{{ tx.colRed }}</span></div></div>
-<div style="display:grid;grid-template-columns:clamp(60px,10vw,160px) minmax(0,1fr);gap:24px;align-items:center;padding:20px 0;border-top:1.5px dashed rgba(20,17,16,.3)"><div style="height:18px;border-radius:9px;background:repeating-linear-gradient(90deg,#E3A72F 0 3px,#B98319 3px 4.6px)"></div><div style="display:flex;gap:20px;flex-wrap:wrap;align-items:baseline"><span style="font:400 clamp(28px,3vw,44px)/1 'Bricolage Grotesque';letter-spacing:-.03em;min-width:140px">Yellow</span><span style="flex:1 1 300px;font:400 17px/1.5 'Bricolage Grotesque';color:#4A433D">{{ tx.colYellow }}</span></div></div>
-<div style="display:grid;grid-template-columns:clamp(60px,10vw,160px) minmax(0,1fr);gap:24px;align-items:center;padding:20px 0;border-top:1.5px dashed rgba(20,17,16,.3);border-bottom:1.5px dashed rgba(20,17,16,.3)"><div style="height:18px;border-radius:9px;background:repeating-linear-gradient(90deg,#FBF8F2 0 3px,#DCD3C6 3px 4.6px);box-shadow:inset 0 0 0 1px #DCD3C6"></div><div style="display:flex;gap:20px;flex-wrap:wrap;align-items:baseline"><span style="font:400 clamp(28px,3vw,44px)/1 'Bricolage Grotesque';letter-spacing:-.03em;min-width:140px">White</span><span style="flex:1 1 300px;font:400 17px/1.5 'Bricolage Grotesque';color:#4A433D">{{ tx.colWhite }}</span></div></div>
+<div style="display:grid;grid-template-columns:clamp(60px,10vw,160px) minmax(0,1fr);gap:24px;align-items:center;padding:20px 0;border-top:1.5px dashed rgba(20,17,16,.3)"><div style="height:18px;border-radius:9px;background:repeating-linear-gradient(90deg,#141110 0 3px,#3A3230 3px 4.6px)"></div><div style="display:flex;gap:20px;flex-wrap:wrap;align-items:baseline"><span style="font:400 clamp(28px,3vw,44px)/1 'Bricolage Grotesque';letter-spacing:-.03em;min-width:140px">{{ tx.colBlackN }}</span><span style="flex:1 1 300px;font:400 17px/1.5 'Bricolage Grotesque';color:#4A433D">{{ tx.colBlack }}</span></div></div>
+<div style="display:grid;grid-template-columns:clamp(60px,10vw,160px) minmax(0,1fr);gap:24px;align-items:center;padding:20px 0;border-top:1.5px dashed rgba(20,17,16,.3)"><div style="height:18px;border-radius:9px;background:repeating-linear-gradient(90deg,#DA1219 0 3px,#A80D12 3px 4.6px)"></div><div style="display:flex;gap:20px;flex-wrap:wrap;align-items:baseline"><span style="font:400 clamp(28px,3vw,44px)/1 'Bricolage Grotesque';letter-spacing:-.03em;min-width:140px">{{ tx.colRedN }}</span><span style="flex:1 1 300px;font:400 17px/1.5 'Bricolage Grotesque';color:#4A433D">{{ tx.colRed }}</span></div></div>
+<div style="display:grid;grid-template-columns:clamp(60px,10vw,160px) minmax(0,1fr);gap:24px;align-items:center;padding:20px 0;border-top:1.5px dashed rgba(20,17,16,.3)"><div style="height:18px;border-radius:9px;background:repeating-linear-gradient(90deg,#E3A72F 0 3px,#B98319 3px 4.6px)"></div><div style="display:flex;gap:20px;flex-wrap:wrap;align-items:baseline"><span style="font:400 clamp(28px,3vw,44px)/1 'Bricolage Grotesque';letter-spacing:-.03em;min-width:140px">{{ tx.colYellowN }}</span><span style="flex:1 1 300px;font:400 17px/1.5 'Bricolage Grotesque';color:#4A433D">{{ tx.colYellow }}</span></div></div>
+<div style="display:grid;grid-template-columns:clamp(60px,10vw,160px) minmax(0,1fr);gap:24px;align-items:center;padding:20px 0;border-top:1.5px dashed rgba(20,17,16,.3);border-bottom:1.5px dashed rgba(20,17,16,.3)"><div style="height:18px;border-radius:9px;background:repeating-linear-gradient(90deg,#FBF8F2 0 3px,#DCD3C6 3px 4.6px);box-shadow:inset 0 0 0 1px #DCD3C6"></div><div style="display:flex;gap:20px;flex-wrap:wrap;align-items:baseline"><span style="font:400 clamp(28px,3vw,44px)/1 'Bricolage Grotesque';letter-spacing:-.03em;min-width:140px">{{ tx.colWhiteN }}</span><span style="flex:1 1 300px;font:400 17px/1.5 'Bricolage Grotesque';color:#4A433D">{{ tx.colWhite }}</span></div></div>
 </div>
 </section>
 <section data-sec="1" data-screen-label="Heritage 05 Made by hand" style="position:relative;min-height:100svh;scroll-snap-align:start;background:#F4F0EA;color:#141110;display:flex;flex-direction:column;justify-content:center;gap:32px;padding:110px clamp(20px,4vw,56px) 56px">
@@ -415,19 +415,19 @@
 <div style="display:inline-block"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.mkTitle }}" tone="red" size="clamp(28px,3.6vw,60px)" nowrap="1" hint-size="auto,130px"></x-import></div>
 </div>
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:10px">
-<div data-rv="1" style="min-height:260px;border-radius:18px;background:#FBF8F2;padding:26px;display:flex;flex-direction:column;justify-content:space-between;gap:24px"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#6B635B">01 · CAMEROON</span><div style="display:flex;flex-direction:column;gap:10px"><h3 style="margin:0;font:400 36px/1 'Bricolage Grotesque';letter-spacing:-.03em">Draw</h3><p style="margin:0;font:400 16px/1.5 'Bricolage Grotesque';color:#4A433D">{{ tx.mk1 }}</p></div></div>
-<div data-rv="1" style="min-height:260px;border-radius:18px;background:#FBF8F2;padding:26px;display:flex;flex-direction:column;justify-content:space-between;gap:24px"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#6B635B">02 · CAMEROON</span><div style="display:flex;flex-direction:column;gap:10px"><h3 style="margin:0;font:400 36px/1 'Bricolage Grotesque';letter-spacing:-.03em">Embroider</h3><p style="margin:0;font:400 16px/1.5 'Bricolage Grotesque';color:#4A433D">{{ tx.mk2 }}</p></div></div>
-<div data-rv="1" style="min-height:260px;border-radius:18px;background:#FBF8F2;padding:26px;display:flex;flex-direction:column;justify-content:space-between;gap:24px"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#6B635B">03 · MANCHESTER</span><div style="display:flex;flex-direction:column;gap:10px"><h3 style="margin:0;font:400 36px/1 'Bricolage Grotesque';letter-spacing:-.03em">Cut</h3><p style="margin:0;font:400 16px/1.5 'Bricolage Grotesque';color:#4A433D">{{ tx.mk3 }}</p></div></div>
-<div data-rv="1" style="min-height:260px;border-radius:18px;background:#141110;color:#FBF8F2;padding:26px;display:flex;flex-direction:column;justify-content:space-between;gap:24px"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#BDB4A9">04 · BY HAND</span><div style="display:flex;flex-direction:column;gap:10px"><h3 style="margin:0;font:400 36px/1 'Bricolage Grotesque';letter-spacing:-.03em">Finish</h3><p style="margin:0;font:400 16px/1.5 'Bricolage Grotesque';color:#BDB4A9">{{ tx.mk4 }}</p></div></div>
+<div data-rv="1" style="min-height:260px;border-radius:18px;background:#FBF8F2;padding:26px;display:flex;flex-direction:column;justify-content:space-between;gap:24px"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#6B635B">{{ tx.mk1k }}</span><div style="display:flex;flex-direction:column;gap:10px"><h3 style="margin:0;font:400 36px/1 'Bricolage Grotesque';letter-spacing:-.03em">{{ tx.mk1h }}</h3><p style="margin:0;font:400 16px/1.5 'Bricolage Grotesque';color:#4A433D">{{ tx.mk1 }}</p></div></div>
+<div data-rv="1" style="min-height:260px;border-radius:18px;background:#FBF8F2;padding:26px;display:flex;flex-direction:column;justify-content:space-between;gap:24px"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#6B635B">{{ tx.mk2k }}</span><div style="display:flex;flex-direction:column;gap:10px"><h3 style="margin:0;font:400 36px/1 'Bricolage Grotesque';letter-spacing:-.03em">{{ tx.mk2h }}</h3><p style="margin:0;font:400 16px/1.5 'Bricolage Grotesque';color:#4A433D">{{ tx.mk2 }}</p></div></div>
+<div data-rv="1" style="min-height:260px;border-radius:18px;background:#FBF8F2;padding:26px;display:flex;flex-direction:column;justify-content:space-between;gap:24px"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#6B635B">{{ tx.mk3k }}</span><div style="display:flex;flex-direction:column;gap:10px"><h3 style="margin:0;font:400 36px/1 'Bricolage Grotesque';letter-spacing:-.03em">{{ tx.mk3h }}</h3><p style="margin:0;font:400 16px/1.5 'Bricolage Grotesque';color:#4A433D">{{ tx.mk3 }}</p></div></div>
+<div data-rv="1" style="min-height:260px;border-radius:18px;background:#141110;color:#FBF8F2;padding:26px;display:flex;flex-direction:column;justify-content:space-between;gap:24px"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#BDB4A9">{{ tx.mk4k }}</span><div style="display:flex;flex-direction:column;gap:10px"><h3 style="margin:0;font:400 36px/1 'Bricolage Grotesque';letter-spacing:-.03em">{{ tx.mk4h }}</h3><p style="margin:0;font:400 16px/1.5 'Bricolage Grotesque';color:#BDB4A9">{{ tx.mk4 }}</p></div></div>
 </div>
 </section>
 <section data-sec="1" data-screen-label="Heritage 06 Today" style="position:relative;height:100svh;scroll-snap-align:start;overflow:hidden;background:#141110;color:#FBF8F2">
-<img data-kb="1" ref="{{ mref }}" data-w="840628_0edea388c81e4fb096e125a724ec7be2~mv2.jpg" alt="Toghu today" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 30%;filter:brightness(.5)">
+<img data-kb="1" ref="{{ mref }}" data-v="{{ si.hrToday }}" data-w="840628_0edea388c81e4fb096e125a724ec7be2~mv2.jpg" alt="{{ si.hrTodayAlt }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:{{ si.hrTodayPos }};filter:brightness(.5)">
 <div style="position:absolute;left:0;right:0;bottom:0;padding:0 clamp(20px,4vw,56px) 44px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap">
 <div style="display:flex;flex-direction:column;gap:16px">
 <div style="width:100%;max-width:1200px"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.tgOut }}" tone="gold" size="clamp(28px,3.6vw,60px)" hint-size="100%,130px"></x-import></div>
 </div>
-<button onClick="{{ goShop }}" style="height:48px;padding:0 26px;border:0;border-radius:999px;background:#FBF8F2;color:#141110;font:500 11px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer" style-hover="background:#D81219;color:#FBF8F2">SHOP THE GONGBELL →</button>
+<button onClick="{{ goShop }}" style="height:48px;padding:0 26px;border:0;border-radius:999px;background:#FBF8F2;color:#141110;font:500 11px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer" style-hover="background:#D81219;color:#FBF8F2">{{ tx.tgShop }}</button>
 </div>
 </section>
 </div>
@@ -436,14 +436,14 @@
 <sc-if value="{{ isJournal }}" hint-placeholder-val="{{ false }}">
 <div ref="{{ scRef }}" onScroll="{{ onScroll }}" style="position:absolute;inset:0;overflow-y:auto;scroll-snap-type:y mandatory;background:#141110">
 <section data-sec="1" data-screen-label="Journal 01 On stage" style="position:relative;height:100svh;scroll-snap-align:start;overflow:hidden;background:#141110;color:#FBF8F2">
-<img data-kb="1" ref="{{ mref }}" data-w="840628_3d8be738c2ca47d9b44641cfa45c7052~mv2.jpg" alt="Ngwisa on stage" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 30%;filter:brightness(.5)">
+<img data-kb="1" ref="{{ mref }}" data-v="{{ si.jnHero }}" data-w="840628_3d8be738c2ca47d9b44641cfa45c7052~mv2.jpg" alt="{{ si.jnHeroAlt }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:{{ si.jnHeroPos }};filter:brightness(.5)">
 <div style="position:absolute;left:0;right:0;bottom:0;padding:0 clamp(20px,4vw,56px) 44px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap">
 <div data-rv="1" style="flex:1 1 520px;max-width:900px"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.apTitle }}" tone="gold" size="clamp(28px,3.6vw,60px)" hint-size="100%,90px"></x-import></div>
 <p style="margin:0;flex:0 1 380px;font:400 17px/1.55 'Bricolage Grotesque';color:#DCD3C6;text-wrap:pretty">{{ tx.apSub }}</p>
 </div>
 </section>
 <section data-sec="1" data-screen-label="Journal 02 Appearances" style="position:relative;min-height:100svh;scroll-snap-align:start;background:#FBF8F2;color:#141110;display:flex;flex-direction:column;justify-content:center;gap:clamp(28px,5vh,56px);padding:110px clamp(20px,4vw,56px) 56px">
-<div data-rv="1" style="display:inline-block"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="Appearances" tone="red" size="clamp(28px,3.6vw,60px)" nowrap="1" hint-size="auto,70px"></x-import></div>
+<div data-rv="1" style="display:inline-block"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.jnAppH }}" tone="red" size="clamp(28px,3.6vw,60px)" nowrap="1" hint-size="auto,70px"></x-import></div>
 <div style="display:flex;flex-direction:column;border-bottom:1.5px dashed rgba(20,17,16,.35)">
 <sc-for list="{{ evAll }}" as="e" hint-placeholder-count="5">
 <button onClick="{{ e.open }}" data-jimg="{{ e.img }}" style="display:grid;grid-template-columns:{{ evCols }};gap:clamp(14px,2vw,32px);align-items:baseline;padding:clamp(18px,2.6vh,28px) 0;border:0;border-top:1.5px dashed rgba(20,17,16,.35);background:none;color:#141110;text-align:left;cursor:pointer;transition:padding .5s cubic-bezier(.3,0,.2,1),color .3s" style-hover="padding-left:18px;color:#D81219">
@@ -456,22 +456,22 @@
 </section>
 <section data-sec="1" data-screen-label="Journal 03 Featured" style="position:relative;min-height:100svh;scroll-snap-align:start;background:#141110;color:#FBF8F2;display:flex;flex-wrap:wrap;gap:clamp(28px,4vw,64px);align-items:center;padding:110px clamp(20px,4vw,56px) 56px">
 <div style="flex:1 1 320px;max-width:520px;aspect-ratio:3/4;border-radius:380px 380px 28px 28px;overflow:hidden;background:#2A2421">
-<img ref="{{ mref }}" data-w="840628_1194b99ba10d443584f3d4ee467f24c3~mv2.jpg" alt="The Gongbell cast" style="width:100%;height:100%;object-fit:cover">
+<img ref="{{ mref }}" data-v="{{ si.jnFeatured }}" data-w="840628_1194b99ba10d443584f3d4ee467f24c3~mv2.jpg" alt="{{ si.jnFeaturedAlt }}" style="width:100%;height:100%;object-fit:cover;object-position:{{ si.jnFeaturedPos }}">
 </div>
 <div data-rv="1" style="flex:1.2 1 380px;display:flex;flex-direction:column;gap:22px;max-width:640px">
 <span style="font:400 18px/1.3 'Bricolage Grotesque';color:#E3A72F">{{ ev0.meta }}</span>
 <div style="width:100%"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ ev0.t }}" tone="gold" size="clamp(28px,3.6vw,60px)" hint-size="100%,90px"></x-import></div>
 <p style="margin:0;font:400 18px/1.55 'Bricolage Grotesque';color:#BDB4A9;text-wrap:pretty">{{ ev0.body }}</p>
 <div style="display:flex;gap:10px">
-<div style="width:clamp(90px,9vw,130px);aspect-ratio:3/4;border-radius:200px 200px 14px 14px;overflow:hidden"><img ref="{{ mref }}" data-w="840628_f4d7988af81645298f3e2c4e89acb8ec~mv2.jpg" alt="" style="width:100%;height:100%;object-fit:cover"></div>
-<div style="width:clamp(90px,9vw,130px);aspect-ratio:3/4;border-radius:200px 200px 14px 14px;overflow:hidden;margin-top:28px"><img ref="{{ mref }}" data-w="840628_ad72189a69d741a89dc97b94866b6d63~mv2.jpg" alt="" style="width:100%;height:100%;object-fit:cover"></div>
-<div style="width:clamp(90px,9vw,130px);aspect-ratio:3/4;border-radius:200px 200px 14px 14px;overflow:hidden"><img ref="{{ mref }}" data-w="840628_539e209a11c9440db477a62ae68a8a34~mv2.jpg" alt="" style="width:100%;height:100%;object-fit:cover"></div>
+<div style="width:clamp(90px,9vw,130px);aspect-ratio:3/4;border-radius:200px 200px 14px 14px;overflow:hidden"><img ref="{{ mref }}" data-v="{{ si.jnAtelier1 }}" data-w="840628_f4d7988af81645298f3e2c4e89acb8ec~mv2.jpg" alt="{{ si.jnAtelier1Alt }}" style="width:100%;height:100%;object-fit:cover;object-position:{{ si.jnAtelier1Pos }}"></div>
+<div style="width:clamp(90px,9vw,130px);aspect-ratio:3/4;border-radius:200px 200px 14px 14px;overflow:hidden;margin-top:28px"><img ref="{{ mref }}" data-v="{{ si.jnAtelier2 }}" data-w="840628_ad72189a69d741a89dc97b94866b6d63~mv2.jpg" alt="{{ si.jnAtelier2Alt }}" style="width:100%;height:100%;object-fit:cover;object-position:{{ si.jnAtelier2Pos }}"></div>
+<div style="width:clamp(90px,9vw,130px);aspect-ratio:3/4;border-radius:200px 200px 14px 14px;overflow:hidden"><img ref="{{ mref }}" data-v="{{ si.jnAtelier3 }}" data-w="840628_539e209a11c9440db477a62ae68a8a34~mv2.jpg" alt="{{ si.jnAtelier3Alt }}" style="width:100%;height:100%;object-fit:cover;object-position:{{ si.jnAtelier3Pos }}"></div>
 </div>
-<button onClick="{{ openFeat }}" style="align-self:flex-start;height:48px;padding:0 26px;border:0;border-radius:999px;background:#FBF8F2;color:#141110;font:500 11px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer" style-hover="background:#D81219;color:#FBF8F2">SEE THE SHOW</button>
+<button onClick="{{ openFeat }}" style="align-self:flex-start;height:48px;padding:0 26px;border:0;border-radius:999px;background:#FBF8F2;color:#141110;font:500 11px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer" style-hover="background:#D81219;color:#FBF8F2">{{ tx.apShow }}</button>
 </div>
 </section>
 <section data-sec="1" data-screen-label="Journal 04 From the atelier" style="position:relative;min-height:100svh;scroll-snap-align:start;background:#F4F0EA;color:#141110;display:flex;flex-direction:column;justify-content:center;gap:clamp(28px,5vh,56px);padding:110px clamp(20px,4vw,56px) 56px">
-<div data-rv="1" style="display:inline-block"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="From the atelier" tone="red" size="clamp(28px,3.6vw,60px)" nowrap="1" hint-size="auto,70px"></x-import></div>
+<div data-rv="1" style="display:inline-block"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.jnAtelierH }}" tone="red" size="clamp(28px,3.6vw,60px)" nowrap="1" hint-size="auto,70px"></x-import></div>
 <div style="display:flex;flex-direction:column">
 <sc-for list="{{ articles }}" as="a" hint-placeholder-count="3">
 <button onClick="{{ a.open }}" data-jimg="{{ a.img }}" style="display:grid;grid-template-columns:{{ jCols }};gap:{{ jGap }};align-items:center;padding:22px 0;border:0;border-top:1.5px dashed rgba(20,17,16,.35);background:none;color:#141110;text-align:left;cursor:pointer;transition:padding .5s cubic-bezier(.3,0,.2,1),color .3s" style-hover="padding-left:18px;color:#D81219">
@@ -486,7 +486,7 @@
 <section data-sec="1" data-screen-label="Journal 05 Invite" style="position:relative;min-height:100svh;scroll-snap-align:start;background:#141110;color:#FBF8F2;display:flex;flex-direction:column;justify-content:center;gap:32px;padding:110px clamp(20px,4vw,56px) 56px">
 <div data-rv="1" style="width:100%;max-width:1000px"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.apInvTitle }}" tone="gold" size="clamp(28px,3.6vw,60px)" hint-size="100%,90px"></x-import></div>
 <p style="margin:0;max-width:560px;font:400 18px/1.55 'Bricolage Grotesque';color:#BDB4A9;text-wrap:pretty">{{ tx.apInv }}</p>
-<a href="mailto:info.ngwisa@gmail.com?subject=Invitation" style="align-self:flex-start;height:52px;padding:0 28px;display:flex;align-items:center;border-radius:999px;background:#FBF8F2;color:#141110;font:500 11px/1 'DM Mono',monospace;letter-spacing:.16em" style-hover="background:#D81219;color:#FBF8F2">INVITE NGWISA</a>
+<a href="mailto:info.ngwisa@gmail.com?subject=Invitation" style="align-self:flex-start;height:52px;padding:0 28px;display:flex;align-items:center;border-radius:999px;background:#FBF8F2;color:#141110;font:500 11px/1 'DM Mono',monospace;letter-spacing:.16em" style-hover="background:#D81219;color:#FBF8F2">{{ tx.apInvBtn }}</a>
 </section>
 </div>
 </sc-if>
@@ -556,13 +556,13 @@
 </sc-if>
 <sc-if value="{{ t.isTag }}" hint-placeholder-val="{{ false }}">
 <div style="position:absolute;inset:0;padding:clamp(14px,1.6vw,22px);display:flex;flex-direction:column;justify-content:space-between;color:#FBF8F2;background-color:#D81219;background-image:repeating-linear-gradient(90deg,rgba(255,255,255,.12) 0 1px,transparent 1px 4px),repeating-linear-gradient(90deg,rgba(70,4,7,.3) 0 1px,transparent 1px 4px)">
-<div style="display:flex;flex-direction:column;gap:8px"><span style="font:800 clamp(20px,2vw,32px)/.95 'Bricolage Grotesque';letter-spacing:-.03em">#WornByNgwisa</span><span style="font:400 14px/1.4 'Bricolage Grotesque'">{{ tx.wornTag }}</span></div>
+<div style="display:flex;flex-direction:column;gap:8px"><span style="font:800 clamp(20px,2vw,32px)/.95 'Bricolage Grotesque';letter-spacing:-.03em">{{ tx.wallTag }}</span><span style="font:400 14px/1.4 'Bricolage Grotesque'">{{ tx.wornTag }}</span></div>
 </div>
 </sc-if>
 <sc-if value="{{ t.hasShop }}" hint-placeholder-val="{{ false }}">
 <div style="position:absolute;inset:0;display:flex;flex-direction:column;justify-content:flex-end;align-items:flex-start;gap:8px;padding:12px;background:linear-gradient(180deg,rgba(20,17,16,0) 45%,rgba(20,17,16,.85));opacity:0;transition:opacity .4s" style-hover="opacity:1">
 <span style="font:700 16px/1.1 'Bricolage Grotesque';color:#FBF8F2">{{ t.name }}</span>
-<button onClick="{{ t.shop }}" style="padding:8px 12px;border:0;border-radius:999px;background:#FBF8F2;color:#141110;font:500 9px/1 'DM Mono',monospace;letter-spacing:.16em;cursor:pointer" style-hover="background:#D81219;color:#FBF8F2">SHOP THE LOOK →</button>
+<button onClick="{{ t.shop }}" style="padding:8px 12px;border:0;border-radius:999px;background:#FBF8F2;color:#141110;font:500 9px/1 'DM Mono',monospace;letter-spacing:.16em;cursor:pointer" style-hover="background:#D81219;color:#FBF8F2">{{ tx.wallShop }}</button>
 </div>
 </sc-if>
 </div>
@@ -577,7 +577,7 @@
 
 </div>
 <div style="position:absolute;left:0;right:0;bottom:0;padding:0 clamp(20px,4vw,56px) 30px;display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap">
-<a href="https://instagram.com/_ngwisa_" target="_blank" style="font:500 11px/1 'DM Mono',monospace;letter-spacing:.16em;color:#FBF8F2">@_NGWISA_ ON INSTAGRAM →</a>
+<a href="https://instagram.com/_ngwisa_" target="_blank" style="font:500 11px/1 'DM Mono',monospace;letter-spacing:.16em;color:#FBF8F2">{{ tx.wallIg }}</a>
 </div>
 </section>
 </div>
@@ -651,7 +651,7 @@
 <section data-screen-label="Account" style="min-height:100svh;display:flex;flex-wrap:wrap;gap:8px;padding:84px 18px 18px">
 <sc-if value="{{ acct.guest }}" hint-placeholder-val="{{ true }}">
 <div style="position:relative;flex:1 1 420px;min-width:0;min-height:min(calc(100svh - 102px),860px);border-radius:18px;overflow:hidden;background:#1E1A18">
-<img ref="{{ mref }}" data-w="840628_1194b99ba10d443584f3d4ee467f24c3~mv2.jpg" alt="The Ngwisa cast" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 30%">
+<img ref="{{ mref }}" data-v="{{ si.acctCast }}" data-w="840628_1194b99ba10d443584f3d4ee467f24c3~mv2.jpg" alt="{{ si.acctCastAlt }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:{{ si.acctCastPos }}">
 <button onClick="{{ closeAcct }}" style="position:absolute;left:18px;top:18px;height:40px;padding:0 18px;border:0;border-radius:999px;background:#FBF8F2;color:#141110;font:500 11px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer" style-hover="background:#D81219;color:#FBF8F2">← BACK</button>
 </div>
 <div style="flex:1 1 380px;min-width:0;border-radius:18px;background:#FBF8F2;padding:clamp(24px,3vw,44px);display:flex;flex-direction:column;justify-content:center;gap:24px">
@@ -984,15 +984,19 @@ const EVT = [
 ];
 
 const WALL = [
-  [{ k: 'REEL', f: ['02571', '02542'], pid: 'gong-waistcoat' }, { k: 'PHOTO', f: ['03127'], pid: 'mimche' }, { k: 'QUOTE', kick: 'FROM THE FOUNDER', text: 'Not simply something you wear, but something you embody.' }, { k: 'PHOTO', f: ['04258'] }, { k: 'REEL', f: ['03456', '03462'], pid: 'muna' }],
+  [{ k: 'REEL', f: ['02571', '02542'], pid: 'gong-waistcoat' }, { k: 'PHOTO', f: ['03127'], pid: 'mimche' }, { k: 'QUOTE', q: 'wallQ1', kick: 'FROM THE FOUNDER', text: 'Not simply something you wear, but something you embody.' }, { k: 'PHOTO', f: ['04258'] }, { k: 'REEL', f: ['03456', '03462'], pid: 'muna' }],
   [{ k: 'FILM', f: ['03622'] }, { k: 'PHOTO', f: ['02604'], pid: 'rahrah-white' }, { k: 'TAG' }, { k: 'REEL', f: ['04060', '04086'], pid: 'mimche' }, { k: 'PHOTO', f: ['03402'], pid: 'main-character' }],
-  [{ k: 'PHOTO', f: ['02759'], pid: 'yem' }, { k: 'REEL', f: ['04363', '04453', '04659'], pid: 'mita-dress' }, { k: 'PHOTO', f: ['03607'], wide: true }, { k: 'QUOTE', kick: 'NGWISA', text: 'Where heritage meets modernity.' }, { k: 'PHOTO', f: ['02794'], pid: 'mawa' }],
+  [{ k: 'PHOTO', f: ['02759'], pid: 'yem' }, { k: 'REEL', f: ['04363', '04453', '04659'], pid: 'mita-dress' }, { k: 'PHOTO', f: ['03607'], wide: true }, { k: 'QUOTE', q: 'wallQ2', kick: 'NGWISA', text: 'Where heritage meets modernity.' }, { k: 'PHOTO', f: ['02794'], pid: 'mawa' }],
 ];
+/* Fixed photos on the static pages that the Studio can swap: spot id -> [template key, default alt, default focus]. */
+const SPOTS = { 'home-cast': ['homeCast', 'The Gongbell cast', '50% 50%'], 'fd-voice': ['fdVoice', 'Ngwisa', '50% 30%'], 'fd-fashion': ['fdFashion', 'Ngwisa piece', '50% 50%'], 'fd-project-1': ['fdProject1', '', '50% 50%'], 'fd-project-2': ['fdProject2', '', '50% 50%'],
+  'hr-hero': ['hrHero', 'Toghu embroidery', '50% 40%'], 'hr-today': ['hrToday', 'Toghu today', '50% 30%'], 'jn-hero': ['jnHero', 'Ngwisa on stage', '50% 30%'], 'jn-featured': ['jnFeatured', 'The Gongbell cast', '50% 50%'],
+  'jn-atelier-1': ['jnAtelier1', '', '50% 50%'], 'jn-atelier-2': ['jnAtelier2', '', '50% 50%'], 'jn-atelier-3': ['jnAtelier3', '', '50% 50%'], 'acct-cast': ['acctCast', 'The Ngwisa cast', '50% 30%'] };
 const DECKS = [['Women', 'w', ['rahrah', 'mimche', 'mawa', 'muna', 'main-character']], ['Men', 'm', ['gong-waistcoat', 'tatah']]];
 const MEN_EXTRA = [['02542', 'gong-waistcoat'], ['04510', 'tatah']];
 const FRAMES = { Oxblood: ['#3A0C0F', 'rgba(240,48,47,.18)'], Ink: ['#0E0C0B', 'rgba(251,248,242,.10)'], Ivory: ['#EFE8DC', 'rgba(20,17,16,.10)'], Gold: ['#8A5E12', 'rgba(246,203,94,.25)'], None: ['rgba(0,0,0,0)', 'rgba(0,0,0,0)'] };
 
-const COPY_DEF = {"wornTag":"Tag @_ngwisa_ and we’ll hang you here.","wornTitle":"Worn. Filmed. Kept.","bestA":"The ones that","bestB":"keep leaving the rack.","bestSub":"Hand-picked by the atelier — the four pieces we make, remake and still can’t keep on the rack.","jrTitle":"Journal","jrKick":"STORIES FROM THE ATELIER","newsTitle":"Letters from the atelier","newsLine":"New pieces, restocks and the odd story from Manchester. Only when there is something to say.","newsDone":"You’re on the list. The next letter is yours.","footLine":"Where heritage meets modernity. Cameroonian craftsmanship for today’s world.","addr":"Wellington House\n4 Pollard Street East\nManchester M40 7FS","email":"info.ngwisa@gmail.com","phone":"+44 7778 170330","location":"4 Pollard Street East, Manchester M40 7FS","quote":"“We want every piece to feel special: not simply something you wear, but something you embody.”","desTitle":"Designed with the modern wearer in mind.","des1":"Each piece is created with flattering silhouettes that enhance the body while offering comfort, sophistication and ease.","des2":"At the heart of our designs is the hand-embroidered artistry of Cameroon’s traditional Toghu, integrated into contemporary silhouettes so every piece feels luxurious and unique without giving up wearability.","des3":"Versatility is central. Our staples move from elevated everyday dressing to celebrations, styled your way. Timeless sophistication meets cultural identity: refined, yet distinctive.","craftTitle":"Cultural craftsmanship doesn’t belong only in traditional dress.","craftBody":"We bring Toghu into modern, sophisticated silhouettes, creating a space where heritage, luxury and contemporary design exist together. Worn for an occasion or every day, our designs ask you to embrace your individuality with elegance.","visTitle":"Our vision","vis1h":"Global heritage fashion","vis1":"A globally recognised heritage brand redefining contemporary African luxury through Cameroonian craftsmanship, where Toghu is celebrated beyond its traditional context and creates lasting opportunities for the artisans and communities who preserve it.","vis2h":"Confidence & presence","vis2":"Fashion that changes how people see themselves: entering any room feeling powerful, distinguished and worthy. Every garment an expression of personal art in style.","tgTitle":"A cloth once reserved for kings.","tgBody":"Toghu comes from the Grassfields of North-West Cameroon: black cloth, embroidered by hand in red, yellow and white. Each motif carries meaning, and wearing it once spoke of rank before a word was said.","tgRegion":"The Grassfields, North-West Cameroon","tgAka":"Atoghu","tgGround":"Black cloth, today often velvet","tgThread":"Red, yellow and white, by hand","tgWorn":"Enthronements, weddings, funerals, festivals","ttTitle":"Through time","tt1h":"Fons and queens","tt1":"First worn by the Fon, his queens and title holders. The cloth showed rank before a word was spoken.","tt2h":"The big days","tt2":"Enthronements, weddings and funerals. Toghu marks the moments a community gathers.","tt3h":"A shared pride","tt3":"Worn far beyond the Grassfields, it became a symbol of Cameroon itself.","tt4h":"Home, carried","tt4":"Graduations in London, weddings in Houston. A way to bring home into the room.","tt5h":"Every day","tt5":"Ngwisa cuts it into corsets, dresses and tailoring, for days that aren’t ceremonies.","colTitle":"Four colours","colBlack":"The ground. The land, the night and the ancestors who stand behind every wearer.","colRed":"Royalty and life. The colour of the Fon, and of the blood that ties a family together.","colYellow":"Wealth and the harvest. Gold thread for a full granary and a prosperous house.","colWhite":"Peace and purity. The colour of blessing, worn when the community gives thanks.","mkTitle":"Made by hand","mk1":"The motif is marked onto the velvet in chalk, by eye and by memory.","mk2":"Artisans stitch it thread by thread, by hand. No two pieces land exactly alike.","mk3":"The embroidered velvet becomes a modern shape: a corset, a shirt dress, a tiered skirt.","mk4":"Every piece is checked, pressed and packed by hand.","tgOut":"Toghu, beyond its traditional context.","apTitle":"On the runway, in the room.","apSub":"The shows, conferences and showcases where Ngwisa has carried Toghu onto the stage.","apInvTitle":"Bring the gong to your stage.","apInv":"We take part in runway shows, panels, exhibitions and cultural showcases. For invitations, collaborations and press, write to the atelier."};
+const COPY_DEF = {"wornTag":"Tag @_ngwisa_ and we’ll hang you here.","wornTitle":"Worn. Filmed. Kept.","bestA":"The ones that","bestB":"keep leaving the rack.","bestSub":"Hand-picked by the atelier — the four pieces we make, remake and still can’t keep on the rack.","jrTitle":"Journal","jrKick":"STORIES FROM THE ATELIER","newsTitle":"Letters from the atelier","newsLine":"New pieces, restocks and the odd story from Manchester. Only when there is something to say.","newsDone":"You’re on the list. The next letter is yours.","footLine":"Where heritage meets modernity. Cameroonian craftsmanship for today’s world.","addr":"Wellington House\n4 Pollard Street East\nManchester M40 7FS","email":"info.ngwisa@gmail.com","phone":"+44 7778 170330","location":"4 Pollard Street East, Manchester M40 7FS","quote":"“We want every piece to feel special: not simply something you wear, but something you embody.”","desTitle":"Designed with the modern wearer in mind.","des1":"Each piece is created with flattering silhouettes that enhance the body while offering comfort, sophistication and ease.","des2":"At the heart of our designs is the hand-embroidered artistry of Cameroon’s traditional Toghu, integrated into contemporary silhouettes so every piece feels luxurious and unique without giving up wearability.","des3":"Versatility is central. Our staples move from elevated everyday dressing to celebrations, styled your way. Timeless sophistication meets cultural identity: refined, yet distinctive.","craftTitle":"Cultural craftsmanship doesn’t belong only in traditional dress.","craftBody":"We bring Toghu into modern, sophisticated silhouettes, creating a space where heritage, luxury and contemporary design exist together. Worn for an occasion or every day, our designs ask you to embrace your individuality with elegance.","visTitle":"Our vision","vis1h":"Global heritage fashion","vis1":"A globally recognised heritage brand redefining contemporary African luxury through Cameroonian craftsmanship, where Toghu is celebrated beyond its traditional context and creates lasting opportunities for the artisans and communities who preserve it.","vis2h":"Confidence & presence","vis2":"Fashion that changes how people see themselves: entering any room feeling powerful, distinguished and worthy. Every garment an expression of personal art in style.","tgTitle":"A cloth once reserved for kings.","tgBody":"Toghu comes from the Grassfields of North-West Cameroon: black cloth, embroidered by hand in red, yellow and white. Each motif carries meaning, and wearing it once spoke of rank before a word was said.","tgRegion":"The Grassfields, North-West Cameroon","tgAka":"Atoghu","tgGround":"Black cloth, today often velvet","tgThread":"Red, yellow and white, by hand","tgWorn":"Enthronements, weddings, funerals, festivals","ttTitle":"Through time","tt1h":"Fons and queens","tt1":"First worn by the Fon, his queens and title holders. The cloth showed rank before a word was spoken.","tt2h":"The big days","tt2":"Enthronements, weddings and funerals. Toghu marks the moments a community gathers.","tt3h":"A shared pride","tt3":"Worn far beyond the Grassfields, it became a symbol of Cameroon itself.","tt4h":"Home, carried","tt4":"Graduations in London, weddings in Houston. A way to bring home into the room.","tt5h":"Every day","tt5":"Ngwisa cuts it into corsets, dresses and tailoring, for days that aren’t ceremonies.","colTitle":"Four colours","colBlack":"The ground. The land, the night and the ancestors who stand behind every wearer.","colRed":"Royalty and life. The colour of the Fon, and of the blood that ties a family together.","colYellow":"Wealth and the harvest. Gold thread for a full granary and a prosperous house.","colWhite":"Peace and purity. The colour of blessing, worn when the community gives thanks.","mkTitle":"Made by hand","mk1":"The motif is marked onto the velvet in chalk, by eye and by memory.","mk2":"Artisans stitch it thread by thread, by hand. No two pieces land exactly alike.","mk3":"The embroidered velvet becomes a modern shape: a corset, a shirt dress, a tiered skirt.","mk4":"Every piece is checked, pressed and packed by hand.","tgOut":"Toghu, beyond its traditional context.","apTitle":"On the runway, in the room.","apSub":"The shows, conferences and showcases where Ngwisa has carried Toghu onto the stage.","apInvTitle":"Bring the gong to your stage.","apInv":"We take part in runway shows, panels, exhibitions and cultural showcases. For invitations, collaborations and press, write to the atelier.","st1T":"Toghu, beyond the ceremony","st1K":"OUR PROJECT · 4 MIN","st1P1":"Toghu has always been worn for the big days: enthronements, weddings, the moments a community gathers. Its embroidery is dense with meaning, stitched by hand in red, yellow and white on black.","st1P2":"Our purpose is to challenge the idea that cultural craftsmanship belongs only in traditional dress. We bring Toghu into modern, sophisticated silhouettes — a corset, a shirt dress, a tiered skirt — creating a space where heritage, luxury and contemporary design can exist together.","st1P3":"Whether worn for an occasion or folded into everyday life, the pieces ask you to embrace your individuality with elegance.","st1Cta":"READ ABOUT TOGHU →","st2T":"Meet the main character","st2K":"THE GONGBELL · 3 MIN","st2P1":"Every collection needs one piece that ties everything together. In The Gongbell, it is the corset.","st2P2":"Strongly structured and waist-cinching, it follows the torso and tapers inward to create an hourglass. Each cup carries the detailed Ngwisa gong design.","st2P3":"It pairs with every other piece in the collection — the fringe skirts, the tiered ruffles, the tailoring. The main character, for real.","st2Cta":"SHOP THE CORSET →","st3T":"Brought back, by request","st3K":"THE ATELIER · 3 MIN","st3P1":"Some pieces don’t leave. The Rahrah set and the Manyi top both come from our previous collection, and they were so well loved that we had to bring them back.","st3P2":"This time they return carrying the gong: the Rahrah’s structured velvet corset over red brushed fringe, and the Manyi’s zip-front top with a twin gong design.","st3P3":"The Rahrah now comes in white fringe too, and once — just once — in baby blue.","st3Cta":"SHOP THE RAHRAH →","wallTag":"#WornByNgwisa","wallShop":"SHOP THE LOOK →","wallIg":"@_NGWISA_ ON INSTAGRAM →","wallQ1K":"FROM THE FOUNDER","wallQ1":"Not simply something you wear, but something you embody.","wallQ2K":"NGWISA","wallQ2":"Where heritage meets modernity.","loopHead":"New in","loopBtn":"VIEW THE PIECE →","rackHead":"Best sellers","newsKick":"DEAR READER,","newsBtn":"SUBSCRIBE","newsSealed":"SEALED.","footVisit":"VISIT","footTalk":"TALK","footCopy":"© 2026 NGWISA · WWW.NGWISA.COM","igLabel":"INSTAGRAM","igHandle":"@_ngwisa_","tgRegionL":"REGION","tgAkaL":"ALSO CALLED","tgGroundL":"GROUND","tgThreadL":"THREAD","tgWornL":"WORN FOR","tt1k":"01 · PALACE","tt2k":"02 · CEREMONY","tt3k":"03 · COUNTRY","tt4k":"04 · DIASPORA","tt5k":"05 · NOW","colBlackN":"Black","colRedN":"Red","colYellowN":"Yellow","colWhiteN":"White","mk1k":"01 · CAMEROON","mk1h":"Draw","mk2k":"02 · CAMEROON","mk2h":"Embroider","mk3k":"03 · MANCHESTER","mk3h":"Cut","mk4k":"04 · BY HAND","mk4h":"Finish","tgShop":"SHOP THE GONGBELL →","jnAppH":"Appearances","apShow":"SEE THE SHOW","jnAtelierH":"From the atelier","apInvBtn":"INVITE NGWISA"};
 class Component extends DCLogic {
   state = { page: 'home', sec: 0, curtain: 'idle', curtainL: '', quick: null, qImg: 0, size: null, bag: [], bagOpen: false,
     tab: 'all', cat: 'All', sort: 'featured', gh: null, env: false, nl: '', nlDone: false, filmOpen: false,
@@ -1170,7 +1174,7 @@ class Component extends DCLogic {
     document.removeEventListener('click', this.onClickCap, true); document.removeEventListener('scroll', this.onScrollCap, true); removeEventListener('keydown', this.onKey); document.removeEventListener('ng-open', this.onNgOpen); document.removeEventListener('ng-link', this.onNgLink);
     if (this.io) this.io.disconnect(); removeEventListener('resize', this.onResize2); document.removeEventListener('wheel', this.onWheel); removeEventListener('keydown', this.onPageKey); cancelAnimationFrame(this.anRaf);
   }
-  componentDidUpdate(pp, ps) { this.syncImgs(); if (ps.pp !== this.state.pp) setTimeout(() => this.refreshEls(), 150); }
+  componentDidUpdate() { this.syncImgs(); if (this.lastPP !== this.state.pp) { this.lastPP = this.state.pp; setTimeout(() => this.refreshEls(), 150); } }
   syncImgs() { document.querySelectorAll('img[data-img]').forEach(i => { const s = i.getAttribute('data-img'); if (s && s.indexOf('{{') < 0 && i.getAttribute('src') !== s) i.setAttribute('src', s); }); }
   setupWhenReady(el, tries) {
     clearTimeout(this.swrT);
@@ -1285,23 +1289,25 @@ class Component extends DCLogic {
   }
 
   async loadStudio(n) { const N = window.NGW; if (!N) { if (n < 40) setTimeout(() => this.loadStudio(n + 1), 250); return; }
-    const q = id => N.request('/wix-data/v2/items/query', { body: { dataCollectionId: id, query: { cursorPaging: { limit: 200 } } } }).then(r => ((r && r.dataItems) || []).map(x => x.data || {})).catch(() => []);
+    const q = id => N.request('/wix-data/v2/items/query', { body: { dataCollectionId: id, query: { cursorPaging: { limit: 1000 } } } }).then(r => ((r && r.dataItems) || []).map(x => x.data || {})).catch(() => []);
     const mu = v => { if (!v) return ''; if (typeof v === 'object') v = v.url || ''; const m = String(v).match(/^wix:(image|video):\/\/v1\/([^/#]+)/); if (!m) return String(v); return m[1] === 'image' ? 'https://static.wixstatic.com/media/' + m[2] : 'https://video.wixstatic.com/video/' + m[2] + '/1080p/mp4/file.mp4'; };
     const [copy, slots, nir, prs, apps, worn] = await Promise.all(['StudioHomeCopy', 'StudioSiteSlots', 'StudioNewInRail', 'StudioPairs', 'StudioAppearances', 'StudioWornByYou'].map(q));
     const ord = a => a.slice().sort((x, y) => ((x.order || 0) - (y.order || 0)) || String(x._id).localeCompare(String(y._id)));
     const cp = {}; copy.forEach(r => { if (r.title && typeof r.text === 'string' && r.text.trim()) cp[r.title] = r.text; });
-    const sl = {}; slots.forEach(r => { const u = mu(r.video || r.image || r.fileUrl); if (r.title && u) sl[r.title] = u; });
+    const sl = {}, sm = {}; slots.forEach(r => { const u = mu(r.video || r.image || r.fileUrl); if (r.title && u) { sl[r.title] = u; sm[r.title] = { alt: r.alt || '', pos: r.focalX != null && r.focalY != null ? r.focalX + '% ' + r.focalY + '%' : '' }; } });
     if (nir.length) { const o = ord(nir).map(r => r.productId); P.forEach(p => { const k = o.indexOf(p.id); p.isNew = k >= 0; p.newOrder = k; }); }
     if (prs.length) { const m = {}; ord(prs).forEach(r => { const a = r.callProductId, b = r.answerProductId; if (!a || !b) return; (m[a] = m[a] || []).push(b); (m[b] = m[b] || []).push(a); }); this.pairMap = m; }
     if (apps.length) EVT.splice(0, EVT.length, ...ord(apps).map(r => ({ t: r.title || '', type: r.type || '', city: r.city || '', yr: r.year || '', img: mu(r.coverUrl || r.cover), gal: (r.gallery || []).filter(Boolean), paras: String(r.body || '').split(/\n\s*\n/).map(x => x.trim()).filter(Boolean) })).filter(e => e.img));
     const wv = ord(worn).filter(r => r.show !== false && r.consent !== false).map(r => mu(r.fileUrl || r.photo)).filter(Boolean);
     if (wv.length) { let k = 0; WALL.forEach(col => col.forEach(t => { if (t.k === 'PHOTO' && k < wv.length) t.f = [wv[k++]]; })); }
     ['jr-1', 'jr-2', 'jr-3'].forEach((id, i) => { if (sl[id] && ART[i]) ART[i].img = sl[id]; });
-    this.setState({ copy: cp, slots: sl }); }
+    this.setState({ copy: cp, slots: sl, slotMeta: sm }); }
   renderVals() {
     const st = this.state;
     const ST = /^\/studio/i.test(location.pathname) || /^#\/?studio/i.test(location.hash);
-    const t = Object.assign({}, COPY_DEF, st.copy || {}); const SL = st.slots || {};
+    const t = Object.assign({}, COPY_DEF, st.copy || {}); const SL = st.slots || {}; const SM = st.slotMeta || {}; const tq = t;
+    ART.forEach((x, i) => { const k = 'st' + (i + 1); x.t = t[k + 'T'] || x.t; x.k = t[k + 'K'] || x.k; x.ctaL = t[k + 'Cta'] || x.ctaL; const ps = [t[k + 'P1'], t[k + 'P2'], t[k + 'P3']].filter(v => v && v.trim()); if (ps.length) x.paras = ps; });
+    const si = {}; Object.keys(SPOTS).forEach(id => { const [k, alt, pos] = SPOTS[id], m = SM[id] || {}; si[k] = SL[id] || ''; si[k + 'Alt'] = m.alt || alt; si[k + 'Pos'] = m.pos || pos; });
     const heroVid = (st.mob && SL['hero-film-m']) || SL['hero-film'] || '';
     const go = (p, x) => () => this.go(p, x);
     const open = id => () => this.openQuick(id);
@@ -1331,7 +1337,7 @@ const sCard = (p, i, pre) => { const key = pre + p.id, on = st.shov === key;
     const tile = (t, all) => {
       const img = t.f ? t.f.length > 0 : false; const pr = t.pid ? this.find(t.pid) : null; const on = all || match(t);
       const ratio = t.k === 'REEL' ? '9/16' : t.k === 'FILM' ? '4/3' : t.wide ? '3/2' : t.k === 'QUOTE' || t.k === 'TAG' ? '1/1' : '3/4';
-      return { img: img ? IMG(t.f[0]) : '', isImg: img, isQuote: t.k === 'QUOTE', isTag: t.k === 'TAG', kick: t.kick || '', text: t.text || '', ratio,
+      return { img: img ? IMG(t.f[0]) : '', isImg: img, isQuote: t.k === 'QUOTE', isTag: t.k === 'TAG', kick: t.q && t.kick ? tq[t.q + 'K'] || t.kick : t.kick || '', text: t.q ? tq[t.q] || t.text : t.text || '', ratio,
         bg: t.k === 'QUOTE' ? '#F4F0EA' : '#2A2421', o: on ? 1 : 0.18, flt: on ? 'none' : 'grayscale(1)',
         tag: t.k === 'REEL' ? '▶ REEL' : t.k === 'FILM' ? '▶ FILM' : t.k === 'PHOTO' ? 'PHOTO' : t.k === 'TAG' ? 'COMMUNITY' : 'NOTE',
         cur: t.k === 'PHOTO' ? 'View' : t.k === 'QUOTE' ? '' : t.k === 'TAG' ? 'Follow' : 'Play',
@@ -1345,7 +1351,7 @@ const sCard = (p, i, pre) => { const key = pre + p.id, on = st.shov === key;
     const a = st.event != null ? (e => ({ t: e.t, k: e.type + ' · ' + e.city + ' · ' + e.yr, img: IMG(e.img), paras: e.paras, gal: e.gal, ctaL: 'SHOP THE PIECES →', go: 'shop' }))(EVT[st.event]) : st.article != null ? ART[st.article] : null;
     const evRow = (e, i) => ({ n: e.yr, yr: e.yr, t: e.t, k: e.type + ' · ' + e.city, img: IMG(e.img), open: () => this.setState({ event: i, article: null }) });
 
-    return { tx: t, ev0: { t: (EVT[0] || {}).t || '', meta: [(EVT[0] || {}).type, (EVT[0] || {}).city, (EVT[0] || {}).yr].filter(Boolean).join(' · '), body: ((EVT[0] || {}).paras || [])[0] || '' }, isStudio: ST, notStudio: !ST, heroVid, hasHeroVid: /\.(mp4|webm|mov)|video\.wixstatic/i.test(heroVid), heroPoster: SL['hero-poster'] || '', vidRef: el => { if (!el || !el.dataset.v || el.dataset.v.indexOf('{{') >= 0 || el.getAttribute('src') === el.dataset.v) return; if (el.dataset.p) el.poster = el.dataset.p; el.muted = true; el.src = el.dataset.v; const p = el.play(); if (p && p.catch) p.catch(() => {}); }, vidGo: e => { const v = e.currentTarget; v.muted = true; const p = v.play(); if (p && p.catch) p.catch(() => {}); },
+    return { tx: t, si, ev0: { t: (EVT[0] || {}).t || '', meta: [(EVT[0] || {}).type, (EVT[0] || {}).city, (EVT[0] || {}).yr].filter(Boolean).join(' · '), body: ((EVT[0] || {}).paras || [])[0] || '' }, isStudio: ST, notStudio: !ST, heroVid, hasHeroVid: /\.(mp4|webm|mov)|video\.wixstatic/i.test(heroVid), heroPoster: SL['hero-poster'] || '', vidRef: el => { if (!el || !el.dataset.v || el.dataset.v.indexOf('{{') >= 0 || el.getAttribute('src') === el.dataset.v) return; if (el.dataset.p) el.poster = el.dataset.p; el.muted = true; el.src = el.dataset.v; const p = el.play(); if (p && p.catch) p.catch(() => {}); }, vidGo: e => { const v = e.currentTarget; v.muted = true; const p = v.play(); if (p && p.catch) p.catch(() => {}); },
       mob: st.mob, showNav: !st.mob, menuOpen: st.menu, menuLabel: st.menu ? 'CLOSE' : 'MENU', toggleMenu: () => this.setState({ menu: !st.menu }),
       navItems: NAV.map(n => ({ l: n[1], l2: n[2], go: go(n[0]), bg: st.page === n[0] ? '#FBF8F2' : 'transparent', ink: st.page === n[0] ? '#141110' : '#FBF8F2' })),
       goHome: go('home'), goShop: go('shop'), goLoop: go('loop'),
@@ -1370,19 +1376,19 @@ const sCard = (p, i, pre) => { const key = pre + p.id, on = st.shov === key;
       checkoutL: st.ckBusy ? 'OPENING SECURE CHECKOUT…' : 'CHECKOUT →',
       subtotal: '£' + bagSub.toFixed(2),
       loopCards: P.filter(p => p.isNew).map(p => ({ name: p.name, price: fmt(p.price), img: p.img, alt: p.alt, open: open(p.id) })),
-      decks: [['Women', SL['deck-women'] || '02706', '50% 22%', 'red'], ['Men', SL['deck-men'] || '02542', '50% 20%', 'gold']].map(d => ({ l: d[0], img: IMG(d[1]), pos: d[2], tone: d[3], cta: 'SHOP ' + d[0].toUpperCase() + ' →', go: go('shop', { cat: d[0], tab: 'all' }) })),
+      decks: [['Women', SL['deck-women'] || '02706', (SM['deck-women'] || {}).pos || '50% 22%', 'red'], ['Men', SL['deck-men'] || '02542', (SM['deck-men'] || {}).pos || '50% 20%', 'gold']].map(d => ({ l: d[0], img: IMG(d[1]), pos: d[2], tone: d[3], cta: 'SHOP ' + d[0].toUpperCase() + ' →', go: go('shop', { cat: d[0], tab: 'all' }) })),
       openFilm: () => this.setState({ filmOpen: true }), closeFilm: () => this.setState({ filmOpen: false }), filmOpen: st.filmOpen,
       rack: P.filter(p => p.best).sort((x, y) => x.best - y.best).map(p => ({ name: p.name, price: fmt(p.price), img: p.img, rank: p.best, open: open(p.id) })),
       wallIn: () => { this.wallHover = true; }, wallOut: () => { this.wallHover = false; this.hReel = null; },
       wallCols: WALL.map((c, ci) => ({ dir: ci % 2 ? '-1' : '1', tiles: c.concat(c).map(t => tile(t)) })),
       wallFilters: ['ALL', 'REELS', 'PHOTOS', 'FILM'].map(f => ({ l: f, go: () => this.setState({ wallF: f }), bg: st.wallF === f ? '#FBF8F2' : 'transparent', ink: st.wallF === f ? '#141110' : '#FBF8F2' })),
-      articles: ART.map((x, i) => ({ n: String(i + 1).padStart(2, '0'), t: x.t, k: x.k, k2: x.k.split(' · ')[1].toLowerCase().replace('min', 'min read'), img: x.img, open: () => this.setState({ article: i, event: null }) })),
+      articles: ART.map((x, i) => ({ n: String(i + 1).padStart(2, '0'), t: x.t, k: x.k, k2: (x.k.split(' · ')[1] || '').toLowerCase().replace('min', 'min read'), img: x.img, open: () => this.setState({ article: i, event: null }) })),
       hasArticle: !!a, closeArticle: () => this.setState({ article: null, event: null }),
       art: a ? { ...a, paras: a.paras.map(x => ({ x })), gal: (a.gal || []).map(g => ({ img: IMG(g) })), hasGal: !!(a.gal && a.gal.length), cta: () => { this.setState({ article: null, event: null }); if (a.go === 'heritage' || a.go === 'shop') this.go(a.go); else this.openQuick(a.go); } } : { paras: [], gal: [] },
       ppWallCols: (() => { const p = st.pp ? this.find(st.pp) : null; if (!p) return []; const others = P.filter(x => x.id !== p.id); const o = k => others[(P.indexOf(p) * 3 + k * 2) % others.length]; const I = p.imgs;
         const cols = [[{ k: 'PHOTO', f: [I[0]] }, { k: 'QUOTE', text: p.hook }, { k: 'REEL', f: [I[1], I[2], I[0]], pid: p.id }, { k: 'PHOTO', f: [o(0).img], pid: o(0).id }],
           [{ k: 'REEL', f: [I[2], I[0], I[1]], pid: p.id }, { k: 'PHOTO', f: [I[1]] }, { k: 'TAG' }, { k: 'PHOTO', f: [o(1).img], pid: o(1).id }],
-          [{ k: 'PHOTO', f: [I[2]] }, { k: 'FILM', f: ['03622'] }, { k: 'PHOTO', f: [o(2).img], pid: o(2).id }, { k: 'QUOTE', text: 'Where heritage meets modernity.' }]];
+          [{ k: 'PHOTO', f: [I[2]] }, { k: 'FILM', f: ['03622'] }, { k: 'PHOTO', f: [o(2).img], pid: o(2).id }, { k: 'QUOTE', q: 'wallQ2', text: 'Where heritage meets modernity.' }]];
         return cols.map((c, ci) => ({ dir: ci % 2 ? '-1' : '1', tiles: c.concat(c).map(x => tile(x, true)) })); })(),
       openEnv: () => { if (!st.env) this.setState({ env: true }); }, stop: e => e.stopPropagation(),
       envCursor: st.env ? '' : 'Open', envShift: st.env ? '22%' : '0%', letterY: st.env ? '-72%' : '0%',
