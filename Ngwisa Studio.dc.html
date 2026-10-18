@@ -859,9 +859,10 @@ class Component extends DCLogic {
     if (m && m.id === OWNER_ID) { this.me = m; this.setState({ authed: true, lBusy: false, lp: '', lErr: '' }); this.loadWix(); }
     else this.setState({ authed: false, lBusy: false, lErr: m ? 'Signed in as ' + (m.email || 'a member') + ', but only the owner account can edit the Studio.' : fromLogin ? 'Signed in, but Wix didn’t return your member profile. Try again.' : '' }); }
   logout() { const N = window.NGW; this.setState({ authed: false, wixLive: false }); if (N) N.logout(); }
-  /* Every Studio read and write goes through /api/studio, which checks the signed-in member and uses the site's API key. */
+  /* Every Studio read and write goes through /api/studio, which checks the signed-in member and uses the site's API key.
+     On Wix hosting the pages are static, so window.NG_STUDIO_API points at the same function on Vercel. */
   async api(path, opts) { opts = opts || {}; const N = window.NGW; if (!N) throw new Error('Wix is still loading');
-    const r = await fetch('/api/studio', { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-member-token': await N.accessToken() }, body: JSON.stringify({ path, method: opts.method || 'POST', body: opts.body }) });
+    const r = await fetch(window.NG_STUDIO_API || '/api/studio', { method: 'POST', headers: { 'Content-Type': 'application/json', 'x-member-token': await N.accessToken() }, body: JSON.stringify({ path, method: opts.method || 'POST', body: opts.body }) });
     let d = {}; try { d = await r.json(); } catch (e) {}
     if (!r.ok) { const e = new Error(d.message || (r.status === 404 ? 'Studio server not found at /api/studio' : 'Studio server error (' + r.status + ')')); e.status = r.status; throw e; }
     return d; }

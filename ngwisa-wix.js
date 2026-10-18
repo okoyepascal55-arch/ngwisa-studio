@@ -25,6 +25,11 @@
   const LEGACY_SHOWN = ['AWA CROWN', 'Rahrah corsetTOP', 'Rahrah SET', 'SHINE SET', 'LIYAH DRESS & SCARF', 'NKEH PANTS', 'MANYI SKIRT', 'TATAH Unisex Blazer', 'Lohchi DRESS', 'Beri SKIRT', 'Beri TOP', 'Ayeah SHIRT', 'Andy SHIRT', 'TANKO VEST', 'BELLA SILK SKIRT', 'Manyi TOP', 'TATAH', 'NESSI', 'LADY', 'YAYUH', 'MALIYA', "MA'FOR", "MA'YAH", "FON'EYI", "NA'FOIN", 'LINWE SKIRT', "NA'MAFOR TOP", "NA'MAFOR SKIRT", "YE'FON", 'Rahrah Set, White Fringe', 'Main Character Corset', 'Mawa Dress', 'Mimche Dress', 'Muna Set', 'Mita Dress', 'Yem Shirt Dress'];
   const LEGACY = new Set(LEGACY_SHOWN.map(norm));
   const CATEGORIES = ['Tops', 'Bottoms', 'Dresses', 'Sets', 'Tailoring', 'Outerwear', 'Accessories', 'Jumpsuits', 'Collection'];
+  /* Wix Stores descriptions arrive as HTML (<p>, &nbsp;, <br>): the site shows them as plain text. */
+  const ENT = { nbsp: ' ', amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", rsquo: '’', lsquo: '‘', rdquo: '”', ldquo: '“', ndash: '–', mdash: '—', hellip: '…', pound: '£' };
+  const htmlText = h => String(h || '').replace(/<br\s*\/?>/gi, '\n').replace(/<\/(p|div|li|h\d)>/gi, '\n\n').replace(/<[^>]*>/g, '')
+    .replace(/&(#x?[0-9a-f]+|[a-z]+);/gi, (m, e) => e[0] === '#' ? String.fromCodePoint(e[1] === 'x' || e[1] === 'X' ? parseInt(e.slice(2), 16) : +e.slice(1)) : (ENT[e.toLowerCase()] ?? m))
+    .replace(/[ \t\u00a0]+/g, ' ').replace(/ *\n */g, '\n').replace(/\n{3,}/g, '\n\n').trim();
   const titleCase = s => String(s || '').replace(/\w\S*/g, w => w.charAt(0) + w.slice(1).toLowerCase());
   const variantRows = vs => {
     const rows = vs.filter(v => v.label).map(v => [v.label, v.qty, null, !v.inStock]);
@@ -46,7 +51,7 @@
     const tag = (type, prop) => { const t = seo.find(x => x.type === type && (!prop || (x.props && (x.props.name === prop || x.props.property === prop)))); return t ? (t.children || (t.props && t.props.content) || '') : ''; };
     return {
       wixId: p.id, slug: p.slug || slugify(p.name), name: p.name || '', key: norm(p.name), visible: p.visible !== false,
-      price: pr ? Number(pr.amount) : null, img: main, imgs, desc: p.plainDescription || '',
+      price: pr ? Number(pr.amount) : null, img: main, imgs, desc: htmlText(p.plainDescription || ''),
       variants: vs, inStock: !(p.inventory && p.inventory.availabilityStatus === 'OUT_OF_STOCK'),
       seoTitle: tag('title'), seoDescription: tag('meta', 'description'), updated: p.updatedDate || '',
     };
@@ -127,7 +132,7 @@
     }
     return out;
   }
-  const CAT = { CLIENT_ID, API, norm, slugify, img, titleCase, LEGACY_SHOWN, CATEGORIES, normProduct, mergeCatalog, queryProducts, queryInventory, variantRows, parseVariants };
+  const CAT = { CLIENT_ID, API, norm, slugify, img, htmlText, titleCase, LEGACY_SHOWN, CATEGORIES, normProduct, mergeCatalog, queryProducts, queryInventory, variantRows, parseVariants };
   if (typeof module !== 'undefined' && module.exports && typeof window === 'undefined') { module.exports = CAT; return; }
   if (!root) return;
 

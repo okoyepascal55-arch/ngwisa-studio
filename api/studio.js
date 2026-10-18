@@ -36,7 +36,23 @@ function allowed(method, path, body) {
   return MEDIA.some(([m, re]) => m === method && re.test(path));
 }
 
+/* The Studio can be served from another origin (the Wix-hosted site) and call this function cross-origin.
+   Only the origins listed are allowed: STUDIO_ORIGINS (comma-separated) or the defaults below. */
+const ORIGINS = (process.env.STUDIO_ORIGINS || 'https://ngwisa-gong-gallery-sjkgracee-1309.wix-site-host.com').split(',').map(s => s.trim().replace(/\/+$/, '')).filter(Boolean);
+function cors(req, res) {
+  const o = String(req.headers.origin || '').replace(/\/+$/, '');
+  if (o && ORIGINS.includes(o)) {
+    res.setHeader('Access-Control-Allow-Origin', o);
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, x-member-token');
+    res.setHeader('Access-Control-Max-Age', '600');
+  }
+  res.setHeader('Vary', 'Origin');
+}
+
 module.exports = async (req, res) => {
+  cors(req, res);
+  if (req.method === 'OPTIONS') { res.statusCode = 204; return res.end(); }
   const send = (status, obj) => { res.statusCode = status; res.setHeader('Content-Type', 'application/json'); res.setHeader('Cache-Control', 'no-store'); res.end(JSON.stringify(obj)); };
   const key = env.WIX_API_KEY;
   if (req.method === 'GET') return send(200, { ok: true, configured: !!key });

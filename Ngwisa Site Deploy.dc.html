@@ -507,7 +507,7 @@
 <div style="display:flex;flex-direction:column;gap:16px">
 <span style="font:400 18px/1.3 'Bricolage Grotesque';color:#D81219">{{ pp.hook }}</span>
 <h1 style="margin:0;font:800 clamp(44px,5vw,84px)/.9 'Bricolage Grotesque';letter-spacing:-.04em;text-wrap:balance">{{ pp.name }}</h1>
-<p style="margin:0;max-width:540px;font:400 17px/1.55 'Bricolage Grotesque';color:#3A3430;text-wrap:pretty">{{ pp.desc }}</p>
+<p style="white-space:pre-line;margin:0;max-width:540px;font:400 17px/1.55 'Bricolage Grotesque';color:#3A3430;text-wrap:pretty">{{ pp.desc }}</p>
 </div>
 <div style="display:flex;flex-direction:column;gap:14px">
 <div style="display:flex;justify-content:space-between;align-items:center;gap:12px"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#6A6057">SIZE</span><button onClick="{{ openSG }}" style="padding:0;border:0;background:none;cursor:pointer;font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#141110;text-decoration:underline;text-underline-offset:3px">SIZE GUIDE →</button></div>
@@ -601,7 +601,7 @@
 <h3 style="margin:0;font:400 36px/1 'Bricolage Grotesque';letter-spacing:-.035em">{{ q.name }}</h3>
 <span style="font:500 13px/1 'DM Mono',monospace;letter-spacing:.1em;white-space:nowrap">{{ q.price }}</span>
 </div>
-<p style="margin:0;font:400 16px/1.55 'Bricolage Grotesque';color:#4A433D;text-wrap:pretty">{{ q.desc }}</p>
+<p style="white-space:pre-line;margin:0;font:400 16px/1.55 'Bricolage Grotesque';color:#4A433D;text-wrap:pretty">{{ q.desc }}</p>
 <div style="display:flex;flex-direction:column;gap:10px">
 <span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#6B635B">SIZE</span>
 <div style="display:flex;gap:6px;flex-wrap:wrap">
@@ -1357,7 +1357,7 @@ class Component extends DCLogic {
   syncRoute(afterCatalog) {
     if (IN_EDITOR()) return; const r = ROUTE(location.pathname); if (r.studio) return;
     const set = {}; if (r.page && r.page !== this.state.page) Object.assign(set, { page: r.page, sec: 0 });
-    if (r.slug) { const p = P.find(x => x.slug === r.slug || x.id === r.slug);
+    if (r.slug) { const p = P.find(x => x.slug === r.slug) || P.find(x => x.id === r.slug); /* a Wix slug wins over a built-in id (Wix 'tatah' vs the built-in blazer 'tatah') */
       if (p && !p.hidden) { if (this.state.pp !== p.id) Object.assign(set, { pp: p.id, ppI: 0, size: null }); this.ensureSizes(p);
         if (p.slug && p.slug !== r.slug) this.nav('/shop/' + encodeURIComponent(p.slug), true); }
       else if (afterCatalog) { this.flash('THAT PIECE ISN’T IN THE SHOP RIGHT NOW'); this.nav('/shop', true); Object.assign(set, { pp: null, page: 'shop' }); } }
