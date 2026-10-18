@@ -68,7 +68,7 @@
 <section data-sec="1" data-screen-label="Home 03 Women and Men" style="position:relative;min-height:100svh;scroll-snap-align:start;background:#141110;color:#FBF8F2;display:flex;flex-wrap:wrap;gap:8px;padding:84px 8px 8px">
 <sc-for list="{{ decks }}" as="d" hint-placeholder-count="2">
 <div onClick="{{ d.go }}" style="position:relative;flex:1 1 420px;min-width:0;min-height:calc(100svh - 92px);border-radius:18px;background:#1E1A18;overflow:hidden;display:flex;flex-direction:column;justify-content:flex-end;padding:clamp(20px,2.4vw,36px);isolation:isolate;cursor:pointer">
-<img data-img="{{ d.img }}" data-kb="1" alt="{{ d.l }}" draggable="false" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:{{ d.pos }};z-index:-2">
+<img loading="lazy" decoding="async" data-img="{{ d.img }}" data-kb="1" alt="{{ d.l }}" draggable="false" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:{{ d.pos }};z-index:-2">
 <div aria-hidden="true" style="position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(20,17,16,0) 40%,rgba(20,17,16,.82))"></div>
 <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap">
 <x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ d.l }}" tone="{{ d.tone }}" size="clamp(28px,3.6vw,60px)" nowrap="1" hint-size="auto,70px"></x-import>
@@ -79,7 +79,7 @@
 </section>
 
 <section data-sec="1" data-screen-label="Home 04 Film" style="position:relative;height:100svh;scroll-snap-align:start;overflow:hidden;background:#0A0807">
-<img data-kb="1" ref="{{ mref }}" data-v="{{ si.homeCast }}" data-w="840628_1194b99ba10d443584f3d4ee467f24c3~mv2.jpg" alt="{{ si.homeCastAlt }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:{{ si.homeCastPos }};filter:brightness(.62) contrast(1.1)">
+<img loading="lazy" decoding="async" data-kb="1" ref="{{ mref }}" data-v="{{ si.homeCast }}" data-w="840628_1194b99ba10d443584f3d4ee467f24c3~mv2.jpg" alt="{{ si.homeCastAlt }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:{{ si.homeCastPos }};filter:brightness(.62) contrast(1.1)">
 <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 70% at 50% 50%,rgba(10,8,7,0) 30%,rgba(10,8,7,.7))"></div>
 <button onClick="{{ openFilm }}" data-cursor="Play" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:132px;height:132px;border-radius:50%;border:1.5px solid rgba(251,248,242,.8);background:rgba(20,17,16,.25);color:#FBF8F2;font:500 11px/1 'DM Mono',monospace;letter-spacing:.18em;cursor:pointer;transition:transform .5s cubic-bezier(.3,0,.2,1),background .4s" style-hover="background:#D81219;border-color:#D81219" aria-label="Play the film"><span style="font-size:22px;margin-left:4px">▶</span></button>
 </section>
@@ -96,7 +96,7 @@
 <sc-for list="{{ col.tiles }}" as="t" hint-placeholder-count="5">
 <div onClick="{{ t.open }}" data-cursor="{{ t.cur }}" data-frames="{{ t.frames }}" style="position:relative;aspect-ratio:{{ t.ratio }};border-radius:14px;overflow:hidden;background:{{ t.bg }};cursor:pointer;opacity:{{ t.o }};filter:{{ t.flt }};transition:opacity .5s,filter .5s,transform .6s cubic-bezier(.3,0,.2,1)" style-hover="transform:scale(1.025)">
 <sc-if value="{{ t.isImg }}" hint-placeholder-val="{{ true }}">
-<img data-img="{{ t.img }}" alt="" draggable="false" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 25%">
+<img loading="lazy" decoding="async" data-img="{{ t.img }}" alt="" draggable="false" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 25%">
 </sc-if>
 <sc-if value="{{ t.isQuote }}" hint-placeholder-val="{{ false }}">
 <div style="position:absolute;inset:0;padding:clamp(14px,1.6vw,22px);display:flex;flex-direction:column;justify-content:flex-end;color:#141110">
@@ -143,7 +143,7 @@
 <sc-for list="{{ articles }}" as="a" hint-placeholder-count="3">
 <button onClick="{{ a.open }}" data-cursor="Read" data-jimg="{{ a.img }}" style="display:grid;grid-template-columns:{{ jCols }};gap:{{ jGap }};align-items:center;padding:26px 0;border:0;border-top:1.5px dashed rgba(20,17,16,.35);background:none;color:#141110;text-align:left;cursor:pointer;transition:padding .5s cubic-bezier(.3,0,.2,1),color .3s" style-hover="padding-left:18px;color:#D81219">
 <span style="font:500 11px/1 'DM Mono',monospace;letter-spacing:.14em">{{ a.n }}</span>
-<span style="position:relative;display:block;width:76px;height:96px;border-radius:38px 38px 10px 10px;overflow:hidden;background:#E9E2D6;box-shadow:0 0 0 3px #FBF8F2,0 10px 18px -12px rgba(20,17,16,.5)"><img data-img="{{ a.img }}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 20%"></span>
+<span style="position:relative;display:block;width:76px;height:96px;border-radius:38px 38px 10px 10px;overflow:hidden;background:#E9E2D6;box-shadow:0 0 0 3px #FBF8F2,0 10px 18px -12px rgba(20,17,16,.5)"><img loading="lazy" decoding="async" data-img="{{ a.img }}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 20%"></span>
 <span style="font:400 clamp(26px,3.6vw,56px)/1 'Bricolage Grotesque';letter-spacing:-.035em;text-wrap:balance">{{ a.t }}</span>
 <span style="display:{{ jK }};font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#6B635B;white-space:nowrap">{{ a.k }}</span>
 </button>
@@ -228,10 +228,10 @@
 <div style="position:relative;aspect-ratio:4/5;perspective:1600px;transform-origin:50% 0;transform:{{ p.tilt }};transition:transform .7s cubic-bezier(.3,0,.2,1)">
 <div style="position:absolute;inset:0;transform-style:preserve-3d;transform:rotateY({{ p.flip }});transition:transform .9s cubic-bezier(.6,0,.2,1)">
 <div style="position:absolute;inset:0;border-radius:4px;overflow:hidden;background:#E9E2D6;backface-visibility:hidden;-webkit-backface-visibility:hidden;box-shadow:{{ p.shadow }}">
-<img data-img="{{ p.img }}" alt="{{ p.name }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 18%">
+<img loading="lazy" decoding="async" data-img="{{ p.img }}" alt="{{ p.name }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 18%">
 </div>
 <div style="position:absolute;inset:0;border-radius:4px;overflow:hidden;background:#E9E2D6;transform:rotateY(180deg);backface-visibility:hidden;-webkit-backface-visibility:hidden;box-shadow:{{ p.shadow }}">
-<img data-img="{{ p.alt }}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 18%">
+<img loading="lazy" decoding="async" data-img="{{ p.alt }}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 18%">
 </div>
 </div>
 </div>
@@ -279,10 +279,10 @@
 <div style="position:relative;aspect-ratio:4/5;perspective:1600px;transform-origin:50% 0;transform:{{ p.tilt }};transition:transform .7s cubic-bezier(.3,0,.2,1)">
 <div style="position:absolute;inset:0;transform-style:preserve-3d;transform:rotateY({{ p.flip }});transition:transform .9s cubic-bezier(.6,0,.2,1)">
 <div style="position:absolute;inset:0;border-radius:4px;overflow:hidden;background:#E9E2D6;backface-visibility:hidden;-webkit-backface-visibility:hidden;box-shadow:{{ p.shadow }}">
-<img data-img="{{ p.img }}" alt="{{ p.name }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 18%">
+<img loading="lazy" decoding="async" data-img="{{ p.img }}" alt="{{ p.name }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 18%">
 </div>
 <div style="position:absolute;inset:0;border-radius:4px;overflow:hidden;background:#E9E2D6;transform:rotateY(180deg);backface-visibility:hidden;-webkit-backface-visibility:hidden;box-shadow:{{ p.shadow }}">
-<img data-img="{{ p.alt }}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 18%">
+<img loading="lazy" decoding="async" data-img="{{ p.alt }}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 18%">
 </div>
 </div>
 </div>
@@ -311,14 +311,14 @@
 <sc-if value="{{ isFounders }}" hint-placeholder-val="{{ false }}">
 <div ref="{{ scRef }}" onScroll="{{ onScroll }}" style="position:absolute;inset:0;overflow-y:auto;scroll-snap-type:y mandatory;background:#141110">
 <section data-sec="1" data-screen-label="Founders 01 Voice" style="position:relative;height:100svh;scroll-snap-align:start;overflow:hidden;background:#141110;color:#FBF8F2">
-<img data-kb="1" ref="{{ mref }}" data-v="{{ si.fdVoice }}" data-w="840628_4d9b09cbfd934cc4bcb503972373d550~mv2.jpg" alt="{{ si.fdVoiceAlt }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:{{ si.fdVoicePos }};filter:brightness(.5)">
+<img loading="lazy" decoding="async" data-kb="1" ref="{{ mref }}" data-v="{{ si.fdVoice }}" data-w="840628_4d9b09cbfd934cc4bcb503972373d550~mv2.jpg" alt="{{ si.fdVoiceAlt }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:{{ si.fdVoicePos }};filter:brightness(.5)">
 <div style="position:absolute;left:0;right:0;bottom:0;padding:0 clamp(20px,4vw,56px) 44px;display:flex;flex-direction:column;gap:22px">
 <h1 data-rv="1" style="margin:0;max-width:1200px;font:400 clamp(28px,3.6vw,60px)/1 'Bricolage Grotesque';letter-spacing:-.045em;text-wrap:balance">{{ tx.quote }}</h1>
 </div>
 </section>
 <section data-sec="1" data-screen-label="Founders 02 Our fashion" style="position:relative;min-height:100svh;scroll-snap-align:start;background:#FBF8F2;color:#141110;display:flex;flex-wrap:wrap;gap:clamp(28px,4vw,64px);align-items:center;padding:110px clamp(20px,4vw,56px) 56px">
 <div style="flex:1 1 320px;max-width:520px;aspect-ratio:3/4;border-radius:380px 380px 28px 28px;overflow:hidden;background:#F4F0EA">
-<img ref="{{ mref }}" data-v="{{ si.fdFashion }}" data-w="840628_2d11be200ba84d80bd4e7e6498481328~mv2.jpg" alt="{{ si.fdFashionAlt }}" style="width:100%;height:100%;object-fit:cover;object-position:{{ si.fdFashionPos }}">
+<img loading="lazy" decoding="async" ref="{{ mref }}" data-v="{{ si.fdFashion }}" data-w="840628_2d11be200ba84d80bd4e7e6498481328~mv2.jpg" alt="{{ si.fdFashionAlt }}" style="width:100%;height:100%;object-fit:cover;object-position:{{ si.fdFashionPos }}">
 </div>
 <div data-rv="1" style="flex:1.2 1 380px;display:flex;flex-direction:column;gap:22px;max-width:640px">
 <div style="width:100%;max-width:1200px"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.desTitle }}" tone="red" size="clamp(28px,3.6vw,60px)" hint-size="100%,90px"></x-import></div>
@@ -332,8 +332,8 @@
 <div style="display:flex;flex-wrap:wrap;gap:28px;align-items:flex-end;justify-content:space-between">
 <p style="margin:0;max-width:560px;font:400 18px/1.55 'Bricolage Grotesque';color:#BDB4A9;text-wrap:pretty">{{ tx.craftBody }}</p>
 <div style="display:flex;gap:10px">
-<div style="width:clamp(110px,12vw,170px);aspect-ratio:3/4;border-radius:200px 200px 14px 14px;overflow:hidden"><img ref="{{ mref }}" data-v="{{ si.fdProject1 }}" data-w="840628_d7b311a630e94c7dba251927ff1184b0~mv2.jpg" alt="{{ si.fdProject1Alt }}" style="width:100%;height:100%;object-fit:cover;object-position:{{ si.fdProject1Pos }}"></div>
-<div style="width:clamp(110px,12vw,170px);aspect-ratio:3/4;border-radius:200px 200px 14px 14px;overflow:hidden;margin-top:40px"><img ref="{{ mref }}" data-v="{{ si.fdProject2 }}" data-w="840628_230182ddf73c4ffe9dbf48066ee60f18~mv2.jpg" alt="{{ si.fdProject2Alt }}" style="width:100%;height:100%;object-fit:cover;object-position:{{ si.fdProject2Pos }}"></div>
+<div style="width:clamp(110px,12vw,170px);aspect-ratio:3/4;border-radius:200px 200px 14px 14px;overflow:hidden"><img loading="lazy" decoding="async" ref="{{ mref }}" data-v="{{ si.fdProject1 }}" data-w="840628_d7b311a630e94c7dba251927ff1184b0~mv2.jpg" alt="{{ si.fdProject1Alt }}" style="width:100%;height:100%;object-fit:cover;object-position:{{ si.fdProject1Pos }}"></div>
+<div style="width:clamp(110px,12vw,170px);aspect-ratio:3/4;border-radius:200px 200px 14px 14px;overflow:hidden;margin-top:40px"><img loading="lazy" decoding="async" ref="{{ mref }}" data-v="{{ si.fdProject2 }}" data-w="840628_230182ddf73c4ffe9dbf48066ee60f18~mv2.jpg" alt="{{ si.fdProject2Alt }}" style="width:100%;height:100%;object-fit:cover;object-position:{{ si.fdProject2Pos }}"></div>
 </div>
 </div>
 </section>
@@ -370,7 +370,7 @@
 <sc-if value="{{ isHeritage }}" hint-placeholder-val="{{ false }}">
 <div ref="{{ scRef }}" onScroll="{{ onScroll }}" style="position:absolute;inset:0;overflow-y:auto;scroll-snap-type:y mandatory;background:#141110">
 <section data-sec="1" data-screen-label="Heritage 01 Toghu" style="position:relative;height:100svh;scroll-snap-align:start;overflow:hidden;background:#141110;color:#FBF8F2">
-<img data-kb="1" ref="{{ mref }}" data-v="{{ si.hrHero }}" data-w="840628_b18b05eb2f1b4f72b151cc55306e47fa~mv2.jpg" alt="{{ si.hrHeroAlt }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:{{ si.hrHeroPos }};filter:brightness(.5)">
+<img loading="lazy" decoding="async" data-kb="1" ref="{{ mref }}" data-v="{{ si.hrHero }}" data-w="840628_b18b05eb2f1b4f72b151cc55306e47fa~mv2.jpg" alt="{{ si.hrHeroAlt }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:{{ si.hrHeroPos }};filter:brightness(.5)">
 <div style="position:absolute;left:0;right:0;bottom:0;padding:0 clamp(20px,4vw,56px) 44px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap">
 <div style="display:flex;flex-direction:column;gap:16px">
 <div data-rv="1" style="width:100%;max-width:1200px"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.tgTitle }}" tone="gold" size="clamp(28px,3.6vw,60px)" hint-size="100%,90px"></x-import></div>
@@ -422,7 +422,7 @@
 </div>
 </section>
 <section data-sec="1" data-screen-label="Heritage 06 Today" style="position:relative;height:100svh;scroll-snap-align:start;overflow:hidden;background:#141110;color:#FBF8F2">
-<img data-kb="1" ref="{{ mref }}" data-v="{{ si.hrToday }}" data-w="840628_0edea388c81e4fb096e125a724ec7be2~mv2.jpg" alt="{{ si.hrTodayAlt }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:{{ si.hrTodayPos }};filter:brightness(.5)">
+<img loading="lazy" decoding="async" data-kb="1" ref="{{ mref }}" data-v="{{ si.hrToday }}" data-w="840628_0edea388c81e4fb096e125a724ec7be2~mv2.jpg" alt="{{ si.hrTodayAlt }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:{{ si.hrTodayPos }};filter:brightness(.5)">
 <div style="position:absolute;left:0;right:0;bottom:0;padding:0 clamp(20px,4vw,56px) 44px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap">
 <div style="display:flex;flex-direction:column;gap:16px">
 <div style="width:100%;max-width:1200px"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.tgOut }}" tone="gold" size="clamp(28px,3.6vw,60px)" hint-size="100%,130px"></x-import></div>
@@ -436,7 +436,7 @@
 <sc-if value="{{ isJournal }}" hint-placeholder-val="{{ false }}">
 <div ref="{{ scRef }}" onScroll="{{ onScroll }}" style="position:absolute;inset:0;overflow-y:auto;scroll-snap-type:y mandatory;background:#141110">
 <section data-sec="1" data-screen-label="Journal 01 On stage" style="position:relative;height:100svh;scroll-snap-align:start;overflow:hidden;background:#141110;color:#FBF8F2">
-<img data-kb="1" ref="{{ mref }}" data-v="{{ si.jnHero }}" data-w="840628_3d8be738c2ca47d9b44641cfa45c7052~mv2.jpg" alt="{{ si.jnHeroAlt }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:{{ si.jnHeroPos }};filter:brightness(.5)">
+<img loading="lazy" decoding="async" data-kb="1" ref="{{ mref }}" data-v="{{ si.jnHero }}" data-w="840628_3d8be738c2ca47d9b44641cfa45c7052~mv2.jpg" alt="{{ si.jnHeroAlt }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:{{ si.jnHeroPos }};filter:brightness(.5)">
 <div style="position:absolute;left:0;right:0;bottom:0;padding:0 clamp(20px,4vw,56px) 44px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap">
 <div data-rv="1" style="flex:1 1 520px;max-width:900px"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.apTitle }}" tone="gold" size="clamp(28px,3.6vw,60px)" hint-size="100%,90px"></x-import></div>
 <p style="margin:0;flex:0 1 380px;font:400 17px/1.55 'Bricolage Grotesque';color:#DCD3C6;text-wrap:pretty">{{ tx.apSub }}</p>
@@ -456,16 +456,16 @@
 </section>
 <section data-sec="1" data-screen-label="Journal 03 Featured" style="position:relative;min-height:100svh;scroll-snap-align:start;background:#141110;color:#FBF8F2;display:flex;flex-wrap:wrap;gap:clamp(28px,4vw,64px);align-items:center;padding:110px clamp(20px,4vw,56px) 56px">
 <div style="flex:1 1 320px;max-width:520px;aspect-ratio:3/4;border-radius:380px 380px 28px 28px;overflow:hidden;background:#2A2421">
-<img ref="{{ mref }}" data-v="{{ si.jnFeatured }}" data-w="840628_1194b99ba10d443584f3d4ee467f24c3~mv2.jpg" alt="{{ si.jnFeaturedAlt }}" style="width:100%;height:100%;object-fit:cover;object-position:{{ si.jnFeaturedPos }}">
+<img loading="lazy" decoding="async" ref="{{ mref }}" data-v="{{ si.jnFeatured }}" data-w="840628_1194b99ba10d443584f3d4ee467f24c3~mv2.jpg" alt="{{ si.jnFeaturedAlt }}" style="width:100%;height:100%;object-fit:cover;object-position:{{ si.jnFeaturedPos }}">
 </div>
 <div data-rv="1" style="flex:1.2 1 380px;display:flex;flex-direction:column;gap:22px;max-width:640px">
 <span style="font:400 18px/1.3 'Bricolage Grotesque';color:#E3A72F">{{ ev0.meta }}</span>
 <div style="width:100%"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ ev0.t }}" tone="gold" size="clamp(28px,3.6vw,60px)" hint-size="100%,90px"></x-import></div>
 <p style="margin:0;font:400 18px/1.55 'Bricolage Grotesque';color:#BDB4A9;text-wrap:pretty">{{ ev0.body }}</p>
 <div style="display:flex;gap:10px">
-<div style="width:clamp(90px,9vw,130px);aspect-ratio:3/4;border-radius:200px 200px 14px 14px;overflow:hidden"><img ref="{{ mref }}" data-v="{{ si.jnAtelier1 }}" data-w="840628_f4d7988af81645298f3e2c4e89acb8ec~mv2.jpg" alt="{{ si.jnAtelier1Alt }}" style="width:100%;height:100%;object-fit:cover;object-position:{{ si.jnAtelier1Pos }}"></div>
-<div style="width:clamp(90px,9vw,130px);aspect-ratio:3/4;border-radius:200px 200px 14px 14px;overflow:hidden;margin-top:28px"><img ref="{{ mref }}" data-v="{{ si.jnAtelier2 }}" data-w="840628_ad72189a69d741a89dc97b94866b6d63~mv2.jpg" alt="{{ si.jnAtelier2Alt }}" style="width:100%;height:100%;object-fit:cover;object-position:{{ si.jnAtelier2Pos }}"></div>
-<div style="width:clamp(90px,9vw,130px);aspect-ratio:3/4;border-radius:200px 200px 14px 14px;overflow:hidden"><img ref="{{ mref }}" data-v="{{ si.jnAtelier3 }}" data-w="840628_539e209a11c9440db477a62ae68a8a34~mv2.jpg" alt="{{ si.jnAtelier3Alt }}" style="width:100%;height:100%;object-fit:cover;object-position:{{ si.jnAtelier3Pos }}"></div>
+<div style="width:clamp(90px,9vw,130px);aspect-ratio:3/4;border-radius:200px 200px 14px 14px;overflow:hidden"><img loading="lazy" decoding="async" ref="{{ mref }}" data-v="{{ si.jnAtelier1 }}" data-w="840628_f4d7988af81645298f3e2c4e89acb8ec~mv2.jpg" alt="{{ si.jnAtelier1Alt }}" style="width:100%;height:100%;object-fit:cover;object-position:{{ si.jnAtelier1Pos }}"></div>
+<div style="width:clamp(90px,9vw,130px);aspect-ratio:3/4;border-radius:200px 200px 14px 14px;overflow:hidden;margin-top:28px"><img loading="lazy" decoding="async" ref="{{ mref }}" data-v="{{ si.jnAtelier2 }}" data-w="840628_ad72189a69d741a89dc97b94866b6d63~mv2.jpg" alt="{{ si.jnAtelier2Alt }}" style="width:100%;height:100%;object-fit:cover;object-position:{{ si.jnAtelier2Pos }}"></div>
+<div style="width:clamp(90px,9vw,130px);aspect-ratio:3/4;border-radius:200px 200px 14px 14px;overflow:hidden"><img loading="lazy" decoding="async" ref="{{ mref }}" data-v="{{ si.jnAtelier3 }}" data-w="840628_539e209a11c9440db477a62ae68a8a34~mv2.jpg" alt="{{ si.jnAtelier3Alt }}" style="width:100%;height:100%;object-fit:cover;object-position:{{ si.jnAtelier3Pos }}"></div>
 </div>
 <button onClick="{{ openFeat }}" style="align-self:flex-start;height:48px;padding:0 26px;border:0;border-radius:999px;background:#FBF8F2;color:#141110;font:500 11px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer" style-hover="background:#D81219;color:#FBF8F2">{{ tx.apShow }}</button>
 </div>
@@ -476,7 +476,7 @@
 <sc-for list="{{ articles }}" as="a" hint-placeholder-count="3">
 <button onClick="{{ a.open }}" data-jimg="{{ a.img }}" style="display:grid;grid-template-columns:{{ jCols }};gap:{{ jGap }};align-items:center;padding:22px 0;border:0;border-top:1.5px dashed rgba(20,17,16,.35);background:none;color:#141110;text-align:left;cursor:pointer;transition:padding .5s cubic-bezier(.3,0,.2,1),color .3s" style-hover="padding-left:18px;color:#D81219">
 <span style="font:400 18px/1 'Bricolage Grotesque'">{{ a.n }}</span>
-<span style="position:relative;display:block;width:76px;height:96px;border-radius:38px 38px 10px 10px;overflow:hidden;background:#E9E2D6;box-shadow:0 0 0 3px #F4F0EA,0 10px 18px -12px rgba(20,17,16,.5)"><img data-img="{{ a.img }}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 20%"></span>
+<span style="position:relative;display:block;width:76px;height:96px;border-radius:38px 38px 10px 10px;overflow:hidden;background:#E9E2D6;box-shadow:0 0 0 3px #F4F0EA,0 10px 18px -12px rgba(20,17,16,.5)"><img loading="lazy" decoding="async" data-img="{{ a.img }}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 20%"></span>
 <span style="font:400 clamp(24px,3vw,46px)/1 'Bricolage Grotesque';letter-spacing:-.035em;text-wrap:balance">{{ a.t }}</span>
 <span style="display:{{ jK }};font:400 16px/1.3 'Bricolage Grotesque';color:#4A433D;white-space:nowrap">{{ a.k2 }}</span>
 </button>
@@ -495,10 +495,10 @@
 <div data-pp="1" style="position:fixed;inset:0;z-index:72;overflow-y:auto;color:#141110;background-color:#F8F5EF;background-image:repeating-linear-gradient(180deg,rgba(20,17,16,0) 0 39px,rgba(20,17,16,.045) 39px 40px),radial-gradient(rgba(20,17,16,.05) .7px,rgba(20,17,16,0) .9px);background-size:100% 40px,6px 6px">
 <section data-screen-label="Product page" style="min-height:100svh;display:flex;flex-wrap:wrap;gap:8px;padding:84px 18px 18px">
 <div style="position:relative;flex:1.25 1 480px;min-width:0;min-height:min(calc(100svh - 102px),900px);border-radius:18px;overflow:hidden;background:#1E1A18">
-<img data-img="{{ pp.main }}" alt="{{ pp.name }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 20%">
+<img loading="lazy" decoding="async" data-img="{{ pp.main }}" alt="{{ pp.name }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 20%">
 <div style="position:absolute;left:18px;bottom:18px;display:flex;gap:12px">
 <sc-for list="{{ pp.thumbs }}" as="th" hint-placeholder-count="3">
-<button onClick="{{ th.pick }}" style="width:78px;height:100px;padding:0;border:0;border-radius:39px 39px 10px 10px;overflow:hidden;cursor:pointer;box-shadow:0 0 0 4px {{ th.ring }},0 10px 18px -10px rgba(0,0,0,.5);transition:box-shadow .3s"><img data-img="{{ th.src }}" alt="" style="width:100%;height:100%;object-fit:cover;object-position:50% 20%;display:block"></button>
+<button onClick="{{ th.pick }}" style="width:78px;height:100px;padding:0;border:0;border-radius:39px 39px 10px 10px;overflow:hidden;cursor:pointer;box-shadow:0 0 0 4px {{ th.ring }},0 10px 18px -10px rgba(0,0,0,.5);transition:box-shadow .3s"><img loading="lazy" decoding="async" data-img="{{ th.src }}" alt="" style="width:100%;height:100%;object-fit:cover;object-position:50% 20%;display:block"></button>
 </sc-for>
 </div>
 <button onClick="{{ closePP }}" style="position:absolute;left:18px;top:18px;height:40px;padding:0 18px;border:0;border-radius:999px;background:#FBF8F2;color:#141110;font:500 11px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer" style-hover="background:#D81219;color:#FBF8F2">← BACK</button>
@@ -530,7 +530,7 @@
 <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px">
 <sc-for list="{{ pp.pairs }}" as="r" hint-placeholder-count="3">
 <button onClick="{{ r.open }}" style="display:flex;flex-direction:column;gap:8px;padding:0;border:0;background:none;text-align:left;cursor:pointer">
-<span style="position:relative;display:block;width:100%;aspect-ratio:3/4;border-radius:200px 200px 12px 12px;overflow:hidden;background:#E9E2D6"><img data-img="{{ r.img }}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 20%"></span>
+<span style="position:relative;display:block;width:100%;aspect-ratio:3/4;border-radius:200px 200px 12px 12px;overflow:hidden;background:#E9E2D6"><img loading="lazy" decoding="async" data-img="{{ r.img }}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 20%"></span>
 <span style="font:700 14px/1.15 'Bricolage Grotesque';color:#141110">{{ r.name }}</span>
 <span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.1em;color:#6A6057">{{ r.price }}</span>
 </button>
@@ -547,7 +547,7 @@
 <sc-for list="{{ col.tiles }}" as="t" hint-placeholder-count="5">
 <div onClick="{{ t.open }}" data-cursor="{{ t.cur }}" data-frames="{{ t.frames }}" style="position:relative;aspect-ratio:{{ t.ratio }};border-radius:14px;overflow:hidden;background:{{ t.bg }};cursor:pointer;opacity:{{ t.o }};filter:{{ t.flt }};transition:opacity .5s,filter .5s,transform .6s cubic-bezier(.3,0,.2,1)" style-hover="transform:scale(1.025)">
 <sc-if value="{{ t.isImg }}" hint-placeholder-val="{{ true }}">
-<img data-img="{{ t.img }}" alt="" draggable="false" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 25%">
+<img loading="lazy" decoding="async" data-img="{{ t.img }}" alt="" draggable="false" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 25%">
 </sc-if>
 <sc-if value="{{ t.isQuote }}" hint-placeholder-val="{{ false }}">
 <div style="position:absolute;inset:0;padding:clamp(14px,1.6vw,22px);display:flex;flex-direction:column;justify-content:flex-end;color:#141110">
@@ -587,11 +587,11 @@
 <div onClick="{{ closeQuick }}" style="position:fixed;inset:0;z-index:70;background:rgba(20,17,16,.55)"></div>
 <aside style="position:fixed;top:8px;right:8px;bottom:8px;z-index:71;width:min(500px,calc(100vw - 16px));border-radius:18px;background:#FBF8F2;color:#141110;overflow-y:auto;display:flex;flex-direction:column">
 <div style="position:relative;aspect-ratio:4/4.4;flex:none;background:#F4F0EA">
-<img data-img="{{ q.img }}" alt="{{ q.name }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 20%">
+<img loading="lazy" decoding="async" data-img="{{ q.img }}" alt="{{ q.name }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 20%">
 <button onClick="{{ closeQuick }}" style="position:absolute;top:12px;right:12px;height:38px;padding:0 16px;border:0;border-radius:999px;background:#141110;color:#FBF8F2;font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer">CLOSE ✕</button>
 <div style="position:absolute;left:12px;bottom:12px;display:flex;gap:6px">
 <sc-for list="{{ q.thumbs }}" as="th" hint-placeholder-count="2">
-<button onClick="{{ th.pick }}" style="width:48px;height:60px;padding:0;border:0;border-radius:24px 24px 8px 8px;overflow:hidden;cursor:pointer;box-shadow:0 0 0 2px {{ th.ring }}"><img data-img="{{ th.src }}" alt="" style="width:100%;height:100%;object-fit:cover"></button>
+<button onClick="{{ th.pick }}" style="width:48px;height:60px;padding:0;border:0;border-radius:24px 24px 8px 8px;overflow:hidden;cursor:pointer;box-shadow:0 0 0 2px {{ th.ring }}"><img loading="lazy" decoding="async" data-img="{{ th.src }}" alt="" style="width:100%;height:100%;object-fit:cover"></button>
 </sc-for>
 </div>
 </div>
@@ -632,7 +632,7 @@
 </sc-if>
 <sc-for list="{{ bagLines }}" as="b" hint-placeholder-count="0">
 <div style="display:flex;gap:14px;align-items:center">
-<img data-img="{{ b.img }}" alt="" style="width:64px;height:82px;object-fit:cover;border-radius:32px 32px 8px 8px">
+<img loading="lazy" decoding="async" data-img="{{ b.img }}" alt="" style="width:64px;height:82px;object-fit:cover;border-radius:32px 32px 8px 8px">
 <div style="flex:1;display:flex;flex-direction:column;gap:6px"><span style="font:400 17px/1.2 'Bricolage Grotesque'">{{ b.name }}</span><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em;color:#6B635B">SIZE {{ b.size }}</span></div>
 <div style="display:flex;flex-direction:column;align-items:flex-end;gap:8px"><span style="font:500 12px/1 'DM Mono',monospace">{{ b.price }}</span><button onClick="{{ b.remove }}" style="border:0;background:none;padding:0;font:500 9px/1 'DM Mono',monospace;letter-spacing:.14em;color:#D81219;cursor:pointer">REMOVE</button></div>
 </div>
@@ -651,7 +651,7 @@
 <section data-screen-label="Account" style="min-height:100svh;display:flex;flex-wrap:wrap;gap:8px;padding:84px 18px 18px">
 <sc-if value="{{ acct.guest }}" hint-placeholder-val="{{ true }}">
 <div style="position:relative;flex:1 1 420px;min-width:0;min-height:min(calc(100svh - 102px),860px);border-radius:18px;overflow:hidden;background:#1E1A18">
-<img ref="{{ mref }}" data-v="{{ si.acctCast }}" data-w="840628_1194b99ba10d443584f3d4ee467f24c3~mv2.jpg" alt="{{ si.acctCastAlt }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:{{ si.acctCastPos }}">
+<img loading="lazy" decoding="async" ref="{{ mref }}" data-v="{{ si.acctCast }}" data-w="840628_1194b99ba10d443584f3d4ee467f24c3~mv2.jpg" alt="{{ si.acctCastAlt }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:{{ si.acctCastPos }}">
 <button onClick="{{ closeAcct }}" style="position:absolute;left:18px;top:18px;height:40px;padding:0 18px;border:0;border-radius:999px;background:#FBF8F2;color:#141110;font:500 11px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer" style-hover="background:#D81219;color:#FBF8F2">← BACK</button>
 </div>
 <div style="flex:1 1 380px;min-width:0;border-radius:18px;background:#FBF8F2;padding:clamp(24px,3vw,44px);display:flex;flex-direction:column;justify-content:center;gap:24px">
@@ -728,7 +728,7 @@
 <div style="display:flex;flex-direction:column;border-top:1.5px dashed rgba(20,17,16,.3)">
 <sc-for list="{{ acct.orders }}" as="o" hint-placeholder-count="3">
 <button onClick="{{ o.open }}" style="display:flex;align-items:center;flex-wrap:wrap;gap:16px 22px;padding:20px 0;border:0;border-bottom:1.5px dashed rgba(20,17,16,.3);background:none;color:#141110;cursor:pointer;text-align:left" style-hover="background:rgba(20,17,16,.03)">
-<span style="display:flex;padding-right:12px"><sc-for list="{{ o.thumbs }}" as="t" hint-placeholder-count="2"><img ref="{{ mref }}" data-v="{{ t }}" alt="" style="width:52px;height:66px;margin-right:-12px;object-fit:cover;object-position:50% 20%;border-radius:26px 26px 8px 8px;box-shadow:0 0 0 3px #FBF8F2;background:#E9E2D6"></sc-for></span>
+<span style="display:flex;padding-right:12px"><sc-for list="{{ o.thumbs }}" as="t" hint-placeholder-count="2"><img loading="lazy" decoding="async" ref="{{ mref }}" data-v="{{ t }}" alt="" style="width:52px;height:66px;margin-right:-12px;object-fit:cover;object-position:50% 20%;border-radius:26px 26px 8px 8px;box-shadow:0 0 0 3px #FBF8F2;background:#E9E2D6"></sc-for></span>
 <span style="flex:1 1 200px;min-width:0;display:flex;flex-direction:column;gap:8px"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#6A6057">{{ o.no }} · {{ o.date }}</span><span style="font:700 18px/1.2 'Bricolage Grotesque'">{{ o.names }}</span></span>
 <span style="display:flex;align-items:center;gap:8px;height:30px;padding:0 12px;border-radius:999px;background:{{ o.sBg }};color:{{ o.sFg }};font:500 10px/1 'DM Mono',monospace;letter-spacing:.12em;white-space:nowrap"><span style="width:6px;height:6px;border-radius:50%;background:currentColor"></span>{{ o.status }}</span>
 <span style="font:500 15px/1 'DM Mono',monospace">{{ o.total }}</span>
@@ -752,7 +752,7 @@
 <div style="display:flex;flex-direction:column;border-top:1.5px dashed rgba(20,17,16,.3)">
 <sc-for list="{{ acct.od.lines }}" as="l" hint-placeholder-count="2">
 <div style="display:flex;align-items:center;gap:16px;padding:16px 0;border-bottom:1.5px dashed rgba(20,17,16,.3)">
-<img ref="{{ mref }}" data-v="{{ l.img }}" alt="" style="flex:none;width:64px;height:80px;object-fit:cover;object-position:50% 20%;border-radius:32px 32px 8px 8px;background:#E9E2D6">
+<img loading="lazy" decoding="async" ref="{{ mref }}" data-v="{{ l.img }}" alt="" style="flex:none;width:64px;height:80px;object-fit:cover;object-position:50% 20%;border-radius:32px 32px 8px 8px;background:#E9E2D6">
 <span style="flex:1;min-width:0;display:flex;flex-direction:column;gap:8px"><span style="font:700 18px/1.15 'Bricolage Grotesque'">{{ l.name }}</span><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#6A6057">{{ l.opts }}</span></span>
 <span style="font:500 14px/1 'DM Mono',monospace">{{ l.price }}</span>
 </div>
@@ -830,7 +830,7 @@
 <sc-if value="{{ hasLb }}" hint-placeholder-val="{{ false }}">
 <div onClick="{{ closeLb }}" style="position:fixed;inset:0;z-index:80;background:rgba(10,8,7,.94);display:flex;align-items:center;justify-content:center;padding:70px 16px 24px">
 <div onClick="{{ stop }}" style="position:relative;height:100%;max-width:100%;aspect-ratio:{{ lb.ratio }};border-radius:16px;overflow:hidden;background:#141110">
-<img data-img="{{ lb.img }}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 25%">
+<img loading="lazy" decoding="async" data-img="{{ lb.img }}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 25%">
 <sc-if value="{{ lb.reel }}" hint-placeholder-val="{{ false }}">
 <div style="position:absolute;left:10px;right:10px;top:10px;display:flex;gap:4px">
 <sc-for list="{{ lb.segs }}" as="g" hint-placeholder-count="3">
@@ -848,7 +848,7 @@
 <sc-if value="{{ hasArticle }}" hint-placeholder-val="{{ false }}">
 <div style="position:fixed;inset:0;z-index:75;background:#FBF8F2;color:#141110;overflow-y:auto">
 <div style="position:relative;height:62vh;overflow:hidden;background:#141110">
-<img data-img="{{ art.img }}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 25%;filter:brightness(.6)">
+<img loading="lazy" decoding="async" data-img="{{ art.img }}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 25%;filter:brightness(.6)">
 <div style="position:absolute;left:0;right:0;bottom:0;padding:0 clamp(20px,4vw,56px) 36px;display:flex;flex-direction:column;gap:14px;color:#FBF8F2">
 <span style="font:400 18px/1.3 'Bricolage Grotesque';color:#DCD3C6">{{ art.k }}</span>
 <h2 style="margin:0;max-width:1000px;font:400 clamp(28px,3.6vw,60px)/1 'Bricolage Grotesque';letter-spacing:-.04em;text-wrap:balance">{{ art.t }}</h2>
@@ -862,7 +862,7 @@
 <sc-if value="{{ art.hasGal }}" hint-placeholder-val="{{ false }}">
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,180px),1fr));gap:10px;margin-top:12px">
 <sc-for list="{{ art.gal }}" as="g" hint-placeholder-count="3">
-<div style="position:relative;aspect-ratio:3/4;border-radius:200px 200px 14px 14px;overflow:hidden;background:#E9E2D6"><img data-img="{{ g.img }}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 20%"></div>
+<div style="position:relative;aspect-ratio:3/4;border-radius:200px 200px 14px 14px;overflow:hidden;background:#E9E2D6"><img loading="lazy" decoding="async" data-img="{{ g.img }}" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 20%"></div>
 </sc-for>
 </div>
 </sc-if>
@@ -882,7 +882,7 @@
 
 <div style="position:fixed;inset:0;z-index:91;pointer-events:none;opacity:.16;mix-blend-mode:overlay;background-image:url(data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%27%20width%3D%27240%27%20height%3D%27240%27%3E%3Cfilter%20id%3D%27n%27%3E%3CfeTurbulence%20type%3D%27fractalNoise%27%20baseFrequency%3D%27.85%27%20numOctaves%3D%273%27%20stitchTiles%3D%27stitch%27%2F%3E%3CfeColorMatrix%20type%3D%27saturate%27%20values%3D%270%27%2F%3E%3C%2Ffilter%3E%3Crect%20width%3D%27100%25%27%20height%3D%27100%25%27%20filter%3D%27url%28%23n%29%27%2F%3E%3C%2Fsvg%3E);background-size:240px 240px"></div>
 <div style="position:fixed;inset:{{ frameInset }};z-index:92;border-radius:{{ frameR }};pointer-events:none;box-shadow:0 0 0 40px {{ frame }},inset 0 0 0 1px {{ frameLine }}"></div>
-<img data-jfloat="1" alt="" style="position:fixed;left:0;top:0;z-index:58;width:240px;aspect-ratio:3/4;object-fit:cover;border-radius:120px 120px 14px 14px;pointer-events:none;opacity:0;transition:opacity .35s;box-shadow:0 30px 60px rgba(0,0,0,.25)">
+<img loading="lazy" decoding="async" data-jfloat="1" alt="" style="position:fixed;left:0;top:0;z-index:58;width:240px;aspect-ratio:3/4;object-fit:cover;border-radius:120px 120px 14px 14px;pointer-events:none;opacity:0;transition:opacity .35s;box-shadow:0 30px 60px rgba(0,0,0,.25)">
 <div data-cursor-el="1" style="position:fixed;left:0;top:0;z-index:100;pointer-events:none;width:0;height:0">
 <div data-cursor-dot="1" style="position:absolute;left:-7px;top:-7px;width:14px;height:14px;border-radius:50%;background:#FBF8F2;mix-blend-mode:difference;display:flex;align-items:center;justify-content:center;transition:width .35s cubic-bezier(.3,0,.2,1),height .35s cubic-bezier(.3,0,.2,1),left .35s cubic-bezier(.3,0,.2,1),top .35s cubic-bezier(.3,0,.2,1)">
 <span data-cursor-label="1" style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em;color:#141110;text-transform:uppercase;opacity:0;transition:opacity .2s"></span>
@@ -924,6 +924,9 @@ const PH = {
   '04659': WXS + '840628_4d9b09cbfd934cc4bcb503972373d550~mv2.jpg',
 };
 const IMG = n => PH[n] || n;
+/* Ask Wix for each photo at the size it is shown, not the original (product originals run to 20 MB+). */
+const RZ = (u, w) => window.NGR ? window.NGR(u, w) : u;
+const SHOWN = el => { const w = el.clientWidth || (el.parentElement && el.parentElement.clientWidth) || 0; return w ? Math.min(2400, Math.ceil(w * Math.min(2, window.devicePixelRatio || 1) / 400) * 400) : 1200; };
 const THIRD = { 'rahrah': '03604', 'rahrah-white': '03607', 'main-character': '03402', 'manyi': '03621', 'mawa': '03603', 'mimche': '03127', 'muna': '03622', 'mita-dress': '04456', 'yem': '03382', 'mita-set': '04258', 'tatah': '02571', 'gong-waistcoat': '04456' };
 const P = [
   ['rahrah', 'Rahrah Set', 170, '02706', '02604', 'Sets', 'w', 'Brought back by request.', 'A remake of a piece from our last collection, so well loved we brought it back with the gong design. A structured black velvet corset that gives you an hourglass shape and still breathes and moves, with a skirt of red brushed fringe and black velvet cut with the gong.', [['S', 2], ['M', 2], ['L', 1]], true, 1],
@@ -1175,7 +1178,7 @@ class Component extends DCLogic {
     if (this.io) this.io.disconnect(); removeEventListener('resize', this.onResize2); document.removeEventListener('wheel', this.onWheel); removeEventListener('keydown', this.onPageKey); cancelAnimationFrame(this.anRaf);
   }
   componentDidUpdate() { this.syncImgs(); if (this.lastPP !== this.state.pp) { this.lastPP = this.state.pp; setTimeout(() => this.refreshEls(), 150); } }
-  syncImgs() { document.querySelectorAll('img[data-img]').forEach(i => { const s = i.getAttribute('data-img'); if (s && s.indexOf('{{') < 0 && i.getAttribute('src') !== s) i.setAttribute('src', s); }); }
+  syncImgs() { document.querySelectorAll('img[data-img]').forEach(i => { const s = i.getAttribute('data-img'); if (s && s.indexOf('{{') < 0 && i.dataset.raw !== s) { i.dataset.raw = s; i.setAttribute('src', RZ(s, SHOWN(i))); } }); }
   setupWhenReady(el, tries) {
     clearTimeout(this.swrT);
     if (this.sc !== el) return;
@@ -1337,13 +1340,13 @@ const sCard = (p, i, pre) => { const key = pre + p.id, on = st.shov === key;
     const tile = (t, all) => {
       const img = t.f ? t.f.length > 0 : false; const pr = t.pid ? this.find(t.pid) : null; const on = all || match(t);
       const ratio = t.k === 'REEL' ? '9/16' : t.k === 'FILM' ? '4/3' : t.wide ? '3/2' : t.k === 'QUOTE' || t.k === 'TAG' ? '1/1' : '3/4';
-      return { img: img ? IMG(t.f[0]) : '', isImg: img, isQuote: t.k === 'QUOTE', isTag: t.k === 'TAG', kick: t.q && t.kick ? tq[t.q + 'K'] || t.kick : t.kick || '', text: t.q ? tq[t.q] || t.text : t.text || '', ratio,
+      return { img: img ? RZ(IMG(t.f[0]), 800) : '', isImg: img, isQuote: t.k === 'QUOTE', isTag: t.k === 'TAG', kick: t.q && t.kick ? tq[t.q + 'K'] || t.kick : t.kick || '', text: t.q ? tq[t.q] || t.text : t.text || '', ratio,
         bg: t.k === 'QUOTE' ? '#F4F0EA' : '#2A2421', o: on ? 1 : 0.18, flt: on ? 'none' : 'grayscale(1)',
         tag: t.k === 'REEL' ? '▶ REEL' : t.k === 'FILM' ? '▶ FILM' : t.k === 'PHOTO' ? 'PHOTO' : t.k === 'TAG' ? 'COMMUNITY' : 'NOTE',
         cur: t.k === 'PHOTO' ? 'View' : t.k === 'QUOTE' ? '' : t.k === 'TAG' ? 'Follow' : 'Play',
-        frames: img ? t.f.map(IMG).join(',') : '', hasShop: !!pr, name: pr ? pr.name : '',
+        frames: img ? t.f.map(x => RZ(IMG(x), 800)).join(',') : '', hasShop: !!pr, name: pr ? pr.name : '',
         shop: e => { e.stopPropagation(); if (pr) this.openQuick(pr.id); },
-        open: () => { if (this.dragMoved) return; if (t.k === 'FILM') this.setState({ filmOpen: true }); else if (t.k === 'TAG') window.open('https://instagram.com/_ngwisa_', '_blank'); else if (img) this.setState({ lb: { items: t.f.map(IMG), i: 0, reel: t.k === 'REEL', ratio: t.k === 'REEL' ? '9/16' : t.wide ? '3/2' : '2/3' }, lbT: 0 }); } };
+        open: () => { if (this.dragMoved) return; if (t.k === 'FILM') this.setState({ filmOpen: true }); else if (t.k === 'TAG') window.open('https://instagram.com/_ngwisa_', '_blank'); else if (img) this.setState({ lb: { items: t.f.map(x => RZ(IMG(x), 1600)), i: 0, reel: t.k === 'REEL', ratio: t.k === 'REEL' ? '9/16' : t.wide ? '3/2' : '2/3' }, lbT: 0 }); } };
     };
 
     const lb = st.lb;
@@ -1351,7 +1354,7 @@ const sCard = (p, i, pre) => { const key = pre + p.id, on = st.shov === key;
     const a = st.event != null ? (e => ({ t: e.t, k: e.type + ' · ' + e.city + ' · ' + e.yr, img: IMG(e.img), paras: e.paras, gal: e.gal, ctaL: 'SHOP THE PIECES →', go: 'shop' }))(EVT[st.event]) : st.article != null ? ART[st.article] : null;
     const evRow = (e, i) => ({ n: e.yr, yr: e.yr, t: e.t, k: e.type + ' · ' + e.city, img: IMG(e.img), open: () => this.setState({ event: i, article: null }) });
 
-    return { tx: t, si, ev0: { t: (EVT[0] || {}).t || '', meta: [(EVT[0] || {}).type, (EVT[0] || {}).city, (EVT[0] || {}).yr].filter(Boolean).join(' · '), body: ((EVT[0] || {}).paras || [])[0] || '' }, isStudio: ST, notStudio: !ST, heroVid, hasHeroVid: /\.(mp4|webm|mov)|video\.wixstatic/i.test(heroVid), heroPoster: SL['hero-poster'] || '', vidRef: el => { if (!el || !el.dataset.v || el.dataset.v.indexOf('{{') >= 0 || el.getAttribute('src') === el.dataset.v) return; if (el.dataset.p) el.poster = el.dataset.p; el.muted = true; el.src = el.dataset.v; const p = el.play(); if (p && p.catch) p.catch(() => {}); }, vidGo: e => { const v = e.currentTarget; v.muted = true; const p = v.play(); if (p && p.catch) p.catch(() => {}); },
+    return { tx: t, si, ev0: { t: (EVT[0] || {}).t || '', meta: [(EVT[0] || {}).type, (EVT[0] || {}).city, (EVT[0] || {}).yr].filter(Boolean).join(' · '), body: ((EVT[0] || {}).paras || [])[0] || '' }, isStudio: ST, notStudio: !ST, heroVid, hasHeroVid: /\.(mp4|webm|mov)|video\.wixstatic/i.test(heroVid), heroPoster: SL['hero-poster'] || '', vidRef: el => { if (!el || !el.dataset.v || el.dataset.v.indexOf('{{') >= 0 || el.getAttribute('src') === el.dataset.v) return; if (el.dataset.p) el.poster = RZ(el.dataset.p, 1920); el.muted = true; el.src = el.dataset.v; const p = el.play(); if (p && p.catch) p.catch(() => {}); }, vidGo: e => { const v = e.currentTarget; v.muted = true; const p = v.play(); if (p && p.catch) p.catch(() => {}); },
       mob: st.mob, showNav: !st.mob, menuOpen: st.menu, menuLabel: st.menu ? 'CLOSE' : 'MENU', toggleMenu: () => this.setState({ menu: !st.menu }),
       navItems: NAV.map(n => ({ l: n[1], l2: n[2], go: go(n[0]), bg: st.page === n[0] ? '#FBF8F2' : 'transparent', ink: st.page === n[0] ? '#141110' : '#FBF8F2' })),
       goHome: go('home'), goShop: go('shop'), goLoop: go('loop'),
@@ -1369,7 +1372,7 @@ const sCard = (p, i, pre) => { const key = pre + p.id, on = st.shov === key;
       cueArrow: st.sec >= secLabels.length - 1 ? '↑' : '↓',
       cueGo: () => { if (st.sec >= secLabels.length - 1) this.animateTo(0, 1100); else this.advance(1); },
       secs: secLabels.map((l, i) => ({ go: scrollTo(i), lab: i === st.sec ? String(i + 1).padStart(2, '0') + ' ' + l.toUpperCase() : '', w: i === st.sec ? '28px' : '12px', o: i === st.sec ? 1 : 0.45 })),
-      mref: el => { if (!el) return; const v = el.dataset.v || (el.dataset.w ? WXS + el.dataset.w : ''); if (v && el.getAttribute('src') !== v) el.setAttribute('src', v); }, bagCount: st.bag.length, openBag: () => this.setState({ bagOpen: true }), closeBag: () => this.setState({ bagOpen: false }), bagOpen: st.bagOpen, bagEmpty: !st.bag.length,
+      mref: el => { if (!el) return; const v = el.dataset.v || (el.dataset.w ? WXS + el.dataset.w : ''); if (v && el.dataset.raw !== v) { el.dataset.raw = v; el.setAttribute('src', RZ(v, SHOWN(el))); } }, bagCount: st.bag.length, openBag: () => this.setState({ bagOpen: true }), closeBag: () => this.setState({ bagOpen: false }), bagOpen: st.bagOpen, bagEmpty: !st.bag.length,
       bagLines: st.bag.map((b, i) => ({ ...b, price: fmt(b.price), remove: () => { if (b.lineId && window.NGW) window.NGW.removeLine(b.lineId).then(c => this.setState({ bag: this.wixBag(c) })).catch(e => this.flash(String(e.message || e).toUpperCase())); else this.setState({ bag: st.bag.filter((_, j) => j !== i) }); } })),
       goCheckout: () => { if (!window.NGW) return; this.setState({ ckBusy: true }); window.NGW.checkoutUrl(this.prefill()).then(u => { (window.top || window).location.href = u; }).catch(e => { this.setState({ ckBusy: false }); this.flash(String(e.message || e).toUpperCase()); }); },
       bagFill: !!this.prefill(), bagFillTo: (() => { const p = this.prefill(); return p ? [p.address.line1, p.address.postcode].filter(Boolean).join(', ').toUpperCase() : ''; })(),

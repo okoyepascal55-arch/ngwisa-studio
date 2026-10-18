@@ -80,7 +80,7 @@
       items.forEach((q, i) => {
         const el = document.createElement('div'); el.className = 'garment';
         el.innerHTML = HANGER + '<div class="frame" style="background:' + TG[i % 4] + '"><div class="window">'
-          + '<img src="' + RS(q.img) + '" alt="' + q.name + '" draggable="false"><img class="alt" src="' + RS(q.img2 || q.img) + '" alt="" draggable="false"></div></div>'
+          + '<img loading="lazy" decoding="async" src="' + RS(q.img) + '" alt="' + q.name + '" draggable="false"><img class="alt" loading="lazy" decoding="async" src="' + RS(q.img2 || q.img) + '" alt="" draggable="false"></div></div>'
           + '<div class="g-cap"><span class="g-name">' + q.name + '</span><span class="g-price">' + fmt(q.price) + '</span></div>';
         el.addEventListener('mouseenter', () => this.swing(i));
         el.addEventListener('click', () => { if (!rk.moved) fire(this, 'ng-open', { id: q.id }); });
@@ -196,7 +196,7 @@
       const fl = r.querySelector('.feat-label'), ft = r.querySelector('.feat-title'), fp = r.querySelector('.feat-price'), fb = r.querySelector('.feat-btn');
       const cards = LI.map((p, i) => {
         const el = document.createElement('div'); el.className = 'loop-card';
-        el.innerHTML = '<img src="' + RS(p.img) + '" alt="' + p.title + '" draggable="false">';
+        el.innerHTML = '<img loading="lazy" decoding="async" src="' + RS(p.img) + '" alt="' + p.title + '" draggable="false">';
         el.addEventListener('click', () => { if (!ls.moved) setLoop(i); });
         cardsEl.appendChild(el); return el;
       });
