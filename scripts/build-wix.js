@@ -32,7 +32,8 @@ const copyDir = (from, to) => { fs.mkdirSync(to, { recursive: true }); for (cons
 copyDir(DIST, OUT);
 
 const PREBUILT = [...new Set(snap.products.map(p => p.slug).concat(snap.seed.map(s => s.slug)))];
-const apiTag = '<script>window.NG_STUDIO_API = ' + JSON.stringify(STUDIO_API) + '; window.NG_HTML_URLS = true; window.NG_PREBUILT = ' + JSON.stringify(PREBUILT) + ';</script>';
+const BUILD = (process.env.VERCEL_GIT_COMMIT_SHA || '').slice(0, 7) || new Date().toISOString();
+const apiTag = '<meta name="ngwisa-build" content="' + BUILD + '">\n<script>window.NG_STUDIO_API = ' + JSON.stringify(STUDIO_API) + '; window.NG_HTML_URLS = true; window.NG_PREBUILT = ' + JSON.stringify(PREBUILT) + ';</script>';
 const page = route => { const r = render(route, /^\/studio/.test(route) ? null : snap, SITE, { html: true });
   return { status: r.status, html: shell.replace(/<title>[^<]*<\/title>\s*<!--ng:head-->/, r.head + '\n' + apiTag).replace('<!--ng:body-->', r.body) }; };
 // Wix's file hosting serves exact paths only, so each address is a file: /shop.html, /shop/<piece>.html.
