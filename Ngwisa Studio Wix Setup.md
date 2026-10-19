@@ -21,6 +21,8 @@ The browser never holds the API key, and the Studio collections stay **admin-onl
 6. **Create the `StudioProducts` collection** (Wix CMS), permissions as in the table below, with these fields: `title` (text, the Wix product name), `productId` (text), `slug` (text), `seedId` (text), `hidden` (boolean), `displayName` (text), `category` (text), `gender` (text), `hook` (text), `best` (number), `restock` (boolean), `seoTitle` (text), `seoDescription` (text), `order` (number). Then open Studio › Products and publish once (see below).
 7. **Product URLs and search.** Each piece lives at `/shop/<slug>`, using the URL slug from Wix Stores (product → SEO settings). Changing a slug in Wix changes the address. Submit `https://<your domain>/sitemap.xml` in Google Search Console.
 
+8. **Hosting on Wix.** The site is served from Wix (see README › Hosting on Wix); the Studio at `/studio.html` saves through `https://ngwisa-studio.vercel.app/api/studio`. That function only answers the origins in `STUDIO_ORIGINS` (default: the `wix-site-host.com` address). Add the custom domain there, comma-separated, when one is connected.
+
 ## Collection permissions
 | Collection | Read | Write |
 |---|---|---|

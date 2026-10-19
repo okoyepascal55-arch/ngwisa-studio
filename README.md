@@ -32,3 +32,11 @@ node server.js     # http://localhost:3000, same routes as Vercel
 ```
 
 Vercel runs `npm run build` on every deploy (`vercel.json`). See `Ngwisa Studio Wix Setup.md` for the Wix side: collections, permissions, API key and domains.
+
+## Hosting on Wix
+
+The public site is served by Wix at `https://ngwisa-gong-gallery-sjkgracee-1309.wix-site-host.com` (headless site `613b5fe3-6f29-414b-80fc-abe05f934d56`). Vercel still runs the Studio's save function (`/api/studio`, it holds the Wix API key) and builds the Wix bundle.
+
+- Wix's file hosting serves files at their exact paths, so every address is its own file: `/shop.html`, `/shop/<piece>.html`, `/studio.html`, `/thank-you.html` (`scripts/build-wix.js`). Each has its own title, description, share image and structured data.
+- Every push to `main` makes Vercel rebuild `https://ngwisa-studio.vercel.app/ngwisa-wix.zip` from live Wix data. Putting it on Wix is a separate step: import that zip into the site's Media Manager, read it back, and drop it onto the headless site (`POST /headless-business-setup/v1/headless-business/<site id>/drop`), as Claude did on the first deploy. A piece added in Wix shows in the shop straight away; its own `.html` page appears on the next deploy.
+- Wix generates `robots.txt` and `sitemap.xml` for the site itself (SEO Tools in the Wix dashboard), so the ones in the bundle are not used there.
