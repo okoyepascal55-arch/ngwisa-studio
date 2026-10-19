@@ -31,7 +31,8 @@ const copyDir = (from, to) => { fs.mkdirSync(to, { recursive: true }); for (cons
   if (fs.statSync(a).isDirectory()) copyDir(a, b); else if (f !== 'app.html' && f !== '404.html') fs.copyFileSync(a, b); } };
 copyDir(DIST, OUT);
 
-const apiTag = '<script>window.NG_STUDIO_API = ' + JSON.stringify(STUDIO_API) + '; window.NG_HTML_URLS = true;</script>';
+const PREBUILT = [...new Set(snap.products.map(p => p.slug).concat(snap.seed.map(s => s.slug)))];
+const apiTag = '<script>window.NG_STUDIO_API = ' + JSON.stringify(STUDIO_API) + '; window.NG_HTML_URLS = true; window.NG_PREBUILT = ' + JSON.stringify(PREBUILT) + ';</script>';
 const page = route => { const r = render(route, /^\/studio/.test(route) ? null : snap, SITE, { html: true });
   return { status: r.status, html: shell.replace(/<title>[^<]*<\/title>\s*<!--ng:head-->/, r.head + '\n' + apiTag).replace('<!--ng:body-->', r.body) }; };
 // Wix's file hosting serves exact paths only, so each address is a file: /shop.html, /shop/<piece>.html.

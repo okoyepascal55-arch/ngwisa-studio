@@ -1170,6 +1170,9 @@ class Component extends DCLogic {
     if (/^\/studio/i.test(location.pathname) || /^#\/?studio/i.test(location.hash)) return;
     this.syncRoute(false);
     this.loadWix(0); this.loadStudio(0);
+    /* Studio changes are read live from Wix: coming back to an open tab re-reads them, so a publish shows without a reload. */
+    this.onVis = () => { if (document.visibilityState === 'visible' && Date.now() - (this.studioAt || 0) > 15000) this.loadStudio(0); };
+    document.addEventListener('visibilitychange', this.onVis);
     this.mx = innerWidth / 2; this.my = innerHeight / 2; this.cx = this.mx; this.cy = this.my;
     this.wo = []; this.sw = 0; this.tilt = { x: 0, y: 0 };
     const fine = matchMedia('(pointer:fine)').matches;
@@ -1255,7 +1258,7 @@ class Component extends DCLogic {
   componentWillUnmount() {
     cancelAnimationFrame(this.raf); clearInterval(this.lbTimer); removeEventListener('resize', this.onResize); removeEventListener('pointermove', this.onMove);
     document.removeEventListener('mouseover', this.onOver); document.removeEventListener('mouseover', this.onSwingOver); removeEventListener('pointerdown', this.onDown); removeEventListener('pointerup', this.onUp);
-    document.removeEventListener('click', this.onClickCap, true); document.removeEventListener('scroll', this.onScrollCap, true); removeEventListener('keydown', this.onKey); document.removeEventListener('ng-open', this.onNgOpen); document.removeEventListener('ng-link', this.onNgLink);
+    document.removeEventListener('click', this.onClickCap, true); document.removeEventListener('scroll', this.onScrollCap, true); removeEventListener('keydown', this.onKey); document.removeEventListener('ng-open', this.onNgOpen); document.removeEventListener('visibilitychange', this.onVis); document.removeEventListener('ng-link', this.onNgLink);
     if (this.io) this.io.disconnect(); removeEventListener('resize', this.onResize2); document.removeEventListener('wheel', this.onWheel); removeEventListener('keydown', this.onPageKey); cancelAnimationFrame(this.anRaf);
   }
   componentDidUpdate() { this.syncImgs(); if (!IN_EDITOR()) { const t = this.docTitle(); if (document.title !== t) document.title = t; } if (this.lastPP !== this.state.pp) { this.lastPP = this.state.pp; setTimeout(() => this.refreshEls(), 150); } }
@@ -1353,10 +1356,13 @@ class Component extends DCLogic {
   flash(t) { clearTimeout(this.tt); this.setState({ toast: t }); this.tt = setTimeout(() => this.setState({ toast: '' }), 2400); }
   /* Address bar <-> state. nav() records a new address; syncRoute() applies the current one (first load, back/forward). */
   /* On Wix's file hosting every address is a file (NG_HTML_URLS): /shop.html, /shop/<piece>.html. */
-  nav(path, replace) { if (IN_EDITOR() || !path) return; if (window.NG_HTML_URLS && path !== '/' && !/\.html$/.test(path)) path += '.html'; const cur = location.pathname + location.search; if (cur === path) return;
+  nav(path, replace) { if (IN_EDITOR() || !path) return; if (window.NG_HTML_URLS && path !== '/' && !/\.html$/.test(path)) { const m = path.match(/^\/shop\/([^/?]+)$/);
+      /* A piece added in Wix after the last deploy has no page file yet: give it an address that always opens. */
+      path = m && window.NG_PREBUILT && window.NG_PREBUILT.indexOf(decodeURIComponent(m[1])) < 0 ? '/shop.html?p=' + m[1] : path + '.html'; } const cur = location.pathname + location.search; if (cur === path) return;
     try { history[replace ? 'replaceState' : 'pushState']({ ng: 1 }, '', path); } catch (e) {} }
   syncRoute(afterCatalog) {
-    if (IN_EDITOR()) return; const r = ROUTE(location.pathname); if (r.studio) return;
+    if (IN_EDITOR()) return; const qp = new URLSearchParams(location.search).get('p');
+    const r = ROUTE(qp && /^\/shop(\.html)?$/.test(location.pathname) ? '/shop/' + encodeURIComponent(qp) : location.pathname); if (r.studio) return;
     const set = {}; if (r.page && r.page !== this.state.page) Object.assign(set, { page: r.page, sec: 0 });
     if (r.slug) { const p = P.find(x => x.slug === r.slug) || P.find(x => x.id === r.slug); /* a Wix slug wins over a built-in id (Wix 'tatah' vs the built-in blazer 'tatah') */
       if (p && !p.hidden) { if (this.state.pp !== p.id) Object.assign(set, { pp: p.id, ppI: 0, size: null }); this.ensureSizes(p);
@@ -1403,12 +1409,13 @@ class Component extends DCLogic {
     setTimeout(() => this.setState({ curtain: 'idle' }), 1350);
   }
 
-  async loadStudio(n) { const N = window.NGW; if (!N) { if (n < 40) setTimeout(() => this.loadStudio(n + 1), 250); return; }
+  loadStudio(n) { this.studioAt = Date.now(); return this.loadStudioNow(n).catch(e => console.warn('[ngwisa] Studio content', e)); }
+  async loadStudioNow(n) { const N = window.NGW; if (!N) { if (n < 40) setTimeout(() => this.loadStudio(n + 1), 250); return; }
     const q = id => N.request('/wix-data/v2/items/query', { body: { dataCollectionId: id, query: { cursorPaging: { limit: 1000 } } } }).then(r => ((r && r.dataItems) || []).map(x => x.data || {})).catch(() => []);
     const mu = v => { if (!v) return ''; if (typeof v === 'object') v = v.url || ''; const m = String(v).match(/^wix:(image|video):\/\/v1\/([^/#]+)/); if (!m) return String(v); return m[1] === 'image' ? 'https://static.wixstatic.com/media/' + m[2] : 'https://video.wixstatic.com/video/' + m[2] + '/1080p/mp4/file.mp4'; };
     const [copy, slots, nir, prs, apps, worn, sizes] = await Promise.all(['StudioHomeCopy', 'StudioSiteSlots', 'StudioNewInRail', 'StudioPairs', 'StudioAppearances', 'StudioWornByYou', 'StudioSizeGuide'].map(q));
-    if (sizes.length) this.setState({ sizeGuide: ord(sizes).map(r => ({ cat: r.title || '', sz: r.sizes || [], rows: (r.rows && r.rows.rows) || [], note: r.note || '' })).filter(g => g.rows.length) });
     const ord = a => a.slice().sort((x, y) => ((x.order || 0) - (y.order || 0)) || String(x._id).localeCompare(String(y._id)));
+    if (sizes.length) this.setState({ sizeGuide: ord(sizes).map(r => ({ cat: r.title || '', sz: r.sizes || [], rows: (r.rows && r.rows.rows) || [], note: r.note || '' })).filter(g => g.rows.length) });
     const cp = {}; copy.forEach(r => { if (r.title && typeof r.text === 'string' && r.text.trim()) cp[r.title] = r.text; });
     const sl = {}, sm = {}; slots.forEach(r => { const u = mu(r.video || r.image || r.fileUrl); if (r.title && u) { sl[r.title] = u; sm[r.title] = { alt: r.alt || '', pos: r.focalX != null && r.focalY != null ? r.focalX + '% ' + r.focalY + '%' : '' }; } });
     if (nir.length) { const o = ord(nir).map(r => r.productId); P.forEach(p => { const k = o.indexOf(p.id); p.isNew = k >= 0; p.newOrder = k; }); }
