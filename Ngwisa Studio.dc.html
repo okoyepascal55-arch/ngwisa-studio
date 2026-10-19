@@ -949,7 +949,7 @@ class Component extends DCLogic {
       .concat(it.consent ? ['consent:yes'] : []).concat(it.needsConsent ? ['person:yes'] : []);
     return this.mm('/files/' + it.wixId, { method: 'PATCH', body: { file: { id: it.wixId, displayName: it.name, labels, ...(F[it.folder] ? { parentFolderId: F[it.folder] } : {}) } } }); }
   async pushWix(c) { const W = this.wixIds, bad = this.wixBad || new Set(); if (!W || !this.state.wixLive) throw new Error('not connected to Wix');
-    const save = (id, list) => list.length && !bad.has(id) ? this.api('/wix-data/v2/bulk/items/save', { body: { dataCollectionId: id, dataItems: list } }) : Promise.resolve();
+    const save = (id, list) => list.length && !bad.has(id) ? this.api('/wix-data/v2/bulk/items/save', { body: { dataCollectionId: id, dataItems: list.map(x => x.data && x.data._id ? { id: x.data._id, data: x.data } : x) } }) /* Wix requires id to match data._id */ : Promise.resolve();
     const U = id => { const it = c.lib.find(x => x.id === id); if (!it) return ''; const u = FULL(it.src); return /^https?:/.test(u) ? u : ''; };
     const pad = i => String(i).padStart(2, '0'), pname = id => (c.products.find(p => p.id === id) || {}).name || id;
     const replace = async (id, rows) => { if (bad.has(id)) return; await save(id, rows.map(data => ({ data }))); const keep = new Set(rows.map(r => r._id));
