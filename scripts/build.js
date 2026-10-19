@@ -9,7 +9,7 @@
    Run: npm run build  (Vercel runs it on every deploy, see vercel.json). */
 const fs = require('fs'), path = require('path'), crypto = require('crypto');
 const esbuild = require('esbuild');
-const { ROOT, ENTRY_SRC, STUDIO_SRC, STUDIO_OUT, transformEntry, transformComponent } = require('../lib/shell.js');
+const { ROOT, ENTRY_SRC, STUDIO_SRC, STUDIO_NAME, STUDIO_OUT, assetPath, transformEntry, transformComponent } = require('../lib/shell.js');
 const DIST = path.join(ROOT, 'dist');
 
 const read = f => fs.readFileSync(path.join(ROOT, f), 'utf8');
@@ -21,7 +21,8 @@ async function main() {
   fs.rmSync(DIST, { recursive: true, force: true });
   fs.mkdirSync(DIST, { recursive: true });
   const version = {}, report = [];
-  const emit = (name, data, from) => { out(name, data); version[name] = hash(data); report.push([name, from || '', Buffer.byteLength(data)]); };
+  // Each built file is written twice: at its plain name and at a name carrying its content hash, which the pages use.
+  const emit = (name, data, from) => { out(name, data); version[name] = hash(data); out(assetPath(name, version).slice(1), data); report.push([name, from || '', Buffer.byteLength(data)]); };
 
   // Plain scripts: minified, kept as classic scripts (they set window globals the pages use).
   for (const f of ['support.js', 'ngwisa-wix.js', 'ngwisa-parts.js']) {
@@ -43,10 +44,12 @@ async function main() {
 
   // Pages.
   const opts = { version, compiled: true, vendor: true };
-  const entry = read(ENTRY_SRC), app = transformEntry(entry, opts);
+  // The Studio is fetched by name (dc-import), so its served name carries its hash too: ngwisa-studio-<hash>.dc.html.
+  const studio = read(STUDIO_SRC), studioOut = transformComponent(studio, opts), studioName = STUDIO_NAME + '-' + hash(studioOut);
+  out(STUDIO_OUT, studioOut); out(studioName + '.dc.html', studioOut); report.push([studioName + '.dc.html', kb(studio.length) + ' source', Buffer.byteLength(studioOut)]);
+  const entry = read(ENTRY_SRC), app = transformEntry(entry, opts).replace('<dc-import name="' + STUDIO_NAME + '"', '<dc-import name="' + studioName + '"');
+  if (app.indexOf('<dc-import name="' + studioName + '"') < 0) throw new Error('Studio import not found in the site page');
   out('app.html', app); report.push(['app.html', kb(entry.length) + ' source', Buffer.byteLength(app)]);
-  const studio = read(STUDIO_SRC), studioOut = transformComponent(studio, opts);
-  out(STUDIO_OUT, studioOut); report.push([STUDIO_OUT, kb(studio.length) + ' source', Buffer.byteLength(studioOut)]);
   out('404.html', '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>Not found — Ngwisa</title>'
     + '<style>html,body{margin:0;height:100%;background:#141110;color:#FBF8F2;font-family:system-ui,sans-serif}main{min-height:100%;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:18px;padding:0 8vw}h1{margin:0;font-size:clamp(40px,7vw,88px);letter-spacing:-.04em}a{color:#FBF8F2;background:#D81219;padding:14px 24px;border-radius:999px;text-decoration:none;font:500 12px/1 monospace;letter-spacing:.16em}</style></head>'
     + '<body><main><img src="/assets/gong-mark.png" alt="" height="52"><h1>This page isn’t here.</h1><a href="/">BACK TO NGWISA →</a></main></body></html>');
