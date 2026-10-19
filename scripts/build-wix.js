@@ -14,10 +14,15 @@ const { render, seedFrom, PAGES } = require('../lib/seo.js');
 const ROOT = path.join(__dirname, '..'), DIST = path.join(ROOT, 'dist'), OUT = path.join(ROOT, 'dist-wix');
 const SITE = (process.env.NG_SITE_URL || 'https://ngwisa-gong-gallery-sjkgracee-1309.wix-site-host.com').replace(/\/+$/, '');
 const STUDIO_API = process.env.NG_STUDIO_API || 'https://ngwisa-studio.vercel.app/api/studio';
-const SNAP_FILE = process.argv[2] || path.join(ROOT, 'data', 'wix-snapshot.json');
+const SNAP_FILE = process.argv.slice(2).find(a => !a.startsWith('--')) || path.join(ROOT, 'data', 'wix-snapshot.json');
 
+const INTO_DIST = process.argv.includes('--into-dist'); // also publish the zip as dist/ngwisa-wix.zip (Vercel build)
+(async () => {
 if (!fs.existsSync(path.join(DIST, 'app.html'))) { console.error('Run `npm run build` first.'); process.exit(1); }
-const snap = fs.existsSync(SNAP_FILE) ? JSON.parse(fs.readFileSync(SNAP_FILE, 'utf8')) : { products: [], copy: {}, slots: {} };
+// The catalogue: a saved snapshot when given, otherwise read live from Wix (the build machine reaches Wix).
+let snap = fs.existsSync(SNAP_FILE) ? JSON.parse(fs.readFileSync(SNAP_FILE, 'utf8')) : null;
+if (!snap) { try { const live = await require('../lib/wix-server.js').snapshot(); if (!live.failed) snap = live; } catch (e) {} }
+if (!snap) snap = { products: [], copy: {}, slots: {} };
 const shell = fs.readFileSync(path.join(DIST, 'app.html'), 'utf8');
 snap.seed = seedFrom(shell);
 
@@ -67,6 +72,8 @@ for (const f of files.sort()) {
 const cd = Buffer.concat(central), end = Buffer.alloc(22); end.writeUInt32LE(0x06054b50, 0); end.writeUInt16LE(files.length, 8); end.writeUInt16LE(files.length, 10); end.writeUInt32LE(cd.length, 12); end.writeUInt32LE(off, 16);
 fs.mkdirSync(path.join(ROOT, 'release'), { recursive: true });
 const zip = Buffer.concat(parts.concat([cd, end])); fs.writeFileSync(path.join(ROOT, 'release', 'ngwisa-wix.zip'), zip);
+if (INTO_DIST) fs.writeFileSync(path.join(DIST, 'ngwisa-wix.zip'), zip);
 const total = files.reduce((t, f) => t + fs.statSync(f).size, 0);
 console.log('dist-wix: ' + files.length + ' files, ' + n + ' pages, ' + (total / 1048576).toFixed(1) + ' MB; release/ngwisa-wix.zip ' + (zip.length / 1048576).toFixed(2) + ' MB'
   + (snap.products.length ? '' : ' (no catalogue snapshot: only built-in pieces prebuilt)') + (skipped.length ? '; not prebuilt: ' + skipped.join(', ') : ''));
+})().catch(e => { console.error(e); process.exit(1); });

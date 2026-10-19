@@ -1,39 +1,152 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "npm run build",
+  "buildCommand": "npm run build && node scripts/build-wix.js --into-dist",
   "outputDirectory": "dist",
   "installCommand": "npm install --no-audit --no-fund",
   "framework": null,
   "cleanUrls": false,
   "trailingSlash": false,
   "functions": {
-    "api/page.js": { "includeFiles": "dist/app.html", "maxDuration": 10 },
-    "api/sitemap.js": { "maxDuration": 10 }
+    "api/page.js": {
+      "includeFiles": "dist/app.html",
+      "maxDuration": 10
+    },
+    "api/sitemap.js": {
+      "maxDuration": 10
+    }
   },
   "redirects": [
-    { "source": "/studio/(.*)", "destination": "/studio", "permanent": false },
-    { "source": "/Ngwisa%20Site%20Deploy.dc.html", "destination": "/", "permanent": true },
-    { "source": "/Ngwisa Site Deploy.dc.html", "destination": "/", "permanent": true },
-    { "source": "/loop", "destination": "/the-loop", "permanent": true },
-    { "source": "/founders", "destination": "/founders-voice", "permanent": true }
+    {
+      "source": "/studio/(.*)",
+      "destination": "/studio",
+      "permanent": false
+    },
+    {
+      "source": "/Ngwisa%20Site%20Deploy.dc.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/Ngwisa Site Deploy.dc.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/loop",
+      "destination": "/the-loop",
+      "permanent": true
+    },
+    {
+      "source": "/founders",
+      "destination": "/founders-voice",
+      "permanent": true
+    }
   ],
   "rewrites": [
-    { "source": "/sitemap.xml", "destination": "/api/sitemap" },
-    { "source": "/robots.txt", "destination": "/api/robots" },
-    { "source": "/", "destination": "/api/page?path=/" },
-    { "source": "/:page(the-loop|shop|heritage|founders-voice|journal|thank-you|studio)", "destination": "/api/page?path=/:page" },
-    { "source": "/shop/:slug", "destination": "/api/page?path=/shop/:slug" }
+    {
+      "source": "/sitemap.xml",
+      "destination": "/api/sitemap"
+    },
+    {
+      "source": "/robots.txt",
+      "destination": "/api/robots"
+    },
+    {
+      "source": "/",
+      "destination": "/api/page?path=/"
+    },
+    {
+      "source": "/:page(the-loop|shop|heritage|founders-voice|journal|thank-you|studio)",
+      "destination": "/api/page?path=/:page"
+    },
+    {
+      "source": "/shop/:slug",
+      "destination": "/api/page?path=/shop/:slug"
+    }
   ],
   "headers": [
-    { "source": "/(.*)", "headers": [
-      { "key": "X-Content-Type-Options", "value": "nosniff" },
-      { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-      { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" }
-    ] },
-    { "source": "/(support|ngwisa-wix|ngwisa-parts|animations-v3|ngwisa-reel|ngwisa-hero-bg).js", "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }] },
-    { "source": "/vendor/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }] },
-    { "source": "/assets/(.*)", "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400, stale-while-revalidate=604800" }] },
-    { "source": "/app.html", "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }, { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }] },
-    { "source": "/(.*).dc.html", "headers": [{ "key": "X-Robots-Tag", "value": "noindex" }, { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }] }
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
+        }
+      ]
+    },
+    {
+      "source": "/(support|ngwisa-wix|ngwisa-parts|animations-v3|ngwisa-reel|ngwisa-hero-bg).js",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/vendor/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400, stale-while-revalidate=604800"
+        }
+      ]
+    },
+    {
+      "source": "/app.html",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/(.*).dc.html",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/ngwisa-wix.zip",
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    }
   ]
 }
