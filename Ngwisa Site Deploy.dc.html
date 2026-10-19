@@ -1556,7 +1556,8 @@ const sCard = (p, i, pre) => { const key = pre + p.id, on = st.shov === key;
       scrollAll: () => { const el = this.sc && this.sc.querySelector('[data-shopall]'); if (el) this.smoothTo(el.offsetTop); },
       frame: (FRAMES[this.props.frameTint] || FRAMES.Oxblood)[0], frameLine: (FRAMES[this.props.frameTint] || FRAMES.Oxblood)[1],
       loopNewJson: JSON.stringify(PV.filter(p => p.isNew).sort((a, b) => (a.newOrder ?? 99) - (b.newOrder ?? 99)).map(p => ({ id: p.id, img: p.img, imgs: p.imgs, hook: p.hook, desc: p.desc, label: p.cat.toUpperCase(), title: p.name, price: fmt(p.price) }))),
-      loopAllJson: JSON.stringify(PV.map(p => ({ id: p.id, img: p.img, imgs: p.imgs, hook: p.hook, desc: p.desc, label: p.cat.toUpperCase(), title: p.name, price: fmt(p.price) }))),
+      /* The Loop page shows the New in pieces (Studio › Home › New in), in the same order as the home rail. */
+      loopAllJson: JSON.stringify(PV.filter(p => p.isNew).sort((a, b) => (a.newOrder ?? 99) - (b.newOrder ?? 99)).map(p => ({ id: p.id, img: p.img, imgs: p.imgs, hook: p.hook, desc: p.desc, label: p.cat.toUpperCase(), title: p.name, price: fmt(p.price) }))),
       rackJson: JSON.stringify(PV.filter(p => p.best && p.best <= 4).sort((x, y) => x.best - y.best).map(p => ({ id: p.id, name: p.name, price: p.price, img: p.img, img2: p.alt }))),
       hasPP: !!st.pp, closePP: () => this.closePP(),
       pp: (() => { const p = st.pp ? this.find(st.pp) : null; if (!p) return { thumbs: [], sizes: [], pairs: [] };
