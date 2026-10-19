@@ -52,8 +52,12 @@ function cors(req, res) {
 
 module.exports = async (req, res) => {
   cors(req, res);
-  if (req.method === 'OPTIONS') { res.statusCode = 204; return res.end(); }
-  const send = (status, obj) => { res.statusCode = status; res.setHeader('Content-Type', 'application/json'); res.setHeader('Cache-Control', 'no-store'); res.end(JSON.stringify(obj)); };
+  if (req.method === 'OPTIONS') { console.log('[studio] preflight ' + JSON.stringify({ origin: req.headers.origin || '-', allowed: !!res.getHeader('Access-Control-Allow-Origin') })); res.statusCode = 204; return res.end(); }
+  const t0 = Date.now(), origin = req.headers.origin || '-';
+  let what = req.method;
+  // One line per call in the Vercel runtime logs (no tokens or content), so a failing save can be traced.
+  const log = status => { const l = '[studio] ' + JSON.stringify({ origin, call: what, status, ms: Date.now() - t0 }); if (status >= 400) console.warn(l); else console.log(l); };
+  const send = (status, obj) => { log(status); res.statusCode = status; res.setHeader('Content-Type', 'application/json'); res.setHeader('Cache-Control', 'no-store'); res.end(JSON.stringify(obj)); };
   const key = env.WIX_API_KEY;
   if (req.method === 'GET') return send(200, { ok: true, configured: !!key });
   if (req.method !== 'POST') return send(405, { message: 'Method not allowed' });
@@ -64,6 +68,7 @@ module.exports = async (req, res) => {
   if (typeof b === 'string') { try { b = JSON.parse(b); } catch (e) { b = null; } }
   if (!b || typeof b.path !== 'string') return send(400, { message: 'Bad request' });
   const method = String(b.method || 'POST').toUpperCase(), path = b.path;
+  what = method + ' ' + path.split('?')[0] + (b.body && b.body.dataCollectionId ? ' ' + b.body.dataCollectionId : '');
   if (!allowed(method, path, b.body)) return send(403, { message: 'The Studio can’t make that call.' });
 
   const token = req.headers['x-member-token'];
