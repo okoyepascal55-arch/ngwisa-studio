@@ -1046,7 +1046,7 @@ const NAV = [['home', 'HOME', 'Home'], ['loop', 'THE LOOP', 'The Loop'], ['shop'
    index each piece. api/page.js serves the same addresses with the right title, description and preview image. */
 const PATHS = { home: '/', loop: '/the-loop', shop: '/shop', heritage: '/heritage', founders: '/founders-voice', journal: '/journal' };
 const TITLES = { home: 'Ngwisa — Toghu, worn now', loop: 'The Loop — Ngwisa', shop: 'Shop — Ngwisa', heritage: 'Heritage — Ngwisa', founders: 'Founder’s Voice — Ngwisa', journal: 'Journal — Ngwisa' };
-const ROUTE = path => { const u = String(path || '/').replace(/\/+$/, '') || '/', m = u.match(/^\/shop\/([^/]+)$/);
+const ROUTE = path => { const u = String(path || '/').replace(/\/index\.html$/, '').replace(/\.html$/, '').replace(/\/+$/, '') || '/', m = u.match(/^\/shop\/([^/]+)$/);
   if (/^\/studio/i.test(u)) return { studio: true };
   if (m) { let slug = m[1]; try { slug = decodeURIComponent(slug); } catch (e) {} return { page: 'shop', slug }; }
   if (u === '/thank-you') return { page: 'shop', thanks: true };
@@ -1352,7 +1352,8 @@ class Component extends DCLogic {
   }
   flash(t) { clearTimeout(this.tt); this.setState({ toast: t }); this.tt = setTimeout(() => this.setState({ toast: '' }), 2400); }
   /* Address bar <-> state. nav() records a new address; syncRoute() applies the current one (first load, back/forward). */
-  nav(path, replace) { if (IN_EDITOR() || !path) return; const cur = location.pathname + location.search; if (cur === path) return;
+  /* On Wix's file hosting every address is a file (NG_HTML_URLS): /shop.html, /shop/<piece>.html. */
+  nav(path, replace) { if (IN_EDITOR() || !path) return; if (window.NG_HTML_URLS && path !== '/' && !/\.html$/.test(path)) path += '.html'; const cur = location.pathname + location.search; if (cur === path) return;
     try { history[replace ? 'replaceState' : 'pushState']({ ng: 1 }, '', path); } catch (e) {} }
   syncRoute(afterCatalog) {
     if (IN_EDITOR()) return; const r = ROUTE(location.pathname); if (r.studio) return;

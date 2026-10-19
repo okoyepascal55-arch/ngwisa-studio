@@ -31,10 +31,11 @@ const copyDir = (from, to) => { fs.mkdirSync(to, { recursive: true }); for (cons
   if (fs.statSync(a).isDirectory()) copyDir(a, b); else if (f !== 'app.html' && f !== '404.html') fs.copyFileSync(a, b); } };
 copyDir(DIST, OUT);
 
-const apiTag = '<script>window.NG_STUDIO_API = ' + JSON.stringify(STUDIO_API) + ';</script>';
-const page = route => { const r = render(route, /^\/studio/.test(route) ? null : snap, SITE);
+const apiTag = '<script>window.NG_STUDIO_API = ' + JSON.stringify(STUDIO_API) + '; window.NG_HTML_URLS = true;</script>';
+const page = route => { const r = render(route, /^\/studio/.test(route) ? null : snap, SITE, { html: true });
   return { status: r.status, html: shell.replace(/<title>[^<]*<\/title>\s*<!--ng:head-->/, r.head + '\n' + apiTag).replace('<!--ng:body-->', r.body) }; };
-const write = (route, html) => { const f = route === '/' ? 'index.html' : route.replace(/^\//, '') + '/index.html'; const p = path.join(OUT, f);
+// Wix's file hosting serves exact paths only, so each address is a file: /shop.html, /shop/<piece>.html.
+const write = (route, html) => { const f = route === '/' ? 'index.html' : route.replace(/^\//, '') + '.html'; const p = path.join(OUT, f);
   fs.mkdirSync(path.dirname(p), { recursive: true }); fs.writeFileSync(p, html); return f; };
 
 const routes = Object.keys(PAGES).map(k => PAGES[k].path).concat(['/thank-you', '/studio']);
@@ -43,14 +44,15 @@ let n = 0; const skipped = [];
 for (const r of routes) { write(r, page(r).html); n++; }
 for (const s of slugs) { const r = '/shop/' + encodeURIComponent(s), o = page(r); if (o.status !== 200) { skipped.push(s); continue; } write('/shop/' + s, o.html); n++; }
 // Anything else: the site itself, marked not to be indexed; the browser routes it (a piece added after the build).
-const nf = render('/__missing__', snap, SITE);
+const nf = render('/__missing__', snap, SITE, { html: true });
 fs.writeFileSync(path.join(OUT, '404.html'), shell.replace(/<title>[^<]*<\/title>\s*<!--ng:head-->/, nf.head + '\n' + apiTag).replace('<!--ng:body-->', ''));
 
 // sitemap.xml and robots.txt
 const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
 const day = s => { const d = s ? new Date(s) : null; return d && !isNaN(d) ? d.toISOString().slice(0, 10) : ''; };
-const urls = Object.keys(PAGES).map(k => '<url><loc>' + esc(SITE + PAGES[k].path) + '</loc><priority>' + (k === 'home' ? '1.0' : k === 'shop' ? '0.9' : '0.7') + '</priority></url>')
-  .concat(snap.products.map(p => '<url><loc>' + esc(SITE + '/shop/' + encodeURIComponent(p.slug)) + '</loc>' + (day(p.updated) ? '<lastmod>' + day(p.updated) + '</lastmod>' : '') + '<priority>0.8</priority>'
+const H = p => p === '/' ? p : p + '.html';
+const urls = Object.keys(PAGES).map(k => '<url><loc>' + esc(SITE + H(PAGES[k].path)) + '</loc><priority>' + (k === 'home' ? '1.0' : k === 'shop' ? '0.9' : '0.7') + '</priority></url>')
+  .concat(snap.products.map(p => '<url><loc>' + esc(SITE + H('/shop/' + encodeURIComponent(p.slug))) + '</loc>' + (day(p.updated) ? '<lastmod>' + day(p.updated) + '</lastmod>' : '') + '<priority>0.8</priority>'
     + (p.imgs && p.imgs[0] ? '<image:image><image:loc>' + esc(p.imgs[0]) + '</image:loc></image:image>' : '') + '</url>'));
 fs.writeFileSync(path.join(OUT, 'sitemap.xml'), '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n' + urls.join('\n') + '\n</urlset>\n');
 fs.writeFileSync(path.join(OUT, 'robots.txt'), ['User-agent: *', 'Disallow: /studio', 'Disallow: /thank-you', '', 'Sitemap: ' + SITE + '/sitemap.xml', ''].join('\n'));

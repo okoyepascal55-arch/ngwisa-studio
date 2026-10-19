@@ -225,7 +225,7 @@
     }
     const back = origin ? origin + (backPath && backPath.charAt(0) === '/' ? backPath : '/') : '';
     try { sessionStorage.setItem('ngwisa-checkout', JSON.stringify({ checkoutId, at: Date.now() })); } catch (e) {}
-    const r = await req('/headless/v1/redirect-session', { body: { ecomCheckout: { checkoutId }, callbacks: origin ? { postFlowUrl: back, thankYouPageUrl: origin + '/thank-you' } : {} } });
+    const r = await req('/headless/v1/redirect-session', { body: { ecomCheckout: { checkoutId }, callbacks: origin ? { postFlowUrl: back, thankYouPageUrl: origin + (root.NG_HTML_URLS ? '/thank-you.html' : '/thank-you') } : {} } });
     const url = r && r.redirectSession && r.redirectSession.fullUrl;
     if (!url) throw new Error('Checkout could not start.');
     return url;
