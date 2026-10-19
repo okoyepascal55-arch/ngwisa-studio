@@ -34,20 +34,21 @@ The browser never holds the API key, and the Studio collections stay **admin-onl
 | Screen | Wix system |
 |---|---|
 | Library, uploads | Media Manager, folder `Ngwisa Studio/<folder>`. Alt text and focus point are stored as file labels (`alt:…`, `focal:x,y`). |
-| Site map, Hero film | `StudioSiteSlots` (title = spot id, fileUrl, alt, focalX, focalY) |
-| Site copy | `StudioHomeCopy` (title = copy key, text) |
+| Photo spots on every page | `StudioSiteSlots` (title = spot id, fileUrl, alt, focalX, focalY) |
+| Words on every page | `StudioHomeCopy` (title = copy key, text) |
 | New in rail | `StudioNewInRail` (productId, order) |
 | Call & Answer | `StudioPairs` (callProductId, answerProductId, order) |
 | Appearances | `StudioAppearances` (title, type, city, year, coverUrl, gallery, body, order) |
-| Worn by you | `StudioWornByYou` (fileUrl, title, city, show, order) |
+| Home › The Wall | `StudioWornByYou`, one row per tile: kind (`PHOTO`, `REEL`, `QUOTE`, `TAG`, `FILM`), col (0–2), order, frames (photo URLs), fileUrl (first photo), productId (linked piece), text and kicker (quotes), wide (landscape photo), handle and city (credit), show. Rows saved before the wall editor (photos only) still fill the design's photo tiles in order. |
+| Best sellers (Home rack, Shop) | `StudioProducts.best` (1–4 on the rack and atop the shop; 0 = not ranked; blank = the design's own rank) |
 | Products | `StudioProducts` (one row per Wix product: shown or hidden, name on the site, category, who it's for, hook, best-seller rank, restocking, search title and description, link to the design's built-in piece) |
 | Size guide | `StudioSizeGuide` (opens from "Size guide →" on every product page, in cm or inches) |
 | Search & sharing (each page) | `StudioHomeCopy` (`seo<Page>T`, `seo<Page>D`) |
 | History | `StudioVersions` (version, at, by, summary, snapshot JSON with media as URLs) |
 
 ## The shop and Wix Stores
-- Wix Stores is the catalogue: the site lists every visible Wix product that Studio › Products doesn't hide, with its Wix price, photos, description, sizes and stock. Stock for every piece comes from one inventory query; a piece's sizes load when it is opened.
-- **First publish of Products.** Until `StudioProducts` has rows, the shop shows only the pieces it showed before (the old fixed list), so nothing changes on deploy. The Products screen starts with those pieces marked Shown and the rest Hidden; publishing once makes the screen the source of truth. From then on a piece added in Wix shows on the site by itself (and is flagged "New in Wix" in the Studio).
+- Wix Stores is the catalogue: the site lists every visible Wix product that Studio › Shop › All pieces doesn’t hide, with its Wix price, photos, description, sizes and stock. Stock for every piece comes from one inventory query; a piece's sizes load when it is opened.
+- **First publish of Products.** Until `StudioProducts` has rows, the shop shows only the pieces it showed before (the old fixed list), so nothing changes on deploy. The All pieces screen starts with those pieces marked Shown and the rest Hidden; publishing once makes the screen the source of truth. From then on a piece added in Wix shows on the site by itself (and is flagged "New in Wix" in the Studio).
 - Pieces in the design that aren't in Wix (e.g. Mita Set, Gong Waistcoat) stay on the site as "price on request". Add a Wix product with the same name to sell one online; the Studio links them by name, or by the saved link once published.
 - Checkout is Wix's hosted checkout. Paid orders return to `/thank-you`, which shows the order to signed-in members and a confirmation note to guests.
 
@@ -59,7 +60,7 @@ The browser never holds the API key, and the Studio collections stay **admin-onl
 
 ## Publish and history
 - After Publish the Studio reads every area back the way the public site does and says “LIVE ON THE SITE NOW · CHECKED”, or names what the site doesn’t show yet.
-- The site reads Studio content live from Wix on every page load (and again when an open tab comes back into view), so a publish shows straight away. Only search/sharing tags and new pieces’ own page files wait for the next deploy; a new piece opens at `/shop.html?p=<slug>` until then.
+- The site reads Studio content live from Wix on every page load (and again when an open tab comes back into view), so a publish shows straight away. Page titles and descriptions update in the open page straight away; the tags in the built page files (what chat apps read for link previews) and new pieces’ own page files wait for the next deploy; a new piece opens at `/shop.html?p=<slug>` until then.
 - Edits stay in the browser as a draft until **Publish**. Publish writes everything above, then adds a `StudioVersions` row. If Wix refuses the save, the draft is kept.
 - Collections that failed to load are skipped on publish, so a bad load can't overwrite live content.
 - **Restore** loads a saved version into the draft. Nothing changes on the site until the next publish.
@@ -67,5 +68,11 @@ The browser never holds the API key, and the Studio collections stay **admin-onl
 ## Not wired yet
 - Team invites and roles are not saved. Only the members in `STUDIO_OWNER_IDS` can use the Studio.
 - "Send for review" only appears in the Contributor preview and does not notify anyone.
-- Product photos and Lookbook screens are not in the menu (product photos are managed in Wix Stores).
+- Product photos are managed in Wix Stores. `StudioLookbook` is not used.
 - Consent has no control in the Studio UI, so it does not block publishing.
+
+## How the Studio is laid out
+- **Start here**: how it works, shortcuts to common jobs, and every page with its parts.
+- **The website · page by page**: Home, The Loop, Shop, Heritage, Founder's Voice, Journal, Product pages, Sign-in. Under each page, its parts in the order visitors scroll through them (the same parts as the site's side dots). Each part opens on its own screen with what visitors see there, a link to it on the site, and everything that can be changed in it: photo spots, words, and its list (New in rail, best-seller rack, the Wall, which pieces show, appearances, pairs, size guide).
+- **Used across the site**: Photos & films (the Media Manager library) and Publish history.
+- The part definitions live in `PAGES` in the Studio file; add a part there when a section is added to the site.

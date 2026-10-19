@@ -98,6 +98,7 @@
 <sc-if value="{{ t.isImg }}" hint-placeholder-val="{{ true }}">
 <img loading="lazy" decoding="async" data-img="{{ t.img }}" alt="" draggable="false" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 25%">
 </sc-if>
+<sc-if value="{{ t.hasCredit }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;left:10px;top:10px;max-width:calc(100% - 20px);padding:5px 9px;border-radius:999px;background:rgba(20,17,16,.6);color:#FBF8F2;font:500 9px/1.2 'DM Mono',monospace;letter-spacing:.12em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:none">{{ t.credit }}</span></sc-if>
 <sc-if value="{{ t.isQuote }}" hint-placeholder-val="{{ false }}">
 <div style="position:absolute;inset:0;padding:clamp(14px,1.6vw,22px);display:flex;flex-direction:column;justify-content:flex-end;color:#141110">
 <span style="font:400 clamp(18px,1.9vw,30px)/1.05 'Bricolage Grotesque';letter-spacing:-.03em;text-wrap:balance">{{ t.text }}</span>
@@ -549,6 +550,7 @@
 <sc-if value="{{ t.isImg }}" hint-placeholder-val="{{ true }}">
 <img loading="lazy" decoding="async" data-img="{{ t.img }}" alt="" draggable="false" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 25%">
 </sc-if>
+<sc-if value="{{ t.hasCredit }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;left:10px;top:10px;max-width:calc(100% - 20px);padding:5px 9px;border-radius:999px;background:rgba(20,17,16,.6);color:#FBF8F2;font:500 9px/1.2 'DM Mono',monospace;letter-spacing:.12em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:none">{{ t.credit }}</span></sc-if>
 <sc-if value="{{ t.isQuote }}" hint-placeholder-val="{{ false }}">
 <div style="position:absolute;inset:0;padding:clamp(14px,1.6vw,22px);display:flex;flex-direction:column;justify-content:flex-end;color:#141110">
 <span style="font:400 clamp(18px,1.9vw,30px)/1.05 'Bricolage Grotesque';letter-spacing:-.03em;text-wrap:balance">{{ t.text }}</span>
@@ -1261,7 +1263,7 @@ class Component extends DCLogic {
     document.removeEventListener('click', this.onClickCap, true); document.removeEventListener('scroll', this.onScrollCap, true); removeEventListener('keydown', this.onKey); document.removeEventListener('ng-open', this.onNgOpen); document.removeEventListener('visibilitychange', this.onVis); document.removeEventListener('ng-link', this.onNgLink);
     if (this.io) this.io.disconnect(); removeEventListener('resize', this.onResize2); document.removeEventListener('wheel', this.onWheel); removeEventListener('keydown', this.onPageKey); cancelAnimationFrame(this.anRaf);
   }
-  componentDidUpdate() { this.syncImgs(); if (!IN_EDITOR()) { const t = this.docTitle(); if (document.title !== t) document.title = t; } if (this.lastPP !== this.state.pp) { this.lastPP = this.state.pp; setTimeout(() => this.refreshEls(), 150); } }
+  componentDidUpdate() { this.syncImgs(); if (!IN_EDITOR()) { const t = this.docTitle(); if (document.title !== t) document.title = t; const d = this.docDesc(), m = d && document.querySelector('meta[name="description"]'); if (m && m.getAttribute('content') !== d) m.setAttribute('content', d); } if (this.lastPP !== this.state.pp) { this.lastPP = this.state.pp; setTimeout(() => this.refreshEls(), 150); } }
   syncImgs() { document.querySelectorAll('img[data-img]').forEach(i => { const s = i.getAttribute('data-img'); if (s && s.indexOf('{{') < 0 && i.dataset.raw !== s) { i.dataset.raw = s; i.setAttribute('src', RZ(s, SHOWN(i))); } }); }
   setupWhenReady(el, tries) {
     clearTimeout(this.swrT);
@@ -1375,6 +1377,9 @@ class Component extends DCLogic {
   docTitle() { const st = this.state, p = st.pp ? this.find(st.pp) : null;
     if (st.thanks) return 'Thank you — Ngwisa'; if (p) return ((p.seo && p.seo.title) || p.name) + ' — Ngwisa';
     const t = (this.state.copy || {})['seo' + st.page.charAt(0).toUpperCase() + st.page.slice(1) + 'T']; return t || TITLES[st.page] || 'Ngwisa'; }
+  /* Search description set in the Studio, applied as soon as it's published (the built page carries the one from the last deploy). */
+  docDesc() { const st = this.state, p = st.pp ? this.find(st.pp) : null; if (st.thanks) return '';
+    if (p) return (p.seo && p.seo.description) || ''; return (st.copy || {})['seo' + st.page.charAt(0).toUpperCase() + st.page.slice(1) + 'D'] || ''; }
   /* Sizes for a piece come from its Wix variants; fetched when the piece is opened, not for every piece on load. */
   ensureSizes(p) { const N = window.NGW; if (!p || !p.wixId || p.wixSized || !N) return Promise.resolve(p);
     if (!p._vs) p._vs = N.variants(p.wixId).then(vs => { if (vs.length) { p.variants = vs; p.sizes = N.variantRows(vs) || p.sizes; p.soldOut = vs.every(v => !v.inStock); } p.wixSized = true; this.forceUpdate(); return p; }).catch(() => { p._vs = null; return p; });
@@ -1421,8 +1426,19 @@ class Component extends DCLogic {
     if (nir.length) { const o = ord(nir).map(r => r.productId); P.forEach(p => { const k = o.indexOf(p.id); p.isNew = k >= 0; p.newOrder = k; }); }
     if (prs.length) { const m = {}; ord(prs).forEach(r => { const a = r.callProductId, b = r.answerProductId; if (!a || !b) return; (m[a] = m[a] || []).push(b); (m[b] = m[b] || []).push(a); }); this.pairMap = m; }
     if (apps.length) EVT.splice(0, EVT.length, ...ord(apps).map(r => ({ t: r.title || '', type: r.type || '', city: r.city || '', yr: r.year || '', img: mu(r.coverUrl || r.cover), gal: (r.gallery || []).filter(Boolean), paras: String(r.body || '').split(/\n\s*\n/).map(x => x.trim()).filter(Boolean) })).filter(e => e.img));
-    const wv = ord(worn).filter(r => r.show !== false && r.consent !== false).map(r => mu(r.fileUrl || r.photo)).filter(Boolean);
-    if (wv.length) { let k = 0; WALL.forEach(col => col.forEach(t => { if (t.k === 'PHOTO' && k < wv.length) t.f = [wv[k++]]; })); }
+    /* The Wall (Studio › Home › The Wall): each row is one tile — kind, column, photos, linked piece, quote text.
+       Older rows (photos only) fill the design's photo tiles in order. */
+    if (worn.some(r => r.kind)) {
+      const cols = [[], [], []];
+      ord(worn).filter(r => r.show !== false && r.consent !== false).forEach(r => { const k = String(r.kind).toUpperCase(); if (!/^(PHOTO|REEL|QUOTE|TAG|FILM)$/.test(k)) return;
+        const f = (Array.isArray(r.frames) && r.frames.length ? r.frames : [r.fileUrl || r.photo]).map(mu).filter(Boolean);
+        if ((k === 'PHOTO' || k === 'REEL' || k === 'FILM') && !f.length) return; if (k === 'QUOTE' && !String(r.text || '').trim()) return;
+        cols[Math.max(0, Math.min(2, Math.round(+r.col || 0)))].push({ k, f: k === 'QUOTE' || k === 'TAG' ? undefined : f, pid: r.productId || undefined, text: r.text || '', kick: r.kicker || '', wide: !!r.wide, h: r.handle || '', city: r.city || '' }); });
+      if (cols.some(c => c.length)) WALL.splice(0, WALL.length, ...cols);
+    } else {
+      const wv = ord(worn).filter(r => r.show !== false && r.consent !== false).map(r => mu(r.fileUrl || r.photo)).filter(Boolean);
+      if (wv.length) { let k = 0; WALL.forEach(col => col.forEach(t => { if (t.k === 'PHOTO' && k < wv.length) t.f = [wv[k++]]; })); }
+    }
     ['jr-1', 'jr-2', 'jr-3'].forEach((id, i) => { if (sl[id] && ART[i]) ART[i].img = sl[id]; });
     this.setState({ copy: cp, slots: sl, slotMeta: sm }); }
   renderVals() {
@@ -1459,13 +1475,13 @@ const sCard = (p, i, pre) => { const key = pre + p.id, on = st.shov === key;
 
     const match = t => st.wallF === 'ALL' || (st.wallF === 'REELS' && t.k === 'REEL') || (st.wallF === 'PHOTOS' && t.k === 'PHOTO') || (st.wallF === 'FILM' && t.k === 'FILM');
     const tile = (t, all) => {
-      const img = t.f ? t.f.length > 0 : false; const pr = t.pid ? this.find(t.pid) : null; const on = all || match(t);
+      const img = t.f ? t.f.length > 0 : false; const pr = (x => x && !x.hidden ? x : null)(t.pid ? this.find(t.pid) : null); const on = all || match(t);
       const ratio = t.k === 'REEL' ? '9/16' : t.k === 'FILM' ? '4/3' : t.wide ? '3/2' : t.k === 'QUOTE' || t.k === 'TAG' ? '1/1' : '3/4';
       return { img: img ? RZ(IMG(t.f[0]), 800) : '', isImg: img, isQuote: t.k === 'QUOTE', isTag: t.k === 'TAG', kick: t.q && t.kick ? tq[t.q + 'K'] || t.kick : t.kick || '', text: t.q ? tq[t.q] || t.text : t.text || '', ratio,
         bg: t.k === 'QUOTE' ? '#F4F0EA' : '#2A2421', o: on ? 1 : 0.18, flt: on ? 'none' : 'grayscale(1)',
         tag: t.k === 'REEL' ? '▶ REEL' : t.k === 'FILM' ? '▶ FILM' : t.k === 'PHOTO' ? 'PHOTO' : t.k === 'TAG' ? 'COMMUNITY' : 'NOTE',
         cur: t.k === 'PHOTO' ? 'View' : t.k === 'QUOTE' ? '' : t.k === 'TAG' ? 'Follow' : 'Play',
-        frames: img ? t.f.map(x => RZ(IMG(x), 800)).join(',') : '', hasShop: !!pr, name: pr ? pr.name : '',
+        frames: img ? t.f.map(x => RZ(IMG(x), 800)).join(',') : '', hasShop: !!pr, name: pr ? pr.name : '', credit: [t.h ? (/^@/.test(t.h) ? t.h : '@' + t.h) : '', t.city || ''].filter(Boolean).join(' · '), hasCredit: !!(img && (t.h || t.city)),
         shop: e => { e.stopPropagation(); if (pr) this.openQuick(pr.id); },
         open: () => { if (this.dragMoved) return; if (t.k === 'FILM') this.setState({ filmOpen: true }); else if (t.k === 'TAG') window.open('https://instagram.com/_ngwisa_', '_blank'); else if (img) this.setState({ lb: { items: t.f.map(x => RZ(IMG(x), 1600)), i: 0, reel: t.k === 'REEL', ratio: t.k === 'REEL' ? '9/16' : t.wide ? '3/2' : '2/3' }, lbT: 0 }); } };
     };
@@ -1530,10 +1546,6 @@ const sCard = (p, i, pre) => { const key = pre + p.id, on = st.shov === key;
           addL: p.price == null ? 'ASK —' : 'ADD —',
           add: () => { if (p.price == null) { this.openQuick(p.id); return; } if (p.soldOut) { this.flash('SOLD OUT'); return; }
             this.ensureSizes(p).then(() => { const z = p.sizes.find(z => !z[3]); if (!z) { this.flash('SOLD OUT'); return; } this.addWix(p, z[0]); }); } }; }),
-      hotspots: [['yem', 12, 70], ['rahrah-white', 26, 55], ['mawa', 39, 74], ['tatah', 51, 50], ['mita-dress', 61, 64], ['manyi', 79, 40]].map((s, i) => { const p = this.find(s[0]); const on = st.hs === i;
-        return { x: s[1] + '%', y: s[2] + '%', z: on ? 25 : 20, on, cat: p.cat, name: p.name, price: p.price == null ? 'Price on request' : '£' + p.price.toFixed(2),
-          anim: on ? 'none' : 'hotspotPulse 2.6s ease-in-out infinite', halo: on ? 1.12 : 1, top: s[2] < 50 ? '24px' : 'auto', bottom: s[2] < 50 ? 'auto' : '24px',
-          toggle: () => this.setState({ hs: on ? null : i }), open: open(p.id) }; }),
       goFounders: go('founders'),
       bestCards: PV.filter(p => p.best && p.best <= 4).sort((a, b) => a.best - b.best).map((p, i) => sCard(p, i, 'b')),
       gridCards: list.map((p, i) => sCard(p, i, 'g')),

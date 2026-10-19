@@ -7,7 +7,7 @@ Headless Wix storefront + Ngwisa Studio admin. Wix runs the shop (products, stoc
 | Part | What it does |
 |---|---|
 | `Ngwisa Site Deploy.dc.html` | The site, as Claude Design writes it. Pages: `/`, `/the-loop`, `/shop`, `/shop/<piece>`, `/heritage`, `/founders-voice`, `/journal`, `/thank-you`. Studio on `/studio`. |
-| `Ngwisa Studio.dc.html` | Owner-only admin: site copy, photo spots, Products, New in, Call & Answer, appearances, worn by you, size guide, search & sharing, Media Manager. |
+| `Ngwisa Studio.dc.html` | Owner-only admin, laid out like the website: every page and, under it, every part in scroll order, each with its photos, words and list (New in, best sellers, The Wall tiles, which pieces show, appearances, pairs, size guide), plus the Media Manager library and publish history. |
 | `ngwisa-wix.js` | Wix client for the browser (Stores, Cart, Checkout, Members, Data) and the shared catalogue rules used by the site, the Studio and the server. |
 | `api/page.js` | Serves every page address with its own title, description, share image and structured data (JSON-LD), read from Wix. |
 | `api/sitemap.js`, `api/robots.js` | `/sitemap.xml` (every page and shown piece) and `/robots.txt`. |
@@ -18,7 +18,7 @@ Headless Wix storefront + Ngwisa Studio admin. Wix runs the shop (products, stoc
 ## Where things are decided
 
 - **Wix Stores**: which pieces exist, names, prices, photos, descriptions, sizes, stock, and each piece's URL slug (`/shop/<slug>`).
-- **Studio › Products** (`StudioProducts`): which pieces the site shows, category, who it's for, hook line, best-seller rank, restocking note, search title and description.
+- **Studio › Shop › All pieces** (`StudioProducts`): which pieces the site shows, category, who it's for, hook line, best-seller rank, restocking note, search title and description.
 - **The design's built-in list** (in the site file): fills anything neither has yet, and holds pieces sold "on request" that aren't in Wix.
 
 Until Products is published from the Studio for the first time, the shop shows the same pieces it always did. After that, a piece added in Wix appears on the site by itself.
