@@ -9,7 +9,7 @@
    Run: npm run build  (Vercel runs it on every deploy, see vercel.json). */
 const fs = require('fs'), path = require('path'), crypto = require('crypto');
 const esbuild = require('esbuild');
-const { ROOT, ENTRY_SRC, STUDIO_SRC, transformEntry, transformComponent } = require('../lib/shell.js');
+const { ROOT, ENTRY_SRC, STUDIO_SRC, STUDIO_OUT, transformEntry, transformComponent } = require('../lib/shell.js');
 const DIST = path.join(ROOT, 'dist');
 
 const read = f => fs.readFileSync(path.join(ROOT, f), 'utf8');
@@ -46,12 +46,12 @@ async function main() {
   const entry = read(ENTRY_SRC), app = transformEntry(entry, opts);
   out('app.html', app); report.push(['app.html', kb(entry.length) + ' source', Buffer.byteLength(app)]);
   const studio = read(STUDIO_SRC), studioOut = transformComponent(studio, opts);
-  out(STUDIO_SRC, studioOut); report.push([STUDIO_SRC, kb(studio.length) + ' source', Buffer.byteLength(studioOut)]);
+  out(STUDIO_OUT, studioOut); report.push([STUDIO_OUT, kb(studio.length) + ' source', Buffer.byteLength(studioOut)]);
   out('404.html', '<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex"><title>Not found — Ngwisa</title>'
     + '<style>html,body{margin:0;height:100%;background:#141110;color:#FBF8F2;font-family:system-ui,sans-serif}main{min-height:100%;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:18px;padding:0 8vw}h1{margin:0;font-size:clamp(40px,7vw,88px);letter-spacing:-.04em}a{color:#FBF8F2;background:#D81219;padding:14px 24px;border-radius:999px;text-decoration:none;font:500 12px/1 monospace;letter-spacing:.16em}</style></head>'
     + '<body><main><img src="/assets/gong-mark.png" alt="" height="52"><h1>This page isn’t here.</h1><a href="/">BACK TO NGWISA →</a></main></body></html>');
   // Sanity: nothing in the served pages may still point at a .jsx file or unpkg.
-  for (const [n, h] of [['app.html', app], [STUDIO_SRC, studioOut]]) {
+  for (const [n, h] of [['app.html', app], [STUDIO_OUT, studioOut]]) {
     const bad = (h.match(/from="[^"]*\.jsx[^"]*"/g) || []).concat(h.match(/unpkg\.com/g) || []);
     if (bad.length) throw new Error(n + ' still references ' + bad.join(', '));
   }

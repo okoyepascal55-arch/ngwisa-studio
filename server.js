@@ -20,6 +20,7 @@ http.createServer((req, res) => {
   if (/^\/Ngwisa Site Deploy\.dc\.html$/.test(u)) { res.writeHead(301, { Location: '/' }); return res.end(); }
   const clean = u.length > 1 ? u.replace(/\/+$/, '') : u;
   if (PAGE.test(clean)) { req.query = { path: clean }; return page(req, res); }
+  if (!BUILT && u === '/ngwisa-studio.dc.html') u = '/Ngwisa Studio.dc.html'; // served name of the Studio source
   const f = path.join(ROOT, u), rel = path.relative(ROOT, f).split(path.sep).join('/');
   if (rel.startsWith('..') || PRIVATE.test(rel) || !fs.existsSync(f) || !fs.statSync(f).isFile()) { req.query = { path: u }; return page(req, res); }
   const versioned = /[?&]v=/.test(req.url);
