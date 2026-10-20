@@ -33,9 +33,24 @@ copyDir(DIST, OUT);
 
 const PREBUILT = [...new Set(snap.products.map(p => p.slug).concat(snap.seed.map(s => s.slug)))];
 const BUILD = (process.env.VERCEL_GIT_COMMIT_SHA || '').slice(0, 7) || new Date().toISOString();
-const apiTag = '<meta name="ngwisa-build" content="' + BUILD + '">\n<script>window.NG_STUDIO_API = ' + JSON.stringify(STUDIO_API) + '; window.NG_HTML_URLS = true; window.NG_PREBUILT = ' + JSON.stringify(PREBUILT) + ';</script>';
+const esc8 = o => JSON.stringify(o).replace(/</g, '\\u003c');
+/* NG_BOOT: the published photos, films and words at build time, so the first render is already right (no design
+   defaults downloaded and then swapped). The page still reads Studio content live, so a publish shows straight away. */
+const BOOT = snap.boot || null;
+const apiTag = '<meta name="ngwisa-build" content="' + BUILD + '">\n<script>window.NG_STUDIO_API = ' + JSON.stringify(STUDIO_API) + '; window.NG_HTML_URLS = true; window.NG_PREBUILT = ' + JSON.stringify(PREBUILT) + ';'
+  + (BOOT ? ' window.NG_BOOT = ' + esc8(BOOT) + ';' : '') + '</script>';
+/* Home: start fetching the opening still at once (same widths as the page's srcset) and warm up the film host. */
+const RZ = (u, w) => u + '/v1/fit/w_' + w + ',h_' + (w * 2) + ',q_78,enc_auto/' + u.split('/').pop();
+const heroPoster = BOOT && BOOT.slots['hero-poster'], heroFilm = BOOT && (BOOT.slots['hero-film'] || BOOT.slots['hero-film-m']);
+const homeHead = (heroFilm ? '\n<link rel="preconnect" href="https://video.wixstatic.com">' : '')
+  + (heroFilm && heroPoster && /^https:\/\/static\.wixstatic\.com\/media\/[^/]+$/.test(heroPoster) ? '\n<link rel="preload" as="image" fetchpriority="high" href="' + RZ(heroPoster, 1280) + '" imagesrcset="' + [640, 960, 1280, 1920].map(w => RZ(heroPoster, w) + ' ' + w + 'w').join(', ') + '" imagesizes="100vw">' : '');
 const page = route => { const r = render(route, /^\/studio/.test(route) ? null : snap, SITE, { html: true });
-  return { status: r.status, html: shell.replace(/<title>[^<]*<\/title>\s*<!--ng:head-->/, r.head + '\n' + apiTag).replace('<!--ng:body-->', r.body) }; };
+  return { status: r.status, html: shell.replace(/<title>[^<]*<\/title>\s*<!--ng:head-->/, r.head + '\n' + apiTag + (route === '/' ? homeHead : pieceHead(route))).replace('<!--ng:body-->', r.body) }; };
+/* A piece's own page: start fetching its main photo at once, with the srcset/sizes the page uses (one download). */
+function pieceHead(route) { const m = route.match(/^\/shop\/(.+)$/); if (!m) return ''; const slug = decodeURIComponent(m[1]);
+  const p = snap.products.find(x => x.slug === slug); const u = p && p.imgs && p.imgs[0];
+  if (!u || !/^https:\/\/static\.wixstatic\.com\/media\/[^/]+$/.test(u)) return '';
+  return '\n<link rel="preload" as="image" fetchpriority="high" href="' + RZ(u, 800) + '" imagesrcset="' + [480, 800, 1200, 1600].map(w => RZ(u, w) + ' ' + w + 'w').join(', ') + '" imagesizes="(max-width: 899px) 92vw, 54vw">'; }
 // Wix's file hosting serves exact paths only, so each address is a file: /shop.html, /shop/<piece>.html.
 const write = (route, html) => { const f = route === '/' ? 'index.html' : route.replace(/^\//, '') + '.html'; const p = path.join(OUT, f);
   fs.mkdirSync(path.dirname(p), { recursive: true }); fs.writeFileSync(p, html); return f; };
