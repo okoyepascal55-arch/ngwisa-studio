@@ -41,9 +41,10 @@ const apiTag = '<meta name="ngwisa-build" content="' + BUILD + '">\n<script>wind
   + (BOOT ? ' window.NG_BOOT = ' + esc8(BOOT) + ';' : '') + '</script>';
 /* Home: start fetching the opening still at once (same widths as the page's srcset) and warm up the film host. */
 const RZ = (u, w) => u + '/v1/fit/w_' + w + ',h_' + (w * 2) + ',q_78,enc_auto/' + u.split('/').pop();
+const HZ = (u, w) => u + '/v1/fit/w_' + w + ',h_' + w + ',q_78,enc_auto/' + u.split('/').pop(); // the opening still (same as HERO_URL in the site)
 const heroPoster = BOOT && BOOT.slots['hero-poster'], heroFilm = BOOT && (BOOT.slots['hero-film'] || BOOT.slots['hero-film-m']);
 const homeHead = (heroFilm ? '\n<link rel="preconnect" href="https://video.wixstatic.com">' : '')
-  + (heroFilm && heroPoster && /^https:\/\/static\.wixstatic\.com\/media\/[^/]+$/.test(heroPoster) ? '\n<link rel="preload" as="image" fetchpriority="high" href="' + RZ(heroPoster, 1280) + '" imagesrcset="' + [640, 960, 1280, 1920].map(w => RZ(heroPoster, w) + ' ' + w + 'w').join(', ') + '" imagesizes="100vw">' : '');
+  + (heroFilm && heroPoster && /^https:\/\/static\.wixstatic\.com\/media\/[^/]+$/.test(heroPoster) ? '\n<link rel="preload" as="image" fetchpriority="high" href="' + HZ(heroPoster, 1280) + '" imagesrcset="' + [640, 960, 1280, 1920].map(w => HZ(heroPoster, w) + ' ' + w + 'w').join(', ') + '" imagesizes="100vw">' : '');
 const page = route => { const r = render(route, /^\/studio/.test(route) ? null : snap, SITE, { html: true });
   return { status: r.status, html: shell.replace(/<title>[^<]*<\/title>\s*<!--ng:head-->/, r.head + '\n' + apiTag + (route === '/' ? homeHead : pieceHead(route))).replace('<!--ng:body-->', r.body) }; };
 /* A piece's own page: start fetching its main photo at once, with the srcset/sizes the page uses (one download). */
