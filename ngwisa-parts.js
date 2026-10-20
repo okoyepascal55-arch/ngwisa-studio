@@ -389,7 +389,7 @@
       const probe = document.createElement('span'); probe.style.cssText = 'position:absolute;visibility:hidden;font-size:' + (this.getAttribute('size') || '64px');
       this.shadowRoot.appendChild(probe); const px = parseFloat(getComputedStyle(probe).fontSize) || 64; probe.remove();
       const wt = this.getAttribute('weight') || '800', track = -0.035 * px, lh = +(this.getAttribute('lh') || .95);
-      mctx.font = wt + ' ' + px + 'px "Bricolage Grotesque", sans-serif'; if ('letterSpacing' in mctx) mctx.letterSpacing = track + 'px';
+      mctx.font = wt + ' ' + px + 'px "Bricolage Grotesque"'; if ('letterSpacing' in mctx) mctx.letterSpacing = track + 'px';
       const meas = s => mctx.measureText(s).width;
       const bx = this.box(); const maxW = this.hasAttribute('nowrap') ? Infinity : ((bx && bx.clientWidth) || Infinity);
       const words = text.split(' '); const lines = []; let cur = '';

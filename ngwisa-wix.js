@@ -308,15 +308,11 @@
   }
   /* Image resizer used across the site (ngwisa-parts.js calls it as window.NGR). Wix serves any media file at a
      requested size; enc_auto returns AVIF/WebP when the browser accepts it. Product originals run to 20 MB+. */
-  const NGR_C = new Map();
-  root.NGR = (u, w) => { const ck = u + '|' + (w || ''); if (NGR_C.has(ck)) return NGR_C.get(ck); const out = ngr(u, w); if (NGR_C.size < 4000) NGR_C.set(ck, out); return out; };
-  const ngr = (u, w) => {
+  root.NGR = (u, w) => {
     const m = typeof u === 'string' && u.match(/^https:\/\/static\.wixstatic\.com\/media\/([^/?#]+\.(?:jpe?g|png|webp))$/i);
     if (!m) return u;
-    /* No width given (cards inside the site's components): size for the screen, not for the largest desktop. */
-    if (!w) { const vw = (typeof innerWidth === 'number' && innerWidth) || 1200; w = vw < 700 ? 640 : vw < 1400 ? 800 : 960; }
-    w = Math.min(2400, Math.max(200, Math.round(w)));
-    return u + '/v1/fit/w_' + w + ',h_' + (w * 2) + ',q_78,enc_auto/' + m[1];
+    w = Math.min(2400, Math.max(200, Math.round(w || 1000)));
+    return u + '/v1/fit/w_' + w + ',h_' + (w * 2) + ',q_80,enc_auto/' + m[1];
   };
   root.NGW = Object.assign({ request: req, accessToken: token, products, studio, catalog, stock, variants, addToCart, cart, removeLine, checkoutUrl, confirmation, login, register, verify, me, logout, isMember, orders, tracking, reorder, updateMe, myAddresses }, CAT);
 })(typeof window !== 'undefined' ? window : null);
