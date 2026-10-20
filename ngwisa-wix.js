@@ -318,5 +318,19 @@
     w = Math.min(2400, Math.max(200, Math.round(w)));
     return u + '/v1/fit/w_' + w + ',h_' + (w * 2) + ',q_78,enc_auto/' + m[1];
   };
+  /* Wix only serves resized copies it can make; a few small originals refuse some sizes (403). When a resized
+     image fails, show the original photo instead so nothing on the site is left blank. Errors do not bubble, so
+     listen in the capture phase on the page and on each component's shadow root (ngwisa-parts.js calls NGFB). */
+  root.NGFB = (r) => {
+    if (!r || r.__ngfb) return; r.__ngfb = 1;
+    r.addEventListener('error', (e) => {
+      const im = e.target;
+      if (!im || im.tagName !== 'IMG') return;
+      const m = (im.currentSrc || im.src || '').match(/^(https:\/\/static\.wixstatic\.com\/media\/[^/?#]+)\/v1\/(?:fit|fill)\//);
+      if (!m || im.dataset.fb === m[1]) return;
+      im.dataset.fb = m[1]; im.removeAttribute('srcset'); im.src = m[1];
+    }, true);
+  };
+  if (root.document) root.NGFB(root.document);
   root.NGW = Object.assign({ request: req, accessToken: token, products, studio, catalog, stock, variants, addToCart, cart, removeLine, checkoutUrl, confirmation, login, register, verify, me, logout, isMember, orders, tracking, reorder, updateMe, myAddresses }, CAT);
 })(typeof window !== 'undefined' ? window : null);

@@ -1552,7 +1552,7 @@ const sCard = (p, i, pre) => { const key = pre + p.id, on = st.shov === key;
       cueArrow: st.sec >= secLabels.length - 1 ? '↑' : '↓',
       cueGo: () => { if (st.sec >= secLabels.length - 1) this.animateTo(0, 1100); else this.advance(1); },
       secs: secLabels.map((l, i) => ({ go: scrollTo(i), lab: i === st.sec ? String(i + 1).padStart(2, '0') + ' ' + l.toUpperCase() : '', w: i === st.sec ? '28px' : '12px', o: i === st.sec ? 1 : 0.45 })),
-      hideImg: e => { e.currentTarget.style.display = 'none'; },
+      hideImg: e => { const t = e.currentTarget; if (t.dataset.fb && t.dataset.fbh !== t.dataset.fb) { t.dataset.fbh = t.dataset.fb; return; } t.style.display = 'none'; },
       setRef: el => { if (!el) return; const s = el.dataset.s, ss = el.dataset.ss; if (!s || s.indexOf('{{') >= 0 || el.dataset.raw === s) return; el.dataset.raw = s; if (ss) el.setAttribute('srcset', ss); el.setAttribute('src', s); },
       mref: el => { if (!el) return; const v = el.dataset.v || (el.dataset.w ? WXS + el.dataset.w : ''); if (v && el.dataset.raw !== v) { el.dataset.raw = v; IMGQ(el, v); } }, bagCount: st.bag.length, openBag: () => this.setState({ bagOpen: true }), closeBag: () => this.setState({ bagOpen: false }), bagOpen: st.bagOpen, bagEmpty: !st.bag.length,
       bagLines: st.bag.map((b, i) => ({ ...b, price: fmt(b.price), remove: () => { if (b.lineId && window.NGW) window.NGW.removeLine(b.lineId).then(c => this.setState({ bag: this.wixBag(c) })).catch(e => this.flash(String(e.message || e).toUpperCase())); else this.setState({ bag: st.bag.filter((_, j) => j !== i) }); } })),

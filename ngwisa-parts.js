@@ -66,7 +66,7 @@
 
   class NgRack extends HTMLElement {
     static get observedAttributes() { return ['items', 'kicker', 'heading', 'link']; }
-    connectedCallback() { if (!this.shadowRoot) this.attachShadow({ mode: 'open' }); this.render(); this._rs = () => this.rackTo(this.rk.x); addEventListener('resize', this._rs); }
+    connectedCallback() { if (!this.shadowRoot) { this.attachShadow({ mode: 'open' }); if (window.NGFB) window.NGFB(this.shadowRoot); } this.render(); this._rs = () => this.rackTo(this.rk.x); addEventListener('resize', this._rs); }
     disconnectedCallback() { removeEventListener('resize', this._rs); }
     attributeChangedCallback() { if (this.shadowRoot) this.render(); }
     render() {
@@ -176,7 +176,7 @@
   let uidN = 0;
   class NgLoop extends HTMLElement {
     static get observedAttributes() { return ['items', 'kicker', 'heading', 'link', 'button']; }
-    connectedCallback() { if (!this.shadowRoot) this.attachShadow({ mode: 'open' }); this.uid = ++uidN; this.render(); this._rs = () => this.fit(); addEventListener('resize', this._rs); }
+    connectedCallback() { if (!this.shadowRoot) { this.attachShadow({ mode: 'open' }); if (window.NGFB) window.NGFB(this.shadowRoot); } this.uid = ++uidN; this.render(); this._rs = () => this.fit(); addEventListener('resize', this._rs); }
     disconnectedCallback() { removeEventListener('resize', this._rs); }
     attributeChangedCallback() { if (this.shadowRoot) this.render(); }
     render() {
@@ -328,7 +328,7 @@
   class NgKnit extends HTMLElement {
     static get observedAttributes() { return ['text', 'size', 'dark']; }
     connectedCallback() {
-      if (!this.shadowRoot) this.attachShadow({ mode: 'open' });
+      if (!this.shadowRoot) { this.attachShadow({ mode: 'open' }); if (window.NGFB) window.NGFB(this.shadowRoot); }
       this.mode = 'row'; this.started = false; this.draw();
       this.io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { this.started = true; this.draw(); this.io.disconnect(); } }), { threshold: .2 });
       this.io.observe(this);
@@ -372,7 +372,7 @@
     static get observedAttributes() { return ['text', 'size', 'tone']; }
     connectedCallback() {
       this.style.display = this.hasAttribute('nowrap') ? 'inline-block' : 'block';
-      if (!this.shadowRoot) this.attachShadow({ mode: 'open' });
+      if (!this.shadowRoot) { this.attachShadow({ mode: 'open' }); if (window.NGFB) window.NGFB(this.shadowRoot); }
       this.uid = 'st' + (++sid); this.p = 0;
       (document.fonts ? document.fonts.ready : Promise.resolve()).then(() => { this.layout(); });
       this.ro = new ResizeObserver(() => requestAnimationFrame(() => { const a = this.box(); const w = a ? a.clientWidth : 0; if (Math.abs(w - (this._pw || 0)) > 2) { this._pw = w; this.layout(); } }));
