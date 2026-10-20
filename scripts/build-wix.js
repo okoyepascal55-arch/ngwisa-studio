@@ -12,7 +12,7 @@
 const fs = require('fs'), path = require('path'), zlib = require('zlib');
 const { render, seedFrom, PAGES } = require('../lib/seo.js');
 const ROOT = path.join(__dirname, '..'), DIST = path.join(ROOT, 'dist'), OUT = path.join(ROOT, 'dist-wix');
-const SITE = (process.env.NG_SITE_URL || 'https://ngwisa-gong-gallery-sjkgracee-1309.wix-site-host.com').replace(/\/+$/, '');
+const SITE = (process.env.NG_SITE_URL || 'https://www.ngwisa.com').replace(/\/+$/, '');
 const STUDIO_API = process.env.NG_STUDIO_API || 'https://ngwisa-studio.vercel.app/api/studio';
 const SNAP_FILE = process.argv.slice(2).find(a => !a.startsWith('--')) || path.join(ROOT, 'data', 'wix-snapshot.json');
 

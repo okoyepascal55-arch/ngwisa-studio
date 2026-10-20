@@ -38,7 +38,7 @@ function allowed(method, path, body) {
 
 /* The Studio can be served from another origin (the Wix-hosted site) and call this function cross-origin.
    Only the origins listed are allowed: STUDIO_ORIGINS (comma-separated) or the defaults below. */
-const ORIGINS = (process.env.STUDIO_ORIGINS || 'https://ngwisa-gong-gallery-sjkgracee-1309.wix-site-host.com').split(',').map(s => s.trim().replace(/\/+$/, '')).filter(Boolean);
+const ORIGINS = (process.env.STUDIO_ORIGINS || 'https://www.ngwisa.com,https://ngwisa.com,https://ngwisa-gong-gallery-sjkgracee-1309.wix-site-host.com').split(',').map(s => s.trim().replace(/\/+$/, '')).filter(Boolean);
 function cors(req, res) {
   const o = String(req.headers.origin || '').replace(/\/+$/, '');
   if (o && ORIGINS.includes(o)) {
