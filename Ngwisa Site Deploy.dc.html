@@ -9,7 +9,7 @@
 <x-dc>
 <helmet>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=DM+Mono:wght@400;500&display=swap">
-<style>html,body{margin:0;height:100%;background:#141110;color:#FBF8F2;overflow:hidden}*{box-sizing:border-box}a{color:#D81219;text-decoration:none}a:hover{color:#141110}@keyframes hotspotPulse{0%,100%{transform:scale(1);opacity:.45}50%{transform:scale(1.22);opacity:.9}}button{font-family:inherit}::-webkit-scrollbar{width:0;height:0}input::placeholder{color:#8C847B}</style>
+<style>@media (max-width:899px){[data-hb]{padding:0 12px!important;font-size:10px!important;letter-spacing:.1em!important;max-width:36vw;overflow:hidden;text-overflow:ellipsis}[data-hg]{gap:4px!important}}@media (min-width:900px) and (max-width:1100px){[data-nb]{padding:0 9px!important;font-size:10px!important;letter-spacing:.08em!important}[data-hb]{padding:0 12px!important;font-size:10px!important}[data-lw]{display:none!important}[data-logo]{padding:0 9px!important}}@media (max-width:440px){[data-lw]{display:none!important}[data-logo]{padding:0 9px!important}}html,body{margin:0;height:100%;background:#141110;color:#FBF8F2;overflow:hidden}*{box-sizing:border-box}a{color:#D81219;text-decoration:none}a:hover{color:#141110}@keyframes hotspotPulse{0%,100%{transform:scale(1);opacity:.45}50%{transform:scale(1.22);opacity:.9}}button{font-family:inherit}::-webkit-scrollbar{width:0;height:0}input::placeholder{color:#8C847B}</style>
 <script>window.OM_SCENES = '[{"name":"Strike","dur":2.6,"desc":"The gong appears, is struck, and the camera flies through it"},{"name":"Heritage","dur":8.4,"desc":"Six cuts on Toghu looks; each starts close and settles to the full uncropped photo"},{"name":"Modernity","dur":4.4,"desc":"Headline settles left; three portraits rise in gong arches"},{"name":"Gallery","dur":10.8,"desc":"Call and answer: six pairs of full portraits wipe in side by side"},{"name":"Chorus","dur":3.6,"desc":"Tight on the real double gong, pulling back to the whole cast"},{"name":"Lockup","dur":3,"desc":"Welcome, the Ngwisa lockup and tagline, then fade to black for the loop"}]';</script>
 <meta name="ext-resource-dependency" content="assets/gong-mark.png">
 <meta name="ext-resource-dependency" content="ngwisa-parts.js">
@@ -24,22 +24,22 @@
 <div style="position:fixed;inset:0;background:#141110;font-family:'Bricolage Grotesque',sans-serif">
 
 <header style="position:fixed;top:{{ hdrIn }};left:{{ hdrIn }};right:{{ hdrIn }};z-index:60;display:flex;justify-content:space-between;align-items:center;gap:10px;pointer-events:none">
-<button onClick="{{ goHome }}" data-cursor="Home" style="pointer-events:auto;display:flex;align-items:center;gap:10px;height:48px;padding:0 20px 0 12px;border:0;border-radius:999px;background:#FBF8F2;cursor:pointer">
+<button onClick="{{ goHome }}" data-cursor="Home" data-logo="1" aria-label="Ngwisa home" style="pointer-events:auto;flex:none;display:flex;align-items:center;gap:10px;height:48px;padding:0 20px 0 12px;border:0;border-radius:999px;background:#FBF8F2;cursor:pointer">
 <img src="assets/gong-mark.png" alt="Ngwisa" style="height:30px;width:auto;display:block">
-<span style="font:800 15px/1 'Bricolage Grotesque';letter-spacing:.16em;color:#141110">NGWISA</span>
+<span data-lw="1" style="font:800 15px/1 'Bricolage Grotesque';letter-spacing:.16em;color:#141110">NGWISA</span>
 </button>
 <sc-if value="{{ showNav }}" hint-placeholder-val="{{ true }}">
 <nav style="pointer-events:auto;display:flex;gap:2px;padding:5px;border-radius:999px;background:#141110;box-shadow:0 0 0 1px rgba(251,248,242,.12)">
 <sc-for list="{{ navItems }}" as="n" hint-placeholder-count="6">
-<button onClick="{{ n.go }}" style="height:38px;padding:0 16px;border:0;border-radius:999px;background:{{ n.bg }};color:{{ n.ink }};font:500 11px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer;transition:background .3s,color .3s;white-space:nowrap">{{ n.l }}</button>
+<button onClick="{{ n.go }}" data-nb="1" style="height:38px;padding:0 16px;border:0;border-radius:999px;background:{{ n.bg }};color:{{ n.ink }};font:500 11px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer;transition:background .3s,color .3s;white-space:nowrap">{{ n.l }}</button>
 </sc-for>
 </nav>
 </sc-if>
-<div style="pointer-events:auto;display:flex;gap:6px">
-<button onClick="{{ openAcct }}" style="height:48px;padding:0 20px;border:0;border-radius:999px;background:#141110;color:#FBF8F2;font:500 11px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer;white-space:nowrap;box-shadow:0 0 0 1px rgba(251,248,242,.12)" style-hover="background:#D81219">{{ acctLabel }}</button>
-<button onClick="{{ openBag }}" style="height:48px;padding:0 20px;border:0;border-radius:999px;background:#141110;color:#FBF8F2;font:500 11px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer;white-space:nowrap;box-shadow:0 0 0 1px rgba(251,248,242,.12)">BAG ({{ bagCount }})</button>
+<div data-hg="1" style="pointer-events:auto;display:flex;gap:6px;min-width:0">
+<button onClick="{{ openAcct }}" data-hb="1" style="height:48px;padding:0 20px;border:0;border-radius:999px;background:#141110;color:#FBF8F2;font:500 11px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer;white-space:nowrap;box-shadow:0 0 0 1px rgba(251,248,242,.12)" style-hover="background:#D81219">{{ acctLabel }}</button>
+<button onClick="{{ openBag }}" data-hb="1" style="height:48px;padding:0 20px;border:0;border-radius:999px;background:#141110;color:#FBF8F2;font:500 11px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer;white-space:nowrap;box-shadow:0 0 0 1px rgba(251,248,242,.12)">BAG ({{ bagCount }})</button>
 <sc-if value="{{ mob }}" hint-placeholder-val="{{ false }}">
-<button onClick="{{ toggleMenu }}" style="height:48px;padding:0 20px;border:0;border-radius:999px;background:#D81219;color:#FBF8F2;font:500 11px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer">{{ menuLabel }}</button>
+<button onClick="{{ toggleMenu }}" data-hb="1" aria-expanded="{{ menuOpen }}" style="height:48px;padding:0 20px;border:0;border-radius:999px;background:#D81219;color:#FBF8F2;font:500 11px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer">{{ menuLabel }}</button>
 </sc-if>
 </div>
 </header>
@@ -56,13 +56,13 @@
 <div ref="{{ scRef }}" onScroll="{{ onScroll }}" style="position:absolute;inset:0;overflow-y:auto;overflow-x:hidden;scroll-snap-type:y mandatory">
 
 <section data-sec="1" data-screen-label="Home 01 Film" style="position:relative;height:100svh;scroll-snap-align:start;overflow:hidden;background:#0A0807">
-<x-import component-from-global-scope="NgwisaHeroBg" from="./animations-v3.jsx ./ngwisa-reel.jsx ./ngwisa-hero-bg.jsx" fit="cover" hint-size="100%,100%" style="position:absolute;inset:0"></x-import>
-<sc-if value="{{ hasHeroVid }}" hint-placeholder-val="{{ false }}"><video data-v="{{ heroVid }}" data-p="{{ heroPoster }}" ref="{{ vidRef }}" autoPlay="{{ true }}" loop="{{ true }}" muted="{{ true }}" playsInline="{{ true }}" onCanPlay="{{ vidGo }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;background:#0A0807"></video></sc-if>
+<sc-if value="{{ noHeroVid }}" hint-placeholder-val="{{ true }}"><x-import component-from-global-scope="NgwisaHeroBg" from="./animations-v3.jsx ./ngwisa-reel.jsx ./ngwisa-hero-bg.jsx" fit="cover" hint-size="100%,100%" style="position:absolute;inset:0"></x-import></sc-if>
+<sc-if value="{{ hasHeroVid }}" hint-placeholder-val="{{ false }}"><sc-if value="{{ hasHeroPoster }}" hint-placeholder-val="{{ false }}"><img data-s="{{ heroPosterSrc }}" data-ss="{{ heroPosterSet }}" ref="{{ setRef }}" sizes="100vw" alt="" fetchpriority="high" decoding="async" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover"></sc-if><video data-v="{{ heroVid }}" ref="{{ vidRef }}" autoPlay="{{ true }}" loop="{{ true }}" muted="{{ true }}" playsInline="{{ true }}" preload="auto" onCanPlay="{{ vidGo }}" onPlaying="{{ vidOn }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .6s"></video></sc-if>
 <div style="position:absolute;inset:auto 0 0 0;height:34%;background:linear-gradient(180deg,rgba(10,8,7,0),rgba(10,8,7,.7));pointer-events:none"></div>
 </section>
 
 <section data-sec="1" data-screen-label="Home 02 The Loop" style="position:relative;min-height:100svh;scroll-snap-align:start;background:#FBF8F2;display:flex;flex-direction:column;justify-content:center;padding:0 0 32px">
-<x-import component-from-global-scope="ng-loop" headsize="clamp(28px,3.6vw,60px)" from="./ngwisa-parts.js" items="{{ loopNewJson }}" heading="{{ tx.loopHead }}" button="{{ tx.loopBtn }}" size="h2" showcase="1" stitched="1" vhoffset="330" data-link="loop" hint-size="100%,90vh"></x-import>
+<x-import component-from-global-scope="ng-loop" headsize="clamp(28px,3.6vw,60px)" from="./ngwisa-parts.js" items="{{ loopNewJson }}" heading="{{ tx.loopHead }}" button="{{ tx.loopBtn }}" size="h2" showcase="1" stitched="1" vhoffset="330" data-link="loop" hint-size="100%,max(90vh, calc(2090px - 180vw))"></x-import>
 </section>
 
 <section data-sec="1" data-screen-label="Home 03 Women and Men" style="position:relative;min-height:100svh;scroll-snap-align:start;background:#141110;color:#FBF8F2;display:flex;flex-wrap:wrap;gap:8px;padding:84px 8px 8px">
@@ -71,7 +71,7 @@
 <img loading="lazy" decoding="async" data-img="{{ d.img }}" data-kb="1" alt="{{ d.l }}" draggable="false" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:{{ d.pos }};z-index:-2">
 <div aria-hidden="true" style="position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(20,17,16,0) 40%,rgba(20,17,16,.82))"></div>
 <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:16px;flex-wrap:wrap">
-<x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ d.l }}" tone="{{ d.tone }}" size="clamp(28px,3.6vw,60px)" nowrap="1" hint-size="auto,70px"></x-import>
+<x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ d.l }}" tone="{{ d.tone }}" size="clamp(28px,3.6vw,60px)" nowrap="1" hint-size="auto,calc(clamp(28px,3.6vw,60px) * 1.14)"></x-import>
 <span style="display:flex;align-items:center;height:44px;padding:0 20px;border-radius:999px;border:1.5px solid #FBF8F2;color:#FBF8F2;font:500 11px/1 'DM Mono',monospace;letter-spacing:.14em;white-space:nowrap" style-hover="background:#D81219;border-color:#D81219">{{ d.cta }}</span>
 </div>
 </div>
@@ -123,7 +123,7 @@
 </div>
 <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,17,16,.88),rgba(20,17,16,0) 30%,rgba(20,17,16,0) 70%,rgba(20,17,16,.92));pointer-events:none"></div>
 <div style="position:absolute;left:0;right:0;top:0;padding:96px clamp(20px,4vw,56px) 0;display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;pointer-events:none">
-<x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.wornTitle }}" tone="gold" size="clamp(28px,3.6vw,60px)" nowrap="1" hint-size="auto,70px"></x-import>
+<x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.wornTitle }}" tone="gold" size="clamp(28px,3.6vw,60px)" nowrap="1" hint-size="auto,calc(clamp(28px,3.6vw,60px) * 1.14)"></x-import>
 <div style="pointer-events:auto;display:flex;gap:4px;padding:4px;border-radius:999px;background:#141110;box-shadow:0 0 0 1px rgba(251,248,242,.14)">
 <sc-for list="{{ wallFilters }}" as="f" hint-placeholder-count="4">
 <button onClick="{{ f.go }}" style="height:34px;padding:0 14px;border:0;border-radius:999px;background:{{ f.bg }};color:{{ f.ink }};font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer;transition:background .3s,color .3s">{{ f.l }}</button>
@@ -137,7 +137,7 @@
 
 <section data-sec="1" data-screen-label="Home 07 Journal" style="position:relative;min-height:100svh;scroll-snap-align:start;background:#FBF8F2;color:#141110;display:flex;flex-direction:column;justify-content:center;gap:clamp(28px,5vh,56px);padding:110px clamp(20px,4vw,56px) 56px">
 <div data-rv="1" style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap">
-<div style="display:inline-block"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.jrTitle }}" tone="red" size="clamp(28px,4.5vw,75px)" nowrap="1" hint-size="auto,70px"></x-import></div>
+<div style="display:inline-block"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.jrTitle }}" tone="red" size="clamp(28px,4.5vw,75px)" nowrap="1" hint-size="auto,calc(clamp(28px,4.5vw,75px) * 1.14)"></x-import></div>
 <span style="font:500 11px/1 'DM Mono',monospace;letter-spacing:.18em;color:#D81219">{{ tx.jrKick }}</span>
 </div>
 <div style="display:flex;flex-direction:column">
@@ -155,7 +155,7 @@
 <section data-sec="1" data-screen-label="Home 08 Letters" style="position:relative;min-height:100svh;scroll-snap-align:start;background:#141110;color:#FBF8F2;display:flex;flex-direction:column;justify-content:space-between;gap:40px;padding:100px clamp(20px,4vw,56px) 28px;overflow:hidden">
 <div style="flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px">
 <div style="display:flex;flex-direction:column;align-items:center;gap:12px;text-align:center">
-<div style="display:inline-block"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.newsTitle }}" tone="gold" size="clamp(28px,3.6vw,60px)" nowrap="1" hint-size="auto,90px"></x-import></div>
+<div style="display:inline-block"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.newsTitle }}" tone="gold" size="clamp(28px,3.6vw,60px)" nowrap="1" hint-size="auto,calc(clamp(28px,3.6vw,60px) * 1.14)"></x-import></div>
 </div>
 <div onClick="{{ openEnv }}" data-cursor="{{ envCursor }}" style="position:relative;width:min(560px,86vw);aspect-ratio:1.6;perspective:1400px;cursor:pointer;transform:translateY({{ envShift }});transition:transform .9s cubic-bezier(.6,0,.2,1) .2s">
 <div style="position:absolute;inset:0;border-radius:6px;background:#DCD3C6"></div>
@@ -210,7 +210,7 @@
 <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:48px">
 <div style="display:flex;flex-direction:column;gap:14px;max-width:760px">
 <div style="display:flex;flex-direction:column;gap:2px">
-<x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.bestA }}" tone="red" size="clamp(28px,3.6vw,60px)" nowrap="1" hint-size="auto,90px"></x-import>
+<x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.bestA }}" tone="red" size="clamp(28px,3.6vw,60px)" nowrap="1" hint-size="auto,calc(clamp(28px,3.6vw,60px) * 1.14)"></x-import>
 <span style="font:italic 500 clamp(28px,3.6vw,60px)/1 'Bricolage Grotesque';letter-spacing:-.04em;color:#8E1A1E">{{ tx.bestB }}</span>
 </div>
 <p style="margin:8px 0 0;max-width:520px;font:italic 400 15px/1.5 'Bricolage Grotesque';color:#6A6057;text-wrap:pretty">{{ tx.bestSub }}</p>
@@ -304,7 +304,7 @@
 <sc-if value="{{ isLoop }}" hint-placeholder-val="{{ false }}">
 <div ref="{{ scRef }}" onScroll="{{ onScroll }}" style="position:absolute;inset:0;overflow-y:auto;scroll-snap-type:y mandatory;background:#FBF8F2;color:#141110">
 <section data-sec="1" data-screen-label="Loop 01 Every piece" style="position:relative;min-height:100svh;scroll-snap-align:start;background:#FBF8F2;display:flex;flex-direction:column;justify-content:center;padding:84px 0 24px">
-<x-import component-from-global-scope="ng-loop" from="./ngwisa-parts.js" items="{{ loopAllJson }}" noheading="1" showcase="1" stitched="1" vhoffset="170" data-link="shop" hint-size="100%,90vh"></x-import>
+<x-import component-from-global-scope="ng-loop" from="./ngwisa-parts.js" items="{{ loopAllJson }}" noheading="1" showcase="1" stitched="1" vhoffset="170" data-link="shop" hint-size="100%,max(90vh, calc(2000px - 180vw))"></x-import>
 </section>
 </div>
 </sc-if>
@@ -322,14 +322,14 @@
 <img loading="lazy" decoding="async" ref="{{ mref }}" data-v="{{ si.fdFashion }}" data-w="840628_2d11be200ba84d80bd4e7e6498481328~mv2.jpg" alt="{{ si.fdFashionAlt }}" style="width:100%;height:100%;object-fit:cover;object-position:{{ si.fdFashionPos }}">
 </div>
 <div data-rv="1" style="flex:1.2 1 380px;display:flex;flex-direction:column;gap:22px;max-width:640px">
-<div style="width:100%;max-width:1200px"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.desTitle }}" tone="red" size="clamp(28px,3.6vw,60px)" hint-size="100%,90px"></x-import></div>
+<div style="width:100%;max-width:1200px"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.desTitle }}" tone="red" size="clamp(28px,3.6vw,60px)" hint-size="auto,calc(clamp(28px,3.6vw,60px) * 1.14)"></x-import></div>
 <p style="margin:0;font:400 18px/1.55 'Bricolage Grotesque';color:#4A433D;text-wrap:pretty">{{ tx.des1 }}</p>
 <p style="margin:0;font:400 18px/1.55 'Bricolage Grotesque';color:#4A433D;text-wrap:pretty">{{ tx.des2 }}</p>
 <p style="margin:0;font:400 18px/1.55 'Bricolage Grotesque';color:#4A433D;text-wrap:pretty">{{ tx.des3 }}</p>
 </div>
 </section>
 <section data-sec="1" data-screen-label="Founders 03 Our project" style="position:relative;min-height:100svh;scroll-snap-align:start;background:#141110;color:#FBF8F2;display:flex;flex-direction:column;justify-content:center;gap:40px;padding:110px clamp(20px,4vw,56px) 56px">
-<div data-rv="1" style="width:100%;max-width:1200px"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.craftTitle }}" tone="gold" size="clamp(28px,3.6vw,60px)" hint-size="100%,90px"></x-import></div>
+<div data-rv="1" style="width:100%;max-width:1200px"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.craftTitle }}" tone="gold" size="clamp(28px,3.6vw,60px)" hint-size="auto,calc(clamp(28px,3.6vw,60px) * 1.14)"></x-import></div>
 <div style="display:flex;flex-wrap:wrap;gap:28px;align-items:flex-end;justify-content:space-between">
 <p style="margin:0;max-width:560px;font:400 18px/1.55 'Bricolage Grotesque';color:#BDB4A9;text-wrap:pretty">{{ tx.craftBody }}</p>
 <div style="display:flex;gap:10px">
@@ -340,7 +340,7 @@
 </section>
 <section data-sec="1" data-screen-label="Founders 04 Vision" style="position:relative;min-height:100svh;scroll-snap-align:start;background:#F4F0EA;color:#141110;display:flex;flex-direction:column;justify-content:center;gap:36px;padding:110px clamp(20px,4vw,56px) 56px">
 <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap">
-<div style="display:inline-block"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.visTitle }}" tone="red" size="clamp(28px,3.6vw,60px)" nowrap="1" hint-size="auto,130px"></x-import></div>
+<div style="display:inline-block"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.visTitle }}" tone="red" size="clamp(28px,3.6vw,60px)" nowrap="1" hint-size="auto,calc(clamp(28px,3.6vw,60px) * 1.14)"></x-import></div>
 </div>
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:10px">
 <div data-rv="1" style="min-height:300px;border-radius:18px;background:#141110;color:#FBF8F2;padding:clamp(24px,3vw,40px);display:flex;flex-direction:column;justify-content:space-between;gap:28px">
@@ -374,7 +374,7 @@
 <img loading="lazy" decoding="async" data-kb="1" ref="{{ mref }}" data-v="{{ si.hrHero }}" data-w="840628_b18b05eb2f1b4f72b151cc55306e47fa~mv2.jpg" alt="{{ si.hrHeroAlt }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:{{ si.hrHeroPos }};filter:brightness(.5)">
 <div style="position:absolute;left:0;right:0;bottom:0;padding:0 clamp(20px,4vw,56px) 44px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap">
 <div style="display:flex;flex-direction:column;gap:16px">
-<div data-rv="1" style="width:100%;max-width:1200px"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.tgTitle }}" tone="gold" size="clamp(28px,3.6vw,60px)" hint-size="100%,90px"></x-import></div>
+<div data-rv="1" style="width:100%;max-width:1200px"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.tgTitle }}" tone="gold" size="clamp(28px,3.6vw,60px)" hint-size="auto,calc(clamp(28px,3.6vw,60px) * 1.14)"></x-import></div>
 </div>
 </div>
 </section>
@@ -390,7 +390,7 @@
 </section>
 <section data-sec="1" data-screen-label="Heritage 03 Through time" style="position:relative;min-height:100svh;scroll-snap-align:start;background:#141110;color:#FBF8F2;display:flex;flex-direction:column;justify-content:center;gap:36px;padding:110px 0 56px">
 <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;padding:0 clamp(20px,4vw,56px)">
-<div style="display:inline-block"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.ttTitle }}" tone="gold" size="clamp(28px,3.6vw,60px)" nowrap="1" hint-size="auto,130px"></x-import></div>
+<div style="display:inline-block"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.ttTitle }}" tone="gold" size="clamp(28px,3.6vw,60px)" nowrap="1" hint-size="auto,calc(clamp(28px,3.6vw,60px) * 1.14)"></x-import></div>
 </div>
 <div data-drag="1" style="display:flex;gap:10px;overflow-x:auto;padding:0 clamp(20px,4vw,56px);cursor:grab;user-select:none">
 <div style="flex:none;width:clamp(260px,26vw,380px);min-height:380px;border-radius:200px 200px 18px 18px;background:#2A2421;padding:clamp(24px,2.6vw,36px);display:flex;flex-direction:column;justify-content:flex-end;gap:14px"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#E3A72F">{{ tx.tt1k }}</span><h3 style="margin:0;font:400 34px/1 'Bricolage Grotesque';letter-spacing:-.03em">{{ tx.tt1h }}</h3><p style="margin:0;font:400 16px/1.5 'Bricolage Grotesque';color:#BDB4A9">{{ tx.tt1 }}</p></div>
@@ -402,7 +402,7 @@
 </section>
 <section data-sec="1" data-screen-label="Heritage 04 Colours" style="position:relative;min-height:100svh;scroll-snap-align:start;background:#FBF8F2;color:#141110;display:flex;flex-direction:column;justify-content:center;gap:28px;padding:110px clamp(20px,4vw,56px) 56px">
 <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap">
-<div style="display:inline-block"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.colTitle }}" tone="red" size="clamp(28px,3.6vw,60px)" nowrap="1" hint-size="auto,130px"></x-import></div>
+<div style="display:inline-block"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.colTitle }}" tone="red" size="clamp(28px,3.6vw,60px)" nowrap="1" hint-size="auto,calc(clamp(28px,3.6vw,60px) * 1.14)"></x-import></div>
 </div>
 <div style="display:flex;flex-direction:column">
 <div style="display:grid;grid-template-columns:clamp(60px,10vw,160px) minmax(0,1fr);gap:24px;align-items:center;padding:20px 0;border-top:1.5px dashed rgba(20,17,16,.3)"><div style="height:18px;border-radius:9px;background:repeating-linear-gradient(90deg,#141110 0 3px,#3A3230 3px 4.6px)"></div><div style="display:flex;gap:20px;flex-wrap:wrap;align-items:baseline"><span style="font:400 clamp(28px,3vw,44px)/1 'Bricolage Grotesque';letter-spacing:-.03em;min-width:140px">{{ tx.colBlackN }}</span><span style="flex:1 1 300px;font:400 17px/1.5 'Bricolage Grotesque';color:#4A433D">{{ tx.colBlack }}</span></div></div>
@@ -413,7 +413,7 @@
 </section>
 <section data-sec="1" data-screen-label="Heritage 05 Made by hand" style="position:relative;min-height:100svh;scroll-snap-align:start;background:#F4F0EA;color:#141110;display:flex;flex-direction:column;justify-content:center;gap:32px;padding:110px clamp(20px,4vw,56px) 56px">
 <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap">
-<div style="display:inline-block"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.mkTitle }}" tone="red" size="clamp(28px,3.6vw,60px)" nowrap="1" hint-size="auto,130px"></x-import></div>
+<div style="display:inline-block"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.mkTitle }}" tone="red" size="clamp(28px,3.6vw,60px)" nowrap="1" hint-size="auto,calc(clamp(28px,3.6vw,60px) * 1.14)"></x-import></div>
 </div>
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:10px">
 <div data-rv="1" style="min-height:260px;border-radius:18px;background:#FBF8F2;padding:26px;display:flex;flex-direction:column;justify-content:space-between;gap:24px"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#6B635B">{{ tx.mk1k }}</span><div style="display:flex;flex-direction:column;gap:10px"><h3 style="margin:0;font:400 36px/1 'Bricolage Grotesque';letter-spacing:-.03em">{{ tx.mk1h }}</h3><p style="margin:0;font:400 16px/1.5 'Bricolage Grotesque';color:#4A433D">{{ tx.mk1 }}</p></div></div>
@@ -426,7 +426,7 @@
 <img loading="lazy" decoding="async" data-kb="1" ref="{{ mref }}" data-v="{{ si.hrToday }}" data-w="840628_0edea388c81e4fb096e125a724ec7be2~mv2.jpg" alt="{{ si.hrTodayAlt }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:{{ si.hrTodayPos }};filter:brightness(.5)">
 <div style="position:absolute;left:0;right:0;bottom:0;padding:0 clamp(20px,4vw,56px) 44px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap">
 <div style="display:flex;flex-direction:column;gap:16px">
-<div style="width:100%;max-width:1200px"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.tgOut }}" tone="gold" size="clamp(28px,3.6vw,60px)" hint-size="100%,130px"></x-import></div>
+<div style="width:100%;max-width:1200px"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.tgOut }}" tone="gold" size="clamp(28px,3.6vw,60px)" hint-size="auto,calc(clamp(28px,3.6vw,60px) * 1.14)"></x-import></div>
 </div>
 <button onClick="{{ goShop }}" style="height:48px;padding:0 26px;border:0;border-radius:999px;background:#FBF8F2;color:#141110;font:500 11px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer" style-hover="background:#D81219;color:#FBF8F2">{{ tx.tgShop }}</button>
 </div>
@@ -439,12 +439,12 @@
 <section data-sec="1" data-screen-label="Journal 01 On stage" style="position:relative;height:100svh;scroll-snap-align:start;overflow:hidden;background:#141110;color:#FBF8F2">
 <img loading="lazy" decoding="async" data-kb="1" ref="{{ mref }}" data-v="{{ si.jnHero }}" data-w="840628_3d8be738c2ca47d9b44641cfa45c7052~mv2.jpg" alt="{{ si.jnHeroAlt }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:{{ si.jnHeroPos }};filter:brightness(.5)">
 <div style="position:absolute;left:0;right:0;bottom:0;padding:0 clamp(20px,4vw,56px) 44px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap">
-<div data-rv="1" style="flex:1 1 520px;max-width:900px"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.apTitle }}" tone="gold" size="clamp(28px,3.6vw,60px)" hint-size="100%,90px"></x-import></div>
+<div data-rv="1" style="flex:1 1 520px;max-width:900px"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.apTitle }}" tone="gold" size="clamp(28px,3.6vw,60px)" hint-size="auto,calc(clamp(28px,3.6vw,60px) * 1.14)"></x-import></div>
 <p style="margin:0;flex:0 1 380px;font:400 17px/1.55 'Bricolage Grotesque';color:#DCD3C6;text-wrap:pretty">{{ tx.apSub }}</p>
 </div>
 </section>
 <section data-sec="1" data-screen-label="Journal 02 Appearances" style="position:relative;min-height:100svh;scroll-snap-align:start;background:#FBF8F2;color:#141110;display:flex;flex-direction:column;justify-content:center;gap:clamp(28px,5vh,56px);padding:110px clamp(20px,4vw,56px) 56px">
-<div data-rv="1" style="display:inline-block"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.jnAppH }}" tone="red" size="clamp(28px,3.6vw,60px)" nowrap="1" hint-size="auto,70px"></x-import></div>
+<div data-rv="1" style="display:inline-block"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.jnAppH }}" tone="red" size="clamp(28px,3.6vw,60px)" nowrap="1" hint-size="auto,calc(clamp(28px,3.6vw,60px) * 1.14)"></x-import></div>
 <div style="display:flex;flex-direction:column;border-bottom:1.5px dashed rgba(20,17,16,.35)">
 <sc-for list="{{ evAll }}" as="e" hint-placeholder-count="5">
 <button onClick="{{ e.open }}" data-jimg="{{ e.img }}" style="display:grid;grid-template-columns:{{ evCols }};gap:clamp(14px,2vw,32px);align-items:baseline;padding:clamp(18px,2.6vh,28px) 0;border:0;border-top:1.5px dashed rgba(20,17,16,.35);background:none;color:#141110;text-align:left;cursor:pointer;transition:padding .5s cubic-bezier(.3,0,.2,1),color .3s" style-hover="padding-left:18px;color:#D81219">
@@ -461,7 +461,7 @@
 </div>
 <div data-rv="1" style="flex:1.2 1 380px;display:flex;flex-direction:column;gap:22px;max-width:640px">
 <span style="font:400 18px/1.3 'Bricolage Grotesque';color:#E3A72F">{{ ev0.meta }}</span>
-<div style="width:100%"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ ev0.t }}" tone="gold" size="clamp(28px,3.6vw,60px)" hint-size="100%,90px"></x-import></div>
+<div style="width:100%"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ ev0.t }}" tone="gold" size="clamp(28px,3.6vw,60px)" hint-size="auto,calc(clamp(28px,3.6vw,60px) * 1.14)"></x-import></div>
 <p style="margin:0;font:400 18px/1.55 'Bricolage Grotesque';color:#BDB4A9;text-wrap:pretty">{{ ev0.body }}</p>
 <div style="display:flex;gap:10px">
 <div style="width:clamp(90px,9vw,130px);aspect-ratio:3/4;border-radius:200px 200px 14px 14px;overflow:hidden"><img loading="lazy" decoding="async" ref="{{ mref }}" data-v="{{ si.jnAtelier1 }}" data-w="840628_f4d7988af81645298f3e2c4e89acb8ec~mv2.jpg" alt="{{ si.jnAtelier1Alt }}" style="width:100%;height:100%;object-fit:cover;object-position:{{ si.jnAtelier1Pos }}"></div>
@@ -472,7 +472,7 @@
 </div>
 </section>
 <section data-sec="1" data-screen-label="Journal 04 From the atelier" style="position:relative;min-height:100svh;scroll-snap-align:start;background:#F4F0EA;color:#141110;display:flex;flex-direction:column;justify-content:center;gap:clamp(28px,5vh,56px);padding:110px clamp(20px,4vw,56px) 56px">
-<div data-rv="1" style="display:inline-block"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.jnAtelierH }}" tone="red" size="clamp(28px,3.6vw,60px)" nowrap="1" hint-size="auto,70px"></x-import></div>
+<div data-rv="1" style="display:inline-block"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.jnAtelierH }}" tone="red" size="clamp(28px,3.6vw,60px)" nowrap="1" hint-size="auto,calc(clamp(28px,3.6vw,60px) * 1.14)"></x-import></div>
 <div style="display:flex;flex-direction:column">
 <sc-for list="{{ articles }}" as="a" hint-placeholder-count="3">
 <button onClick="{{ a.open }}" data-jimg="{{ a.img }}" style="display:grid;grid-template-columns:{{ jCols }};gap:{{ jGap }};align-items:center;padding:22px 0;border:0;border-top:1.5px dashed rgba(20,17,16,.35);background:none;color:#141110;text-align:left;cursor:pointer;transition:padding .5s cubic-bezier(.3,0,.2,1),color .3s" style-hover="padding-left:18px;color:#D81219">
@@ -485,7 +485,7 @@
 </div>
 </section>
 <section data-sec="1" data-screen-label="Journal 05 Invite" style="position:relative;min-height:100svh;scroll-snap-align:start;background:#141110;color:#FBF8F2;display:flex;flex-direction:column;justify-content:center;gap:32px;padding:110px clamp(20px,4vw,56px) 56px">
-<div data-rv="1" style="width:100%;max-width:1000px"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.apInvTitle }}" tone="gold" size="clamp(28px,3.6vw,60px)" hint-size="100%,90px"></x-import></div>
+<div data-rv="1" style="width:100%;max-width:1000px"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.apInvTitle }}" tone="gold" size="clamp(28px,3.6vw,60px)" hint-size="auto,calc(clamp(28px,3.6vw,60px) * 1.14)"></x-import></div>
 <p style="margin:0;max-width:560px;font:400 18px/1.55 'Bricolage Grotesque';color:#BDB4A9;text-wrap:pretty">{{ tx.apInv }}</p>
 <a href="mailto:info.ngwisa@gmail.com?subject=Invitation" style="align-self:flex-start;height:52px;padding:0 28px;display:flex;align-items:center;border-radius:999px;background:#FBF8F2;color:#141110;font:500 11px/1 'DM Mono',monospace;letter-spacing:.16em" style-hover="background:#D81219;color:#FBF8F2">{{ tx.apInvBtn }}</a>
 </section>
@@ -496,7 +496,7 @@
 <div data-pp="1" style="position:fixed;inset:0;z-index:72;overflow-y:auto;color:#141110;background-color:#F8F5EF;background-image:repeating-linear-gradient(180deg,rgba(20,17,16,0) 0 39px,rgba(20,17,16,.045) 39px 40px),radial-gradient(rgba(20,17,16,.05) .7px,rgba(20,17,16,0) .9px);background-size:100% 40px,6px 6px">
 <section data-screen-label="Product page" style="min-height:100svh;display:flex;flex-wrap:wrap;gap:8px;padding:84px 18px 18px">
 <div style="position:relative;flex:1.25 1 480px;min-width:0;min-height:min(calc(100svh - 102px),900px);border-radius:18px;overflow:hidden;background:#1E1A18">
-<img loading="lazy" decoding="async" data-img="{{ pp.main }}" alt="{{ pp.name }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 20%">
+<img fetchpriority="high" decoding="async" data-s="{{ pp.mainSrc }}" data-ss="{{ pp.mainSet }}" ref="{{ setRef }}" sizes="(max-width: 899px) 92vw, 54vw" alt="{{ pp.name }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 20%">
 <div style="position:absolute;left:18px;bottom:18px;display:flex;gap:12px">
 <sc-for list="{{ pp.thumbs }}" as="th" hint-placeholder-count="3">
 <button onClick="{{ th.pick }}" style="width:78px;height:100px;padding:0;border:0;border-radius:39px 39px 10px 10px;overflow:hidden;cursor:pointer;box-shadow:0 0 0 4px {{ th.ring }},0 10px 18px -10px rgba(0,0,0,.5);transition:box-shadow .3s"><img loading="lazy" decoding="async" data-img="{{ th.src }}" alt="" style="width:100%;height:100%;object-fit:cover;object-position:50% 20%;display:block"></button>
@@ -511,7 +511,7 @@
 <p style="white-space:pre-line;margin:0;max-width:540px;font:400 17px/1.55 'Bricolage Grotesque';color:#3A3430;text-wrap:pretty">{{ pp.desc }}</p>
 </div>
 <div style="display:flex;flex-direction:column;gap:14px">
-<div style="display:flex;justify-content:space-between;align-items:center;gap:12px"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#6A6057">SIZE</span><button onClick="{{ openSG }}" style="padding:0;border:0;background:none;cursor:pointer;font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#141110;text-decoration:underline;text-underline-offset:3px">SIZE GUIDE →</button></div>
+<div style="display:flex;justify-content:space-between;align-items:center;gap:12px"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#6A6057">SIZE</span><button onClick="{{ openSG }}" style="min-height:44px;padding:0 4px;margin:-12px -4px;border:0;background:none;cursor:pointer;font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#141110;text-decoration:underline;text-underline-offset:3px">SIZE GUIDE →</button></div>
 <div style="display:flex;gap:6px;flex-wrap:wrap">
 <sc-for list="{{ pp.sizes }}" as="z" hint-placeholder-count="3">
 <button onClick="{{ z.pick }}" style="min-width:72px;padding:11px 14px;border-radius:14px;border:1.5px solid {{ z.bd }};background:{{ z.bg }};color:{{ z.ink }};display:flex;flex-direction:column;align-items:center;gap:6px;cursor:pointer;transition:background .25s,color .25s">
@@ -575,7 +575,7 @@
 </div>
 <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(20,17,16,.88),rgba(20,17,16,0) 30%,rgba(20,17,16,0) 70%,rgba(20,17,16,.92));pointer-events:none"></div>
 <div style="position:absolute;left:0;right:0;top:0;padding:96px clamp(20px,4vw,56px) 0;display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;pointer-events:none">
-<x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.wornTitle }}" tone="gold" size="clamp(28px,3.6vw,60px)" nowrap="1" hint-size="auto,70px"></x-import>
+<x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.wornTitle }}" tone="gold" size="clamp(28px,3.6vw,60px)" nowrap="1" hint-size="auto,calc(clamp(28px,3.6vw,60px) * 1.14)"></x-import>
 
 </div>
 <div style="position:absolute;left:0;right:0;bottom:0;padding:0 clamp(20px,4vw,56px) 30px;display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap">
@@ -664,7 +664,7 @@
 <button onClick="{{ tb.go }}" style="height:36px;padding:0 16px;border:0;border-radius:999px;background:{{ tb.bg }};color:{{ tb.ink }};font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer;transition:background .3s,color .3s">{{ tb.l }}</button>
 </sc-for>
 </div>
-<x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ acct.title }}" tone="red" size="clamp(28px,3.6vw,60px)" hint-size="100%,90px"></x-import>
+<x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ acct.title }}" tone="red" size="clamp(28px,3.6vw,60px)" hint-size="auto,calc(clamp(28px,3.6vw,60px) * 1.14)"></x-import>
 <p style="margin:0;font:400 17px/1.55 'Bricolage Grotesque';color:#3A3430;text-wrap:pretty">{{ acct.sub }}</p>
 <sc-if value="{{ acct.isReg }}" hint-placeholder-val="{{ false }}">
 <div style="display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px">
@@ -679,7 +679,7 @@
 </sc-if>
 <sc-if value="{{ acct.verify }}" hint-placeholder-val="{{ false }}">
 <div style="display:flex;flex-direction:column;gap:18px;max-width:520px">
-<x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="Check your email." tone="red" size="clamp(28px,3.6vw,60px)" hint-size="100%,90px"></x-import>
+<x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="Check your email." tone="red" size="clamp(28px,3.6vw,60px)" hint-size="auto,calc(clamp(28px,3.6vw,60px) * 1.14)"></x-import>
 <p style="margin:0;font:400 17px/1.55 'Bricolage Grotesque';color:#3A3430;text-wrap:pretty">We sent a code to {{ acct.emailV }}. Enter it to finish.</p>
 <input value="{{ acct.code }}" onChange="{{ acct.setCode }}" inputmode="numeric" placeholder="Code" autocomplete="one-time-code" style="height:50px;padding:0 18px;border-radius:999px;border:1.5px solid #141110;background:transparent;font:400 16px 'Bricolage Grotesque';color:#141110;outline:none;min-width:0">
 <button onClick="{{ acct.doVerify }}" style="height:52px;padding:0 28px;border:0;border-radius:999px;background:#141110;color:#FBF8F2;font:500 11px/1 'DM Mono',monospace;letter-spacing:.16em;cursor:pointer;align-self:flex-start" style-hover="background:#D81219">{{ acct.vcta }}</button>
@@ -687,7 +687,7 @@
 </sc-if>
 <sc-if value="{{ acct.pending }}" hint-placeholder-val="{{ false }}">
 <div style="display:flex;flex-direction:column;gap:18px;max-width:520px">
-<x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="Almost there." tone="red" size="clamp(28px,3.6vw,60px)" hint-size="100%,90px"></x-import>
+<x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="Almost there." tone="red" size="clamp(28px,3.6vw,60px)" hint-size="auto,calc(clamp(28px,3.6vw,60px) * 1.14)"></x-import>
 <p style="margin:0;font:400 17px/1.55 'Bricolage Grotesque';color:#3A3430;text-wrap:pretty">Your account is waiting for the atelier to approve it. We’ll email you as soon as it’s ready.</p>
 </div>
 </sc-if>
@@ -702,7 +702,7 @@
 <button onClick="{{ closeAcct }}" style="align-self:flex-start;height:40px;padding:0 18px;border:0;border-radius:999px;background:#FBF8F2;color:#141110;font:500 11px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer" style-hover="background:#D81219;color:#FBF8F2">← BACK</button>
 <div style="display:flex;flex-direction:column;gap:12px">
 <span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.18em;color:#E3A72F">MY NGWISA</span>
-<x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ acct.hello }}" tone="gold" size="clamp(28px,3vw,48px)" hint-size="100%,80px"></x-import>
+<x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ acct.hello }}" tone="gold" size="clamp(28px,3vw,48px)" hint-size="auto,calc(clamp(28px,3vw,48px) * 1.14)"></x-import>
 <span style="font:400 15px/1.4 'Bricolage Grotesque';color:#BDB4A9;overflow-wrap:anywhere">{{ acct.email }}</span>
 <span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em;color:#8F857A">{{ acct.since }}</span>
 </div>
@@ -993,6 +993,13 @@ const PH = {
 const IMG = n => PH[n] || n;
 /* Ask Wix for each photo at the size it is shown, not the original (product originals run to 20 MB+). */
 const RZ = (u, w) => window.NGR ? window.NGR(u, w) : u;
+/* The opening still: the same widths the built page preloads (scripts/build-wix.js), so the browser fetches it once. */
+/* A piece's main photo: the browser picks the width for the screen; built product pages preload the same set. */
+const PP_SET = u => [480, 800, 1200, 1600].map(w => RZ(u, w) + ' ' + w + 'w').join(', ');
+const HERO_SET = u => [640, 960, 1280, 1920].map(w => RZ(u, w) + ' ' + w + 'w').join(', ');
+/* Images placed while the page renders are sized together on the next frame (one layout pass for all of them). */
+const IMGQ = (() => { let q = [], on = false; const flush = () => { on = false; const list = q; q = []; const ws = list.map(x => SHOWN(x[0])); list.forEach((x, k) => x[0].setAttribute('src', RZ(x[1], ws[k]))); };
+  return (el, v) => { q.push([el, v]); if (!on) { on = true; requestAnimationFrame(flush); } }; })();
 const SHOWN = el => { const w = el.clientWidth || (el.parentElement && el.parentElement.clientWidth) || 0; return w ? Math.min(2400, Math.ceil(w * Math.min(2, window.devicePixelRatio || 1) / 400) * 400) : 1200; };
 const THIRD = { 'rahrah': '03604', 'rahrah-white': '03607', 'main-character': '03402', 'manyi': '03621', 'mawa': '03603', 'mimche': '03127', 'muna': '03622', 'mita-dress': '04456', 'yem': '03382', 'mita-set': '04258', 'tatah': '02571', 'gong-waistcoat': '04456' };
 const P = [
@@ -1087,9 +1094,9 @@ const FRAMES = { Oxblood: ['#3A0C0F', 'rgba(240,48,47,.18)'], Ink: ['#0E0C0B', '
 
 const COPY_DEF = {"wornTag":"Tag @_ngwisa_ and we’ll hang you here.","wornTitle":"Worn. Filmed. Kept.","bestA":"The ones that","bestB":"keep leaving the rack.","bestSub":"Hand-picked by the atelier — the four pieces we make, remake and still can’t keep on the rack.","jrTitle":"Journal","jrKick":"STORIES FROM THE ATELIER","newsTitle":"Letters from the atelier","newsLine":"New pieces, restocks and the odd story from Manchester. Only when there is something to say.","newsDone":"You’re on the list. The next letter is yours.","footLine":"Where heritage meets modernity. Cameroonian craftsmanship for today’s world.","addr":"Wellington House\n4 Pollard Street East\nManchester M40 7FS","email":"info.ngwisa@gmail.com","phone":"+44 7778 170330","location":"4 Pollard Street East, Manchester M40 7FS","quote":"“We want every piece to feel special: not simply something you wear, but something you embody.”","desTitle":"Designed with the modern wearer in mind.","des1":"Each piece is created with flattering silhouettes that enhance the body while offering comfort, sophistication and ease.","des2":"At the heart of our designs is the hand-embroidered artistry of Cameroon’s traditional Toghu, integrated into contemporary silhouettes so every piece feels luxurious and unique without giving up wearability.","des3":"Versatility is central. Our staples move from elevated everyday dressing to celebrations, styled your way. Timeless sophistication meets cultural identity: refined, yet distinctive.","craftTitle":"Cultural craftsmanship doesn’t belong only in traditional dress.","craftBody":"We bring Toghu into modern, sophisticated silhouettes, creating a space where heritage, luxury and contemporary design exist together. Worn for an occasion or every day, our designs ask you to embrace your individuality with elegance.","visTitle":"Our vision","vis1h":"Global heritage fashion","vis1":"A globally recognised heritage brand redefining contemporary African luxury through Cameroonian craftsmanship, where Toghu is celebrated beyond its traditional context and creates lasting opportunities for the artisans and communities who preserve it.","vis2h":"Confidence & presence","vis2":"Fashion that changes how people see themselves: entering any room feeling powerful, distinguished and worthy. Every garment an expression of personal art in style.","tgTitle":"A cloth once reserved for kings.","tgBody":"Toghu comes from the Grassfields of North-West Cameroon: black cloth, embroidered by hand in red, yellow and white. Each motif carries meaning, and wearing it once spoke of rank before a word was said.","tgRegion":"The Grassfields, North-West Cameroon","tgAka":"Atoghu","tgGround":"Black cloth, today often velvet","tgThread":"Red, yellow and white, by hand","tgWorn":"Enthronements, weddings, funerals, festivals","ttTitle":"Through time","tt1h":"Fons and queens","tt1":"First worn by the Fon, his queens and title holders. The cloth showed rank before a word was spoken.","tt2h":"The big days","tt2":"Enthronements, weddings and funerals. Toghu marks the moments a community gathers.","tt3h":"A shared pride","tt3":"Worn far beyond the Grassfields, it became a symbol of Cameroon itself.","tt4h":"Home, carried","tt4":"Graduations in London, weddings in Houston. A way to bring home into the room.","tt5h":"Every day","tt5":"Ngwisa cuts it into corsets, dresses and tailoring, for days that aren’t ceremonies.","colTitle":"Four colours","colBlack":"The ground. The land, the night and the ancestors who stand behind every wearer.","colRed":"Royalty and life. The colour of the Fon, and of the blood that ties a family together.","colYellow":"Wealth and the harvest. Gold thread for a full granary and a prosperous house.","colWhite":"Peace and purity. The colour of blessing, worn when the community gives thanks.","mkTitle":"Made by hand","mk1":"The motif is marked onto the velvet in chalk, by eye and by memory.","mk2":"Artisans stitch it thread by thread, by hand. No two pieces land exactly alike.","mk3":"The embroidered velvet becomes a modern shape: a corset, a shirt dress, a tiered skirt.","mk4":"Every piece is checked, pressed and packed by hand.","tgOut":"Toghu, beyond its traditional context.","apTitle":"On the runway, in the room.","apSub":"The shows, conferences and showcases where Ngwisa has carried Toghu onto the stage.","apInvTitle":"Bring the gong to your stage.","apInv":"We take part in runway shows, panels, exhibitions and cultural showcases. For invitations, collaborations and press, write to the atelier.","st1T":"Toghu, beyond the ceremony","st1K":"OUR PROJECT · 4 MIN","st1P1":"Toghu has always been worn for the big days: enthronements, weddings, the moments a community gathers. Its embroidery is dense with meaning, stitched by hand in red, yellow and white on black.","st1P2":"Our purpose is to challenge the idea that cultural craftsmanship belongs only in traditional dress. We bring Toghu into modern, sophisticated silhouettes — a corset, a shirt dress, a tiered skirt — creating a space where heritage, luxury and contemporary design can exist together.","st1P3":"Whether worn for an occasion or folded into everyday life, the pieces ask you to embrace your individuality with elegance.","st1Cta":"READ ABOUT TOGHU →","st2T":"Meet the main character","st2K":"THE GONGBELL · 3 MIN","st2P1":"Every collection needs one piece that ties everything together. In The Gongbell, it is the corset.","st2P2":"Strongly structured and waist-cinching, it follows the torso and tapers inward to create an hourglass. Each cup carries the detailed Ngwisa gong design.","st2P3":"It pairs with every other piece in the collection — the fringe skirts, the tiered ruffles, the tailoring. The main character, for real.","st2Cta":"SHOP THE CORSET →","st3T":"Brought back, by request","st3K":"THE ATELIER · 3 MIN","st3P1":"Some pieces don’t leave. The Rahrah set and the Manyi top both come from our previous collection, and they were so well loved that we had to bring them back.","st3P2":"This time they return carrying the gong: the Rahrah’s structured velvet corset over red brushed fringe, and the Manyi’s zip-front top with a twin gong design.","st3P3":"The Rahrah now comes in white fringe too, and once — just once — in baby blue.","st3Cta":"SHOP THE RAHRAH →","wallTag":"#WornByNgwisa","wallShop":"SHOP THE LOOK →","wallIg":"@_NGWISA_ ON INSTAGRAM →","wallQ1K":"FROM THE FOUNDER","wallQ1":"Not simply something you wear, but something you embody.","wallQ2K":"NGWISA","wallQ2":"Where heritage meets modernity.","loopHead":"New in","loopBtn":"VIEW THE PIECE →","rackHead":"Best sellers","newsKick":"DEAR READER,","newsBtn":"SUBSCRIBE","newsSealed":"SEALED.","footVisit":"VISIT","footTalk":"TALK","footCopy":"© 2026 NGWISA · WWW.NGWISA.COM","igLabel":"INSTAGRAM","igHandle":"@_ngwisa_","tgRegionL":"REGION","tgAkaL":"ALSO CALLED","tgGroundL":"GROUND","tgThreadL":"THREAD","tgWornL":"WORN FOR","tt1k":"01 · PALACE","tt2k":"02 · CEREMONY","tt3k":"03 · COUNTRY","tt4k":"04 · DIASPORA","tt5k":"05 · NOW","colBlackN":"Black","colRedN":"Red","colYellowN":"Yellow","colWhiteN":"White","mk1k":"01 · CAMEROON","mk1h":"Draw","mk2k":"02 · CAMEROON","mk2h":"Embroider","mk3k":"03 · MANCHESTER","mk3h":"Cut","mk4k":"04 · BY HAND","mk4h":"Finish","tgShop":"SHOP THE GONGBELL →","jnAppH":"Appearances","apShow":"SEE THE SHOW","jnAtelierH":"From the atelier","apInvBtn":"INVITE NGWISA"};
 class Component extends DCLogic {
-  state = { page: (() => { try { const r = !IN_EDITOR() && ROUTE(location.pathname); return (r && r.page) || 'home'; } catch (e) { return 'home'; } })(), thanks: null, sg: false, sgUnit: 'cm', sizeGuide: null, sec: 0, curtain: 'idle', curtainL: '', quick: null, qImg: 0, size: null, bag: [], bagOpen: false,
+  state = { ...(() => { try { const b = window.NG_BOOT || {}; ['jr-1', 'jr-2', 'jr-3'].forEach((id, i) => { if (b.slots && b.slots[id] && ART[i]) ART[i].img = b.slots[id]; }); return { copy: b.copy || null, slots: b.slots || null, slotMeta: b.meta || null }; } catch (e) { return {}; } })(), page: (() => { try { const r = !IN_EDITOR() && ROUTE(location.pathname); return (r && r.page) || 'home'; } catch (e) { return 'home'; } })(), thanks: null, sg: false, sgUnit: 'cm', sizeGuide: null, sec: 0, curtain: 'idle', curtainL: '', quick: null, qImg: 0, size: null, bag: [], bagOpen: false,
     tab: 'all', cat: 'All', sort: 'featured', gh: null, env: false, nl: '', nlDone: false, filmOpen: false,
-    lb: null, lbT: 0, article: null, event: null, acct: false, aTab: 'in', aStage: 'form', aEmail: '', aPass: '', aFirst: '', aLast: '', aCode: '', aErr: '', aBusy: false, member: null, aNav: 'orders', orders: null, ordErr: false, ordOpen: null, track: {}, addrs: null, addrDef: 0, af: null, afEdit: null, afErr: '', prof: null, profMsg: '', profBusy: false, roBusy: false, toast: '', mob: false, menu: false, saved: {}, hs: null, pp: null, ppI: 0, shov: null, deckTop: { w: 0, m: 0 }, deckHov: null, wallF: 'ALL' };
+    lb: null, lbT: 0, article: null, event: null, acct: false, aTab: 'in', aStage: 'form', aEmail: '', aPass: '', aFirst: '', aLast: '', aCode: '', aErr: '', aBusy: false, member: null, aNav: 'orders', orders: null, ordErr: false, ordOpen: null, track: {}, addrs: null, addrDef: 0, af: null, afEdit: null, afErr: '', prof: null, profMsg: '', profBusy: false, roBusy: false, toast: '', mob: (() => { try { return !IN_EDITOR() && innerWidth < 900; } catch (e) { return false; } })(), menu: false, saved: {}, hs: null, pp: null, ppI: 0, shov: null, deckTop: { w: 0, m: 0 }, deckHov: null, wallF: 'ALL' };
 
   szRows(list) { const st = this.state; return list.map(z => { const out = !!z[3], on = st.size === z[0] && !out;
     return { l: z[0], left: out ? 'SOLD OUT' : z[1] != null ? (z[1] <= 5 ? z[1] + ' LEFT' : 'IN STOCK') + (z[2] ? ' · ' + z[2].toUpperCase() : '') : 'IN STOCK',
@@ -1231,14 +1238,14 @@ class Component extends DCLogic {
     this.rvSetup(); this.syncImgs();
     this.imgMO = new MutationObserver(() => { if (!this.imgRaf) this.imgRaf = requestAnimationFrame(() => { this.imgRaf = 0; this.syncImgs(); }); });
     this.imgMO.observe(document.body, { subtree: true, childList: true, attributes: true, attributeFilter: ['data-img'] });
-    const vis = el => { if (!el) return false; const r = el.getBoundingClientRect(); return r.bottom > 0 && r.top < innerHeight && r.width > 0; };
+    const vis = el => { if (!el) return false; if (el._vis !== undefined) return el._vis; const r = el.getBoundingClientRect(); return r.bottom > 0 && r.top < innerHeight && r.width > 0; };
     const tick = now => {
       const dt = Math.min(50, now - (this.last || now)); this.last = now; const E = this.E || {};
       this.cx += (this.mx - this.cx) * 0.22; this.cy += (this.my - this.cy) * 0.22;
       if (E.ce) E.ce.style.transform = 'translate(' + this.cx.toFixed(1) + 'px,' + this.cy.toFixed(1) + 'px)';
       if (E.fl && E.fl.style.opacity === '1') E.fl.style.transform = 'translate(' + (this.cx + 30) + 'px,' + (this.cy - 160) + 'px) rotate(' + ((this.mx - this.cx) * 0.05).toFixed(2) + 'deg)';
       (E.walls || []).forEach(W => { if (!W.isConnected || !vis(W)) return;
-        W._cols.forEach(c => { const i = E.wcols.indexOf(c); const half = c.scrollHeight / 2; if (!half) return; const dir = +c.dataset.wcol;
+        W._cols.forEach(c => { const i = E.wcols.indexOf(c); if (!c._hAt || now - c._hAt > 1000) { c._h = c.scrollHeight / 2; c._hAt = now; } const half = c._h; if (!half) return; const dir = +c.dataset.wcol;
           const sp = (this.wallHover ? 0.008 : 0.028) * dt * dir * (1 + i * 0.15);
           this.wo[i] = (((this.wo[i] || 0) + sp) % half + half) % half; c.style.transform = 'translate3d(0,' + (-this.wo[i]).toFixed(1) + 'px,0)'; });
         const tx = (this.my / innerHeight - 0.5) * -6, ty = (this.mx / innerWidth - 0.5) * 8; this.tilt.x += (tx - this.tilt.x) * 0.06; this.tilt.y += (ty - this.tilt.y) * 0.06;
@@ -1264,7 +1271,10 @@ class Component extends DCLogic {
     if (this.io) this.io.disconnect(); removeEventListener('resize', this.onResize2); document.removeEventListener('wheel', this.onWheel); removeEventListener('keydown', this.onPageKey); cancelAnimationFrame(this.anRaf);
   }
   componentDidUpdate() { this.syncImgs(); if (!IN_EDITOR()) { const t = this.docTitle(); if (document.title !== t) document.title = t; const d = this.docDesc(), m = d && document.querySelector('meta[name="description"]'); if (m && m.getAttribute('content') !== d) m.setAttribute('content', d); } if (this.lastPP !== this.state.pp) { this.lastPP = this.state.pp; setTimeout(() => this.refreshEls(), 150); } }
-  syncImgs() { document.querySelectorAll('img[data-img]').forEach(i => { const s = i.getAttribute('data-img'); if (s && s.indexOf('{{') < 0 && i.dataset.raw !== s) { i.dataset.raw = s; i.setAttribute('src', RZ(s, SHOWN(i))); } }); }
+  /* Size every changed image for the width it's shown at: read all the widths first, then set all the sources, so the
+     browser lays the page out once instead of once per image. */
+  syncImgs() { const todo = [...document.querySelectorAll('img[data-img]')].filter(i => { const s = i.getAttribute('data-img'); return s && s.indexOf('{{') < 0 && i.dataset.raw !== s; });
+    const ws = todo.map(i => SHOWN(i)); todo.forEach((i, k) => { const s = i.getAttribute('data-img'); i.dataset.raw = s; i.setAttribute('src', RZ(s, ws[k])); }); }
   setupWhenReady(el, tries) {
     clearTimeout(this.swrT);
     if (this.sc !== el) return;
@@ -1318,6 +1328,10 @@ class Component extends DCLogic {
   refreshEls() {
     const q = s => document.querySelector(s);
     this.E = { ce: q('[data-cursor-el]'), fl: q('[data-jfloat]'), walls: [...document.querySelectorAll('[data-wall]')].map(w => { w._cols = [...w.querySelectorAll('[data-wcol]')]; return w; }), wcols: [...document.querySelectorAll('[data-wcol]')], kb: [...document.querySelectorAll('[data-kb]')] };
+    /* Which moving parts are on screen, tracked by the browser instead of measured every frame. */
+    if ('IntersectionObserver' in window) { if (this.visIO) this.visIO.disconnect();
+      this.visIO = new IntersectionObserver(es => es.forEach(e => { e.target._vis = e.isIntersecting; }));
+      this.E.walls.concat(this.E.kb).forEach(el => this.visIO.observe(el)); }
   }
   decorate() {
     const sc = this.sc; if (!sc) return;
@@ -1440,7 +1454,8 @@ class Component extends DCLogic {
       if (wv.length) { let k = 0; WALL.forEach(col => col.forEach(t => { if (t.k === 'PHOTO' && k < wv.length) t.f = [wv[k++]]; })); }
     }
     ['jr-1', 'jr-2', 'jr-3'].forEach((id, i) => { if (sl[id] && ART[i]) ART[i].img = sl[id]; });
-    this.setState({ copy: cp, slots: sl, slotMeta: sm }); }
+    /* A failed or empty read keeps what the page already shows (the build's published content) instead of blanking it. */
+    this.setState({ ...(copy.length ? { copy: cp } : {}), ...(slots.length ? { slots: sl, slotMeta: sm } : {}) }); }
   renderVals() {
     const st = this.state;
     const ST = /^\/studio/i.test(location.pathname) || /^#\/?studio/i.test(location.hash);
@@ -1491,8 +1506,8 @@ const sCard = (p, i, pre) => { const key = pre + p.id, on = st.shov === key;
     const a = st.event != null ? (e => ({ t: e.t, k: e.type + ' · ' + e.city + ' · ' + e.yr, img: IMG(e.img), paras: e.paras, gal: e.gal, ctaL: 'SHOP THE PIECES →', go: 'shop' }))(EVT[st.event]) : st.article != null ? ART[st.article] : null;
     const evRow = (e, i) => ({ n: e.yr, yr: e.yr, t: e.t, k: e.type + ' · ' + e.city, img: IMG(e.img), open: () => this.setState({ event: i, article: null }) });
 
-    return { tx: t, si, ev0: { t: (EVT[0] || {}).t || '', meta: [(EVT[0] || {}).type, (EVT[0] || {}).city, (EVT[0] || {}).yr].filter(Boolean).join(' · '), body: ((EVT[0] || {}).paras || [])[0] || '' }, isStudio: ST, notStudio: !ST, heroVid, hasHeroVid: /\.(mp4|webm|mov)|video\.wixstatic/i.test(heroVid), heroPoster: SL['hero-poster'] || '', vidRef: el => { if (!el || !el.dataset.v || el.dataset.v.indexOf('{{') >= 0 || el.getAttribute('src') === el.dataset.v) return; if (el.dataset.p) el.poster = RZ(el.dataset.p, 1920); el.muted = true; el.src = el.dataset.v; const p = el.play(); if (p && p.catch) p.catch(() => {}); }, vidGo: e => { const v = e.currentTarget; v.muted = true; const p = v.play(); if (p && p.catch) p.catch(() => {}); },
-      mob: st.mob, showNav: !st.mob, menuOpen: st.menu, menuLabel: st.menu ? 'CLOSE' : 'MENU', toggleMenu: () => this.setState({ menu: !st.menu }),
+    return { tx: t, si, ev0: { t: (EVT[0] || {}).t || '', meta: [(EVT[0] || {}).type, (EVT[0] || {}).city, (EVT[0] || {}).yr].filter(Boolean).join(' · '), body: ((EVT[0] || {}).paras || [])[0] || '' }, isStudio: ST, notStudio: !ST, heroVid, hasHeroVid: /\.(mp4|webm|mov)|video\.wixstatic/i.test(heroVid), heroPoster: SL['hero-poster'] || '', noHeroVid: !/\.(mp4|webm|mov)|video\.wixstatic/i.test(heroVid), hasHeroPoster: !!SL['hero-poster'], heroPosterSrc: SL['hero-poster'] ? RZ(SL['hero-poster'], 1200) : '', heroPosterSet: SL['hero-poster'] ? HERO_SET(SL['hero-poster']) : '', vidOn: e => { e.currentTarget.style.opacity = 1; }, vidRef: el => { if (!el || !el.dataset.v || el.dataset.v.indexOf('{{') >= 0 || el.getAttribute('src') === el.dataset.v) return; el.muted = true; el.src = el.dataset.v; const p = el.play(); if (p && p.catch) p.catch(() => {}); }, vidGo: e => { const v = e.currentTarget; v.muted = true; const p = v.play(); if (p && p.catch) p.catch(() => {}); },
+      mob: st.mob, showNav: !st.mob, menuOpen: st.menu, menuLabel: st.menu ? 'CLOSE' : 'MENU', menuOpen: st.menu ? 'true' : 'false', toggleMenu: () => this.setState({ menu: !st.menu }),
       navItems: NAV.map(n => ({ l: n[1], l2: n[2], go: go(n[0]), bg: st.page === n[0] ? '#FBF8F2' : 'transparent', ink: st.page === n[0] ? '#141110' : '#FBF8F2' })),
       goHome: go('home'), goShop: go('shop'), goLoop: go('loop'),
       isHome: st.page === 'home', isShop: st.page === 'shop', isLoop: st.page === 'loop', isFounders: st.page === 'founders', isHeritage: st.page === 'heritage', isJournal: st.page === 'journal', bestCols: st.mob ? 'repeat(2,minmax(0,1fr))' : 'repeat(4,minmax(0,1fr))',
@@ -1509,7 +1524,8 @@ const sCard = (p, i, pre) => { const key = pre + p.id, on = st.shov === key;
       cueArrow: st.sec >= secLabels.length - 1 ? '↑' : '↓',
       cueGo: () => { if (st.sec >= secLabels.length - 1) this.animateTo(0, 1100); else this.advance(1); },
       secs: secLabels.map((l, i) => ({ go: scrollTo(i), lab: i === st.sec ? String(i + 1).padStart(2, '0') + ' ' + l.toUpperCase() : '', w: i === st.sec ? '28px' : '12px', o: i === st.sec ? 1 : 0.45 })),
-      mref: el => { if (!el) return; const v = el.dataset.v || (el.dataset.w ? WXS + el.dataset.w : ''); if (v && el.dataset.raw !== v) { el.dataset.raw = v; el.setAttribute('src', RZ(v, SHOWN(el))); } }, bagCount: st.bag.length, openBag: () => this.setState({ bagOpen: true }), closeBag: () => this.setState({ bagOpen: false }), bagOpen: st.bagOpen, bagEmpty: !st.bag.length,
+      setRef: el => { if (!el) return; const s = el.dataset.s, ss = el.dataset.ss; if (!s || s.indexOf('{{') >= 0 || el.dataset.raw === s) return; el.dataset.raw = s; if (ss) el.setAttribute('srcset', ss); el.setAttribute('src', s); },
+      mref: el => { if (!el) return; const v = el.dataset.v || (el.dataset.w ? WXS + el.dataset.w : ''); if (v && el.dataset.raw !== v) { el.dataset.raw = v; IMGQ(el, v); } }, bagCount: st.bag.length, openBag: () => this.setState({ bagOpen: true }), closeBag: () => this.setState({ bagOpen: false }), bagOpen: st.bagOpen, bagEmpty: !st.bag.length,
       bagLines: st.bag.map((b, i) => ({ ...b, price: fmt(b.price), remove: () => { if (b.lineId && window.NGW) window.NGW.removeLine(b.lineId).then(c => this.setState({ bag: this.wixBag(c) })).catch(e => this.flash(String(e.message || e).toUpperCase())); else this.setState({ bag: st.bag.filter((_, j) => j !== i) }); } })),
       goCheckout: () => { if (!window.NGW) return; this.setState({ ckBusy: true }); window.NGW.checkoutUrl(this.prefill(), location.pathname).then(u => { (window.top || window).location.href = u; }).catch(e => { this.setState({ ckBusy: false }); this.flash(String(e.message || e).toUpperCase()); }); },
       bagFill: !!this.prefill(), bagFillTo: (() => { const p = this.prefill(); return p ? [p.address.line1, p.address.postcode].filter(Boolean).join(', ').toUpperCase() : ''; })(),
@@ -1563,7 +1579,7 @@ const sCard = (p, i, pre) => { const key = pre + p.id, on = st.shov === key;
       pp: (() => { const p = st.pp ? this.find(st.pp) : null; if (!p) return { thumbs: [], sizes: [], pairs: [] };
         const imgs = p.imgs, main = imgs[st.ppI % imgs.length];
         const others = PV.filter(x => x.id !== p.id && (x.g === p.g || x.g === 'u' || p.g === 'u')); const auto = [0, 1, 2, 3, 4, 5].map(k => others[(P.indexOf(p) * 3 + k * 2) % others.length]); const fixed = ((this.pairMap || {})[p.id] || []).map(id => this.find(id)).filter(Boolean); const pairs = fixed.concat(auto).filter((x, i, a) => x && a.indexOf(x) === i).slice(0, 3);
-        return { name: p.name, n: String(P.indexOf(p) + 1).padStart(2, '0') + ' / ' + String(P.length).padStart(2, '0'), cat: p.cat.toUpperCase(), hook: p.hook, desc: p.desc, price: fmt(p.price) === 'PRICE ON REQUEST' ? 'On request' : fmt(p.price), main,
+        return { name: p.name, n: String(P.indexOf(p) + 1).padStart(2, '0') + ' / ' + String(P.length).padStart(2, '0'), cat: p.cat.toUpperCase(), hook: p.hook, desc: p.desc, price: fmt(p.price) === 'PRICE ON REQUEST' ? 'On request' : fmt(p.price), main, mainSrc: RZ(main, 800), mainSet: PP_SET(main),
           thumbs: imgs.map((src, k) => ({ src, ring: k === st.ppI ? '#E3A72F' : '#FBF8F2', pick: () => this.setState({ ppI: k }) })),
           sizes: this.szRows(p.sizes),
           restock: p.restock ? 'THIS PIECE WILL BE RESTOCKING' : 'THIS PIECE WILL NOT BE RESTOCKING',
