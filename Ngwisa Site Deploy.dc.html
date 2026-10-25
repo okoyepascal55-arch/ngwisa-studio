@@ -79,7 +79,7 @@
 </section>
 
 <section data-sec="1" data-screen-label="Home 04 Film" style="position:relative;height:100svh;scroll-snap-align:start;overflow:hidden;background:#0A0807">
-<img loading="lazy" decoding="async" data-kb="1" ref="{{ mref }}" data-v="{{ si.homeCast }}" data-w="840628_1194b99ba10d443584f3d4ee467f24c3~mv2.jpg" alt="{{ si.homeCastAlt }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:{{ si.homeCastPos }};filter:brightness(.62) contrast(1.1)">
+<img loading="lazy" decoding="async" data-kb="1" ref="{{ mref }}" data-v="{{ si.homeCast }}" data-w="840628_3d5fdb9ba12f4a71938fccb1b46f36df~mv2.jpg" alt="{{ si.homeCastAlt }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:{{ si.homeCastPos }};filter:brightness(.62) contrast(1.1)">
 <div style="position:absolute;inset:0;background:radial-gradient(ellipse 80% 70% at 50% 50%,rgba(10,8,7,0) 30%,rgba(10,8,7,.7))"></div>
 <button onClick="{{ openFilm }}" data-cursor="Play" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:132px;height:132px;border-radius:50%;border:1.5px solid rgba(251,248,242,.8);background:rgba(20,17,16,.25);color:#FBF8F2;font:500 11px/1 'DM Mono',monospace;letter-spacing:.18em;cursor:pointer;transition:transform .5s cubic-bezier(.3,0,.2,1),background .4s" style-hover="background:#D81219;border-color:#D81219" aria-label="Play the film"><span style="font-size:22px;margin-left:4px">▶</span></button>
 </section>
@@ -312,14 +312,14 @@
 <sc-if value="{{ isFounders }}" hint-placeholder-val="{{ false }}">
 <div ref="{{ scRef }}" onScroll="{{ onScroll }}" style="position:absolute;inset:0;overflow-y:auto;scroll-snap-type:y mandatory;background:#141110">
 <section data-sec="1" data-screen-label="Founders 01 Voice" style="position:relative;height:100svh;scroll-snap-align:start;overflow:hidden;background:#141110;color:#FBF8F2">
-<img loading="lazy" decoding="async" data-kb="1" ref="{{ mref }}" data-v="{{ si.fdVoice }}" data-w="840628_4d9b09cbfd934cc4bcb503972373d550~mv2.jpg" alt="{{ si.fdVoiceAlt }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:{{ si.fdVoicePos }};filter:brightness(.5)">
+<img loading="lazy" decoding="async" data-kb="1" ref="{{ mref }}" data-v="{{ si.fdVoice }}" data-w="840628_871ee416f2094dda864607f40ec9fc2d~mv2.jpg" alt="{{ si.fdVoiceAlt }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:{{ si.fdVoicePos }};filter:brightness(.5)">
 <div style="position:absolute;left:0;right:0;bottom:0;padding:0 clamp(20px,4vw,56px) 44px;display:flex;flex-direction:column;gap:22px">
 <h1 data-rv="1" style="margin:0;max-width:1200px;font:400 clamp(28px,3.6vw,60px)/1 'Bricolage Grotesque';letter-spacing:-.045em;text-wrap:balance">{{ tx.quote }}</h1>
 </div>
 </section>
 <section data-sec="1" data-screen-label="Founders 02 Our fashion" style="position:relative;min-height:100svh;scroll-snap-align:start;background:#FBF8F2;color:#141110;display:flex;flex-wrap:wrap;gap:clamp(28px,4vw,64px);align-items:center;padding:110px clamp(20px,4vw,56px) 56px">
 <div style="flex:1 1 320px;max-width:520px;aspect-ratio:3/4;border-radius:380px 380px 28px 28px;overflow:hidden;background:#F4F0EA">
-<img loading="lazy" decoding="async" ref="{{ mref }}" data-v="{{ si.fdFashion }}" data-w="840628_2d11be200ba84d80bd4e7e6498481328~mv2.jpg" alt="{{ si.fdFashionAlt }}" style="width:100%;height:100%;object-fit:cover;object-position:{{ si.fdFashionPos }}">
+<img loading="lazy" decoding="async" ref="{{ mref }}" data-v="{{ si.fdFashion }}" data-w="840628_307b148cf73a4cb99a790031b7b8dc22~mv2.jpg" alt="{{ si.fdFashionAlt }}" style="width:100%;height:100%;object-fit:cover;object-position:{{ si.fdFashionPos }}">
 </div>
 <div data-rv="1" style="flex:1.2 1 380px;display:flex;flex-direction:column;gap:22px;max-width:640px">
 <div style="width:100%;max-width:1200px"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.desTitle }}" tone="red" size="clamp(28px,3.6vw,60px)" hint-size="auto,calc(clamp(28px,3.6vw,60px) * 1.14)"></x-import></div>
@@ -333,8 +333,8 @@
 <div style="display:flex;flex-wrap:wrap;gap:28px;align-items:flex-end;justify-content:space-between">
 <p style="margin:0;max-width:560px;font:400 18px/1.55 'Bricolage Grotesque';color:#BDB4A9;text-wrap:pretty">{{ tx.craftBody }}</p>
 <div style="display:flex;gap:10px">
-<div style="width:clamp(110px,12vw,170px);aspect-ratio:3/4;border-radius:200px 200px 14px 14px;overflow:hidden"><img loading="lazy" decoding="async" ref="{{ mref }}" data-v="{{ si.fdProject1 }}" data-w="840628_d7b311a630e94c7dba251927ff1184b0~mv2.jpg" alt="{{ si.fdProject1Alt }}" style="width:100%;height:100%;object-fit:cover;object-position:{{ si.fdProject1Pos }}"></div>
-<div style="width:clamp(110px,12vw,170px);aspect-ratio:3/4;border-radius:200px 200px 14px 14px;overflow:hidden;margin-top:40px"><img loading="lazy" decoding="async" ref="{{ mref }}" data-v="{{ si.fdProject2 }}" data-w="840628_230182ddf73c4ffe9dbf48066ee60f18~mv2.jpg" alt="{{ si.fdProject2Alt }}" style="width:100%;height:100%;object-fit:cover;object-position:{{ si.fdProject2Pos }}"></div>
+<div style="width:clamp(110px,12vw,170px);aspect-ratio:3/4;border-radius:200px 200px 14px 14px;overflow:hidden"><img loading="lazy" decoding="async" ref="{{ mref }}" data-v="{{ si.fdProject1 }}" data-w="840628_ca0cb540a3bd4914aa06a052faaba6e1~mv2.jpg" alt="{{ si.fdProject1Alt }}" style="width:100%;height:100%;object-fit:cover;object-position:{{ si.fdProject1Pos }}"></div>
+<div style="width:clamp(110px,12vw,170px);aspect-ratio:3/4;border-radius:200px 200px 14px 14px;overflow:hidden;margin-top:40px"><img loading="lazy" decoding="async" ref="{{ mref }}" data-v="{{ si.fdProject2 }}" data-w="840628_a32d1505db514f5ba7c84c2d65afa93f~mv2.jpg" alt="{{ si.fdProject2Alt }}" style="width:100%;height:100%;object-fit:cover;object-position:{{ si.fdProject2Pos }}"></div>
 </div>
 </div>
 </section>
@@ -371,7 +371,7 @@
 <sc-if value="{{ isHeritage }}" hint-placeholder-val="{{ false }}">
 <div ref="{{ scRef }}" onScroll="{{ onScroll }}" style="position:absolute;inset:0;overflow-y:auto;scroll-snap-type:y mandatory;background:#141110">
 <section data-sec="1" data-screen-label="Heritage 01 Toghu" style="position:relative;height:100svh;scroll-snap-align:start;overflow:hidden;background:#141110;color:#FBF8F2">
-<img loading="lazy" decoding="async" data-kb="1" ref="{{ mref }}" data-v="{{ si.hrHero }}" data-w="840628_b18b05eb2f1b4f72b151cc55306e47fa~mv2.jpg" alt="{{ si.hrHeroAlt }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:{{ si.hrHeroPos }};filter:brightness(.5)">
+<img loading="lazy" decoding="async" data-kb="1" ref="{{ mref }}" data-v="{{ si.hrHero }}" data-w="840628_114ecfd07ff843f68c7a1ef35d57816c~mv2.jpg" alt="{{ si.hrHeroAlt }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:{{ si.hrHeroPos }};filter:brightness(.5)">
 <div style="position:absolute;left:0;right:0;bottom:0;padding:0 clamp(20px,4vw,56px) 44px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap">
 <div style="display:flex;flex-direction:column;gap:16px">
 <div data-rv="1" style="width:100%;max-width:1200px"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.tgTitle }}" tone="gold" size="clamp(28px,3.6vw,60px)" hint-size="auto,calc(clamp(28px,3.6vw,60px) * 1.14)"></x-import></div>
@@ -423,7 +423,7 @@
 </div>
 </section>
 <section data-sec="1" data-screen-label="Heritage 06 Today" style="position:relative;height:100svh;scroll-snap-align:start;overflow:hidden;background:#141110;color:#FBF8F2">
-<img loading="lazy" decoding="async" data-kb="1" ref="{{ mref }}" data-v="{{ si.hrToday }}" data-w="840628_0edea388c81e4fb096e125a724ec7be2~mv2.jpg" alt="{{ si.hrTodayAlt }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:{{ si.hrTodayPos }};filter:brightness(.5)">
+<img loading="lazy" decoding="async" data-kb="1" ref="{{ mref }}" data-v="{{ si.hrToday }}" data-w="840628_9a063d9ff74a486db574132d66982297~mv2.jpg" alt="{{ si.hrTodayAlt }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:{{ si.hrTodayPos }};filter:brightness(.5)">
 <div style="position:absolute;left:0;right:0;bottom:0;padding:0 clamp(20px,4vw,56px) 44px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap">
 <div style="display:flex;flex-direction:column;gap:16px">
 <div style="width:100%;max-width:1200px"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.tgOut }}" tone="gold" size="clamp(28px,3.6vw,60px)" hint-size="auto,calc(clamp(28px,3.6vw,60px) * 1.14)"></x-import></div>
@@ -437,7 +437,7 @@
 <sc-if value="{{ isJournal }}" hint-placeholder-val="{{ false }}">
 <div ref="{{ scRef }}" onScroll="{{ onScroll }}" style="position:absolute;inset:0;overflow-y:auto;scroll-snap-type:y mandatory;background:#141110">
 <section data-sec="1" data-screen-label="Journal 01 On stage" style="position:relative;height:100svh;scroll-snap-align:start;overflow:hidden;background:#141110;color:#FBF8F2">
-<img loading="lazy" decoding="async" data-kb="1" ref="{{ mref }}" data-v="{{ si.jnHero }}" data-w="840628_3d8be738c2ca47d9b44641cfa45c7052~mv2.jpg" alt="{{ si.jnHeroAlt }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:{{ si.jnHeroPos }};filter:brightness(.5)">
+<img loading="lazy" decoding="async" data-kb="1" ref="{{ mref }}" data-v="{{ si.jnHero }}" data-w="840628_197602e35afd4db295b03868accacac6~mv2.jpg" alt="{{ si.jnHeroAlt }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:{{ si.jnHeroPos }};filter:brightness(.5)">
 <div style="position:absolute;left:0;right:0;bottom:0;padding:0 clamp(20px,4vw,56px) 44px;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap">
 <div data-rv="1" style="flex:1 1 520px;max-width:900px"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.apTitle }}" tone="gold" size="clamp(28px,3.6vw,60px)" hint-size="auto,calc(clamp(28px,3.6vw,60px) * 1.14)"></x-import></div>
 <p style="margin:0;flex:0 1 380px;font:400 17px/1.55 'Bricolage Grotesque';color:#DCD3C6;text-wrap:pretty">{{ tx.apSub }}</p>
@@ -457,16 +457,16 @@
 </section>
 <section data-sec="1" data-screen-label="Journal 03 Featured" style="position:relative;min-height:100svh;scroll-snap-align:start;background:#141110;color:#FBF8F2;display:flex;flex-wrap:wrap;gap:clamp(28px,4vw,64px);align-items:center;padding:110px clamp(20px,4vw,56px) 56px">
 <div style="flex:1 1 320px;max-width:520px;aspect-ratio:3/4;border-radius:380px 380px 28px 28px;overflow:hidden;background:#2A2421">
-<img loading="lazy" decoding="async" ref="{{ mref }}" data-v="{{ si.jnFeatured }}" data-w="840628_1194b99ba10d443584f3d4ee467f24c3~mv2.jpg" alt="{{ si.jnFeaturedAlt }}" style="width:100%;height:100%;object-fit:cover;object-position:{{ si.jnFeaturedPos }}">
+<img loading="lazy" decoding="async" ref="{{ mref }}" data-v="{{ si.jnFeatured }}" data-w="840628_3d5fdb9ba12f4a71938fccb1b46f36df~mv2.jpg" alt="{{ si.jnFeaturedAlt }}" style="width:100%;height:100%;object-fit:cover;object-position:{{ si.jnFeaturedPos }}">
 </div>
 <div data-rv="1" style="flex:1.2 1 380px;display:flex;flex-direction:column;gap:22px;max-width:640px">
 <span style="font:400 18px/1.3 'Bricolage Grotesque';color:#E3A72F">{{ ev0.meta }}</span>
 <div style="width:100%"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ ev0.t }}" tone="gold" size="clamp(28px,3.6vw,60px)" hint-size="auto,calc(clamp(28px,3.6vw,60px) * 1.14)"></x-import></div>
 <p style="margin:0;font:400 18px/1.55 'Bricolage Grotesque';color:#BDB4A9;text-wrap:pretty">{{ ev0.body }}</p>
 <div style="display:flex;gap:10px">
-<div style="width:clamp(90px,9vw,130px);aspect-ratio:3/4;border-radius:200px 200px 14px 14px;overflow:hidden"><img loading="lazy" decoding="async" ref="{{ mref }}" data-v="{{ si.jnAtelier1 }}" data-w="840628_f4d7988af81645298f3e2c4e89acb8ec~mv2.jpg" alt="{{ si.jnAtelier1Alt }}" style="width:100%;height:100%;object-fit:cover;object-position:{{ si.jnAtelier1Pos }}"></div>
-<div style="width:clamp(90px,9vw,130px);aspect-ratio:3/4;border-radius:200px 200px 14px 14px;overflow:hidden;margin-top:28px"><img loading="lazy" decoding="async" ref="{{ mref }}" data-v="{{ si.jnAtelier2 }}" data-w="840628_ad72189a69d741a89dc97b94866b6d63~mv2.jpg" alt="{{ si.jnAtelier2Alt }}" style="width:100%;height:100%;object-fit:cover;object-position:{{ si.jnAtelier2Pos }}"></div>
-<div style="width:clamp(90px,9vw,130px);aspect-ratio:3/4;border-radius:200px 200px 14px 14px;overflow:hidden"><img loading="lazy" decoding="async" ref="{{ mref }}" data-v="{{ si.jnAtelier3 }}" data-w="840628_539e209a11c9440db477a62ae68a8a34~mv2.jpg" alt="{{ si.jnAtelier3Alt }}" style="width:100%;height:100%;object-fit:cover;object-position:{{ si.jnAtelier3Pos }}"></div>
+<div style="width:clamp(90px,9vw,130px);aspect-ratio:3/4;border-radius:200px 200px 14px 14px;overflow:hidden"><img loading="lazy" decoding="async" ref="{{ mref }}" data-v="{{ si.jnAtelier1 }}" data-w="840628_2835d4decb0e47d296df3ed1f5d296bb~mv2.jpg" alt="{{ si.jnAtelier1Alt }}" style="width:100%;height:100%;object-fit:cover;object-position:{{ si.jnAtelier1Pos }}"></div>
+<div style="width:clamp(90px,9vw,130px);aspect-ratio:3/4;border-radius:200px 200px 14px 14px;overflow:hidden;margin-top:28px"><img loading="lazy" decoding="async" ref="{{ mref }}" data-v="{{ si.jnAtelier2 }}" data-w="840628_216ff9a08c8c47cf92186d4a743c41fd~mv2.jpg" alt="{{ si.jnAtelier2Alt }}" style="width:100%;height:100%;object-fit:cover;object-position:{{ si.jnAtelier2Pos }}"></div>
+<div style="width:clamp(90px,9vw,130px);aspect-ratio:3/4;border-radius:200px 200px 14px 14px;overflow:hidden"><img loading="lazy" decoding="async" ref="{{ mref }}" data-v="{{ si.jnAtelier3 }}" data-w="840628_2f4d6dd50e4b4e669139d7c6d7494771~mv2.jpg" alt="{{ si.jnAtelier3Alt }}" style="width:100%;height:100%;object-fit:cover;object-position:{{ si.jnAtelier3Pos }}"></div>
 </div>
 <button onClick="{{ openFeat }}" style="align-self:flex-start;height:48px;padding:0 26px;border:0;border-radius:999px;background:#FBF8F2;color:#141110;font:500 11px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer" style-hover="background:#D81219;color:#FBF8F2">{{ tx.apShow }}</button>
 </div>
@@ -653,7 +653,7 @@
 <section data-screen-label="Account" style="min-height:100svh;display:flex;flex-wrap:wrap;gap:8px;padding:84px 18px 18px">
 <sc-if value="{{ acct.guest }}" hint-placeholder-val="{{ true }}">
 <div style="position:relative;flex:1 1 420px;min-width:0;min-height:min(calc(100svh - 102px),860px);border-radius:18px;overflow:hidden;background:#1E1A18">
-<img loading="lazy" decoding="async" ref="{{ mref }}" data-v="{{ si.acctCast }}" data-w="840628_1194b99ba10d443584f3d4ee467f24c3~mv2.jpg" alt="{{ si.acctCastAlt }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:{{ si.acctCastPos }}">
+<img loading="lazy" decoding="async" ref="{{ mref }}" data-v="{{ si.acctCast }}" data-w="840628_3d5fdb9ba12f4a71938fccb1b46f36df~mv2.jpg" alt="{{ si.acctCastAlt }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:{{ si.acctCastPos }}">
 <button onClick="{{ closeAcct }}" style="position:absolute;left:18px;top:18px;height:40px;padding:0 18px;border:0;border-radius:999px;background:#FBF8F2;color:#141110;font:500 11px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer" style-hover="background:#D81219;color:#FBF8F2">← BACK</button>
 </div>
 <div style="flex:1 1 380px;min-width:0;border-radius:18px;background:#FBF8F2;padding:clamp(24px,3vw,44px);display:flex;flex-direction:column;justify-content:center;gap:24px">
@@ -984,34 +984,34 @@
 <script type="text/x-dc" data-dc-script data-props="{&quot;frameTint&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Oxblood&quot;,&quot;Ink&quot;,&quot;Ivory&quot;,&quot;Gold&quot;,&quot;None&quot;],&quot;default&quot;:&quot;Oxblood&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Look&quot;},&quot;accountPreview&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Account&quot;}}">
 const WXS = ['https:', '', 'static.wixstatic.com', 'media', ''].join('/');
 const PH = {
-  '02542': WXS + '840628_630ac86f25494f9ea6f6ebe587021156~mv2.jpg',
-  '02571': WXS + '840628_230182ddf73c4ffe9dbf48066ee60f18~mv2.jpg',
-  '02604': WXS + '840628_503f1526a78a4099afb7de42fd82f6bb~mv2.jpg',
-  '02693': WXS + '840628_ce68efda824a4c859b6d81ef90c9cc0e~mv2.jpg',
-  '02706': WXS + '840628_f4d7988af81645298f3e2c4e89acb8ec~mv2.jpg',
-  '02759': WXS + '840628_b18b05eb2f1b4f72b151cc55306e47fa~mv2.jpg',
-  '02794': WXS + '840628_ae64187efca040b8ac8eb3d2ac452a69~mv2.jpg',
-  '02838': WXS + '840628_ed66fddacf46464b9e6a7d6285e2126f~mv2.jpg',
-  '03127': WXS + '840628_60e70b9ac6434ba8b453ec395525e404~mv2.jpg',
-  '03382': WXS + '840628_d7b311a630e94c7dba251927ff1184b0~mv2.jpg',
-  '03402': WXS + '840628_030e07a4c35b4ed985585037739476a6~mv2.jpg',
-  '03412': WXS + '840628_0edea388c81e4fb096e125a724ec7be2~mv2.jpg',
-  '03456': WXS + '840628_3cbbb96af3f340d4a0ab3670a1ff0b70~mv2.jpg',
+  '02542': WXS + '840628_b5d6427fbe6f4d4e9a23b6d222fbdec4~mv2.jpg',
+  '02571': WXS + '840628_a32d1505db514f5ba7c84c2d65afa93f~mv2.jpg',
+  '02604': WXS + '840628_5a67723346b34169be43a7a9606063b4~mv2.jpg',
+  '02693': WXS + '840628_d8bafee822f5425b8972dc67b443435f~mv2.jpg',
+  '02706': WXS + '840628_2835d4decb0e47d296df3ed1f5d296bb~mv2.jpg',
+  '02759': WXS + '840628_114ecfd07ff843f68c7a1ef35d57816c~mv2.jpg',
+  '02794': WXS + '840628_d8037c12b3ba4c77996baeafc5c93886~mv2.jpg',
+  '02838': WXS + '840628_e3f3a742f2244f2e80461d0987b3ce7f~mv2.jpg',
+  '03127': WXS + '840628_55afdf1450504eee8003a9f1ca9017c0~mv2.jpg',
+  '03382': WXS + '840628_ca0cb540a3bd4914aa06a052faaba6e1~mv2.jpg',
+  '03402': WXS + '840628_ab9a96eec0f046e099fc0f7f4a35bcbe~mv2.jpg',
+  '03412': WXS + '840628_9a063d9ff74a486db574132d66982297~mv2.jpg',
+  '03456': WXS + '840628_6a161a7a73654206b9fbc958ee76ea98~mv2.jpg',
   '03462': WXS + '840628_581a9cebe1be40aaa1ebb22d76abeda3~mv2.jpg',
   '03603': WXS + '840628_ea5058a857164b2484c07452aeadb27a~mv2.jpg',
-  '03604': WXS + '840628_a6dd7b2f0e2f42409ed3ec858ea24811~mv2.jpg',
-  '03607': WXS + '840628_72e447a2ca20484fbd6c2ab60764c0b6~mv2.jpg',
-  '03621': WXS + '840628_1194b99ba10d443584f3d4ee467f24c3~mv2.jpg',
-  '03622': WXS + '840628_3d8be738c2ca47d9b44641cfa45c7052~mv2.jpg',
-  '03947': WXS + '840628_539e209a11c9440db477a62ae68a8a34~mv2.jpg',
-  '04060': WXS + '840628_ad72189a69d741a89dc97b94866b6d63~mv2.jpg',
-  '04086': WXS + '840628_ddf699cfc3ca41d39c554dfc53080182~mv2.jpg',
-  '04258': WXS + '840628_ee068eb48b174058b1191e59587ddc21~mv2.jpg',
-  '04363': WXS + '840628_d99660942e8e45eb8f967b9d9abf11f8~mv2.jpg',
-  '04453': WXS + '840628_2d11be200ba84d80bd4e7e6498481328~mv2.jpg',
+  '03604': WXS + '840628_e6537b069a514126a15e88b236e196bd~mv2.jpg',
+  '03607': WXS + '840628_3f83f15e6fce4f689b88b780b47f7072~mv2.jpg',
+  '03621': WXS + '840628_3d5fdb9ba12f4a71938fccb1b46f36df~mv2.jpg',
+  '03622': WXS + '840628_197602e35afd4db295b03868accacac6~mv2.jpg',
+  '03947': WXS + '840628_2f4d6dd50e4b4e669139d7c6d7494771~mv2.jpg',
+  '04060': WXS + '840628_216ff9a08c8c47cf92186d4a743c41fd~mv2.jpg',
+  '04086': WXS + '840628_1c57a772c0084465b4305c682a0af3f9~mv2.jpg',
+  '04258': WXS + '840628_3302f6622ca441dba65ce36657f4e98e~mv2.jpg',
+  '04363': WXS + '840628_b175397da0844b61b4ce488d2b7d2398~mv2.jpg',
+  '04453': WXS + '840628_307b148cf73a4cb99a790031b7b8dc22~mv2.jpg',
   '04456': WXS + '840628_ab022e367ac94486903ea73420b7087e~mv2.jpg',
-  '04510': WXS + '840628_7c0a62e2a4794632a112d35a85d4469f~mv2.jpg',
-  '04659': WXS + '840628_4d9b09cbfd934cc4bcb503972373d550~mv2.jpg',
+  '04510': WXS + '840628_421650eeda404d6cb8d1de87b2a312bd~mv2.jpg',
+  '04659': WXS + '840628_871ee416f2094dda864607f40ec9fc2d~mv2.jpg',
 };
 const IMG = n => PH[n] || n;
 /* Ask Wix for each photo at the size it is shown, not the original (product originals run to 20 MB+). */
