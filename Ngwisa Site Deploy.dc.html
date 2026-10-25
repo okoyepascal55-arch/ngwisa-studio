@@ -1572,7 +1572,11 @@ const sCard = (p, i, pre) => { const key = pre + p.id, on = st.shov === key;
       hasArticle: !!a, closeArticle: () => this.setState({ article: null, event: null }),
       art: a ? { ...a, paras: a.paras.map(x => ({ x })), gal: (a.gal || []).map(g => ({ img: IMG(g) })), hasGal: !!(a.gal && a.gal.length), cta: () => { this.setState({ article: null, event: null }); if (a.go === 'heritage' || a.go === 'shop') this.go(a.go); else this.openQuick(a.go); } } : { paras: [], gal: [] },
       ppWallCols: (() => { const p = st.pp ? this.find(st.pp) : null; if (!p) return []; const others = PV.filter(x => x.id !== p.id); const o = k => others[(P.indexOf(p) * 3 + k * 2) % others.length]; const SC = p.showcase && p.showcase.length ? p.showcase : null; const I = SC ? [0, 1, 2].map(k => SC[k % SC.length]) : p.imgs; const X = k => SC ? SC[k % SC.length] : I[k % 3];
-        const cols = [[{ k: 'PHOTO', f: [I[0]] }, { k: 'QUOTE', text: p.wallQuote || p.hook }, { k: 'REEL', f: SC ? [I[1], X(3), I[2]] : [I[1], I[2], I[0]], pid: p.id }, { k: 'PHOTO', f: [o(0).img], pid: o(0).id }],
+        /* A piece with showcase photos chosen in the Studio shows only those (each once, repeated only to fill short
+           walls), with its quote and the tag card; otherwise the design's mix of its own photos and other pieces. */
+        const scCols = SC ? (() => { const n = Math.max(SC.length, 6), c = [[], [], []]; for (let k = 0; k < n; k++) c[k % 3].push({ k: 'PHOTO', f: [X(k)] });
+          c[0].splice(1, 0, { k: 'QUOTE', text: p.wallQuote || p.hook }); c[1].splice(2, 0, { k: 'TAG' }); c[2].splice(2, 0, { k: 'QUOTE', q: 'wallQ2', text: 'Where heritage meets modernity.' }); return c; })() : null;
+        const cols = scCols || [[{ k: 'PHOTO', f: [I[0]] }, { k: 'QUOTE', text: p.wallQuote || p.hook }, { k: 'REEL', f: SC ? [I[1], X(3), I[2]] : [I[1], I[2], I[0]], pid: p.id }, { k: 'PHOTO', f: [o(0).img], pid: o(0).id }],
           [{ k: 'REEL', f: SC ? [I[2], X(4), I[1]] : [I[2], I[0], I[1]], pid: p.id }, { k: 'PHOTO', f: [SC ? X(5) : I[1]] }, { k: 'TAG' }, { k: 'PHOTO', f: [o(1).img], pid: o(1).id }],
           [{ k: 'PHOTO', f: [SC ? X(6) : I[2]] }, { k: 'FILM', f: ['03622'] }, { k: 'PHOTO', f: [o(2).img], pid: o(2).id }, { k: 'QUOTE', q: 'wallQ2', text: 'Where heritage meets modernity.' }]];
         return cols.map((c, ci) => ({ dir: ci % 2 ? '-1' : '1', tiles: c.concat(c).map(x => tile(x, true)) })); })(),
