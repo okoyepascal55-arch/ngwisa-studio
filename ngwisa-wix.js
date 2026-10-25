@@ -207,7 +207,9 @@
     if (vs.length > 1 || (v.choices && v.choices.length)) ref.options = { variantId: v.id };
     const res = await req('/ecom/v2/carts/current/add-line-items', { body: { catalogItems: [{ quantity: 1, catalogReference: ref }] } });
     const lines = (res && res.cart && res.cart.lineItems) || [];
-    if (!lines.some(l => l.catalogReference && l.catalogReference.catalogItemId === productId)) throw new Error('Wix could not add this piece to the bag.');
+    /* Wix's cart lines now carry the product under source.catalogReference (older carts: catalogReference). */
+    const refOf = l => l.catalogReference || (l.source && l.source.catalogReference) || {};
+    if (!lines.some(l => refOf(l).catalogItemId === productId)) throw new Error('Wix could not add this piece to the bag.');
     return res.cart;
   }
   async function cart() {

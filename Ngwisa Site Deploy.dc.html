@@ -1191,7 +1191,9 @@ class Component extends DCLogic {
     if (s === 'EMAIL_VERIFICATION_REQUIRED') { this.setState({ aStage: 'verify', aBusy: false }); return; }
     if (s === 'OWNER_APPROVAL_REQUIRED') { this.setState({ aStage: 'pending', aBusy: false }); return; }
     this.setState({ aBusy: false, aErr: 'That email and password didn’t match. Try again.' }); }
-  wixBag(c) { const N = window.NGW; return ((c && c.lineItems) || []).map(l => ({ lineId: l.id || l._id, name: (l.productName && (l.productName.translated || l.productName.original)) || '', size: ((l.descriptionLines || []).map(d => d.plainText && (d.plainText.translated || d.plainText.original)).filter(Boolean).join(' · ') || '—').toUpperCase(), price: Number((l.price && l.price.amount) || 0), img: N ? N.img(l.image) : '' })); }
+  wixBag(c) { const N = window.NGW; /* Wix cart lines come in two shapes: older (productName, price, image, descriptionLines) and newer (name, pricing, attributes.image/descriptionLines). */
+    return ((c && c.lineItems) || []).map(l => { const nm = l.productName || l.name, at = l.attributes || {}, dl = l.descriptionLines || at.descriptionLines || [], pr = (l.price && l.price.amount) || (l.pricing && l.pricing.unitPrice && l.pricing.unitPrice.amount) || 0;
+      return { lineId: l.id || l._id, name: (nm && (nm.translated || nm.original)) || '', size: (dl.map(d => d.plainText && (d.plainText.translated || d.plainText.original)).filter(Boolean).join(' · ') || '—').toUpperCase(), price: Number(pr), img: N ? N.img(l.image || at.image) : '' }; }); }
   addWix(p, size) { const N = window.NGW; if (!p) return; if (!N || !p.wixId) { location.href = 'mailto:info.ngwisa@gmail.com?subject=' + encodeURIComponent(p.name); return; }
     this.flash('ADDING ' + p.name.toUpperCase() + '…');
     N.addToCart(p.wixId, size).then(c => { this.setState({ bag: this.wixBag(c) }); this.flash(p.name.toUpperCase() + ' · ADDED TO BAG'); }).catch(e => this.flash(String(e.message || e).toUpperCase())); }
