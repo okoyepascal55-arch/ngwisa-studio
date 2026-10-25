@@ -824,7 +824,8 @@
 
 <sc-if value="{{ filmOpen }}" hint-placeholder-val="{{ false }}">
 <div style="position:fixed;inset:0;z-index:80;background:#0A0807">
-<x-import component-from-global-scope="NgwisaHeroBg" from="./animations-v3.jsx ./ngwisa-reel.jsx ./ngwisa-hero-bg.jsx" fit="contain" hint-size="100%,100%" style="position:absolute;inset:0"></x-import>
+<sc-if value="{{ hasGongVid }}" hint-placeholder-val="{{ false }}"><video ref="{{ gongRef }}" data-v="{{ gongVid }}" data-p="{{ gongPoster }}" controls="{{ true }}" autoPlay="{{ true }}" playsInline="{{ true }}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:contain;background:#0A0807"></video></sc-if>
+<sc-if value="{{ noGongVid }}" hint-placeholder-val="{{ true }}"><x-import component-from-global-scope="NgwisaHeroBg" from="./animations-v3.jsx ./ngwisa-reel.jsx ./ngwisa-hero-bg.jsx" fit="contain" hint-size="100%,100%" style="position:absolute;inset:0"></x-import></sc-if>
 <button onClick="{{ closeFilm }}" style="position:absolute;top:18px;right:18px;height:44px;padding:0 20px;border:0;border-radius:999px;background:#FBF8F2;color:#141110;font:500 11px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer">CLOSE ✕</button>
 </div>
 </sc-if>
@@ -1562,7 +1563,7 @@ const sCard = (p, i, pre) => { const key = pre + p.id, on = st.shov === key;
       subtotal: '£' + bagSub.toFixed(2),
       loopCards: PV.filter(p => p.isNew).map(p => ({ name: p.name, price: fmt(p.price), img: p.img, alt: p.alt, open: open(p.id) })),
       decks: [['Women', SL['deck-women'] || '02706', (SM['deck-women'] || {}).pos || '50% 22%', 'red'], ['Men', SL['deck-men'] || '02542', (SM['deck-men'] || {}).pos || '50% 20%', 'gold']].map(d => ({ l: d[0], img: IMG(d[1]), pos: d[2], tone: d[3], cta: 'SHOP ' + d[0].toUpperCase() + ' →', go: go('shop', { cat: d[0], tab: 'all' }) })),
-      openFilm: () => this.setState({ filmOpen: true }), closeFilm: () => this.setState({ filmOpen: false }), filmOpen: st.filmOpen,
+      openFilm: () => this.setState({ filmOpen: true }), closeFilm: () => this.setState({ filmOpen: false }), filmOpen: st.filmOpen, gongVid: SL['gong-film'] || '', gongRef: el => { if (!el) return; const v = el.dataset.v, p = el.dataset.p; if (p && el.getAttribute('poster') !== p) el.setAttribute('poster', p); if (v && el.getAttribute('src') !== v) { el.setAttribute('src', v); try { const pr = el.play(); if (pr && pr.catch) pr.catch(() => {}); } catch (e) {} } }, hasGongVid: !!SL['gong-film'], noGongVid: !SL['gong-film'], gongPoster: SL['home-cast'] || '',
       rack: PV.filter(p => p.best).sort((x, y) => x.best - y.best).map(p => ({ name: p.name, price: fmt(p.price), img: p.img, rank: p.best, open: open(p.id) })),
       wallIn: () => { this.wallHover = true; }, wallOut: () => { this.wallHover = false; this.hReel = null; },
       wallCols: WALL.map((c, ci) => ({ dir: ci % 2 ? '-1' : '1', tiles: c.concat(c).map(t => tile(t)) })),
