@@ -61,12 +61,16 @@ The browser never holds the API key, and the Studio collections stay **admin-onl
 ## Publish and history
 - After Publish the Studio reads every area back the way the public site does and says “LIVE ON THE SITE NOW · CHECKED”, or names what the site doesn’t show yet.
 - The site reads Studio content live from Wix on every page load (and again when an open tab comes back into view), so a publish shows straight away. Page titles and descriptions update in the open page straight away; the tags in the built page files (what chat apps read for link previews) and new pieces’ own page files wait for the next deploy; a new piece opens at `/shop.html?p=<slug>` until then.
-- Edits stay in the browser as a draft until **Publish**. Publish writes everything above, then adds a `StudioVersions` row. If Wix refuses the save, the draft is kept.
+- Edits stay in the browser as a draft until **Publish**. Publish first reads Wix as it is now, merges it with the draft (each text, photo spot, list and piece keeps whichever side changed it) and writes **only what this person changed**, then adds a `StudioVersions` row with their name. If both admins changed the same thing, the Studio asks whose version goes live. If Wix refuses the save, the draft is kept.
+- **Two admins at once.** Each admin signs in with their own site-member account, listed in `STUDIO_OWNER_IDS`. Every 30 seconds (and when the tab comes back into view) the Studio checks for a newer publish and new or deleted files: with no draft open it updates by itself; with a draft open it says who published and offers “Bring their changes in”. Older publishes had left duplicate rows in `StudioHomeCopy`; the newest row wins and the next publish removes the rest.
+- **Photos** are always shown as a Wix copy sized to their box (`/v1/fit/w_…`), never the original file, with a smaller copy and then the original as fallbacks. Originals of 5–14 MB failed to draw on phones.
+- **Photos & films** has *Select several* (bulk delete, files in use are kept), *Not used* and *Look-alikes* (same photo uploaded twice) filters, and uploads run three at a time. Uploads are in Wix at once and don't count as unpublished changes.
+- **Simple view** (default, per browser) hides search settings, alt text and the full page list; *Show all options* brings them back.
 - Collections that failed to load are skipped on publish, so a bad load can't overwrite live content.
 - **Restore** loads a saved version into the draft. Nothing changes on the site until the next publish.
 
 ## Not wired yet
-- Team invites and roles are not saved. Only the members in `STUDIO_OWNER_IDS` can use the Studio.
+- Team invites and roles are not saved. Only the members in `STUDIO_OWNER_IDS` can use the Studio; add an admin's member id there (comma-separated) and redeploy.
 - "Send for review" only appears in the Contributor preview and does not notify anyone.
 - Product photos are managed in Wix Stores. `StudioLookbook` is not used.
 - Consent has no control in the Studio UI, so it does not block publishing.

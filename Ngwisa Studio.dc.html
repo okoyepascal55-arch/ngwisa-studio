@@ -55,9 +55,11 @@
 <h1 style="margin:0;font:800 clamp(34px,3.8vw,56px)/.95 'Bricolage Grotesque';letter-spacing:-.04em">{{ title }}</h1>
 <sc-if value="{{ hasSub }}" hint-placeholder-val="{{ true }}"><p style="margin:0;font:400 16px/1.5 'Bricolage Grotesque';color:#3A3430;text-wrap:pretty">{{ sub }}</p></sc-if>
 <span style="align-self:flex-start;padding:10px 14px;border-radius:12px;background:{{ hintBg }};font:400 14px/1.45 'Bricolage Grotesque';color:#3A3430">{{ hint }}</span>
+<sc-if value="{{ hasOthers }}" hint-placeholder-val="{{ false }}"><div style="display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:12px 14px;border-radius:14px;background:#141110;color:#FBF8F2"><span style="flex:1 1 240px;font:400 14px/1.45 'Bricolage Grotesque'">{{ othersL }}</span><button onClick="{{ bringIn }}" style="height:40px;padding:0 16px;border:0;border-radius:999px;background:#E3A72F;color:#141110;cursor:pointer;white-space:nowrap;font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em">BRING THEIR CHANGES IN</button></div></sc-if>
 </div>
 <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap">
-<span style="height:44px;padding:0 16px;border-radius:999px;display:inline-flex;align-items:center;background:{{ stBg }};border:1.5px solid {{ stBd }};font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em;white-space:nowrap">{{ stL }}</span>
+<sc-if value="{{ full }}" hint-placeholder-val="{{ true }}"><span style="height:44px;padding:0 16px;border-radius:999px;display:inline-flex;align-items:center;background:{{ stBg }};border:1.5px solid {{ stBd }};font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em;white-space:nowrap">{{ stL }}</span></sc-if>
+<button onClick="{{ toggleSimple }}" title="{{ modeT }}" style="height:44px;padding:0 16px;border:1.5px dashed rgba(20,17,16,.45);border-radius:999px;background:transparent;color:#3A3430;cursor:pointer;white-space:nowrap;font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em">{{ modeL }}</button>
 <button onClick="{{ undo }}" title="Undo last change" style="height:44px;padding:0 18px;border:1.5px solid #141110;border-radius:999px;background:transparent;color:#141110;font:500 11px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer;opacity:{{ undoOp }};white-space:nowrap">↶ UNDO</button>
 <a href="/" target="_blank" style="height:44px;padding:0 18px;border:1.5px solid #141110;border-radius:999px;color:#141110;font:500 11px/1 'DM Mono',monospace;letter-spacing:.14em;display:inline-flex;align-items:center;white-space:nowrap">VIEW LIVE SITE ↗</a>
 <button onClick="{{ openPub }}" style="height:44px;padding:0 22px;border:0;border-radius:999px;background:#D81219;color:#FBF8F2;font:500 11px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer;opacity:{{ pubOp }};white-space:nowrap" style-hover="background:#141110">{{ pubL }}</button>
@@ -76,14 +78,14 @@
 <div style="display:flex;flex-direction:column;gap:10px;padding:22px;border-radius:22px;background:#FFFFFF;border:1.5px solid rgba(20,17,16,.12)"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#D81219">2 · CHANGE IT</span><span style="font:700 21px/1.15 'Bricolage Grotesque'">Photos, words and lists.</span><span style="font:400 15px/1.5 'Bricolage Grotesque';color:#3A3430;text-wrap:pretty">Anything you change is marked <b>DRAFT</b> with a yellow dot. Only you see drafts. Undo takes back the last change.</span></div>
 <div style="display:flex;flex-direction:column;gap:10px;padding:22px;border-radius:22px;background:#FFFFFF;border:1.5px solid rgba(20,17,16,.12)"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#D81219">3 · PUBLISH</span><span style="font:700 21px/1.15 'Bricolage Grotesque'">One button, live in seconds.</span><span style="font:400 15px/1.5 'Bricolage Grotesque';color:#3A3430;text-wrap:pretty">Press <b>Publish to site</b> at the top. The Studio checks the live site afterwards and tells you it’s there. Reload the website to see it.</span></div>
 </div>
-<div style="display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;flex-direction:column;gap:14px;order:{{ jobsOrder }}">
 <h2 style="margin:0;font:800 28px/1 'Bricolage Grotesque';letter-spacing:-.03em">What do you want to change?</h2>
 <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,250px),1fr));gap:10px">
 <sc-for list="{{ jobs }}" as="j" hint-placeholder-count="8"><button onClick="{{ j.go }}" style="display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:16px 18px;border-radius:18px;border:1.5px solid #141110;background:transparent;color:#141110;cursor:pointer;text-align:left" style-hover="background:#141110;color:#FBF8F2"><span style="font:600 17px/1.2 'Bricolage Grotesque'">{{ j.label }} →</span><span style="font:500 9px/1.3 'DM Mono',monospace;letter-spacing:.14em;opacity:.65">{{ j.where }}</span></button></sc-for>
 <button onClick="{{ goLib }}" style="display:flex;flex-direction:column;align-items:flex-start;gap:8px;padding:16px 18px;border-radius:18px;border:1.5px solid #141110;background:transparent;color:#141110;cursor:pointer;text-align:left" style-hover="background:#141110;color:#FBF8F2"><span style="font:600 17px/1.2 'Bricolage Grotesque'">Upload photos or films →</span><span style="font:500 9px/1.3 'DM Mono',monospace;letter-spacing:.14em;opacity:.65">PHOTOS &amp; FILMS</span></button>
 </div>
 </div>
-<div style="display:flex;flex-direction:column;gap:14px">
+<sc-if value="{{ full }}" hint-placeholder-val="{{ true }}"><div style="display:flex;flex-direction:column;gap:14px">
 <h2 style="margin:0;font:800 28px/1 'Bricolage Grotesque';letter-spacing:-.03em">The whole website</h2>
 <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:14px">
 <sc-for list="{{ sitePages }}" as="pg" hint-placeholder-count="4">
@@ -93,7 +95,7 @@
 </div>
 </sc-for>
 </div>
-</div>
+</div></sc-if>
 </div>
 </sc-if>
 
@@ -252,7 +254,7 @@
 <span style="font:500 10px/1.5 'DM Mono',monospace;letter-spacing:.12em;color:#6A6057">{{ r.price }} · {{ r.sizes }} · {{ r.url }}</span>
 </div>
 <button onClick="{{ r.toggle }}" title="Show or hide on the site" style="flex:none;height:38px;min-width:92px;padding:0 14px;border-radius:999px;border:1.5px solid #141110;background:{{ r.showBg }};color:{{ r.showFg }};font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer">{{ r.showL }}</button>
-<button onClick="{{ r.expand }}" style="flex:none;height:38px;padding:0 14px;border-radius:999px;border:1.5px solid rgba(20,17,16,.35);background:transparent;color:#141110;font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer">{{ r.moreL }}</button>
+<button onClick="{{ r.expand }}" hidden="{{ simple }}" style="flex:none;height:38px;padding:0 14px;border-radius:999px;border:1.5px solid rgba(20,17,16,.35);background:transparent;color:#141110;font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer">{{ r.moreL }}</button>
 </div>
 <sc-if value="{{ r.open }}" hint-placeholder-val="{{ false }}">
 <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,220px),1fr));gap:12px;padding:6px 0 4px 66px">
@@ -395,7 +397,7 @@
 <div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><span style="font:500 10px/1.3 'DM Mono',monospace;letter-spacing:.16em;color:#E3A72F">{{ ins.where }}</span><button onClick="{{ ins.close }}" aria-label="Close" style="width:36px;height:36px;border-radius:50%;border:1.5px solid rgba(251,248,242,.4);background:transparent;color:#FBF8F2;font:400 16px/1 'DM Mono',monospace;cursor:pointer">×</button></div>
 <h3 style="margin:0;font:700 24px/1.1 'Bricolage Grotesque';letter-spacing:-.02em">{{ ins.label }}</h3>
 <div style="width:{{ ins.pw }};margin:0 auto;aspect-ratio:{{ ins.ratio }};border-radius:{{ ins.rad }};overflow:hidden;background:rgba(251,248,242,.08)">
-<sc-if value="{{ ins.notVid }}" hint-placeholder-val="{{ true }}"><img ref="{{ mref }}" data-v="{{ ins.src }}" alt="" style="width:100%;height:100%;object-fit:cover;object-position:{{ ins.pos }};display:block"></sc-if>
+<sc-if value="{{ ins.notVid }}" hint-placeholder-val="{{ true }}"><img ref="{{ mref }}" data-v="{{ ins.src }}" onClick="{{ ins.zoom }}" alt="" style="width:100%;height:100%;object-fit:cover;object-position:{{ ins.pos }};display:block;cursor:zoom-in"></sc-if>
 <sc-if value="{{ ins.isVid }}" hint-placeholder-val="{{ false }}"><video ref="{{ mref }}" data-v="{{ ins.vsrc }}" muted="{{ true }}" autoPlay="{{ true }}" loop="{{ true }}" playsInline="{{ true }}" style="width:100%;height:100%;object-fit:cover;display:block"></video></sc-if>
 </div>
 <span style="font:500 10px/1.5 'DM Mono',monospace;letter-spacing:.08em;color:#BDB4A9;overflow-wrap:anywhere">{{ ins.fileL }}</span>
@@ -406,7 +408,7 @@
 <sc-if value="{{ ins.canCrop }}" hint-placeholder-val="{{ true }}"><button onClick="{{ ins.crop }}" style="height:44px;border:1.5px solid rgba(251,248,242,.5);border-radius:999px;background:transparent;color:#FBF8F2;font:500 10px/1 'DM Mono',monospace;letter-spacing:.12em;cursor:pointer;white-space:nowrap">SET THE FOCUS</button></sc-if>
 <sc-if value="{{ ins.has }}" hint-placeholder-val="{{ true }}"><button onClick="{{ ins.clear }}" style="height:44px;border:1.5px solid rgba(251,248,242,.5);border-radius:999px;background:transparent;color:#FBF8F2;font:500 10px/1 'DM Mono',monospace;letter-spacing:.12em;cursor:pointer;white-space:nowrap">USE THE ORIGINAL</button></sc-if>
 </div>
-<sc-if value="{{ ins.has }}" hint-placeholder-val="{{ true }}">
+<sc-if value="{{ ins.showAlt }}" hint-placeholder-val="{{ true }}">
 <label style="display:flex;flex-direction:column;gap:8px"><span style="font:500 10px/1.3 'DM Mono',monospace;letter-spacing:.14em;color:#BDB4A9">{{ ins.altL }}</span><textarea value="{{ ins.alt }}" onChange="{{ ins.setAlt }}" rows="2" placeholder="e.g. Model in the Rahrah set: black velvet corset over a red fringe skirt" style="padding:12px 16px;border-radius:18px;border:1.5px solid rgba(251,248,242,.4);background:transparent;color:#FBF8F2;font:400 15px/1.4 'Bricolage Grotesque';outline:none;resize:vertical"></textarea></label>
 </sc-if>
 </div>
@@ -417,7 +419,7 @@
 <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;max-height:420px;overflow:auto">
 <sc-for list="{{ tray }}" as="t" hint-placeholder-count="9">
 <button draggable="true" onDragStart="{{ t.drag }}" onClick="{{ t.tap }}" title="{{ t.name }}" style="position:relative;aspect-ratio:3/4;border-radius:12px;overflow:hidden;padding:0;border:0;cursor:grab;background:rgba(20,17,16,.07)">
-<sc-if value="{{ t.notVid }}" hint-placeholder-val="{{ true }}"><img ref="{{ mref }}" data-v="{{ t.src }}" alt="" draggable="false" style="width:100%;height:100%;object-fit:cover;object-position:{{ t.pos }};display:block;pointer-events:none"></sc-if>
+<sc-if value="{{ t.notVid }}" hint-placeholder-val="{{ true }}"><img ref="{{ mref }}" data-v="{{ t.src }}" alt="" draggable="false" style="width:100%;height:100%;object-fit:contain;display:block;pointer-events:none"></sc-if>
 <sc-if value="{{ t.isVid }}" hint-placeholder-val="{{ false }}"><video ref="{{ mref }}" data-v="{{ t.vsrc }}" muted="{{ true }}" style="width:100%;height:100%;object-fit:cover;display:block;pointer-events:none"></video></sc-if>
 <sc-if value="{{ t.film }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;left:6px;bottom:6px;padding:4px 6px;border-radius:999px;background:#141110;color:#FBF8F2;font:500 8px/1 'DM Mono',monospace;letter-spacing:.12em">FILM</span></sc-if>
 </button>
@@ -440,22 +442,32 @@
 </div>
 <label onDragOver="{{ dzOver }}" onDragLeave="{{ dzLeave }}" onDrop="{{ dzDrop }}" style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding:22px 24px;border-radius:22px;border:1.5px dashed #141110;background:{{ dzBg }};cursor:pointer">
 <input type="file" multiple="{{ true }}" accept="image/*,video/*" onChange="{{ libUpload }}" style="display:none">
-<div style="display:flex;flex-direction:column;gap:6px;min-width:0"><span style="font:700 20px/1.1 'Bricolage Grotesque'">Drop photos or films here</span><span style="font:400 14px/1.4 'Bricolage Grotesque';color:#3A3430">Goes to Media Manager › {{ upFolder }}. Heavy or small files are flagged before they go live.</span>
+<div style="display:flex;flex-direction:column;gap:6px;min-width:0"><span style="font:700 20px/1.1 'Bricolage Grotesque'">Add photos or films</span><span style="font:400 14px/1.4 'Bricolage Grotesque';color:#3A3430">Choose as many as you like at once, or drop them here. They go to {{ upFolder }}.</span>
+<sc-if value="{{ upBusy }}" hint-placeholder-val="{{ false }}"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em;color:#D81219">{{ upL }}</span></sc-if>
 <sc-if value="{{ wixOn }}" hint-placeholder-val="{{ false }}"><span style="display:flex;gap:8px;align-items:center;font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em"><span style="width:8px;height:8px;border-radius:50%;background:#2E7D4F"></span>{{ mmChip }}</span></sc-if>
 <sc-if value="{{ wixOff }}" hint-placeholder-val="{{ true }}"><span style="display:flex;gap:8px;align-items:center;font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em;color:#D81219"><span style="width:8px;height:8px;border-radius:50%;background:#D81219"></span>NOT CONNECTED · PREVIEW ONLY</span></sc-if></div>
 <span style="height:44px;padding:0 20px;border-radius:999px;background:#141110;color:#FBF8F2;font:500 11px/44px 'DM Mono',monospace;letter-spacing:.14em;white-space:nowrap">CHOOSE FILES</span>
 </label>
+<div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;padding:10px 12px;border-radius:18px;background:{{ selBg }}">
+<sc-if value="{{ notSel }}" hint-placeholder-val="{{ true }}"><button onClick="{{ selStart }}" style="height:40px;padding:0 16px;border:1.5px solid #141110;border-radius:999px;background:transparent;color:#141110;cursor:pointer;white-space:nowrap;font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em">SELECT SEVERAL</button><span style="font:400 14px/1.4 'Bricolage Grotesque';color:#6A6057">to delete many at once</span></sc-if>
+<sc-if value="{{ selMode }}" hint-placeholder-val="{{ false }}"><span style="font:500 11px/1 'DM Mono',monospace;letter-spacing:.14em;color:#FBF8F2;padding:0 6px">{{ selN }}</span>
+<button onClick="{{ selAll }}" style="height:40px;padding:0 14px;border:1.5px solid rgba(251,248,242,.5);border-radius:999px;background:transparent;color:#FBF8F2;cursor:pointer;white-space:nowrap;font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em">{{ selAllL }}</button>
+<sc-if value="{{ isDupes }}" hint-placeholder-val="{{ false }}"><button onClick="{{ selExtra }}" style="height:40px;padding:0 14px;border:1.5px solid rgba(251,248,242,.5);border-radius:999px;background:transparent;color:#FBF8F2;cursor:pointer;white-space:nowrap;font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em">SELECT THE EXTRA COPIES</button></sc-if>
+<button onClick="{{ selDel }}" style="height:40px;padding:0 16px;border:0;border-radius:999px;background:#D81219;color:#FBF8F2;cursor:pointer;white-space:nowrap;opacity:{{ selOp }};font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em">DELETE {{ selK }}</button>
+<button onClick="{{ selStop }}" style="height:40px;padding:0 14px;border:0;border-radius:999px;background:transparent;color:#FBF8F2;cursor:pointer;white-space:nowrap;font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em">CANCEL</button></sc-if>
+</div>
 <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:20px 14px">
 <sc-for list="{{ lib }}" as="t" hint-placeholder-count="12">
 <button onClick="{{ t.tap }}" style="display:flex;flex-direction:column;gap:8px;padding:0;border:0;background:transparent;text-align:left;cursor:pointer;min-width:0;color:#141110">
 <span style="position:relative;display:block;width:100%;aspect-ratio:1/1;border-radius:14px;overflow:hidden;outline:{{ t.outline }};outline-offset:3px;background:rgba(20,17,16,.07)">
-<sc-if value="{{ t.notVid }}" hint-placeholder-val="{{ true }}"><img ref="{{ mref }}" data-v="{{ t.src }}" alt="" style="width:100%;height:100%;object-fit:cover;object-position:{{ t.pos }};display:block"></sc-if>
+<sc-if value="{{ t.notVid }}" hint-placeholder-val="{{ true }}"><img ref="{{ mref }}" data-v="{{ t.src }}" alt="" style="width:100%;height:100%;object-fit:contain;display:block"></sc-if>
 <sc-if value="{{ t.isVid }}" hint-placeholder-val="{{ false }}"><video ref="{{ mref }}" data-v="{{ t.vsrc }}" muted="{{ true }}" style="width:100%;height:100%;object-fit:cover;display:block"></video></sc-if>
 <span style="position:absolute;left:7px;right:7px;bottom:7px;display:flex;gap:4px;flex-wrap:wrap;align-items:center">
 <sc-if value="{{ t.film }}" hint-placeholder-val="{{ false }}"><span style="padding:4px 6px;border-radius:999px;background:#141110;color:#FBF8F2;font:500 8px/1 'DM Mono',monospace;letter-spacing:.12em">FILM {{ t.dur }}</span></sc-if>
 <sc-if value="{{ t.used }}" hint-placeholder-val="{{ false }}"><span style="padding:4px 6px;border-radius:999px;background:#FBF8F2;color:#141110;font:500 8px/1 'DM Mono',monospace;letter-spacing:.12em">IN USE · {{ t.usedN }}</span></sc-if>
 <sc-if value="{{ t.hasWarn }}" hint-placeholder-val="{{ false }}"><span style="width:17px;height:17px;border-radius:50%;background:{{ t.warnBg }};color:{{ t.warnFg }};font:700 10px/17px 'DM Mono',monospace;text-align:center">!</span></sc-if>
 </span>
+<sc-if value="{{ t.selShow }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;top:8px;right:8px;width:28px;height:28px;border-radius:50%;border:2px solid #FBF8F2;background:{{ t.chkBg }};color:#FBF8F2;font:700 15px/24px 'DM Mono',monospace;text-align:center;box-shadow:0 1px 4px rgba(0,0,0,.35)">{{ t.chk }}</span></sc-if>
 <sc-if value="{{ t.uploading }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;left:0;right:0;top:0;height:5px;background:rgba(20,17,16,.25)"><span style="display:block;height:100%;width:{{ t.pct }};background:#D81219"></span></span></sc-if>
 </span>
 <span style="font:500 10px/1.3 'DM Mono',monospace;letter-spacing:.04em;color:#3A3430;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ t.name }}</span>
@@ -466,10 +478,10 @@
 </div>
 
 <sc-if value="{{ hasDet }}" hint-placeholder-val="{{ false }}">
-<aside style="flex:0 1 360px;min-width:min(100%,290px);position:sticky;top:20px;display:flex;flex-direction:column;gap:14px;padding:20px;border-radius:22px;background:#141110;color:#FBF8F2">
+<aside ref="{{ detRef }}" style="flex:0 1 360px;min-width:min(100%,290px);position:sticky;top:20px;display:flex;flex-direction:column;gap:14px;padding:20px;border-radius:22px;background:#141110;color:#FBF8F2">
 <div style="display:flex;justify-content:space-between;align-items:center;gap:10px"><span style="font:500 10px/1.3 'DM Mono',monospace;letter-spacing:.16em;color:#E3A72F">{{ det.folderL }} · {{ det.at }}</span><button onClick="{{ det.close }}" aria-label="Close" style="width:36px;height:36px;border-radius:50%;border:1.5px solid rgba(251,248,242,.4);background:transparent;color:#FBF8F2;font:400 16px/1 'DM Mono',monospace;cursor:pointer">×</button></div>
 <div style="border-radius:14px;overflow:hidden;background:rgba(251,248,242,.06);display:flex;justify-content:center">
-<sc-if value="{{ det.notVid }}" hint-placeholder-val="{{ true }}"><img ref="{{ mref }}" data-v="{{ det.src }}" alt="{{ det.alt }}" style="max-width:100%;max-height:320px;display:block"></sc-if>
+<sc-if value="{{ det.notVid }}" hint-placeholder-val="{{ true }}"><img ref="{{ mref }}" data-v="{{ det.src }}" onClick="{{ det.zoom }}" alt="{{ det.alt }}" style="max-width:100%;max-height:320px;display:block;cursor:zoom-in"></sc-if>
 <sc-if value="{{ det.isVid }}" hint-placeholder-val="{{ false }}"><video ref="{{ mref }}" data-v="{{ det.vsrc }}" controls="{{ true }}" muted="{{ true }}" playsInline="{{ true }}" style="max-width:100%;max-height:320px;display:block"></video></sc-if>
 </div>
 <span style="font:600 16px/1.3 'Bricolage Grotesque';overflow-wrap:anywhere">{{ det.name }}</span>
@@ -479,7 +491,8 @@
 <div style="display:flex;flex-direction:column;gap:6px"><span style="font:500 9px/1 'DM Mono',monospace;letter-spacing:.16em;color:#BDB4A9">TYPE</span><span style="font:500 13px/1 'DM Mono',monospace">{{ det.type }}</span></div>
 </div>
 <sc-for list="{{ det.warns }}" as="w" hint-placeholder-count="0"><div style="display:flex;gap:10px;align-items:flex-start"><span style="flex:none;width:8px;height:8px;margin-top:6px;border-radius:50%;background:{{ w.dot }}"></span><span style="font:400 14px/1.45 'Bricolage Grotesque';text-wrap:pretty">{{ w.t }}</span></div></sc-for>
-<label style="display:flex;flex-direction:column;gap:8px"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#BDB4A9">{{ det.altL }}</span><textarea value="{{ det.alt }}" onChange="{{ det.setAlt }}" rows="3" placeholder="e.g. Mimche dress in black velvet, gong embroidery at the bodice" style="padding:12px 16px;border-radius:18px;border:1.5px solid rgba(251,248,242,.4);background:transparent;color:#FBF8F2;font:400 15px/1.4 'Bricolage Grotesque';outline:none;resize:vertical"></textarea></label>
+<button onClick="{{ det.zoom }}" hidden="{{ det.isVid }}" style="height:44px;border:1.5px solid rgba(251,248,242,.5);border-radius:999px;background:transparent;color:#FBF8F2;cursor:pointer;font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em">SEE THE WHOLE PHOTO, FULL SIZE</button>
+<label hidden="{{ simple }}" style="display:flex;flex-direction:column;gap:8px"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#BDB4A9">{{ det.altL }}</span><textarea value="{{ det.alt }}" onChange="{{ det.setAlt }}" rows="3" placeholder="e.g. Mimche dress in black velvet, gong embroidery at the bodice" style="padding:12px 16px;border-radius:18px;border:1.5px solid rgba(251,248,242,.4);background:transparent;color:#FBF8F2;font:400 15px/1.4 'Bricolage Grotesque';outline:none;resize:vertical"></textarea></label>
 <label style="display:flex;flex-direction:column;gap:8px"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#BDB4A9">FOLDER</span><select value="{{ det.folder }}" onChange="{{ det.setFolder }}" style="height:44px;padding:0 16px;border-radius:999px;border:1.5px solid rgba(251,248,242,.4);background:#141110;color:#FBF8F2;font:400 15px 'Bricolage Grotesque';outline:none"><sc-for list="{{ folderOpts }}" as="o" hint-placeholder-count="5"><option value="{{ o.id }}">{{ o.label }}</option></sc-for></select></label>
 <div style="display:flex;flex-direction:column;gap:8px"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#BDB4A9">USED IN</span><sc-for list="{{ det.uses }}" as="u" hint-placeholder-count="1"><span style="font:400 14px/1.4 'Bricolage Grotesque'">{{ u.t }}</span></sc-for><sc-if value="{{ det.unused }}" hint-placeholder-val="{{ false }}"><span style="font:400 14px/1.4 'Bricolage Grotesque';color:#BDB4A9">Not on the site yet.</span></sc-if></div>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
@@ -531,7 +544,7 @@
 <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:12px">
 <sc-for list="{{ pk.items }}" as="t" hint-placeholder-count="10">
 <button onClick="{{ t.tap }}" style="position:relative;aspect-ratio:3/4;border-radius:12px;overflow:hidden;padding:0;border:0;cursor:pointer;background:rgba(20,17,16,.07)" style-hover="outline:2px solid #D81219;outline-offset:2px">
-<sc-if value="{{ t.notVid }}" hint-placeholder-val="{{ true }}"><img ref="{{ mref }}" data-v="{{ t.src }}" alt="" style="width:100%;height:100%;object-fit:cover;object-position:{{ t.pos }};display:block"></sc-if>
+<sc-if value="{{ t.notVid }}" hint-placeholder-val="{{ true }}"><img ref="{{ mref }}" data-v="{{ t.src }}" alt="" style="width:100%;height:100%;object-fit:contain;display:block"></sc-if>
 <sc-if value="{{ t.isVid }}" hint-placeholder-val="{{ false }}"><video ref="{{ mref }}" data-v="{{ t.vsrc }}" muted="{{ true }}" style="width:100%;height:100%;object-fit:cover;display:block"></video></sc-if>
 <sc-if value="{{ t.hasWarn }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;right:6px;top:6px;width:17px;height:17px;border-radius:50%;background:{{ t.warnBg }};color:{{ t.warnFg }};font:700 10px/17px 'DM Mono',monospace;text-align:center">!</span></sc-if>
 </button>
@@ -602,6 +615,19 @@
 </form>
 </div>
 </sc-if>
+<sc-if value="{{ hasZoom }}" hint-placeholder-val="{{ false }}"><div onClick="{{ closeZoom }}" style="position:fixed;inset:0;z-index:97;background:rgba(20,17,16,.94);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:16px;cursor:zoom-out"><div style="flex:1;min-height:0;width:100%;display:flex;align-items:center;justify-content:center"><img ref="{{ mref }}" data-v="{{ zoomSrc }}" alt="" style="max-width:100%;max-height:100%;object-fit:contain;display:block"></div><span style="color:#FBF8F2;font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em">TAP ANYWHERE TO CLOSE</span></div></sc-if>
+<sc-if value="{{ hasClash }}" hint-placeholder-val="{{ false }}"><div style="position:fixed;inset:0;z-index:98;background:rgba(20,17,16,.6);display:flex;align-items:center;justify-content:center;padding:16px">
+<div style="width:min(100%,560px);max-height:88vh;overflow:auto;display:flex;flex-direction:column;gap:14px;padding:clamp(20px,3vw,30px);border-radius:24px;background:#FBF8F2;color:#141110">
+<span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#D81219">YOU BOTH CHANGED THE SAME THING</span>
+<h3 style="margin:0;font:800 clamp(26px,4vw,36px)/1 'Bricolage Grotesque';letter-spacing:-.03em">{{ clashT }}</h3>
+<p style="margin:0;font:400 15px/1.5 'Bricolage Grotesque';color:#3A3430">Everything else you changed will be published either way. For these, choose whose version goes live:</p>
+<div style="display:flex;flex-direction:column;border-top:1.5px dashed rgba(20,17,16,.3)"><sc-for list="{{ clashList }}" as="i" hint-placeholder-count="2"><span style="padding:11px 0;border-bottom:1.5px dashed rgba(20,17,16,.3);font:400 15px/1.35 'Bricolage Grotesque'">{{ i.t }}</span></sc-for></div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:8px">
+<button onClick="{{ clashMine }}" style="height:52px;border:0;border-radius:999px;background:#D81219;color:#FBF8F2;cursor:pointer;font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em">PUBLISH MINE</button>
+<button onClick="{{ clashTheirs }}" style="height:52px;border:1.5px solid #141110;border-radius:999px;background:transparent;color:#141110;cursor:pointer;font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em">{{ clashTheirsL }}</button>
+</div>
+<button onClick="{{ clashCancel }}" style="align-self:center;height:40px;padding:0 16px;border:0;background:transparent;color:#6A6057;cursor:pointer;font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em">NOT NOW</button>
+</div></div></sc-if>
 <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}"><div style="position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:99;padding:14px 22px;border-radius:999px;background:#141110;color:#FBF8F2;font:500 11px/1.3 'DM Mono',monospace;letter-spacing:.14em;max-width:calc(100% - 32px);text-align:center">{{ toast }}</div></sc-if>
 
 </x-dc>
@@ -610,7 +636,14 @@ const NG_WX = {"02542":"840628_630ac86f25494f9ea6f6ebe587021156~mv2.jpg","02571"
 const I = n => NG_WX[n] ? 'https://static.wixstatic.com/media/' + NG_WX[n] + '/v1/fit/w_1200,h_1200,q_80/A67' + n + '.jpg' : '';
 const FULL = u => String(u || '').replace(/(static\.wixstatic\.com\/media\/[^/]+)\/v1\/.*$/, '$1');
 const clone = o => JSON.parse(JSON.stringify(o));
-const OWNER_ID = '84062810-740a-4954-aac6-a5e0ae7f9dc2'; // sjkgracee@gmail.com site member: the only account allowed to edit
+const OWNER_ID = '84062810-740a-4954-aac6-a5e0ae7f9dc2'; // sjkgracee@gmail.com site member. Other admins are allowed by the server (STUDIO_OWNER_IDS).
+/* Photos are always shown as a copy Wix sizes to the box they sit in, never the original file: originals here run to
+   5504×8256 px and 14 MB, which phones (iPhones especially) often draw blank, cut off or blurry. */
+const IMGW = [320, 480, 720, 1080, 1600, 2400];
+const WSIZE = (u, w) => { const b = FULL(u); return /^https:\/\/static\.wixstatic\.com\/media\/[^/]+$/.test(b) ? b + '/v1/fit/w_' + w + ',h_' + w + ',q_85/f.jpg' : u; };
+const UPD = r => String((r && r._updatedDate && (r._updatedDate.$date || r._updatedDate)) || '');
+const LOOK = it => String(it.name || '').toLowerCase().replace(/\s+\d+(?=\.\w+$)/, '').replace(/\.(jpe?g|png|heic|webp)$/, '') + '|' + (it.w ? it.w + 'x' + it.h : it.kb);
+const SIMPLE_KEY = 'ngwisa-studio-simple';
 const fkb = v => v >= 1024 ? (v / 1024).toFixed(1) + ' MB' : v + ' KB';
 const FOLDERS = [['all', 'All'], ['campaign', 'SS27 campaign'], ['products', 'Products'], ['events', 'Appearances'], ['worn', 'Worn by you'], ['film', 'Film']];
 const FL = Object.fromEntries(FOLDERS);
@@ -761,8 +794,8 @@ const SNAP = c => { const U = id => { const it = id ? c.lib.find(x => x.id === i
 const HIST = c => [{ v: 0, at: 'BEFORE THE STUDIO', by: 'Site', sum: 'Original wording and photos', snap: SNAP(c) }];
 
 class Component extends DCLogic {
-  state = (() => { const c = seed(); return { c, pub: clone(c), changes: [], hist: HIST(c), view: 'start', pg: 'home', sec: 0, mob: false, sel: null, libSel: null, folder: 'all', q: '', tray: 'all', crop: null, cf: null, pick: null, pickF: 'all', ev: 0, sc: 0, pubOpen: false, navOpen: false, toast: '', over: null, dz: false, up: {}, pkQ: '' }; })();
-  mainRef = React.createRef(); asideRef = React.createRef();
+  state = (() => { const c = seed(); return { c, pub: clone(c), changes: [], hist: HIST(c), view: 'start', pg: 'home', sec: 0, mob: false, sel: null, libSel: null, folder: 'all', q: '', tray: 'all', crop: null, cf: null, pick: null, pickF: 'all', ev: 0, sc: 0, pubOpen: false, navOpen: false, toast: '', over: null, dz: false, up: {}, pkQ: '', simple: (() => { try { return localStorage.getItem(SIMPLE_KEY) !== 'off'; } catch (e) { return true; } })(), selMode: false, picked: {}, zoom: null, clash: null, others: null }; })();
+  mainRef = React.createRef(); asideRef = React.createRef(); detRef = React.createRef();
   async login() { const N = window.NGW, u = (this.state.lu || '').trim(), p = this.state.lp || '';
     if (!u || !p) { this.setState({ lErr: 'Enter your email and password.' }); return; }
     if (!N) { this.setState({ lErr: 'Wix is still loading. Try again in a moment.' }); return; }
@@ -771,10 +804,17 @@ class Component extends DCLogic {
       if (r !== 'SUCCESS') { this.setState({ lBusy: false, lp: '', lErr: /EMAIL_VERIFICATION/.test(r) ? 'Wix needs you to confirm your email first. Sign in once on the shop.' : /OWNER_APPROVAL/.test(r) ? 'This account is waiting for site owner approval in Wix.' : 'That email and password don’t match.' }); return; }
       await this.checkOwner(true);
     } catch (er) { this.setState({ lBusy: false, lErr: er.message || 'Sign-in failed.' }); } }
+  /* Any account on the server's admin list can use the Studio (STUDIO_OWNER_IDS in Vercel), so two people can
+     each sign in with their own account and the history says who published what. */
   async checkOwner(fromLogin) { const N = window.NGW, m = N ? await N.me() : null;
-    if (m && m.id === OWNER_ID) { this.me = m; try { localStorage.setItem('ngwisa-preview', '1'); } catch (e) {} this.setState({ authed: true, lBusy: false, lp: '', lErr: '' }); this.loadWix(); }
-    else this.setState({ authed: false, lBusy: false, lErr: m ? 'Signed in as ' + (m.email || 'a member') + ', but only the owner account can edit the Studio.' : fromLogin ? 'Signed in, but Wix didn’t return your member profile. Try again.' : '' }); }
-  logout() { const N = window.NGW; this.setState({ authed: false, wixLive: false }); if (N) N.logout(); }
+    if (!m) { this.setState({ authed: false, lBusy: false, lErr: fromLogin ? 'Signed in, but Wix didn’t return your member profile. Try again.' : '' }); return; }
+    let ok = m.id === OWNER_ID, why = '';
+    try { await this.api('/wix-data/v2/items/query', { body: { dataCollectionId: 'StudioVersions', query: { cursorPaging: { limit: 1 } } } }); ok = true; }
+    catch (e) { if (e.status === 401 || e.status === 403) { ok = false; why = e.status === 403 ? 'Signed in as ' + (m.email || 'a member') + ', but this account can’t edit the Studio yet. Ask the owner to add it.' : e.message; } }
+    if (ok) { this.me = m; try { localStorage.setItem('ngwisa-preview', '1'); } catch (e) {} this.setState({ authed: true, lBusy: false, lp: '', lErr: '' }); this.loadWix(); this.startSync(); }
+    else this.setState({ authed: false, lBusy: false, lErr: why }); }
+  myName() { const m = this.me || {}; return m.first || (m.email ? String(m.email).split('@')[0] : '') || this.role(); }
+  logout() { const N = window.NGW; clearInterval(this.syncT); this.setState({ authed: false, wixLive: false }); if (N) N.logout(); }
   /* Every Studio read and write goes through /api/studio, which checks the signed-in member and uses the site's API key.
      On Wix hosting the pages are static, so window.NG_STUDIO_API points at the same function on Vercel. */
   async api(path, opts) { opts = opts || {}; const N = window.NGW; if (!N) throw new Error('Wix is still loading');
@@ -796,25 +836,32 @@ class Component extends DCLogic {
     const id = 'w-' + c.lib.length + '-' + Math.random().toString(36).slice(2, 7), vid = /video\.wixstatic|\.(mp4|mov|webm)/i.test(url);
     c.lib.unshift({ id, src: !vid && url.indexOf('static.wixstatic.com/media/') >= 0 ? url + '/v1/fit/w_1200,h_1200,q_80/f.jpg' : url, poster: '', name: (label || 'From Wix') + ' · in Wix', folder: vid ? 'film' : folder, kind: vid ? 'video' : 'image', w: 0, h: 0, kb: 0, alt: '', consent: folder === 'worn' ? true : null, needsConsent: folder === 'worn', focal: { x: 50, y: 40 }, at: 'WIX', inWix: true });
     return id; }
-  async loadWix() { try {
-    const ids = ['StudioHomeCopy', 'StudioSizeGuide', 'StudioSiteSlots', 'StudioNewInRail', 'StudioPairs', 'StudioAppearances', 'StudioWornByYou', 'StudioProducts'];
-    let err = null; const bad = this.wixBad = new Set();
+  /* Everything the Studio edits, read straight from Wix. Used on load, before every publish (to merge with what the
+     other admin published meanwhile) and when bringing someone else's changes into an open draft. */
+  async readWix(withVersions) { const ids = ['StudioHomeCopy', 'StudioSizeGuide', 'StudioSiteSlots', 'StudioNewInRail', 'StudioPairs', 'StudioAppearances', 'StudioWornByYou', 'StudioProducts'];
+    let err = null; const bad = new Set();
     // Wix Stores products come through the public storefront access, like on the site.
-    const shopP = window.NGW.products(true).catch(e => { this.shopErr = String((e && e.message) || e); return null; });
+    const shopP = this.rawShop && !withVersions ? Promise.resolve(this.rawShop) : window.NGW.products(true).then(l => (this.rawShop = l), e => { this.shopErr = String((e && e.message) || e); return this.rawShop || null; });
     const got = await Promise.all(ids.map(id => this.q(id).catch(e => { bad.add(id); err = e; return null; })));
     if (bad.size === ids.length) throw err;
-    const [copy, sizes, slots, nir, prs, apps, worn, prods] = got.map(r => r || []);
     const shop = await shopP; if (!shop) bad.add('StudioProducts'); // never publish product settings without the product list
+    const vers = withVersions ? await this.q('StudioVersions').catch(() => []) : await this.latestVersions();
+    return { got: got.map(r => r || []), bad, shop, vers }; }
+  async latestVersions() { const r = await this.api('/wix-data/v2/items/query', { body: { dataCollectionId: 'StudioVersions', query: { sort: [{ fieldName: 'version', order: 'DESC' }], cursorPaging: { limit: 1 }, fields: ['version', 'by', 'at'] } } }).catch(() => null);
+    return ((r && r.dataItems) || []).map(d => ({ ...d.data, _id: d.id })); }
+  /* Puts Wix rows into a Studio state c. Where Wix holds the same text or photo spot twice (older publishes left
+     copies behind), the newest row wins and the others are noted so the next publish removes them. */
+  applyWix(c, R) { let [copy, sizes, slots, nir, prs, apps, worn, prods] = R.got; const shop = R.shop;
     const metaRows = prods || [];
-    const vers = await this.q('StudioVersions').catch(() => []);
-    const W = this.wixIds = { copy: {}, sizes: {}, slots: {} };
+    const W = { copy: {}, sizes: {}, slots: {}, dup: { StudioHomeCopy: [], StudioSiteSlots: [] } };
+    const newest = (rows, col) => { const by = {}; rows.slice().sort((a, b) => UPD(a) < UPD(b) ? -1 : UPD(a) > UPD(b) ? 1 : 0).forEach(r => { if (by[r.title]) W.dup[col].push(by[r.title]._id); by[r.title] = r; }); return Object.values(by); };
     const ord = a => a.slice().sort((x, y) => ((x.order || 0) - (y.order || 0)) || String(x._id).localeCompare(String(y._id)));
-    this.setState(st => { const c = clone(st.c);
-      c.catalog = {}; metaRows.forEach(r => { if (r.productId) c.catalog[r.productId] = { hidden: !!r.hidden, displayName: r.displayName || '', category: r.category || '', gender: r.gender || '', hook: r.hook || '', best: r.best == null || r.best === '' ? '?' : +r.best ? String(+r.best) : '', restock: typeof r.restock === 'boolean' ? (r.restock ? 'yes' : 'no') : '', seoTitle: r.seoTitle || '', seoDescription: r.seoDescription || '', seedId: r.seedId || '' }; });
-      if (shop) this.linkShop(c, shop, metaRows.length > 0); Object.keys(c.catalog).forEach(k => { if (c.catalog[k].best === '?') c.catalog[k].best = ''; }); this.prodRows = metaRows.length;
+    copy = newest(copy, 'StudioHomeCopy'); slots = newest(slots, 'StudioSiteSlots');
+    { c.catalog = {}; metaRows.forEach(r => { if (r.productId) c.catalog[r.productId] = { hidden: !!r.hidden, displayName: r.displayName || '', category: r.category || '', gender: r.gender || '', hook: r.hook || '', best: r.best == null || r.best === '' ? '?' : +r.best ? String(+r.best) : '', restock: typeof r.restock === 'boolean' ? (r.restock ? 'yes' : 'no') : '', seoTitle: r.seoTitle || '', seoDescription: r.seoDescription || '', seedId: r.seedId || '' }; });
+      if (shop) this.linkShop(c, shop, metaRows.length > 0); Object.keys(c.catalog).forEach(k => { if (c.catalog[k].best === '?') c.catalog[k].best = ''; });
       copy.forEach(r => { if (!COPY.some(f => f[0] === r.title)) return; W.copy[r.title] = r._id; if (typeof r.text === 'string' && r.text.trim()) c.copy[r.title] = r.text; });
       ord(sizes).forEach((r, i) => { W.sizes[i] = r._id; if (c.sizes[i] && r.rows && r.rows.rows) Object.assign(c.sizes[i], { rows: r.rows.rows, note: r.note || '', sz: r.sizes || c.sizes[i].sz }); });
-      slots.forEach(r => { W.slots[r.title] = r._id; const url = this.mediaUrl(r.video || r.image || r.fileUrl); if (url && SLOTS.some(s => s.id === r.title)) c.slots[r.title] = this.libFor(c, url, 'campaign', r.label || r.title); });
+      slots.forEach(r => { W.slots[r.title] = r._id; const url = this.mediaUrl(r.video || r.image || r.fileUrl); if (SLOTS.some(s => s.id === r.title)) c.slots[r.title] = !url ? null : this.libFor(c, url, 'campaign', r.label || r.title); });
       if (nir.length) c.newin = ord(nir).map(r => r.productId).filter(id => c.products.some(p => p.id === id));
       if (prs.length) c.pairs = ord(prs).map(r => ({ n: r.title || '', a: r.callProductId || '', b: r.answerProductId || '' }));
       if (apps.length) c.events = ord(apps).map(r => ({ t: r.title || '', type: r.type || '', city: r.city || '', yr: r.year || '', img: this.libFor(c, this.mediaUrl(r.coverUrl || r.cover), 'events', r.title), gal: (r.gallery || []).map(u => this.libFor(c, u, 'events', r.title)).filter(Boolean), body: r.body || '' }));
@@ -823,11 +870,62 @@ class Component extends DCLogic {
           c.wall[Math.max(0, Math.min(2, Math.round(+r.col || 0)))].push(wallTile({ k, f: k === 'QUOTE' || k === 'TAG' ? [] : f, pid: r.productId || '', text: r.text || '', kick: r.kicker || '', wide: !!r.wide, show: r.show !== false, h: r.handle || '', city: r.city || '' })); }); }
       else if (worn.length) this.oldWorn(c, ord(worn).filter(r => r.show !== false && r.consent !== false).map(r => this.libFor(c, this.mediaUrl(r.fileUrl || r.photo), 'worn', r.title || 'Worn by you')).filter(Boolean));
       slots.forEach(r => { const it = c.lib.find(x => x.id === c.slots[r.title]); if (!it) return; if (r.alt && !it.alt) it.alt = r.alt; if (r.consent) it.consent = true; if (r.focalX != null && r.focalY != null && !it.focalSet) Object.assign(it, { focal: { x: r.focalX, y: r.focalY }, focalSet: true }); });
-      const hist = vers.map(r => { let snap = r.snapshot; if (typeof snap === 'string') { try { snap = JSON.parse(snap); } catch (e) { snap = null; } } return { v: +r.version || 0, at: r.at || '', by: r.by || 'Owner', sum: r.summary || '', snap }; })
+    }
+    return { W, metaRows }; }
+  async loadWix(quiet) { try {
+    const R = await this.readWix(true), bad = this.wixBad = R.bad;
+    this.setState(st => { const c = clone(st.c); const A = this.applyWix(c, R); this.wixIds = A.W; this.prodRows = A.metaRows.length;
+      const hist = R.vers.map(r => { let snap = r.snapshot; if (typeof snap === 'string') { try { snap = JSON.parse(snap); } catch (e) { snap = null; } } return { v: +r.version || 0, at: r.at || '', by: r.by || 'Owner', sum: r.summary || '', snap }; })
         .filter(h => h.v > 0 && h.snap).sort((a, b) => b.v - a.v).concat(HIST(seed()));
-      return { c, pub: clone(c), changes: [], wixLive: true, wixErr: '', hist, shop: this.shopList || null }; });
-    this.flash(bad.size ? 'LOADED FROM WIX · NOT LOADED: ' + [...bad].map(x => x.replace('Studio', '')).join(', ').toUpperCase() + ' (WON’T BE PUBLISHED)' : 'LOADED FROM WIX'); this.loadMM();
+      this.baseV = Math.max(0, ...R.vers.map(r => +r.version || 0)); const last = R.vers.slice().sort((a, b) => (+b.version || 0) - (+a.version || 0))[0];
+      return { c, pub: clone(c), changes: [], wixLive: true, wixErr: '', hist, shop: this.shopList || null, others: null, lastBy: last ? { by: last.by || '', at: last.at || '' } : null }; });
+    if (!quiet) this.flash(bad.size ? 'LOADED FROM WIX · NOT LOADED: ' + [...bad].map(x => x.replace('Studio', '')).join(', ').toUpperCase() + ' (WON’T BE PUBLISHED)' : 'LOADED FROM WIX'); this.loadMM();
   } catch (er) { const m = String(er.message || er); this.setState({ wixLive: false, wixErr: m }); this.flash('COULD NOT LOAD FROM WIX · ' + m.toUpperCase()); } }
+  /* Staying in step with the other admin: every 30 seconds (and when the tab comes back into view) the Studio checks
+     for a newer publish and new or deleted files. With no unpublished changes it simply updates; with a draft open it
+     says who published and offers to bring their changes in (publishing does that by itself too). */
+  startSync() { clearInterval(this.syncT); this.syncT = setInterval(() => this.sync(), 30000);
+    if (!this.onVis) { this.onVis = () => { if (document.visibilityState === 'visible') this.sync(); }; document.addEventListener('visibilitychange', this.onVis); addEventListener('focus', this.onVis); } }
+  async sync() { const st = this.state; if (!st.authed || !st.wixLive || this.publishing || this.syncing || document.visibilityState === 'hidden') return;
+    if (this.lastSync && Date.now() - this.lastSync < 8000) return; this.syncing = true; this.lastSync = Date.now();
+    try { const v = (await this.latestVersions())[0];
+      if (v && (+v.version || 0) > (this.baseV || 0) && !(this.mine || new Set()).has(+v.version)) {
+        if (!this.state.changes.length) { await this.loadWix(true); this.flash((v.by || 'ANOTHER ADMIN').toUpperCase() + ' PUBLISHED CHANGES · YOU NOW SEE THEM HERE'); }
+        else this.setState({ others: { by: v.by || 'Another admin', at: v.at || '', v: +v.version } }); }
+      else if (this.state.mmLive) await this.loadMM(); }
+    catch (e) {} finally { this.syncing = false; } }
+  /* Brings what others published into this draft, keeping every change made here. */
+  async bringIn() { if (this.publishing) return; this.flash('BRINGING IN THE LATEST…');
+    try { const R = await this.readWix(), st = this.state, T = clone(st.pub); T.lib = clone(st.c.lib); const A = this.applyWix(T, R);
+      const mg = this.merge(st.pub, st.c, T, 'mine');
+      this.wixIds = A.W; this.baseV = Math.max(this.baseV || 0, ...R.vers.map(r => +r.version || 0));
+      this.setState(s => ({ c: mg.c, pub: T, changes: s.changes.map(ch => ({ ...ch, prev: null })), others: null, lastBy: R.vers[0] ? { by: R.vers[0].by || '', at: R.vers[0].at || '' } : s.lastBy }));
+      this.flash(mg.clash.length ? 'UPDATED · YOUR VERSION KEPT FOR ' + mg.clash.length + (mg.clash.length > 1 ? ' THINGS' : ' THING') + ' YOU BOTH CHANGED' : 'UPDATED · THEIR CHANGES ARE IN, YOURS ARE KEPT');
+      this.loadMM(); }
+    catch (e) { this.flash('COULD NOT UPDATE · ' + String(e.message || e).toUpperCase()); } }
+  /* Each part of the site as a comparable value: every text, every photo spot, every list, every piece's settings. */
+  parts(c) { const s = SNAP(c), J = JSON.stringify, o = {};
+    COPY.forEach(f => { o['copy:' + f[0]] = s.copy[f[0]] || ''; });
+    SLOTS.forEach(x => { o['slot:' + x.id] = s.slots[x.id] || ''; });
+    ['sizes', 'newin', 'pairs', 'events', 'wall'].forEach(k => { o[k] = J(s[k]); });
+    Object.keys(s.catalog || {}).forEach(k => { const m = { ...(s.catalog[k] || {}) }; delete m.fresh; o['cat:' + k] = J(m); });
+    return o; }
+  partLabel(k, c) { const [a, b] = k.split(':');
+    if (a === 'copy') { const f = COPY.find(x => x[0] === b); return 'Words · ' + (f ? f[1].charAt(0) + f[1].slice(1).toLowerCase() : b); }
+    if (a === 'slot') { const x = SLOTS.find(y => y.id === b); return 'Photo · ' + (x ? x.page + ' · ' + x.label : b); }
+    if (a === 'cat') { const p = (this.state.shop || []).find(y => y.wixId === b); return 'Shop piece · ' + (p ? p.name : b); }
+    return { sizes: 'Size guide', newin: 'New in rail', pairs: 'Pairs', events: 'Appearances', wall: 'The Wall' }[a] || a; }
+  /* Three-way merge. base = what this person loaded, mine = their draft, theirs = Wix now. Each part keeps whichever
+     side changed it. A part both changed differently is a clash: prefer says whose wins ('mine' or 'theirs'). */
+  merge(base, mine, theirs, prefer) { const B = this.parts(base), M = this.parts(mine), T = this.parts(theirs), out = clone(theirs), clash = [], win = [];
+    out.lib = clone(mine.lib); theirs.lib.forEach(x => { if (!out.lib.some(y => y.id === x.id)) out.lib.push(clone(x)); });
+    new Set([...Object.keys(M), ...Object.keys(T)]).forEach(k => { const b = B[k], m = M[k], t = T[k] === undefined ? b : T[k];
+      if (m === b || m === t) return; if (t !== b) { clash.push({ k, label: this.partLabel(k, mine) }); if (prefer !== 'mine') return; }
+      win.push(k); const [a, id] = k.split(':');
+      if (a === 'copy') out.copy[id] = mine.copy[id]; else if (a === 'slot') out.slots[id] = mine.slots[id];
+      else if (a === 'cat') out.catalog[id] = clone(mine.catalog[id]); else out[a] = clone(mine[a]); });
+    const R = this.parts(out), writes = Object.keys(R).filter(k => R[k] !== (T[k] === undefined ? undefined : T[k]) && (T[k] !== undefined || R[k] !== B[k]));
+    return { c: out, clash, writes, win }; }
   /* Every visible Wix product, with the id the site uses for it: the built-in piece it matches (Studio link, then
      name), otherwise w-<wix id>. Pieces not built in join the New in / Call & Answer pickers. Before the first publish
      of Products (no rows yet), each piece starts shown or hidden exactly as the site showed it. */
@@ -875,44 +973,95 @@ class Component extends DCLogic {
       do { const r = await this.mm('/files/search', { body: { rootFolder: 'MEDIA_ROOT', mediaTypes: ['IMAGE', 'VIDEO'], paging: { limit: 100, ...(cursor ? { cursor } : {}) } } }) || {};
         files = files.concat(r.files || []); cursor = r.nextCursor && r.nextCursor.cursors && r.nextCursor.cursors.next; } while (cursor && ++n < 20);
       files = files.filter(f => f.url && (!f.state || f.state === 'OK'));
-      this.setState(st => { const c = clone(st.c);
+      const ids = new Set(files.map(f => f.id));
+      const fix = c => {
         files.forEach(f => { const base = String(f.url).replace(/\/v1\/.*$/, ''), hit = c.lib.find(x => x.wixId === f.id || FULL(x.src) === base), m = this.fromMM(f, byPid[f.parentFolderId] || (hit && hit.folder) || (f.mediaType === 'VIDEO' ? 'film' : 'campaign'));
           if (hit) Object.assign(hit, { wixId: f.id, labels: m.labels, inWix: true, name: m.name, kb: m.kb || hit.kb, w: m.w || hit.w, h: m.h || hit.h, alt: m.alt || hit.alt, folder: m.folder, consent: m.consent || hit.consent, needsConsent: m.needsConsent || hit.needsConsent, ...(m.focalSet ? { focal: m.focal, focalSet: true } : {}), ...(m.kind === 'video' ? { src: m.src, poster: m.poster || hit.poster } : {}) });
           else c.lib.push(m); });
-        const dead = new Set(c.lib.filter(x => !x.src).map(x => x.id)); c.lib = c.lib.filter(x => !dead.has(x.id)); Object.keys(c.slots).forEach(k => { if (dead.has(c.slots[k])) delete c.slots[k]; });
-        return { c, pub: clone(c), changes: [], mmLive: true, mmN: files.length, mmErr: '' }; });
+        c.lib.forEach(x => { if (x.wixId && ids.has(x.wixId)) { const f = files.find(y => y.id === x.wixId); x.processing = f.mediaType === 'VIDEO' && !((f.media && f.media.video && f.media.video.resolutions) || []).length; } });
+        const dead = new Set(c.lib.filter(x => !x.src || (x.wixId && !ids.has(x.wixId) && !this.usedIn(c, x.id))).map(x => x.id)); c.lib = c.lib.filter(x => !dead.has(x.id)); Object.keys(c.slots).forEach(k => { if (dead.has(c.slots[k])) delete c.slots[k]; });
+        return c; };
+      this.setState(st => ({ c: fix(clone(st.c)), pub: fix(clone(st.pub)), changes: st.changes.map(ch => ch.prev ? { ...ch, prev: fix(clone(ch.prev)) } : ch), mmLive: true, mmN: files.length, mmErr: '' }));
     } catch (e) { this.setState({ mmLive: false, mmErr: String((e && e.message) || e) }); } }
   mmUpdate(it) { const F = this.mmF || {}, labels = (it.labels || []).filter(l => !/^(alt|focal|consent|person):/.test(l)).concat(it.alt ? ['alt:' + it.alt.slice(0, 240)] : []).concat(it.focalSet ? ['focal:' + it.focal.x + ',' + it.focal.y] : [])
       .concat(it.consent ? ['consent:yes'] : []).concat(it.needsConsent ? ['person:yes'] : []);
     return this.mm('/files/' + it.wixId, { method: 'PATCH', body: { file: { id: it.wixId, displayName: it.name, labels, ...(F[it.folder] ? { parentFolderId: F[it.folder] } : {}) } } }); }
-  async pushWix(c) { const W = this.wixIds, bad = this.wixBad || new Set(); if (!W || !this.state.wixLive) throw new Error('not connected to Wix');
+  usedIn(c, id) { return SLOTS.some(s => c.slots[s.id] === id) || c.events.some(e => e.img === id || (e.gal || []).includes(id)) || c.wall.some(col => col.some(t => t.f.includes(id))); }
+  /* Writes only the parts in `writes` (see merge), so publishing never overwrites what someone else changed. */
+  async pushWix(c, writes, base) { const W = this.wixIds, bad = this.wixBad || new Set(); if (!W || !this.state.wixLive) throw new Error('not connected to Wix');
+    const has = k => writes.includes(k), keys = p => writes.filter(k => k.indexOf(p) === 0).map(k => k.slice(p.length));
     const save = (id, list) => list.length && !bad.has(id) ? this.api('/wix-data/v2/bulk/items/save', { body: { dataCollectionId: id, dataItems: list.map(x => x.data && x.data._id ? { id: x.data._id, data: x.data } : x) } }) /* Wix requires id to match data._id */ : Promise.resolve();
+    const drop = (id, ids) => ids.length && !bad.has(id) ? this.api('/wix-data/v2/bulk/items/remove', { body: { dataCollectionId: id, dataItemIds: ids } }) : Promise.resolve();
     const U = id => { const it = c.lib.find(x => x.id === id); if (!it) return ''; const u = FULL(it.src); return /^https?:/.test(u) ? u : ''; };
     const pad = i => String(i).padStart(2, '0'), pname = id => (c.products.find(p => p.id === id) || {}).name || id;
     const replace = async (id, rows) => { if (bad.has(id)) return; await save(id, rows.map(data => ({ data }))); const keep = new Set(rows.map(r => r._id));
-      const gone = (await this.q(id)).map(r => r._id).filter(x => x && !keep.has(x)); if (gone.length) await this.api('/wix-data/v2/bulk/items/remove', { body: { dataCollectionId: id, dataItemIds: gone } }); };
-    const copy = COPY.map(f => ({ data: { ...(W.copy[f[0]] ? { _id: W.copy[f[0]] } : {}), title: f[0], label: f[1], maxLength: f[2], text: c.copy[f[0]] || '' } }));
-    const sizes = c.sizes.map((z, i) => ({ data: { ...(W.sizes[i] ? { _id: W.sizes[i] } : {}), title: z.cat, sizes: z.sz, rows: { rows: z.rows }, note: z.note, order: i } }));
-    const slots = SLOTS.map(s => { const id = c.slots[s.id], it = id ? c.lib.find(x => x.id === id) : null, url = U(id); if (it && !url) return null;
+      const gone = (await this.q(id)).map(r => r._id).filter(x => x && !keep.has(x)); if (gone.length) await drop(id, gone); };
+    // A photo's description or focus point lives on its spot's row too: rewrite the rows of spots whose photo changed.
+    const P = base || this.state.pub, meta = it => it ? JSON.stringify([it.alt || '', it.consent || false, it.focalSet ? it.focal : null]) : '';
+    const metaIds = SLOTS.filter(s => { const a = c.lib.find(x => x.id === c.slots[s.id]), b = P.lib.find(x => x.id === P.slots[s.id]); return a && b && FULL(a.src) === FULL(b.src) && meta(a) !== meta(b); }).map(s => s.id);
+    const copy = keys('copy:').map(k => { const f = COPY.find(x => x[0] === k); return { data: { ...(W.copy[k] ? { _id: W.copy[k] } : {}), title: k, label: f[1], maxLength: f[2], text: c.copy[k] || '' } }; });
+    const sizes = has('sizes') ? c.sizes.map((z, i) => ({ data: { ...(W.sizes[i] ? { _id: W.sizes[i] } : {}), title: z.cat, sizes: z.sz, rows: { rows: z.rows }, note: z.note, order: i } })) : [];
+    const slotIds = new Set(keys('slot:').concat(metaIds));
+    const slots = SLOTS.filter(s => slotIds.has(s.id)).map(s => { const id = c.slots[s.id], it = id ? c.lib.find(x => x.id === id) : null, url = U(id); if (it && !url) return null;
       return { data: { ...(W.slots[s.id] ? { _id: W.slots[s.id] } : {}), title: s.id, page: s.page, section: s.sec, label: s.label, shape: s.shape, kind: s.kind, minWidth: s.min, needsConsent: s.consent, fileUrl: url, image: s.kind === 'image' ? url : '', video: s.kind === 'video' ? url : '',
         alt: it ? it.alt || '' : '', consent: !!(it && it.consent), focalX: it && it.focalSet ? it.focal.x : null, focalY: it && it.focalSet ? it.focal.y : null } }; }).filter(Boolean);
-    const shop = this.state.shop || [], cat = c.catalog || {};
+    const shop = this.state.shop || [], cat = c.catalog || {}, first = !this.prodRows, catKeys = new Set(keys('cat:'));
     const prows = shop.map((p, i) => { const m = cat[p.wixId] || {}, b = parseInt(m.best, 10);
       return { _id: 'p-' + p.wixId, title: p.name, productId: p.wixId, slug: p.slug, seedId: p.seedId || m.seedId || '', hidden: !!m.hidden, displayName: (m.displayName || '').trim(),
         category: m.category || '', gender: m.gender || '', hook: (m.hook || '').trim(), best: isNaN(b) ? 0 : b, restock: m.restock === 'yes' ? true : m.restock === 'no' ? false : null,
         seoTitle: (m.seoTitle || '').trim(), seoDescription: (m.seoDescription || '').trim(), order: i }; });
     await Promise.all([save('StudioHomeCopy', copy), save('StudioSizeGuide', sizes), save('StudioSiteSlots', slots),
-      shop.length ? replace('StudioProducts', prows).then(() => { this.prodRows = prows.length; }) : Promise.resolve(),
-      replace('StudioNewInRail', c.newin.map((id, i) => ({ _id: 'ni-' + pad(i), title: pname(id), productId: id, order: i }))),
-      replace('StudioPairs', c.pairs.filter(p => p.a && p.b).map((p, i) => ({ _id: 'pr-' + pad(i), title: p.n || (pname(p.a) + ' + ' + pname(p.b)), callProductId: p.a, answerProductId: p.b, order: i }))),
-      replace('StudioAppearances', c.events.map((e, i) => ({ _id: 'ev-' + pad(i), title: e.t, type: e.type, city: e.city, year: e.yr, coverUrl: U(e.img), gallery: (e.gal || []).map(U).filter(Boolean), body: e.body || '', order: i }))),
-      replace('StudioWornByYou', [].concat(...c.wall.map((col, ci) => col.map((t, ti) => { const fr = t.f.map(U).filter(Boolean);
-        return { _id: 'wl-' + ci + '-' + pad(ti), title: (t.h ? t.h + ' · ' : '') + TILE[t.k][0] + ' · column ' + (ci + 1), handle: t.h || '', city: t.city || '', kind: t.k, col: ci, frames: fr, fileUrl: fr[0] || '', productId: t.pid || '', text: t.text || '', kicker: t.kick || '', wide: !!t.wide, show: t.show !== false, consent: true }; }))).map((r, i) => ({ ...r, order: i })))]);
-    const P = this.state.pub || { lib: [] }, was = id => P.lib.find(x => x.id === id) || {};
-    if (this.state.mmLive) await Promise.all(c.lib.filter(it => it.wixId).filter(it => { const o = was(it.id); return o.alt !== it.alt || o.name !== it.name || o.folder !== it.folder || o.consent !== it.consent || o.needsConsent !== it.needsConsent || JSON.stringify(o.focal) !== JSON.stringify(it.focal); }).map(it => this.mmUpdate(it).catch(() => null)));
+      // Older publishes left duplicate rows for some words; the site could show either. Clear them out.
+      drop('StudioHomeCopy', W.dup.StudioHomeCopy.filter(x => !copy.some(r => r.data._id === x))), drop('StudioSiteSlots', W.dup.StudioSiteSlots.filter(x => !slots.some(r => r.data._id === x))),
+      !shop.length ? Promise.resolve() : first ? replace('StudioProducts', prows).then(() => { this.prodRows = prows.length; }) : save('StudioProducts', prows.filter(r => catKeys.has(r.productId)).map(data => ({ data }))),
+      has('newin') ? replace('StudioNewInRail', c.newin.map((id, i) => ({ _id: 'ni-' + pad(i), title: pname(id), productId: id, order: i }))) : null,
+      has('pairs') ? replace('StudioPairs', c.pairs.filter(p => p.a && p.b).map((p, i) => ({ _id: 'pr-' + pad(i), title: p.n || (pname(p.a) + ' + ' + pname(p.b)), callProductId: p.a, answerProductId: p.b, order: i }))) : null,
+      has('events') ? replace('StudioAppearances', c.events.map((e, i) => ({ _id: 'ev-' + pad(i), title: e.t, type: e.type, city: e.city, year: e.yr, coverUrl: U(e.img), gallery: (e.gal || []).map(U).filter(Boolean), body: e.body || '', order: i }))) : null,
+      has('wall') ? replace('StudioWornByYou', [].concat(...c.wall.map((col, ci) => col.map((t, ti) => { const fr = t.f.map(U).filter(Boolean);
+        return { _id: 'wl-' + ci + '-' + pad(ti), title: (t.h ? t.h + ' · ' : '') + TILE[t.k][0] + ' · column ' + (ci + 1), handle: t.h || '', city: t.city || '', kind: t.k, col: ci, frames: fr, fileUrl: fr[0] || '', productId: t.pid || '', text: t.text || '', kicker: t.kick || '', wide: !!t.wide, show: t.show !== false, consent: true }; }))).map((r, i) => ({ ...r, order: i }))) : null]);
+    W.dup = { StudioHomeCopy: [], StudioSiteSlots: [] };
+    const was = id => P.lib.find(x => x.id === id) || {};
+    if (this.state.mmLive) await Promise.all(c.lib.filter(it => it.wixId).filter(it => { const o = was(it.id); return o.id && (o.alt !== it.alt || o.name !== it.name || o.folder !== it.folder || o.consent !== it.consent || o.needsConsent !== it.needsConsent || JSON.stringify(o.focal) !== JSON.stringify(it.focal)); }).map(it => this.mmUpdate(it).catch(() => null)));
     try { const [cp, sl, sz] = await Promise.all([this.q('StudioHomeCopy'), this.q('StudioSiteSlots'), this.q('StudioSizeGuide')]); cp.forEach(r => { W.copy[r.title] = r._id; }); sl.forEach(r => { W.slots[r.title] = r._id; }); sz.forEach(r => { if (r.order != null) W.sizes[r.order] = r._id; }); } catch (e) {} }
+  /* Publish: read Wix as it is now, merge it with this draft, ask about clashes, write only what this draft changed. */
+  async publish(prefer) { const st = this.state, role = this.role(); if (this.publishing) return; this.publishing = true;
+    this.setState({ pubOpen: false, clash: null }); this.flash('PUBLISHING…');
+    const labels = [...new Set(st.changes.map(x => x.label))];
+    try { const R = await this.readWix(), T = clone(st.pub); T.lib = clone(st.c.lib); const A = this.applyWix(T, R); this.wixIds = A.W;
+      if (!this.prodRows) this.prodRows = A.metaRows.length;
+      const mg = this.merge(st.pub, st.c, T, prefer || 'ask');
+      if (mg.clash.length && !prefer) { const v = R.vers[0] || {}; this.publishing = false; this.setState({ clash: { list: mg.clash, by: v.by || 'Another admin', at: v.at || '' } }); this.flash('SOMEONE ELSE CHANGED THE SAME THING · CHOOSE BELOW'); return; }
+      await this.pushWix(mg.c, mg.writes, st.pub);
+      const v = Math.max(this.baseV || 0, ...R.vers.map(r => +r.version || 0), st.hist[0].v) + 1, at = new Date().toLocaleString('en-GB', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }).toUpperCase().replace(',', ' ·');
+      const by = this.myName(), h = { v, at, by, sum: labels.slice(-3).reverse().join(', ') + (labels.length > 3 ? ' +' + (labels.length - 3) : ''), snap: SNAP(mg.c) };
+      (this.mine = this.mine || new Set()).add(v); this.baseV = v;
+      const note = await this.api('/wix-data/v2/items', { body: { dataCollectionId: 'StudioVersions', dataItem: { data: { title: 'Version ' + v, version: v, at, by, summary: h.sum, snapshot: h.snap } } } }).then(() => '', e => ' · HISTORY NOT SAVED: ' + String(e.message || e).toUpperCase());
+      const off = await this.verifyLive(mg.c);
+      this.setState(s => ({ pub: clone(mg.c), c: s.c === st.c ? mg.c : s.c, changes: s.c === st.c ? [] : s.changes, hist: [h].concat(s.hist), lastPub: { at, ok: !off.length, off }, others: null, lastBy: { by, at } }));
+      this.flash(off.length ? 'SAVED, BUT THE SITE DOESN’T SHOW IT YET: ' + off.join(', ').toUpperCase() : 'LIVE ON THE SITE NOW · CHECKED' + (mg.writes.length ? '' : ' · NOTHING NEW TO SEND') + note);
+    } catch (er) { this.flash('WIX DIDN’T SAVE · YOUR CHANGES ARE STILL IN DRAFT · ' + String(er.message || er).toUpperCase()); }
+    finally { this.publishing = false; } }
+  /* Photos: picks the Wix size for the box, and falls back (smaller copy, then the original) if Wix refuses one. */
+  sizeImg(el) { if (!el || !el.dataset.v) return; const v = el.dataset.v;
+    if (el.tagName !== 'IMG') { if (el.getAttribute('src') !== v) { el.preload = 'metadata'; el.setAttribute('src', v); } return; }
+    if (el.dataset.for === v && el.getAttribute('src')) return;
+    const box = (el.parentElement || el).getBoundingClientRect(), css = Math.max(box.width || 0, box.height || 0) || 400;
+    const need = css * Math.min(3, window.devicePixelRatio || 1), w = IMGW.find(x => x >= need) || 2400;
+    const tries = [WSIZE(v, w), WSIZE(v, 1080), v].filter((x, i, a) => x && a.indexOf(x) === i); let k = 0;
+    el.dataset.for = v; el.onerror = () => { if (++k < tries.length) el.setAttribute('src', tries[k]); else el.style.opacity = '.2'; }; el.onload = () => { el.style.opacity = ''; };
+    el.setAttribute('src', tries[0]); }
+  /* Deletes many files at once. Photos in use anywhere on the site are kept (and named), so nothing goes blank. */
+  async bulkDelete(ids) { const st = this.state, all = ids.map(id => this.item(id)).filter(Boolean);
+    const busy = all.filter(it => this.usedIn(st.c, it.id) || this.usedIn(st.pub, it.id)), go = all.filter(it => !busy.includes(it));
+    if (!go.length) { this.flash('ALL ' + all.length + ' ARE IN USE ON THE SITE · SWAP THEM OUT FIRST'); return; }
+    if (!window.confirm('Delete ' + go.length + (go.length > 1 ? ' files' : ' file') + '?' + (busy.length ? '\n\n' + busy.length + ' more ' + (busy.length > 1 ? 'are' : 'is') + ' used on the site and will be kept.' : '') + '\n\nThey go to the trash in Wix Media Manager, where they can be restored.')) return;
+    const wix = go.filter(it => it.wixId).map(it => it.wixId), gone = new Set(go.map(it => it.id)); let failed = 0;
+    for (let i = 0; i < wix.length; i += 50) { try { await this.mm('/bulk/files/delete', { body: { fileIds: wix.slice(i, i + 50) } }); } catch (e) { failed += wix.slice(i, i + 50).length; wix.slice(i, i + 50).forEach(w => { const it = go.find(x => x.wixId === w); if (it) gone.delete(it.id); }); } }
+    const cut = c => c && { ...c, lib: c.lib.filter(x => !gone.has(x.id)) };
+    this.setState(s => ({ c: cut(s.c), pub: cut(s.pub), changes: s.changes.map(ch => ({ ...ch, prev: cut(ch.prev) })), picked: {}, selMode: false, libSel: gone.has(s.libSel) ? null : s.libSel, mmN: Math.max(0, (s.mmN || 0) - (wix.length - failed)) }));
+    this.flash((gone.size ? gone.size + ' DELETED · IN THE WIX TRASH' : '') + (busy.length ? ' · ' + busy.length + ' KEPT (IN USE)' : '') + (failed ? ' · ' + failed + ' WIX COULDN’T DELETE' : '')); }
   componentDidMount() { const tryAuth = n => { const N = window.NGW; if (!N) { if (n < 40) setTimeout(() => tryAuth(n + 1), 250); return; } if (N.isMember()) this.checkOwner(); }; tryAuth(0); this.onR = () => { const m = innerWidth < 900; if (m !== this.state.mob) this.setState({ mob: m }); }; this.onR(); addEventListener('resize', this.onR); }
-  componentWillUnmount() { removeEventListener('resize', this.onR); }
+  componentWillUnmount() { removeEventListener('resize', this.onR); clearInterval(this.syncT); if (this.onVis) { document.removeEventListener('visibilitychange', this.onVis); removeEventListener('focus', this.onVis); } }
   role() { return this.props.viewAs ?? 'Owner'; }
   item(id) { return id ? this.state.c.lib.find(x => x.id === id) || null : null; }
   prodById(id) { return this.state.c.products.find(p => p.id === id); }
@@ -920,10 +1069,10 @@ class Component extends DCLogic {
   edit(key, label, fn) {
     // Apply fn now, inside the event: React resets a controlled field before a deferred updater would read e.target.value.
     const s = this.state, c = clone(s.c); fn(c); const last = s.changes[s.changes.length - 1], now = Date.now();
-    const changes = last && last.key === key && now - last.t < 2500 ? s.changes.slice(0, -1).concat([{ ...last, t: now, label }]) : s.changes.concat([{ key, label, t: now, prev: s.c, by: this.role(), area: s.view === 'page' ? 'pg:' + s.pg : s.view }]);
+    const changes = last && last.key === key && now - last.t < 2500 ? s.changes.slice(0, -1).concat([{ ...last, t: now, label }]) : s.changes.concat([{ key, label, t: now, prev: s.c, by: this.myName(), area: s.view === 'page' ? 'pg:' + s.pg : s.view }]);
     this.setState({ c, changes });
   }
-  undo() { const ch = this.state.changes; if (!ch.length) return; const last = ch[ch.length - 1]; this.setState({ c: last.prev, changes: ch.slice(0, -1) }); this.flash('UNDONE · ' + last.label.toUpperCase()); }
+  undo() { const ch = this.state.changes; if (!ch.length) return; const last = ch[ch.length - 1]; if (!last.prev) { this.flash('CAN’T UNDO PAST THE UPDATE FROM THE OTHER ADMIN'); return; } this.setState({ c: last.prev, changes: ch.slice(0, -1) }); this.flash('UNDONE · ' + last.label.toUpperCase()); }
   editItem(id, key, label, patch) { this.edit(key + id, label, c => Object.assign(c.lib.find(x => x.id === id), patch)); }
   media(it) { if (!it) return { has: false, empty: true, src: '', vsrc: '', isVid: false, notVid: false, pos: '50% 50%' }; const v = it.kind === 'video' && !it.poster;
     return { has: true, empty: false, src: it.kind === 'video' ? (it.poster || '') : it.src, vsrc: it.src, isVid: v, notVid: !v, pos: it.focal.x + '% ' + it.focal.y + '%' }; }
@@ -931,7 +1080,9 @@ class Component extends DCLogic {
     if (it.kind === 'image' && it.kb > 20000) w.push(['heavy', 'Over 20 MB (' + fkb(it.kb) + '). Export a lighter file so the page loads fast.']);
     if (it.kind === 'video' && it.kb > 60000) w.push(['heavy', 'Heavy for a hero film (' + fkb(it.kb) + '). Aim for under 60 MB.']);
     if (min && it.w && it.w < min) w.push(['soft', 'Only ' + it.w + 'px wide. This spot needs ' + min + 'px or it will look soft.']);
-    if (!it.alt) w.push(['alt', it.kind === 'video' ? 'No description. Add one for screen readers.' : 'No alt text. Describe the piece for screen readers and search.']);
+    if (it.kind === 'image' && it.w && it.w < 1000 && !min) w.push(['soft', 'Small photo (' + it.w + '×' + it.h + '). It will look blurry on the site. Use the full-size file.']);
+    if (it.processing) w.push(['soft', 'Wix is still preparing this film. It plays here once Wix has finished.']);
+    if (!it.alt && !this.state.simple) w.push(['alt', it.kind === 'video' ? 'No description. Add one for screen readers.' : 'No alt text. Describe the piece for screen readers and search.']);
     return w; }
   wv(w) { return w.map(x => ({ t: x[1], dot: x[0] === 'consent' ? '#D81219' : '#E3A72F', c: x[0] === 'consent' ? '#D81219' : '#3A3430' })); }
   wdot(w) { const red = w.some(x => x[0] === 'consent'); return { hasWarn: w.length > 0, warnBg: red ? '#D81219' : '#E3A72F', warnFg: red ? '#FBF8F2' : '#141110' }; }
@@ -942,7 +1093,7 @@ class Component extends DCLogic {
     return u; }
   checks() { const c = this.state.c, B = [], W = [], seen = new Set();
     const look = (id, where, needC, min) => { const it = this.item(id); if (!it) return;
-      if (!it.alt && !seen.has(id)) { seen.add(id); W.push('No alt text · ' + it.name); }
+      if (!it.alt && !seen.has(id) && !this.state.simple) { seen.add(id); W.push('No alt text · ' + it.name); }
       if (min && it.w && it.w < min) W.push('May look soft · ' + it.name + ' in ' + where);
       if ((it.kind === 'image' && it.kb > 20000) || (it.kind === 'video' && it.kb > 60000)) { if (!seen.has('h' + id)) { seen.add('h' + id); W.push('Heavy file · ' + it.name + ' (' + fkb(it.kb) + ')'); } } };
     SLOTS.forEach(s => look(c.slots[s.id], s.label, s.consent, s.min));
@@ -953,22 +1104,28 @@ class Component extends DCLogic {
   assignSlot(sid, id) { const s = SLOTS.find(x => x.id === sid), it = this.item(id); if (!s || !it) return;
     if (it.kind !== s.kind) { this.flash(s.kind === 'video' ? 'THIS SPOT TAKES A FILM' : 'THIS SPOT TAKES A PHOTO'); return; }
     this.edit('slot-' + sid, s.label + ' → ' + it.name, c => { c.slots[sid] = id; }); this.flash(s.label.toUpperCase() + ' · UPDATED IN DRAFT'); }
-  upload(files, after, folderHint) { const arr = Array.from(files || []); if (!arr.length) return; const st = this.state;
+  upload(files, after, folderHint) { const all = Array.from(files || []), arr = all.filter(f => /^(image|video)\//.test(f.type || '') || /\.(jpe?g|png|webp|heic|gif|mp4|mov|webm)$/i.test(f.name || '')); const st = this.state;
+    if (all.length > arr.length) this.flash((all.length - arr.length) + ' FILE(S) SKIPPED · ONLY PHOTOS AND FILMS'); if (!arr.length) return;
+    if (st.folder === 'unused' || st.folder === 'dupes') folderHint = folderHint || 'campaign';
     arr.forEach((f, k) => { const id = 'u' + Date.now() + k, url = URL.createObjectURL(f), vid = (f.type || '').indexOf('video') === 0;
       let folder = folderHint || (st.pick ? st.pickF : st.folder); if (!folder || folder === 'all') folder = vid ? 'film' : (this.curSec() && this.curSec().list === 'wall' ? 'worn' : 'campaign'); if (vid) folder = 'film';
       const it = { id, src: url, poster: '', name: f.name, folder, kind: vid ? 'video' : 'image', w: 0, h: 0, kb: Math.round(f.size / 1024), alt: '', consent: null, needsConsent: folder === 'worn', focal: { x: 50, y: 40 }, at: 'TODAY' };
-      this.edit('up-' + id, 'Uploaded ' + f.name, c => { c.lib.unshift(it); });
+      this.setState(s => ({ c: { ...s.c, lib: [it].concat(s.c.lib) }, pub: { ...s.pub, lib: [it].concat(s.pub.lib) } })); // an upload is in Wix straight away: nothing to publish
       const dims = (w, h) => this.setState(s => ({ c: { ...s.c, lib: s.c.lib.map(x => x.id === id ? { ...x, w, h } : x) } }));
       if (vid) { const v = document.createElement('video'); v.preload = 'metadata'; v.onloadedmetadata = () => dims(v.videoWidth, v.videoHeight); v.src = url; }
       else { const im = new Image(); im.onload = () => dims(im.naturalWidth, im.naturalHeight); im.src = url; }
-      if (this.state.wixLive) this.sendToWix(id, f, it); else {
+      if (this.state.wixLive) this.queueUp(id, f, it); else {
       let p = 0; const tick = () => { p = Math.min(100, p + 15 + Math.random() * 25); this.setState(s => ({ up: { ...s.up, [id]: p } })); if (p < 100) setTimeout(tick, 200); else setTimeout(() => this.setState(s => { const u = { ...s.up }; delete u[id]; return { up: u }; }), 400); };
       setTimeout(tick, 150); }
       if (k === 0 && after) after(id);
     });
     this.flash(arr.length + (arr.length > 1 ? ' FILES' : ' FILE') + ' UPLOADING TO MEDIA MANAGER'); }
+  /* Up to three uploads run at once, so choosing 40 photos on a phone doesn't stall the connection. */
+  queueUp(id, f, it) { (this.upQ = this.upQ || []).push([id, f, it]); this.upTotal = (this.upTotal || 0) + 1; this.pumpUp(); }
+  pumpUp() { this.upRun = this.upRun || 0; while (this.upRun < 3 && this.upQ.length) { const [id, f, it] = this.upQ.shift(); this.upRun++;
+      this.sendToWix(id, f, it).finally(() => { this.upRun--; this.upDone = (this.upDone || 0) + 1; if (!this.upQ.length && !this.upRun) { this.flash(this.upDone + (this.upDone > 1 ? ' FILES' : ' FILE') + ' UPLOADED TO WIX'); this.upDone = 0; this.upTotal = 0; } this.setState({ upN: Date.now() }); this.pumpUp(); }); } }
   setUp(id, v) { this.setState(s => { const u = { ...s.up }; if (v == null) delete u[id]; else u[id] = v; return { up: u }; }); }
-  patchSilent(id, patch) { const f = l => l.map(x => x.id === id ? { ...x, ...patch } : x); this.setState(s => ({ c: { ...s.c, lib: f(s.c.lib) }, changes: s.changes.map(ch => ({ ...ch, prev: ch.prev && { ...ch.prev, lib: f(ch.prev.lib) } })) })); }
+  patchSilent(id, patch) { const f = l => l.map(x => x.id === id ? { ...x, ...patch } : x); this.setState(s => ({ c: { ...s.c, lib: f(s.c.lib) }, pub: { ...s.pub, lib: f(s.pub.lib) }, changes: s.changes.map(ch => ({ ...ch, prev: ch.prev && { ...ch.prev, lib: f(ch.prev.lib) } })) })); }
   async sendToWix(id, f, it) { const mime = f.type || (it.kind === 'video' ? 'video/mp4' : 'image/jpeg');
     const fail = m => { this.setUp(id, null); this.flash('NOT IN WIX YET · ' + m.toUpperCase()); };
     try { this.setUp(id, 3);
@@ -982,7 +1139,7 @@ class Component extends DCLogic {
       if (!file.url) return fail('Wix did not return the file');
       this.patchSilent(id, { src: file.url, wixId: inMM ? (file.id || '') : '', labels: file.labels || [], inWix: true, ...(img && img.width ? { w: img.width, h: img.height } : {}) });
       if (inMM) this.setState(s => ({ mmN: (s.mmN || 0) + 1 }));
-      this.setUp(id, 100); setTimeout(() => this.setUp(id, null), 500); this.flash((inMM ? 'IN MEDIA MANAGER · ' + FL[it.folder].toUpperCase() + ' · ' : 'UPLOADED TO WIX (OUTSIDE MEDIA MANAGER) · ') + f.name.toUpperCase());
+      this.setUp(id, 100); setTimeout(() => this.setUp(id, null), 500); if (!this.upTotal || this.upTotal < 2) this.flash((inMM ? 'IN MEDIA MANAGER · ' + FL[it.folder].toUpperCase() + ' · ' : 'UPLOADED TO WIX (OUTSIDE MEDIA MANAGER) · ') + f.name.toUpperCase());
     } catch (e) { fail(e.message || 'upload failed'); } }
   openPick(o) { this.setState({ pick: o, pickF: o.folder || 'all' }); }
   openCrop(id) { const it = this.item(id); if (!it || it.kind !== 'image') return; this.setState({ crop: id, cf: { ...it.focal } }); }
@@ -1033,22 +1190,28 @@ class Component extends DCLogic {
     const navBtn = (label, on, go, k) => ({ label, go, bg: on ? 'rgba(251,248,242,.09)' : 'transparent', fg: on ? '#E3A72F' : '#FBF8F2', hasBadge: k > 0, badge: String(k), open: false, subs: [] });
     const out = {
       desk: !st.mob, mob: st.mob, mainRef: this.mainRef, asideRef: this.asideRef,
-      roleName: role, roleUp: role.toUpperCase(), roleNote: ROLES[role], title: V[0], titleUp: V[0].toUpperCase(), sub: V[1], hasSub: !G,
+      roleName: this.me ? this.myName() : role, roleUp: role.toUpperCase(), roleNote: ROLES[role], title: V[0], titleUp: V[0].toUpperCase(), sub: V[1], hasSub: !G && !(st.simple && st.mob),
       hasKick: !!G, kick: G ? PG.name.toUpperCase() + ' · PART ' + pad(si) + ' OF ' + String(PG.secs.length).padStart(2, '0') : '',
       nav: [{ label: 'START HERE', items: [navBtn('How the Studio works', st.view === 'start', () => this.goView('start'), 0)] },
         { label: 'THE WEBSITE · PAGE BY PAGE', items: PAGES.map(P => { const on = st.view === 'page' && st.pg === P.id, k = cnt['pg:' + P.id] || 0;
           return { ...navBtn(P.name, on, () => this.goSec(P.id, 0, true), k), fg: on ? '#E3A72F' : '#FBF8F2', open: on,
-            subs: on ? P.secs.map((g, i) => { const cur = i === si; return { label: pad(i) + '  ' + g.name, go: () => this.goSec(P.id, i), bg: cur ? '#FBF8F2' : 'transparent', fg: cur ? '#141110' : '#D9D2C7', dot: this.secDraft(g) }; }) : [] }; }) },
+            subs: on ? P.secs.map((g, i) => { const cur = i === si; return g.id === 'seo' && st.simple ? null : { label: pad(i) + '  ' + g.name, go: () => this.goSec(P.id, i), bg: cur ? '#FBF8F2' : 'transparent', fg: cur ? '#141110' : '#D9D2C7', dot: this.secDraft(g) }; }).filter(Boolean) : [] }; }) },
         { label: 'USED ACROSS THE SITE', items: [navBtn('Photos & films', st.view === 'library', () => this.goView('library'), cnt.library || 0), navBtn('Publish history', st.view === 'history', () => this.goView('history'), 0)] }],
       isPage: st.view === 'page', isStart: st.view === 'start', isLib: st.view === 'library', isHist: st.view === 'history',
       openNav: () => this.setState({ navOpen: true }), closeNav: () => this.setState({ navOpen: false }), navOpen: st.navOpen,
       stL: n ? n + (n > 1 ? ' CHANGES' : ' CHANGE') + ' NOT LIVE YET' : 'ALL LIVE',
-      hint: n ? 'You have ' + n + (n > 1 ? ' changes' : ' change') + ' that visitors can’t see yet (marked DRAFT). Press Publish to site and they go live straight away.' : (st.lastPub && st.lastPub.ok ? 'Published ' + st.lastPub.at.toLowerCase() + ' and checked: it’s on the live site. ' : st.lastPub ? 'Last publish saved, but the site didn’t show everything yet (' + st.lastPub.off.join(', ') + '). Publish again, or tell your developer. ' : 'Everything here is what visitors see on the live site right now. ') + 'Change anything, then press Publish to site.', hintBg: n ? '#FBEFD3' : 'rgba(20,17,16,.04)', stBg: n ? '#E3A72F' : 'transparent', stBd: n ? '#E3A72F' : 'rgba(20,17,16,.3)',
+      hint: n ? 'You have ' + n + (n > 1 ? ' changes' : ' change') + ' that visitors can’t see yet (marked DRAFT). Press Publish to site and they go live straight away.' : (st.lastPub && st.lastPub.ok ? 'Published ' + st.lastPub.at.toLowerCase() + ' and checked: it’s on the live site. ' : st.lastPub ? 'Last publish saved, but the site didn’t show everything yet (' + st.lastPub.off.join(', ') + '). Publish again, or tell your developer. ' : 'Everything here is what visitors see on the live site right now. ') + 'Change anything, then press Publish to site.' + (st.lastBy && st.lastBy.by ? ' Last published by ' + st.lastBy.by + (st.lastBy.at ? ', ' + st.lastBy.at.toLowerCase() : '') + '.' : ''), hintBg: n ? '#FBEFD3' : 'rgba(20,17,16,.04)', stBg: n ? '#E3A72F' : 'transparent', stBd: n ? '#E3A72F' : 'rgba(20,17,16,.3)',
       undo: () => this.undo(), undoOp: n ? 1 : 0.35, discard: () => { if (!n) return; this.setState({ c: clone(st.pub), changes: [] }); this.flash('DRAFT DISCARDED · BACK TO VERSION ' + st.hist[0].v); },
       pubL: canPub ? 'PUBLISH TO SITE' + (n ? ' · ' + n : '') : 'SEND FOR REVIEW', pubOp: n ? 1 : 0.4, openPub: () => { if (n) this.setState({ pubOpen: true }); else this.flash('NOTHING TO PUBLISH YET'); },
-      prodOpts, mref: el => { if (el && el.dataset.v && el.getAttribute('src') !== el.dataset.v) el.setAttribute('src', el.dataset.v); }, stop: e => e.stopPropagation(), locked: !st.authed, logout: () => this.logout(),
+      prodOpts, mref: el => this.sizeImg(el), detRef: this.detRef, stop: e => e.stopPropagation(), locked: !st.authed, logout: () => this.logout(),
       lu: st.lu || '', lp: st.lp || '', setLu: e => this.setState({ lu: e.target.value, lErr: '' }), setLp: e => this.setState({ lp: e.target.value, lErr: '' }),
       lBtn: st.lBusy ? 'SIGNING IN…' : 'SIGN IN', lOp: st.lBusy ? 0.6 : 1, doLogin: e => { if (e && e.preventDefault) e.preventDefault(); this.login(); }, hasLErr: !!st.lErr, lErr: st.lErr || '', hasToast: !!st.toast, toast: st.toast,
+      simple: st.simple, full: !st.simple, modeL: st.simple ? 'SHOW ALL OPTIONS' : 'SIMPLE VIEW', modeT: st.simple ? 'Show search settings, descriptions and every part of the site' : 'Hide the extra settings',
+      toggleSimple: () => { const v = !this.state.simple; try { localStorage.setItem(SIMPLE_KEY, v ? 'on' : 'off'); } catch (e) {} this.setState({ simple: v }); this.flash(v ? 'SIMPLE VIEW · EXTRA SETTINGS HIDDEN' : 'ALL OPTIONS SHOWN'); },
+      hasOthers: !!st.others, othersL: st.others ? st.others.by + ' published changes' + (st.others.at ? ' (' + st.others.at.toLowerCase() + ')' : '') + '. Your ' + n + (n > 1 ? ' changes are' : ' change is') + ' safe: bring theirs in now, or just publish — only what you changed is sent.' : '', bringIn: () => this.bringIn(),
+      hasZoom: !!st.zoom, zoomSrc: st.zoom || '', closeZoom: () => this.setState({ zoom: null }),
+      hasClash: !!st.clash, clashT: st.clash ? st.clash.by + ' changed ' + (st.clash.list.length > 1 ? 'these too' : 'this too') : '', clashList: st.clash ? st.clash.list.map(x => ({ t: x.label })) : [],
+      clashMine: () => this.publish('mine'), clashTheirs: () => this.publish('theirs'), clashTheirsL: st.clash ? 'KEEP ' + String(st.clash.by).toUpperCase() + '’S' : 'KEEP THEIRS', clashCancel: () => this.setState({ clash: null }),
       isPick: false, isSoon: false, isWall: L === 'wall', isCat: L === 'catalog', isEv: L === 'events', isPairs: L === 'pairs', isSizes: L === 'sizes',
     };
 
@@ -1058,7 +1221,7 @@ class Component extends DCLogic {
       out.jobs = jobs.map(j => ({ label: j[0], where: PAGES.find(p => p.id === j[1]).name.toUpperCase() + ' › ' + PAGES.find(p => p.id === j[1]).secs.find(g => g.id === j[2]).name.toUpperCase(), go: () => this.goSec(j[1], j[2]) }));
       out.sitePages = PAGES.map(P => ({ name: P.name, path: P.id === 'product' ? '/shop/<piece>' : P.id === 'account' ? 'ACCOUNT ICON, ANY PAGE' : P.path, k: cnt['pg:' + P.id] || 0, hasK: (cnt['pg:' + P.id] || 0) > 0,
         secs: P.secs.map((g, i) => ({ label: pad(i) + ' · ' + g.name, go: () => this.goSec(P.id, i), dot: this.secDraft(g) })) }));
-      out.goLib = () => this.goView('library');
+      out.goLib = () => this.goView('library'); out.jobsOrder = st.simple ? '-1' : '0';
       const csOn = String(c.copy.csOn || 'on').trim().toLowerCase() !== 'off';
       out.soonL = csOn ? 'Coming soon page is ON: visitors see only the coming soon page. You see the full site because you’re signed in here.' : 'Coming soon page is OFF: the website is open to everyone.';
       out.soonBg = csOn ? '#E3A72F' : 'rgba(20,17,16,.06)'; out.goSoon = () => this.goSec('soon', 0);
@@ -1073,14 +1236,14 @@ class Component extends DCLogic {
         fields, hasFields: fields.length > 0, hasList: !!L, listTitle: lh[0], listHint: lh[1], note: G.note || '', hasNote: !!G.note,
         links: (G.links || []).map(l => { const P = PAGES.find(p => p.id === l[0]), g = P.secs.find(x => x.id === l[1]); return { label: l[2], where: P.name.toUpperCase() + ' › ' + g.name.toUpperCase(), go: () => this.goSec(l[0], l[1]) }; }), hasLinks: !!(G.links && G.links.length),
         hasPrev: si > 0, prevL: si > 0 ? '← ' + pad(si - 1) + ' ' + PG.secs[si - 1].name : '', prev: () => this.goSec(PG.id, si - 1),
-        hasNext: si < PG.secs.length - 1, nextL: si < PG.secs.length - 1 ? pad(si + 1) + ' ' + PG.secs[si + 1].name + ' →' : '', next: () => this.goSec(PG.id, si + 1),
-        hasNextPage: si === PG.secs.length - 1 && PAGES.indexOf(PG) < PAGES.length - 1, nextPageL: (PAGES[PAGES.indexOf(PG) + 1] || {}).name ? 'NEXT PAGE · ' + PAGES[PAGES.indexOf(PG) + 1].name.toUpperCase() + ' →' : '', nextPage: () => this.goSec(PAGES[PAGES.indexOf(PG) + 1].id, 0) };
-      out.chipsD = st.mob ? 'none' : 'flex'; out.secChips = PG.secs.map((g, i) => ({ label: pad(i) + ' ' + g.name.toUpperCase(), go: () => this.goSec(PG.id, i), bg: i === si ? '#141110' : 'transparent', fg: i === si ? '#FBF8F2' : '#141110', dot: this.secDraft(g) }));
+        hasNext: si < PG.secs.length - 1 && !(st.simple && PG.secs[si + 1].id === 'seo'), nextL: si < PG.secs.length - 1 ? pad(si + 1) + ' ' + PG.secs[si + 1].name + ' →' : '', next: () => this.goSec(PG.id, si + 1),
+        hasNextPage: (si === PG.secs.length - 1 || (st.simple && PG.secs[si + 1].id === 'seo')) && PAGES.indexOf(PG) < PAGES.length - 1, nextPageL: (PAGES[PAGES.indexOf(PG) + 1] || {}).name ? 'NEXT PAGE · ' + PAGES[PAGES.indexOf(PG) + 1].name.toUpperCase() + ' →' : '', nextPage: () => this.goSec(PAGES[PAGES.indexOf(PG) + 1].id, 0) };
+      out.chipsD = st.mob ? 'none' : 'flex'; out.secChips = PG.secs.map((g, i) => g.id === 'seo' && st.simple ? null : ({ label: pad(i) + ' ' + g.name.toUpperCase(), go: () => this.goSec(PG.id, i), bg: i === si ? '#141110' : 'transparent', fg: i === si ? '#FBF8F2' : '#141110', dot: this.secDraft(g) })).filter(Boolean);
       out.hasAside = slots.length > 0;
       if (slots.length) {
         const s = SLOTS.find(x => x.id === st.sel && (G.slots || []).includes(x.id)); out.hasIns = !!s; out.noIns = !s;
         if (s) { const vm = this.slotVM(s), it = this.item(c.slots[s.id]);
-          out.ins = { ...vm, pickL: it ? 'CHOOSE ANOTHER' : 'CHOOSE ONE', where: s.page.toUpperCase() + ' · ' + s.sec.toUpperCase(), pw: SHAPE[s.shape][2], close: () => this.setState({ sel: null }), clear: () => this.edit('slot-' + s.id, s.label + ' emptied', cc => { cc.slots[s.id] = null; }),
+          out.ins = { ...vm, showAlt: !!it && !st.simple, zoom: () => it && it.kind === 'image' && this.setState({ zoom: FULL(it.src) || it.src }), pickL: it ? 'CHOOSE ANOTHER' : 'CHOOSE ONE', where: s.page.toUpperCase() + ' · ' + s.sec.toUpperCase(), pw: SHAPE[s.shape][2], close: () => this.setState({ sel: null }), clear: () => this.edit('slot-' + s.id, s.label + ' emptied', cc => { cc.slots[s.id] = null; }),
             altL: it && it.kind === 'video' ? 'DESCRIBE THE FILM (FOR SCREEN READERS)' : 'DESCRIBE THE PHOTO (FOR SCREEN READERS & GOOGLE)', alt: it ? it.alt : '', setAlt: e => it && this.editItem(it.id, 'alt-', 'Alt text · ' + it.name, { alt: e.target.value }) }; }
         const tr = c.lib.filter(x => st.tray === 'all' || x.folder === st.tray);
         out.trayF = chips(FOLDERS, st.tray, f => this.setState({ tray: f })); out.trayN = tr.length + ' FILES'; out.trayHead = s ? 'OR PICK ONE FOR “' + s.label.toUpperCase() + '”' : 'YOUR PHOTOS & FILMS';
@@ -1090,21 +1253,34 @@ class Component extends DCLogic {
     }
 
     if (st.view === 'library') {
-      const q = st.q.trim().toLowerCase(), list = c.lib.filter(x => (st.folder === 'all' || x.folder === st.folder) && (!q || (x.name + ' ' + x.alt).toLowerCase().includes(q)));
-      out.libF = FOLDERS.map(f => ({ label: f[1].toUpperCase(), n: String(f[0] === 'all' ? c.lib.length : c.lib.filter(x => x.folder === f[0]).length), bg: st.folder === f[0] ? '#141110' : 'transparent', fg: st.folder === f[0] ? '#FBF8F2' : '#141110', go: () => this.setState({ folder: f[0] }) }));
-      out.q = st.q; out.setQ = e => this.setState({ q: e.target.value }); out.upFolder = st.folder === 'all' ? 'SS27 campaign (films to Film)' : FL[st.folder];
+      const grp = {}; c.lib.forEach(x => { if (x.kind === 'image') (grp[LOOK(x)] = grp[LOOK(x)] || []).push(x.id); }); const dupe = new Set([].concat(...Object.values(grp).filter(g => g.length > 1)));
+      const inF = x => st.folder === 'all' || (st.folder === 'unused' ? !this.usedIn(c, x.id) : st.folder === 'dupes' ? dupe.has(x.id) : x.folder === st.folder);
+      const q = st.q.trim().toLowerCase(), list = c.lib.filter(x => inF(x) && (!q || (x.name + ' ' + x.alt).toLowerCase().includes(q)));
+      if (st.folder === 'dupes') list.sort((a, b) => LOOK(a) < LOOK(b) ? -1 : LOOK(a) > LOOK(b) ? 1 : 0);
+      out.libF = FOLDERS.concat([['unused', 'Not used'], ['dupes', 'Look-alikes']]).map(f => ({ label: f[1].toUpperCase(), n: String(f[0] === 'all' ? c.lib.length : f[0] === 'unused' ? c.lib.filter(x => !this.usedIn(c, x.id)).length : f[0] === 'dupes' ? dupe.size : c.lib.filter(x => x.folder === f[0]).length), bg: st.folder === f[0] ? '#141110' : 'transparent', fg: st.folder === f[0] ? '#FBF8F2' : '#141110', go: () => this.setState({ folder: f[0] }) }));
+      out.q = st.q; out.setQ = e => this.setState({ q: e.target.value }); out.upFolder = FL[st.folder] && st.folder !== 'all' ? 'the ' + FL[st.folder] + ' folder' : 'the SS27 campaign folder (films to Film)';
+      const pk = st.picked || {}, nPk = Object.keys(pk).filter(k => pk[k]).length;
+      out.selMode = st.selMode; out.notSel = !st.selMode; out.selBg = st.selMode ? '#141110' : 'transparent'; out.selN = nPk + ' SELECTED'; out.selK = nPk ? String(nPk) : ''; out.selOp = nPk ? 1 : 0.4; out.isDupes = st.folder === 'dupes';
+      out.selStart = () => this.setState({ selMode: true, picked: {}, libSel: null }); out.selStop = () => this.setState({ selMode: false, picked: {} });
+      const allOn = list.length > 0 && list.every(x => pk[x.id]); out.selAllL = allOn ? 'CLEAR' : 'SELECT ALL ' + list.length;
+      out.selAll = () => this.setState({ picked: allOn ? {} : Object.fromEntries(list.map(x => [x.id, true])) });
+      out.selExtra = () => { const o = {}; Object.values(grp).filter(g => g.length > 1).forEach(g => { const keep = g.find(id => this.usedIn(c, id)) || g[g.length - 1]; g.forEach(id => { if (id !== keep) o[id] = true; }); }); this.setState({ picked: o }); };
+      out.selDel = () => { if (nPk) this.bulkDelete(Object.keys(pk).filter(k => pk[k])); else this.flash('TAP PHOTOS TO SELECT THEM FIRST'); };
+      const upN = Object.keys(st.up || {}).length; out.upBusy = upN > 0 || (this.upQ && this.upQ.length > 0); out.upL = 'UPLOADING · ' + (upN + ((this.upQ && this.upQ.length) || 0)) + ' LEFT · KEEP THIS PAGE OPEN';
       out.wixOn = !!st.wixLive; out.wixOff = !st.wixLive; out.mmChip = st.mmLive ? 'MEDIA MANAGER · ' + st.mmN + ' FILES · UPLOADS GO TO “NGWISA STUDIO”' : st.mmErr ? 'CMS CONNECTED · MEDIA MANAGER BLOCKED: ' + String(st.mmErr).toUpperCase().slice(0, 60) : 'CONNECTING TO MEDIA MANAGER…';
       out.dzBg = st.dz ? 'rgba(216,18,25,.08)' : 'transparent'; out.dzOver = e => { e.preventDefault(); if (!this.state.dz) this.setState({ dz: true }); }; out.dzLeave = () => this.setState({ dz: false });
       out.dzDrop = e => { e.preventDefault(); this.setState({ dz: false }); this.upload(e.dataTransfer.files, id => this.setState({ libSel: id })); };
       out.libUpload = e => { this.upload(e.target.files, id => this.setState({ libSel: id })); e.target.value = ''; };
-      out.lib = list.map(it => this.tileVM(it, { outline: st.libSel === it.id ? '2px solid #141110' : '2px solid transparent', tap: () => this.setState({ libSel: it.id }) }));
+      out.lib = list.map(it => this.tileVM(it, { outline: st.selMode ? (pk[it.id] ? '3px solid #D81219' : '2px solid transparent') : st.libSel === it.id ? '2px solid #141110' : '2px solid transparent', selShow: st.selMode, chk: pk[it.id] ? '✓' : '', chkBg: pk[it.id] ? '#D81219' : 'rgba(20,17,16,.35)',
+        tap: () => { if (this.state.selMode) { this.setState(s => ({ picked: { ...s.picked, [it.id]: !s.picked[it.id] } })); return; }
+          this.setState({ libSel: it.id }, () => { const m = this.mainRef.current, a = this.detRef.current; if (this.state.mob && m && a) m.scrollTo({ top: a.offsetTop - 70, behavior: 'smooth' }); }); } }));
       out.libEmpty = !list.length; out.folderOpts = FOLDERS.slice(1).map(f => ({ id: f[0], label: f[1] }));
       const it = this.item(st.libSel); out.hasDet = !!it;
       if (it) { const u = this.usages(it.id);
         out.det = { ...this.media(it), name: it.name, alt: it.alt, folder: it.folder, folderL: FL[it.folder].toUpperCase(), at: it.at, size: fkb(it.kb), dims: it.w ? it.w + '×' + it.h : '…', type: it.kind === 'video' ? 'FILM' : (it.name.split('.').pop() || '').toUpperCase(),
           warns: this.wv(this.warns(it)), altL: it.kind === 'video' ? 'FILM DESCRIPTION' : 'ALT TEXT · WHAT’S IN THE PHOTO', canCrop: it.kind === 'image', needs: it.needsConsent,
           nBg: it.needsConsent ? '#FBF8F2' : 'transparent', nMark: it.needsConsent ? '✓' : '', cBg: it.consent ? '#E3A72F' : 'transparent', cMark: it.consent ? '✓' : '',
-          uses: u.map(t => ({ t })), unused: !u.length, close: () => this.setState({ libSel: null }), crop: () => this.openCrop(it.id),
+          uses: u.map(t => ({ t })), unused: !u.length, close: () => this.setState({ libSel: null }), crop: () => this.openCrop(it.id), zoom: () => it.kind === 'image' && this.setState({ zoom: FULL(it.src) || it.src }),
           setAlt: e => this.editItem(it.id, 'alt-', 'Alt text · ' + it.name, { alt: e.target.value }),
           toggleNeeds: () => this.editItem(it.id, 'needs-', 'Person in photo · ' + it.name, { needsConsent: !it.needsConsent }),
           toggleConsent: () => this.editItem(it.id, 'consent-', 'Consent · ' + it.name, { consent: !it.consent }),
@@ -1278,15 +1454,7 @@ class Component extends DCLogic {
         go: () => { if (blocked) { this.flash('FIX THE ITEMS ABOVE FIRST'); return; }
           if (!canPub) { this.setState({ pubOpen: false }); this.flash('SENT · THE OWNER WILL REVIEW AND PUBLISH'); return; }
           if (!st.wixLive) { this.flash('NOT CONNECTED TO WIX · ' + String(st.wixErr || 'sign in again').toUpperCase()); return; }
-          if (this.publishing) return; this.publishing = true; this.setState({ pubOpen: false }); this.flash('PUBLISHING…');
-          const v = st.hist[0].v + 1, at = new Date().toLocaleString('en-GB', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' }).toUpperCase().replace(',', ' ·');
-          const by = (this.me && (this.me.first || this.me.email)) || role, h = { v, at, by, sum: labels.slice(-3).reverse().join(', ') + (labels.length > 3 ? ' +' + (labels.length - 3) : ''), snap: SNAP(c) };
-          this.pushWix(c)
-            .then(() => this.api('/wix-data/v2/items', { body: { dataCollectionId: 'StudioVersions', dataItem: { data: { title: 'Version ' + v, version: v, at, by, summary: h.sum, snapshot: h.snap } } } }).then(() => '', e => ' · HISTORY NOT SAVED: ' + String(e.message || e).toUpperCase()))
-            .then(note => this.verifyLive(c).then(off => { this.setState(s => ({ pub: clone(c), changes: s.c === c ? [] : s.changes, hist: [h].concat(s.hist), lastPub: { at, ok: !off.length, off } }));
-              this.flash(off.length ? 'SAVED, BUT THE SITE DOESN’T SHOW IT YET: ' + off.join(', ').toUpperCase() : 'LIVE ON THE SITE NOW · CHECKED' + note); }))
-            .catch(er => this.flash('WIX DIDN’T SAVE · YOUR CHANGES ARE STILL IN DRAFT · ' + String(er.message || er).toUpperCase()))
-            .finally(() => { this.publishing = false; }); } };
+          this.publish(); } };
     }
     return out;
   }
