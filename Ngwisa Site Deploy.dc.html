@@ -100,13 +100,13 @@
 </sc-if>
 <sc-if value="{{ t.hasCredit }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;left:10px;top:10px;max-width:calc(100% - 20px);padding:5px 9px;border-radius:999px;background:rgba(20,17,16,.6);color:#FBF8F2;font:500 9px/1.2 'DM Mono',monospace;letter-spacing:.12em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:none">{{ t.credit }}</span></sc-if>
 <sc-if value="{{ t.isQuote }}" hint-placeholder-val="{{ false }}">
-<div style="position:absolute;inset:0;padding:clamp(14px,1.6vw,22px);display:flex;flex-direction:column;justify-content:flex-end;color:#141110">
-<span style="font:400 clamp(18px,1.9vw,30px)/1.05 'Bricolage Grotesque';letter-spacing:-.03em;text-wrap:balance">{{ t.text }}</span>
+<div style="position:absolute;inset:0;padding:{{ wPad }};display:flex;flex-direction:column;justify-content:flex-end;color:#141110">
+<span style="font:400 {{ wqF }}/1.05 'Bricolage Grotesque';letter-spacing:-.03em;text-wrap:balance">{{ t.text }}</span>
 </div>
 </sc-if>
 <sc-if value="{{ t.isTag }}" hint-placeholder-val="{{ false }}">
-<div style="position:absolute;inset:0;padding:clamp(14px,1.6vw,22px);display:flex;flex-direction:column;justify-content:space-between;color:#FBF8F2;background-color:#D81219;background-image:repeating-linear-gradient(90deg,rgba(255,255,255,.12) 0 1px,transparent 1px 4px),repeating-linear-gradient(90deg,rgba(70,4,7,.3) 0 1px,transparent 1px 4px)">
-<div style="display:flex;flex-direction:column;gap:8px"><span style="font:800 clamp(20px,2vw,32px)/.95 'Bricolage Grotesque';letter-spacing:-.03em">{{ tx.wallTag }}</span><span style="font:400 14px/1.4 'Bricolage Grotesque'">{{ tx.wornTag }}</span></div>
+<div style="position:absolute;inset:0;padding:{{ wPad }};display:flex;flex-direction:column;justify-content:space-between;color:#FBF8F2;background-color:#D81219;background-image:repeating-linear-gradient(90deg,rgba(255,255,255,.12) 0 1px,transparent 1px 4px),repeating-linear-gradient(90deg,rgba(70,4,7,.3) 0 1px,transparent 1px 4px)">
+<div style="display:flex;flex-direction:column;gap:8px"><span style="font:800 {{ wtF }}/.95 'Bricolage Grotesque';letter-spacing:-.03em">{{ tx.wallTag }}</span><span style="font:400 {{ wtS }}/1.4 'Bricolage Grotesque'">{{ tx.wornTag }}</span></div>
 </div>
 </sc-if>
 <sc-if value="{{ t.hasShop }}" hint-placeholder-val="{{ false }}">
@@ -552,13 +552,13 @@
 </sc-if>
 <sc-if value="{{ t.hasCredit }}" hint-placeholder-val="{{ false }}"><span style="position:absolute;left:10px;top:10px;max-width:calc(100% - 20px);padding:5px 9px;border-radius:999px;background:rgba(20,17,16,.6);color:#FBF8F2;font:500 9px/1.2 'DM Mono',monospace;letter-spacing:.12em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;pointer-events:none">{{ t.credit }}</span></sc-if>
 <sc-if value="{{ t.isQuote }}" hint-placeholder-val="{{ false }}">
-<div style="position:absolute;inset:0;padding:clamp(14px,1.6vw,22px);display:flex;flex-direction:column;justify-content:flex-end;color:#141110">
-<span style="font:400 clamp(18px,1.9vw,30px)/1.05 'Bricolage Grotesque';letter-spacing:-.03em;text-wrap:balance">{{ t.text }}</span>
+<div style="position:absolute;inset:0;padding:{{ wPad }};display:flex;flex-direction:column;justify-content:flex-end;color:#141110">
+<span style="font:400 {{ wqF }}/1.05 'Bricolage Grotesque';letter-spacing:-.03em;text-wrap:balance">{{ t.text }}</span>
 </div>
 </sc-if>
 <sc-if value="{{ t.isTag }}" hint-placeholder-val="{{ false }}">
-<div style="position:absolute;inset:0;padding:clamp(14px,1.6vw,22px);display:flex;flex-direction:column;justify-content:space-between;color:#FBF8F2;background-color:#D81219;background-image:repeating-linear-gradient(90deg,rgba(255,255,255,.12) 0 1px,transparent 1px 4px),repeating-linear-gradient(90deg,rgba(70,4,7,.3) 0 1px,transparent 1px 4px)">
-<div style="display:flex;flex-direction:column;gap:8px"><span style="font:800 clamp(20px,2vw,32px)/.95 'Bricolage Grotesque';letter-spacing:-.03em">{{ tx.wallTag }}</span><span style="font:400 14px/1.4 'Bricolage Grotesque'">{{ tx.wornTag }}</span></div>
+<div style="position:absolute;inset:0;padding:{{ wPad }};display:flex;flex-direction:column;justify-content:space-between;color:#FBF8F2;background-color:#D81219;background-image:repeating-linear-gradient(90deg,rgba(255,255,255,.12) 0 1px,transparent 1px 4px),repeating-linear-gradient(90deg,rgba(70,4,7,.3) 0 1px,transparent 1px 4px)">
+<div style="display:flex;flex-direction:column;gap:8px"><span style="font:800 {{ wtF }}/.95 'Bricolage Grotesque';letter-spacing:-.03em">{{ tx.wallTag }}</span><span style="font:400 {{ wtS }}/1.4 'Bricolage Grotesque'">{{ tx.wornTag }}</span></div>
 </div>
 </sc-if>
 <sc-if value="{{ t.hasShop }}" hint-placeholder-val="{{ false }}">
@@ -1517,6 +1517,13 @@ const sCard = (p, i, pre) => { const key = pre + p.id, on = st.shov === key;
     const bagSub = st.bag.reduce((s, b) => s + (b.price || 0), 0);
 
     const match = t => st.wallF === 'ALL' || (st.wallF === 'REELS' && t.k === 'REEL') || (st.wallF === 'PHOTOS' && t.k === 'PHOTO') || (st.wallF === 'FILM' && t.k === 'FILM');
+    /* The walls show smaller tiles so about three rows fit on screen: six columns on laptops, three on phones. The
+       Studio's three columns are each split in two (alternating tiles), and every column repeats its tiles until it is
+       long enough to loop without gaps. */
+    const WN = st.mob ? 3 : 6;
+    const spreadWall = cols => { if (WN === 3) return cols; const out = [[], [], [], [], [], []]; cols.forEach((c, ci) => c.forEach((t, ti) => out[Math.min(5, ci * 2 + (ti % 2))].push(t)));
+      if (!out.some(c => !c.length)) return out; const all = [].concat(...cols); return out.map((_, k) => all.filter((t, i) => i % 6 === k)).filter(c => c.length); };
+    const loopCol = (c, ci, mk) => { const r = Math.max(1, Math.ceil(8 / Math.max(1, c.length))), base = [].concat(...Array(r).fill(c)); return { dir: ci % 2 ? '-1' : '1', tiles: base.concat(base).map(mk) }; };
     const tile = (t, all) => {
       const img = t.f ? t.f.length > 0 : false; const pr = (x => x && !x.hidden ? x : null)(t.pid ? this.find(t.pid) : null); const on = all || match(t);
       const ratio = t.k === 'REEL' ? '9/16' : t.k === 'FILM' ? '4/3' : t.wide ? '3/2' : t.k === 'QUOTE' || t.k === 'TAG' ? '1/1' : '3/4';
@@ -1547,7 +1554,7 @@ const sCard = (p, i, pre) => { const key = pre + p.id, on = st.shov === key;
       showDots: !st.mob && secLabels.length > 0 && !st.menu,
       jCols: st.mob ? '22px 60px minmax(0,1fr)' : '56px 76px minmax(0,1fr) auto', jGap: st.mob ? '14px' : '20px', jK: st.mob ? 'none' : 'block',
       chipWrap: st.mob ? 'nowrap' : 'wrap', frameInset: st.mob ? '5px' : '10px', frameR: st.mob ? '14px' : '18px', hdrIn: st.mob ? '12px' : '24px',
-      wallGrid: st.mob ? 'repeat(2,minmax(0,1fr))' : 'repeat(3,minmax(0,1fr))',
+      wallGrid: 'repeat(' + WN + ',minmax(0,1fr))', wqF: st.mob ? '13px' : 'clamp(14px,1.15vw,20px)', wtF: st.mob ? '14px' : 'clamp(15px,1.25vw,22px)', wtS: st.mob ? '10px' : '12px', wPad: st.mob ? '10px' : 'clamp(12px,1vw,16px)',
       showCue: !st.mob && secLabels.length > 1 && !st.menu && !st.pp,
       cueText: String(st.sec + 1).padStart(2, '0') + ' / ' + String(secLabels.length).padStart(2, '0') + ' · ' + (secLabels[st.sec] || '').toUpperCase(),
       cueArrow: st.sec >= secLabels.length - 1 ? '↑' : '↓',
@@ -1566,7 +1573,7 @@ const sCard = (p, i, pre) => { const key = pre + p.id, on = st.shov === key;
       openFilm: () => this.setState({ filmOpen: true }), closeFilm: () => this.setState({ filmOpen: false }), filmOpen: st.filmOpen, gongVid: SL['gong-film'] || '', gongRef: el => { if (!el) return; const v = el.dataset.v, p = el.dataset.p; if (p && el.getAttribute('poster') !== p) el.setAttribute('poster', p); if (v && el.getAttribute('src') !== v) { el.setAttribute('src', v); try { const pr = el.play(); if (pr && pr.catch) pr.catch(() => {}); } catch (e) {} } }, hasGongVid: !!SL['gong-film'], noGongVid: !SL['gong-film'], gongPoster: SL['home-cast'] || '',
       rack: PV.filter(p => p.best).sort((x, y) => x.best - y.best).map(p => ({ name: p.name, price: fmt(p.price), img: p.img, rank: p.best, open: open(p.id) })),
       wallIn: () => { this.wallHover = true; }, wallOut: () => { this.wallHover = false; this.hReel = null; },
-      wallCols: WALL.map((c, ci) => ({ dir: ci % 2 ? '-1' : '1', tiles: c.concat(c).map(t => tile(t)) })),
+      wallCols: spreadWall(WALL).map((c, ci) => loopCol(c, ci, t => tile(t))),
       wallFilters: ['ALL', 'REELS', 'PHOTOS', 'FILM'].map(f => ({ l: f, go: () => this.setState({ wallF: f }), bg: st.wallF === f ? '#FBF8F2' : 'transparent', ink: st.wallF === f ? '#141110' : '#FBF8F2' })),
       articles: ART.map((x, i) => ({ n: String(i + 1).padStart(2, '0'), t: x.t, k: x.k, k2: (x.k.split(' · ')[1] || '').toLowerCase().replace('min', 'min read'), img: x.img, open: () => this.setState({ article: i, event: null }) })),
       hasArticle: !!a, closeArticle: () => this.setState({ article: null, event: null }),
@@ -1579,7 +1586,7 @@ const sCard = (p, i, pre) => { const key = pre + p.id, on = st.shov === key;
         const cols = scCols || [[{ k: 'PHOTO', f: [I[0]] }, { k: 'QUOTE', text: p.wallQuote || p.hook }, { k: 'REEL', f: SC ? [I[1], X(3), I[2]] : [I[1], I[2], I[0]], pid: p.id }, { k: 'PHOTO', f: [o(0).img], pid: o(0).id }],
           [{ k: 'REEL', f: SC ? [I[2], X(4), I[1]] : [I[2], I[0], I[1]], pid: p.id }, { k: 'PHOTO', f: [SC ? X(5) : I[1]] }, { k: 'TAG' }, { k: 'PHOTO', f: [o(1).img], pid: o(1).id }],
           [{ k: 'PHOTO', f: [SC ? X(6) : I[2]] }, { k: 'FILM', f: ['03622'] }, { k: 'PHOTO', f: [o(2).img], pid: o(2).id }, { k: 'QUOTE', q: 'wallQ2', text: 'Where heritage meets modernity.' }]];
-        return cols.map((c, ci) => ({ dir: ci % 2 ? '-1' : '1', tiles: c.concat(c).map(x => tile(x, true)) })); })(),
+        return spreadWall(cols).map((c, ci) => loopCol(c, ci, x => tile(x, true))); })(),
       openEnv: () => { if (!st.env) this.setState({ env: true }); }, stop: e => e.stopPropagation(),
       envCursor: st.env ? '' : 'Open', envShift: st.env ? '22%' : '0%', letterY: st.env ? '-72%' : '0%',
       flapR: st.env ? '180deg' : '0deg', flapZ: st.env ? 0 : 3, sealO: st.env ? 0 : 1, sealS: st.env ? 1.4 : 1, sealR: st.env ? '-25deg' : '0deg',
