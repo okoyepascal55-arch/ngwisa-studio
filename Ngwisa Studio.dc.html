@@ -155,6 +155,32 @@
 </div>
 </sc-if>
 <!-- NEW IN and BEST SELLERS: one picker -->
+<sc-if value="{{ isPiece }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;gap:16px;align-items:center;flex-wrap:wrap;padding:16px;border-radius:18px;background:rgba(20,17,16,.05)">
+<span style="flex:none;width:64px;aspect-ratio:3/4;border-radius:60px 60px 8px 8px;overflow:hidden;background:rgba(20,17,16,.08)"><img ref="{{ mref }}" data-v="{{ pc.src }}" alt="" style="width:100%;height:100%;object-fit:cover;object-position:{{ pc.pos }};display:block"></span>
+<label style="flex:1 1 240px;display:flex;flex-direction:column;gap:8px;min-width:0"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em;color:#6A6057">WHICH PIECE?</span><select value="{{ pc.sel }}" onChange="{{ pc.setSel }}" style="height:48px;padding:0 16px;border-radius:999px;border:1.5px solid #141110;background:#FBF8F2;font:600 16px 'Bricolage Grotesque';color:#141110;outline:none;min-width:0"><sc-for list="{{ pc.opts }}" as="o" hint-placeholder-count="3"><option value="{{ o.v }}">{{ o.l }}</option></sc-for></select></label>
+<div style="display:flex;gap:8px;flex-wrap:wrap"><a href="{{ pc.url }}" target="_blank" rel="noopener" style="height:40px;padding:0 14px;border-radius:999px;border:1.5px solid #141110;color:#141110;display:inline-flex;align-items:center;white-space:nowrap;font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em">SEE ITS PAGE ↗</a><a href="{{ pc.wixUrl }}" target="_blank" rel="noopener" style="height:40px;padding:0 14px;border-radius:999px;border:1.5px solid rgba(20,17,16,.4);color:#141110;display:inline-flex;align-items:center;white-space:nowrap;font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em">PHOTOS, PRICE &amp; TEXT IN WIX ↗</a></div>
+<sc-if value="{{ pc.draft }}" hint-placeholder-val="{{ false }}"><span style="padding:4px 8px;border-radius:999px;background:#E3A72F;color:#141110;font:500 9px/1 'DM Mono',monospace;letter-spacing:.14em">DRAFT</span></sc-if>
+</div>
+<sc-if value="{{ pc.wait }}" hint-placeholder-val="{{ false }}"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em;color:#6A6057">LOADING THE PIECES FROM WIX…</span></sc-if>
+<sc-if value="{{ pc.has }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;flex-direction:column;gap:12px;padding:18px;border-radius:18px;border:1.5px solid rgba(20,17,16,.15)">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap"><div style="display:flex;flex-direction:column;gap:6px"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em;color:#D81219">SHOWCASE · THE WALL OF PHOTOS BELOW THE PIECE</span><span style="font:400 14px/1.45 'Bricolage Grotesque';color:#3A3430">Up to 8 photos of {{ pc.name }} being worn, in this order. With none chosen, the piece’s own Wix photos are used.</span></div>
+<button onClick="{{ pc.add }}" style="height:44px;padding:0 18px;border:0;border-radius:999px;background:#141110;color:#FBF8F2;cursor:pointer;white-space:nowrap;font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em">+ ADD A PHOTO</button></div>
+<sc-if value="{{ pc.noPhotos }}" hint-placeholder-val="{{ true }}"><span style="font:400 14px/1.5 'Bricolage Grotesque';color:#6A6057">No showcase photos yet: the wall uses the piece’s Wix photos.</span></sc-if>
+<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,120px),1fr));gap:12px">
+<sc-for list="{{ pc.photos }}" as="ph" hint-placeholder-count="0">
+<div style="display:flex;flex-direction:column;gap:6px;min-width:0">
+<div style="position:relative;aspect-ratio:3/4;border-radius:12px;overflow:hidden;background:rgba(20,17,16,.07)"><img ref="{{ mref }}" data-v="{{ ph.src }}" alt="" style="width:100%;height:100%;object-fit:cover;object-position:{{ ph.pos }};display:block"><span style="position:absolute;left:6px;top:6px;width:24px;height:24px;border-radius:50%;background:#D81219;color:#FBF8F2;font:700 12px/24px 'Bricolage Grotesque';text-align:center">{{ ph.n }}</span></div>
+<div style="display:flex;gap:4px"><button onClick="{{ ph.left }}" aria-label="Move earlier" style="width:32px;height:32px;border-radius:50%;border:1.5px solid #141110;background:transparent;cursor:pointer;opacity:{{ ph.lOp }}">←</button><button onClick="{{ ph.right }}" aria-label="Move later" style="width:32px;height:32px;border-radius:50%;border:1.5px solid #141110;background:transparent;cursor:pointer;opacity:{{ ph.rOp }}">→</button><button onClick="{{ ph.rm }}" style="flex:1;height:32px;border-radius:999px;border:1.5px solid #141110;background:transparent;cursor:pointer;font:500 9px/1 'DM Mono',monospace;letter-spacing:.12em">TAKE OFF</button></div>
+</div>
+</sc-for>
+</div>
+<label style="display:flex;flex-direction:column;gap:8px;margin-top:6px"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em;color:#6A6057">QUOTE ON THE WALL</span><input value="{{ pc.quote }}" onChange="{{ pc.setQuote }}" placeholder="{{ pc.quotePh }}" maxlength="90" style="height:46px;padding:0 16px;border-radius:999px;border:1.5px solid rgba(20,17,16,.35);background:#FBF8F2;font:400 16px 'Bricolage Grotesque';color:#141110;outline:none;min-width:0"></label>
+</div>
+<span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em;color:#D81219;margin-top:6px">WEARS WITH · BESIDE THE PIECE</span>
+</sc-if>
+</sc-if>
 <sc-if value="{{ isPick }}" hint-placeholder-val="{{ false }}">
 <div style="display:flex;gap:12px;align-items:flex-start;padding:14px 16px;border-radius:16px;background:#FBEFD3"><span style="flex:none;width:22px;height:22px;border-radius:50%;background:#141110;color:#FBF8F2;font:700 12px/22px 'DM Mono',monospace;text-align:center">i</span><span style="font:400 15px/1.5 'Bricolage Grotesque';color:#141110;text-wrap:pretty">{{ pl.where }}</span></div>
 <span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#D81219">{{ pl.chosenHead }}</span>
@@ -734,7 +760,8 @@ const PAGES = [
     { id: 'invite', name: 'Invite', see: 'A closing title, a line inviting event organisers to get in touch, and a button that writes to the atelier.', fields: [['apInvTitle', 'Title'], ['apInv', 'Text'], ['apInvBtn', 'Button']] },
     SEO('Journal', 'the Journal page')] },
   { id: 'product', name: 'Product pages', path: '/shop', sub: 'What every piece’s own page shows around the piece. The piece itself (name, price, photos, description, sizes, stock) comes from Wix Stores.', secs: [
-    { id: 'pairs', name: 'Pairs with', see: 'Under the piece, “Pairs with” shows pieces that go with it. Pieces paired here show first.', list: 'pairs' },
+    { id: 'piece', name: 'Each piece · wears with & showcase', see: 'Every piece’s own page: its photos, name and price at the top, “Wears with” (three pieces that go with it) beside them, and the showcase wall of photos and a quote below. Choose a piece, then set what its page shows.', list: 'piece', note: 'The piece’s main photos, price, description, sizes and stock are edited in Wix Stores (link below the piece).' },
+    { id: 'pairs', name: 'Pairs (both ways)', see: 'Two pieces that go together: each shows the other under “Wears with”, after any pieces chosen for it in “Each piece”.', list: 'pairs' },
     { id: 'sizes', name: 'Size guide', see: 'The “Size guide →” link on every piece opens a table of body measurements. Shoppers can switch between centimetres and inches.', list: 'sizes' },
     { id: 'wall', name: 'The wall below', see: 'At the bottom, a moving wall made from the piece’s own photos and a few other pieces, with one quote.', fields: [['wallQ2', 'Quote on every product page’s wall']], note: 'Its title, red card and shop button are the ones set in Home › The Wall.', links: [['home', 'wall', 'Edit the wall texts']] },
     { id: 'seo', name: 'Google & link previews', see: 'Not shown on the page: each piece’s title and description for Google and shared links.', note: 'Set them per piece in Shop › All pieces (open a piece’s details). Empty uses the piece’s name and its Wix description. Each piece has its own address: /shop/<its Wix URL slug>.', links: [['shop', 'all', 'Open the pieces']] }] },
@@ -748,7 +775,8 @@ const LIST_HEAD = {
   wall: ['The tiles on the wall', 'Laid out like the site: three columns, top to bottom. Columns 1 and 3 drift up, the middle one drifts down, and each loops forever.'],
   catalog: ['Which pieces show, and how', 'Every piece in Wix Stores. Prices, photos, descriptions, sizes and stock are edited in Wix; here you choose whether each one shows on the site, and its name, category and search details.'],
   events: ['The appearances', 'Newest first: the first one is also the featured show. Tap one to edit it.'],
-  pairs: ['Pairs', 'A piece and the piece that goes with it. Each shows the other first under “Pairs with”.'],
+  pairs: ['Pairs', 'A piece and the piece that goes with it. Each shows the other under “Wears with”.'],
+  piece: ['Choose a piece', 'Pick the piece, then choose what its page shows. Nothing chosen keeps the automatic choice.'],
   sizes: ['Measurements', 'Body measurements in centimetres, per category. The site converts them to inches for shoppers who want them.'],
 };
 /* The tiles on Home › The Wall, as the design ships them. The Studio keeps its own copy (c.wall) and publishes it to
@@ -869,7 +897,7 @@ class Component extends DCLogic {
     const newest = (rows, col) => { const by = {}; rows.slice().sort((a, b) => UPD(a) < UPD(b) ? -1 : UPD(a) > UPD(b) ? 1 : 0).forEach(r => { if (by[r.title]) W.dup[col].push(by[r.title]._id); by[r.title] = r; }); return Object.values(by); };
     const ord = a => a.slice().sort((x, y) => ((x.order || 0) - (y.order || 0)) || String(x._id).localeCompare(String(y._id)));
     copy = newest(copy, 'StudioHomeCopy'); slots = newest(slots, 'StudioSiteSlots');
-    { c.catalog = {}; metaRows.forEach(r => { if (r.productId) c.catalog[r.productId] = { hidden: !!r.hidden, displayName: r.displayName || '', category: r.category || '', gender: r.gender || '', hook: r.hook || '', best: r.best == null || r.best === '' ? '?' : +r.best ? String(+r.best) : '', restock: typeof r.restock === 'boolean' ? (r.restock ? 'yes' : 'no') : '', seoTitle: r.seoTitle || '', seoDescription: r.seoDescription || '', seedId: r.seedId || '' }; });
+    { c.catalog = {}; metaRows.forEach(r => { if (r.productId) c.catalog[r.productId] = { hidden: !!r.hidden, displayName: r.displayName || '', category: r.category || '', gender: r.gender || '', hook: r.hook || '', best: r.best == null || r.best === '' ? '?' : +r.best ? String(+r.best) : '', restock: typeof r.restock === 'boolean' ? (r.restock ? 'yes' : 'no') : '', seoTitle: r.seoTitle || '', seoDescription: r.seoDescription || '', seedId: r.seedId || '', wearsWith: Array.isArray(r.wearsWith) ? r.wearsWith : [], showcase: Array.isArray(r.showcase) ? r.showcase : [], wallQuote: r.wallQuote || '' }; });
       if (shop) this.linkShop(c, shop, metaRows.length > 0); Object.keys(c.catalog).forEach(k => { if (c.catalog[k].best === '?') c.catalog[k].best = ''; });
       copy.forEach(r => { if (!COPY.some(f => f[0] === r.title)) return; W.copy[r.title] = r._id; if (typeof r.text === 'string' && r.text.trim()) c.copy[r.title] = r.text; });
       ord(sizes).forEach((r, i) => { W.sizes[i] = r._id; if (c.sizes[i] && r.rows && r.rows.rows) Object.assign(c.sizes[i], { rows: r.rows.rows, note: r.note || '', sz: r.sizes || c.sizes[i].sz }); });
@@ -1021,7 +1049,7 @@ class Component extends DCLogic {
     const prows = shop.map((p, i) => { const m = cat[p.wixId] || {}, b = parseInt(m.best, 10);
       return { _id: 'p-' + p.wixId, title: p.name, productId: p.wixId, slug: p.slug, seedId: p.seedId || m.seedId || '', hidden: !!m.hidden, displayName: (m.displayName || '').trim(),
         category: m.category || '', gender: m.gender || '', hook: (m.hook || '').trim(), best: isNaN(b) ? 0 : b, restock: m.restock === 'yes' ? true : m.restock === 'no' ? false : null,
-        seoTitle: (m.seoTitle || '').trim(), seoDescription: (m.seoDescription || '').trim(), order: i }; });
+        seoTitle: (m.seoTitle || '').trim(), seoDescription: (m.seoDescription || '').trim(), wearsWith: (m.wearsWith || []).slice(0, 3), showcase: (m.showcase || []).filter(u => /^https:/.test(u)).slice(0, 8), wallQuote: (m.wallQuote || '').trim(), order: i }; });
     await Promise.all([save('StudioHomeCopy', copy), save('StudioSizeGuide', sizes), save('StudioSiteSlots', slots),
       // Older publishes left duplicate rows for some words; the site could show either. Clear them out.
       drop('StudioHomeCopy', W.dup.StudioHomeCopy.filter(x => !copy.some(r => r.data._id === x))), drop('StudioSiteSlots', W.dup.StudioSiteSlots.filter(x => !slots.some(r => r.data._id === x))),
@@ -1183,7 +1211,7 @@ class Component extends DCLogic {
     if ((g.slots || []).some(id => c.slots[id] !== P.slots[id])) return true;
     if ((g.fields || []).some(f => f[0] !== '#' && (c.copy[f[0]] || '') !== (P.copy[f[0]] || ''))) return true;
     const best = cat => J(Object.keys(cat || {}).sort().map(k => [k, String((cat[k] || {}).best || '')]));
-    const L = { soon: () => (c.copy.csOn || 'on') !== (P.copy.csOn || 'on'), newin: () => J(c.newin) !== J(P.newin), rack: () => best(c.catalog) !== best(P.catalog), wall: () => J(c.wall) !== J(P.wall), catalog: () => J(c.catalog) !== J(P.catalog),
+    const L = { soon: () => (c.copy.csOn || 'on') !== (P.copy.csOn || 'on'), newin: () => J(c.newin) !== J(P.newin), rack: () => best(c.catalog) !== best(P.catalog), wall: () => J(c.wall) !== J(P.wall), catalog: () => J(c.catalog) !== J(P.catalog), piece: () => J(c.catalog) !== J(P.catalog),
       events: () => J(c.events) !== J(P.events), pairs: () => J(c.pairs) !== J(P.pairs), sizes: () => J(c.sizes) !== J(P.sizes) }[g.list];
     return L ? L() : false; }
   siteUrl(path) { return window.NG_HTML_URLS && path !== '/' ? path + '.html' : path; }
@@ -1224,12 +1252,12 @@ class Component extends DCLogic {
       hasZoom: !!st.zoom, zoomSrc: st.zoom || '', closeZoom: () => this.setState({ zoom: null }),
       hasClash: !!st.clash, clashT: st.clash ? st.clash.by + ' changed ' + (st.clash.list.length > 1 ? 'these too' : 'this too') : '', clashList: st.clash ? st.clash.list.map(x => ({ t: x.label })) : [],
       clashMine: () => this.publish('mine'), clashTheirs: () => this.publish('theirs'), clashTheirsL: st.clash ? 'KEEP ' + String(st.clash.by).toUpperCase() + '’S' : 'KEEP THEIRS', clashCancel: () => this.setState({ clash: null }),
-      isPick: false, isSoon: false, isWall: L === 'wall', isCat: L === 'catalog', isEv: L === 'events', isPairs: L === 'pairs', isSizes: L === 'sizes',
+      isPick: false, isPiece: false, isSoon: false, isWall: L === 'wall', isCat: L === 'catalog', isEv: L === 'events', isPairs: L === 'pairs', isSizes: L === 'sizes',
     };
 
     if (st.view === 'start') {
       const jobs = [['Change the opening film', 'home', 'film'], ['Choose the New in pieces (Home & The Loop)', 'home', 'newin'], ['Pick the four best sellers (Home & Shop)', 'home', 'rack'], ['Change the Worn by you wall', 'home', 'wall'],
-        ['Show or hide a piece, set women / men / category', 'shop', 'all'], ['Add or edit an appearance', 'journal', 'appearances'], ['Edit the size guide', 'product', 'sizes'], ['Change contact details & footer', 'home', 'letters']];
+        ['Show or hide a piece, set women / men / category', 'shop', 'all'], ['Add or edit an appearance', 'journal', 'appearances'], ['Set a piece’s Wears with & showcase', 'product', 'piece'], ['Edit the size guide', 'product', 'sizes'], ['Change contact details & footer', 'home', 'letters']];
       out.jobs = jobs.map(j => ({ label: j[0], where: PAGES.find(p => p.id === j[1]).name.toUpperCase() + ' › ' + PAGES.find(p => p.id === j[1]).secs.find(g => g.id === j[2]).name.toUpperCase(), go: () => this.goSec(j[1], j[2]) }));
       out.sitePages = PAGES.map(P => ({ name: P.name, path: P.id === 'product' ? '/shop/<piece>' : P.id === 'account' ? 'ACCOUNT ICON, ANY PAGE' : P.path, k: cnt['pg:' + P.id] || 0, hasK: (cnt['pg:' + P.id] || 0) > 0,
         secs: P.secs.map((g, i) => ({ label: pad(i) + ' · ' + g.name, go: () => this.goSec(P.id, i), dot: this.secDraft(g) })) }));
@@ -1377,6 +1405,43 @@ class Component extends DCLogic {
         hiddenN: pieces.filter(p => p.hidden).length, hasHiddenN: pieces.some(p => p.hidden), hiddenL: pieces.filter(p => p.hidden).length + ' hidden pieces aren’t listed here. Show them first in Shop › All pieces.'
       };
       out.isPick = true;
+    }
+    /* Each piece's page: which piece, its Wears with (a pick list, up to 3), its showcase photos and wall quote. */
+    if (L === 'piece') {
+      const shop = st.shop || [], cat = c.catalog || {}, q = (st.pkQ || '').trim().toLowerCase();
+      const nm = p => ((cat[p.wixId] || {}).displayName || '').trim() || (this.prodById(p.id) || {}).name || p.name;
+      const sel = shop.find(p => p.wixId === st.pieceSel) || shop[0], m = sel ? cat[sel.wixId] || {} : {};
+      const thumb = p => p && p.img ? this.media({ kind: 'image', src: wsrc(p.img), focal: { x: 50, y: 20 } }) : pimg(p ? p.id : '');
+      const byId = id => shop.find(p => p.id === id) || null;
+      const ww = (m.wearsWith || []).filter(id => byId(id));
+      const setM = (key, label, fn) => sel && this.edit('piece-' + sel.wixId + '-' + key, label + ' · ' + nm(sel), cc => { const cur = cc.catalog[sel.wixId] || {}; cc.catalog[sel.wixId] = Object.assign({}, cur, fn(cur), { fresh: false }); });
+      const setWW = (fn, what) => setM('ww' + Date.now(), what, cur => ({ wearsWith: fn((cur.wearsWith || []).filter(id => byId(id))) }));
+      out.pc = { has: !!sel, none: !sel, wait: !shop.length, opts: shop.map(p => ({ v: p.wixId, l: nm(p) + ((cat[p.wixId] || {}).hidden ? '  (hidden)' : '') })), sel: sel ? sel.wixId : '',
+        setSel: e => this.setState({ pieceSel: e.target.value, pkQ: '' }), name: sel ? nm(sel) : '', ...(sel ? thumb(sel) : { src: '', pos: '50% 50%' }),
+        url: sel ? this.siteUrl('/shop/' + sel.slug) : '/shop', wixUrl: 'https://manage.wix.com/dashboard/613b5fe3-6f29-414b-80fc-abe05f934d56/store/products' + (sel ? '/product/' + sel.wixId : ''),
+        photos: (m.showcase || []).map((u, i, a) => ({ src: u, pos: '50% 30%', n: String(i + 1), lOp: i ? 1 : 0.3, rOp: i < a.length - 1 ? 1 : 0.3,
+          left: () => i && setM('sc', 'Showcase order', cur => { const x = (cur.showcase || []).slice(); [x[i - 1], x[i]] = [x[i], x[i - 1]]; return { showcase: x }; }),
+          right: () => i < a.length - 1 && setM('sc', 'Showcase order', cur => { const x = (cur.showcase || []).slice(); [x[i + 1], x[i]] = [x[i], x[i + 1]]; return { showcase: x }; }),
+          rm: () => setM('sc', 'Showcase photo taken off', cur => ({ showcase: (cur.showcase || []).filter((_, k) => k !== i) })) })),
+        add: () => { if (!sel) return; if ((m.showcase || []).length >= 8) { this.flash('UP TO 8 SHOWCASE PHOTOS · TAKE ONE OFF FIRST'); return; }
+          this.openPick({ kind: 'image', title: 'Showcase photo · ' + nm(sel), folder: 'all', apply: id => { const it = this.item(id), u = it ? FULL(it.src) : '';
+            if (!/^https:/.test(u)) { this.flash('WAIT FOR THE UPLOAD TO FINISH, THEN PICK IT AGAIN'); return; }
+            setM('sc', 'Showcase photo added', cur => ({ showcase: (cur.showcase || []).filter(x => x !== u).concat([u]).slice(0, 8) })); this.flash('ADDED TO THE SHOWCASE · IN DRAFT'); } }); },
+        quote: m.wallQuote || '', setQuote: e => { const v = e.target.value; setM('quote', 'Showcase quote', () => ({ wallQuote: v })); }, quotePh: (sel && (m.hook || '')) || 'Empty uses the piece’s hook line',
+        draft: sel ? JSON.stringify([m.wearsWith || [], m.showcase || [], m.wallQuote || '']) !== JSON.stringify([((st.pub.catalog || {})[sel.wixId] || {}).wearsWith || [], ((st.pub.catalog || {})[sel.wixId] || {}).showcase || [], ((st.pub.catalog || {})[sel.wixId] || {}).wallQuote || '']) : false };
+      out.pc.hasPhotos = out.pc.photos.length > 0; out.pc.noPhotos = !out.pc.hasPhotos;
+      const add = id => { if (ww.length >= 3) { this.flash('THREE PIECES ALREADY · TAKE ONE OFF FIRST'); return; } setWW(a => a.concat([id]), 'Wears with · added ' + nm(byId(id))); };
+      const rm = id => setWW(a => a.filter(x => x !== id), 'Wears with · removed ' + nm(byId(id)));
+      const mv = (i, d) => setWW(a => { const j = i + d; if (j < 0 || j >= a.length) return a; [a[i], a[j]] = [a[j], a[i]]; return a; }, 'Wears with · order changed');
+      out.pl = { where: sel ? 'Under “Wears with” on ' + nm(sel) + '’s page, in this order. Choose up to three. With none chosen, the site picks three pieces for the same wearer (women, men or everyone).' : 'Choose a piece above first.',
+        chosenHead: 'WEARS WITH · ' + ww.length + ' OF 3', chosen: ww.map((id, i) => { const p = byId(id); return { ...thumb(p), n: String(i + 1), has: true, empty: false, name: nm(p), warn: (cat[p.wixId] || {}).hidden ? 'HIDDEN IN THE SHOP · WON’T SHOW' : '', hasWarn: !!(cat[p.wixId] || {}).hidden,
+          lOp: i ? 1 : 0.3, rOp: i < ww.length - 1 ? 1 : 0.3, left: () => i && mv(i, -1), right: () => i < ww.length - 1 && mv(i, 1), rm: () => rm(id) }; }),
+        noneChosen: !ww.length, noneL: 'None chosen: the site picks three automatically. Tap pieces below to choose them yourself.',
+        allHead: 'ALL PIECES · TAP ONE TO ADD IT', q: st.pkQ || '', setQ: e => this.setState({ pkQ: e.target.value }), wait: !shop.length && !!st.wixLive && !this.shopErr, waitL: 'LOADING THE PIECES FROM WIX…',
+        all: shop.filter(p => sel && p.wixId !== sel.wixId && !(cat[p.wixId] || {}).hidden && (!q || nm(p).toLowerCase().includes(q))).map(p => { const at = ww.indexOf(p.id), on = at >= 0;
+          return { name: nm(p), ...thumb(p), on, off: !on, badge: on ? String(at + 1) : '', bd: on ? '#D81219' : 'transparent', op: 1, tag: on ? 'TAP TO TAKE OFF' : 'TAP TO ADD', tap: () => on ? rm(p.id) : add(p.id) }; }),
+        hiddenN: 0, hasHiddenN: false, hiddenL: '' };
+      out.isPick = !!sel; out.isPiece = true;
     }
 
     if (L === 'wall') {
