@@ -1247,7 +1247,7 @@ class Component extends DCLogic {
       if (dot) { const big = false; dot.style.width = dot.style.height = big ? '84px' : '14px'; dot.style.left = dot.style.top = big ? '-42px' : '-7px'; lab.textContent = big ? c.dataset.cursor : ''; lab.style.opacity = big ? 1 : 0; }
       const j = this.state.mob ? null : t.closest('[data-jimg]'); const fl = document.querySelector('[data-jfloat]');
       if (fl) { if (j) { const js = window.NGR ? window.NGR(j.dataset.jimg) : j.dataset.jimg; if (fl.getAttribute('src') !== js) fl.src = js; fl.style.opacity = 1; } else fl.style.opacity = 0; }
-      const r = t.closest('[data-frames]'); this.hReel = r && r.dataset.frames.includes(',') ? r : null;
+      const r = t.closest('[data-frames]'); this.hReel = r && r.dataset.frames.includes('|') ? r : null;
     };
     this.onDown = e => { if (e.pointerType !== 'mouse') return; const ws = e.target.closest('[data-wscrub]'); if (ws) { this.wsc = { y: e.clientY, last: e.clientY, moved: false }; }
       const el = e.target.closest('[data-drag]'); if (el) { this.drag = { el, x: e.clientX, sl: el.scrollLeft, moved: false }; el.style.cursor = 'grabbing'; } };
@@ -1280,7 +1280,7 @@ class Component extends DCLogic {
         W.style.transform = 'perspective(1600px) rotateX(' + this.tilt.x.toFixed(2) + 'deg) rotateY(' + this.tilt.y.toFixed(2) + 'deg) scale(1.04)';
       });
       (E.kb || []).forEach(el => { if (el.isConnected && vis(el)) el.style.transform = 'scale(' + (1.08 + 0.05 * Math.sin(now / 7000)).toFixed(4) + ') translate3d(' + (Math.sin(now / 9000) * 1.2).toFixed(2) + '%,' + (Math.cos(now / 11000) * 0.8).toFixed(2) + '%,0)'; });
-      if (this.hReel && now - (this.hT || 0) > 700) { this.hT = now; const fr = this.hReel.dataset.frames.split(','); const im = this.hReel.querySelector('img'); const cur = fr.indexOf(im.getAttribute('src')); im.src = fr[(cur + 1) % fr.length]; }
+      if (this.hReel && now - (this.hT || 0) > 700) { this.hT = now; const fr = this.hReel.dataset.frames.split('|').filter(Boolean); const im = this.hReel.querySelector('img'); const cur = Math.max(fr.indexOf(im.getAttribute('src')), fr.indexOf(im.currentSrc)); im.src = fr[(cur + 1) % fr.length]; }
       this.raf = requestAnimationFrame(tick);
     };
     this.raf = requestAnimationFrame(tick);
@@ -1524,7 +1524,7 @@ const sCard = (p, i, pre) => { const key = pre + p.id, on = st.shov === key;
         bg: t.k === 'QUOTE' ? '#F4F0EA' : '#2A2421', o: on ? 1 : 0.18, flt: on ? 'none' : 'grayscale(1)',
         tag: t.k === 'REEL' ? '▶ REEL' : t.k === 'FILM' ? '▶ FILM' : t.k === 'PHOTO' ? 'PHOTO' : t.k === 'TAG' ? 'COMMUNITY' : 'NOTE',
         cur: t.k === 'PHOTO' ? 'View' : t.k === 'QUOTE' ? '' : t.k === 'TAG' ? 'Follow' : 'Play',
-        frames: img ? t.f.map(x => RZ(IMG(x), 800)).join(',') : '', hasShop: !!pr, name: pr ? pr.name : '', credit: [t.h ? (/^@/.test(t.h) ? t.h : '@' + t.h) : '', t.city || ''].filter(Boolean).join(' · '), hasCredit: !!(img && (t.h || t.city)),
+        frames: img ? t.f.map(x => RZ(IMG(x), 800)).join('|') : '', hasShop: !!pr, name: pr ? pr.name : '', credit: [t.h ? (/^@/.test(t.h) ? t.h : '@' + t.h) : '', t.city || ''].filter(Boolean).join(' · '), hasCredit: !!(img && (t.h || t.city)),
         shop: e => { e.stopPropagation(); if (pr) this.openQuick(pr.id); },
         open: () => { if (this.dragMoved) return; if (t.k === 'FILM') this.setState({ filmOpen: true }); else if (t.k === 'TAG') window.open('https://instagram.com/_ngwisa_', '_blank'); else if (img) this.setState({ lb: { items: t.f.map(x => RZ(IMG(x), 1600)), i: 0, reel: t.k === 'REEL', ratio: t.k === 'REEL' ? '9/16' : t.wide ? '3/2' : '2/3' }, lbT: 0 }); } };
     };
