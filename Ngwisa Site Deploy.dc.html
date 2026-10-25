@@ -158,8 +158,10 @@
 <div style="display:inline-block"><x-import component-from-global-scope="ng-stitch" from="./ngwisa-parts.js" text="{{ tx.newsTitle }}" tone="gold" size="clamp(28px,3.6vw,60px)" nowrap="1" hint-size="auto,calc(clamp(28px,3.6vw,60px) * 1.14)"></x-import></div>
 </div>
 <div onClick="{{ openEnv }}" data-cursor="{{ envCursor }}" style="position:relative;width:min(560px,86vw);aspect-ratio:1.6;perspective:1400px;cursor:pointer;transform:translateY({{ envShift }});transition:transform .9s cubic-bezier(.6,0,.2,1) .2s">
+
 <div style="position:absolute;inset:0;border-radius:6px;background:#DCD3C6"></div>
 <div onClick="{{ stop }}" style="position:absolute;left:5%;right:5%;top:5%;height:90%;z-index:1;pointer-events:{{ letterPE }};border-radius:4px;background:#FBF8F2;color:#141110;padding:clamp(16px,3vw,28px);display:flex;flex-direction:column;gap:12px;transform:translateY({{ letterY }});transition:transform .9s cubic-bezier(.6,0,.2,1) .45s;box-shadow:0 -10px 30px rgba(0,0,0,.15)">
+<sc-if value="{{ envOpen }}" hint-placeholder-val="{{ false }}"><button onClick="{{ closeEnv }}" aria-label="Close the envelope" title="Close" style="position:absolute;top:10px;right:10px;width:36px;height:36px;border-radius:50%;border:1.5px solid #141110;background:transparent;color:#141110;font:400 16px/1 'DM Mono',monospace;cursor:pointer" style-hover="background:#141110;color:#FBF8F2">✕</button></sc-if>
 <sc-if value="{{ nlForm }}" hint-placeholder-val="{{ true }}">
 <span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.18em;color:#D81219">{{ tx.newsKick }}</span>
 <p style="margin:0;font:400 clamp(15px,1.6vw,18px)/1.45 'Bricolage Grotesque';color:#4A433D;text-wrap:pretty">{{ tx.newsLine }}</p>
@@ -1201,7 +1203,7 @@ class Component extends DCLogic {
     /* Wix Stores is the catalogue: it decides which pieces exist, their prices, photos, descriptions, stock and URLs.
        The Studio's Products screen (StudioProducts) decides visibility, category, gender, hook and best-seller rank.
        The built-in pieces above only fill what neither has yet. Stock comes from one bulk inventory query. */
-    N.catalog(P).then(({ list }) => { list.slice(P.length).forEach(p => P.push(p)); this.catalogReady = true; this.forceUpdate(); this.syncRoute(true);
+    N.catalog(P).then(({ list }) => { list.slice(P.length).forEach(p => P.push(p)); /* the order set in Studio › Shop › All pieces */ if (P.some(p => p.pos != null)) { const at = new Map(P.map((p, i) => [p, i])); P.sort((a, b) => ((a.pos ?? 1e6) - (b.pos ?? 1e6)) || (at.get(a) - at.get(b))); } this.catalogReady = true; this.forceUpdate(); this.syncRoute(true);
       return N.stock(P).then(() => this.forceUpdate()); }).catch(e => { console.warn('Wix catalog', e); this.catalogReady = true; this.syncRoute(true); });
     N.cart().then(c => { if (c) this.setState({ bag: this.wixBag(c) }); }).catch(() => {}); if (N.isMember()) N.me().then(m => { if (m) { this.setState({ member: m }); this.loadAcct(m); } }); }
   componentDidMount() {
@@ -1287,7 +1289,7 @@ class Component extends DCLogic {
     };
     this.raf = requestAnimationFrame(tick);
     this.lbTimer = setInterval(() => { const lb = this.state.lb; if (!lb || !lb.reel) return; const t = this.state.lbT + 100; if (t >= 2600) { this.setState({ lb: { ...lb, i: (lb.i + 1) % lb.items.length }, lbT: 0 }); } else this.setState({ lbT: t }); }, 100);
-    this.onKey = e => { if (e.key === 'Escape' && this.state.sg) { this.setState({ sg: false }); return; } if (e.key === 'Escape' && this.state.pp && !this.state.bagOpen) { this.closePP(); return; } if (e.key === 'Escape') this.setState({ quick: null, bagOpen: false, filmOpen: false, lb: null, article: null, event: null, acct: false, menu: false }); };
+    this.onKey = e => { if (e.key === 'Escape' && this.state.sg) { this.setState({ sg: false }); return; } if (e.key === 'Escape' && this.state.pp && !this.state.bagOpen) { this.closePP(); return; } if (e.key === 'Escape') this.setState({ quick: null, bagOpen: false, filmOpen: false, lb: null, article: null, event: null, acct: false, menu: false, env: false }); };
     addEventListener('keydown', this.onKey);
     this.onNgOpen = e => this.openQuick(e.detail.id);
     this.onNgLink = e => { const t = e.target && e.target.closest ? e.target.closest('[data-link]') : null; const l = t ? t.getAttribute('data-link') : 'shop';
@@ -1589,14 +1591,14 @@ const sCard = (p, i, pre) => { const key = pre + p.id, on = st.shov === key;
           [{ k: 'REEL', f: SC ? [I[2], X(4), I[1]] : [I[2], I[0], I[1]], pid: p.id }, { k: 'PHOTO', f: [SC ? X(5) : I[1]] }, { k: 'TAG' }, { k: 'PHOTO', f: [o(1).img], pid: o(1).id }],
           [{ k: 'PHOTO', f: [SC ? X(6) : I[2]] }, { k: 'FILM', f: ['03622'] }, { k: 'PHOTO', f: [o(2).img], pid: o(2).id }, { k: 'QUOTE', q: 'wallQ2', text: 'Where heritage meets modernity.' }]];
         return spreadWall(cols).map((c, ci) => loopCol(c, ci, x => tile(x, true))); })(),
-      openEnv: () => { if (!st.env) this.setState({ env: true }); }, stop: e => e.stopPropagation(),
+      openEnv: () => { if (!st.env) this.setState({ env: true }); }, stop: e => e.stopPropagation(), envOpen: !!st.env, closeEnv: e => { if (e) e.stopPropagation(); this.setState({ env: false }); },
       envCursor: st.env ? '' : 'Open', envShift: st.env ? '22%' : '0%', letterY: st.env ? '-72%' : '0%',
       flapR: st.env ? '180deg' : '0deg', flapZ: st.env ? 0 : 3, sealO: st.env ? 0 : 1, sealS: st.env ? 1.4 : 1, sealR: st.env ? '-25deg' : '0deg',
       envHint: st.env ? (st.nlDone ? 'THANK YOU' : 'WRITE TO US, WE WRITE BACK') : 'BREAK THE SEAL TO OPEN',
       nl: st.nl, nlForm: !st.nlDone, nlDone: st.nlDone, nlType: e => this.setState({ nl: e.target.value }),
       nlSend: () => { if (/.+@.+\..+/.test(st.nl)) this.setState({ nlDone: true }); else this.flash('PLEASE ENTER A VALID EMAIL'); },
       tabs: [['all', 'Everything'], ['best', 'Best sellers']].map(t => ({ l: t[1], go: () => this.setState({ tab: t[0] }), ...((on) => ({ bs: on ? 'solid' : 'dashed', bd: on ? '#141110' : '#C4C1BC', bg: on ? '#141110' : 'transparent', ink: on ? '#FFFFFF' : '#45423E' }))(st.tab === t[0]) })),
-      cats: ['All', 'Women', 'Men', 'Tops', 'Bottoms', 'Dresses', 'Sets', 'Outerwear', 'Accessories', 'Jumpsuits'].map(c => ({ l: c, go: () => this.setState({ cat: c }), ...((on) => ({ bs: on ? 'solid' : 'dashed', bd: on ? '#141110' : '#C4C1BC', bg: on ? '#141110' : 'transparent', ink: on ? '#FFFFFF' : '#45423E' }))(st.cat === c) })),
+      cats: ['All', 'Women', 'Men'].map(c => ({ l: c, go: () => this.setState({ cat: c }), ...((on) => ({ bs: on ? 'solid' : 'dashed', bd: on ? '#141110' : '#C4C1BC', bg: on ? '#141110' : 'transparent', ink: on ? '#FFFFFF' : '#45423E' }))(st.cat === c) })),
       sort: st.sort, onSort: e => this.setState({ sort: e.target.value }),
       shopCount: list.length + ' PIECES ON THE NEEDLE', shopEmpty: !list.length, showAll: () => this.setState({ cat: 'All', tab: 'all' }),
       shopCards: list.map(p => { const badge = p.soldOut ? 'SOLD OUT' : st.tab === 'best' && p.best ? 'BEST SELLER № ' + p.best : p.best ? 'BEST SELLER' : p.isNew ? 'NEW' : '';

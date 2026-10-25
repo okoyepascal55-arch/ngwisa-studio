@@ -89,6 +89,7 @@
         if (m.best != null && m.best !== '') p.best = Number(m.best) || 0;
         if (typeof m.restock === 'boolean') p.restock = m.restock;
         if (m.order != null) p.order = Number(m.order);
+        if (m.pos != null && m.pos !== '' && !isNaN(Number(m.pos))) p.pos = Number(m.pos); else delete p.pos;
         if (Array.isArray(m.wearsWith) && m.wearsWith.length) p.wearsWith = m.wearsWith.slice(0, 3);
         if (Array.isArray(m.showcase) && m.showcase.length) p.showcase = m.showcase.filter(Boolean);
         if (typeof m.wallQuote === 'string' && m.wallQuote.trim()) p.wallQuote = m.wallQuote.trim();

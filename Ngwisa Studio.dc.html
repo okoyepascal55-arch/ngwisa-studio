@@ -279,14 +279,14 @@
 <span style="font:600 18px/1.2 'Bricolage Grotesque'">{{ r.name }}<sc-if value="{{ r.isNew }}" hint-placeholder-val="{{ false }}"> <span style="margin-left:6px;padding:3px 8px;border-radius:999px;background:#D81219;color:#FBF8F2;font:500 9px/1 'DM Mono',monospace;letter-spacing:.14em;vertical-align:middle">NEW IN WIX</span></sc-if><sc-if value="{{ r.draft }}" hint-placeholder-val="{{ false }}"> <span style="margin-left:6px;padding:3px 8px;border-radius:999px;background:#E3A72F;color:#141110;font:500 9px/1 'DM Mono',monospace;letter-spacing:.14em;vertical-align:middle">DRAFT</span></sc-if></span>
 <span style="font:500 10px/1.5 'DM Mono',monospace;letter-spacing:.12em;color:#6A6057">{{ r.price }} · {{ r.sizes }} · {{ r.url }}</span>
 </div>
+<div style="flex:none;display:flex;align-items:center;gap:4px"><span title="Place in the shop" style="min-width:38px;text-align:right;font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em;color:#6A6057">{{ r.posL }}</span><button onClick="{{ r.up }}" aria-label="Move up in the shop" title="Move up in the shop" style="width:34px;height:34px;border-radius:50%;border:1.5px solid #141110;background:transparent;cursor:pointer;opacity:{{ r.upOp }}">↑</button><button onClick="{{ r.down }}" aria-label="Move down in the shop" title="Move down in the shop" style="width:34px;height:34px;border-radius:50%;border:1.5px solid #141110;background:transparent;cursor:pointer;opacity:{{ r.downOp }}">↓</button></div>
 <button onClick="{{ r.toggle }}" title="Show or hide on the site" style="flex:none;height:38px;min-width:92px;padding:0 14px;border-radius:999px;border:1.5px solid #141110;background:{{ r.showBg }};color:{{ r.showFg }};font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer">{{ r.showL }}</button>
 <button onClick="{{ r.expand }}" hidden="{{ simple }}" style="flex:none;height:38px;padding:0 14px;border-radius:999px;border:1.5px solid rgba(20,17,16,.35);background:transparent;color:#141110;font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer">{{ r.moreL }}</button>
 </div>
 <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding-left:66px;opacity:{{ r.rowOp }}">
 <span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em;color:#6A6057;margin-right:2px">FOR</span>
 <sc-for list="{{ r.gens2 }}" as="g" hint-placeholder-count="3"><button onClick="{{ g.go }}" style="height:34px;padding:0 13px;border-radius:999px;border:1.5px solid #141110;background:{{ g.bg }};color:{{ g.fg }};cursor:pointer;white-space:nowrap;font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em">{{ g.l }}</button></sc-for>
-<span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em;color:#6A6057;margin:0 2px 0 10px">TYPE</span>
-<select value="{{ r.catE }}" onChange="{{ r.setCat }}" style="height:34px;padding:0 12px;border-radius:999px;border:1.5px solid #141110;background:transparent;font:400 14px 'Bricolage Grotesque';color:#141110;outline:none;min-width:0"><sc-for list="{{ r.cats2 }}" as="o" hint-placeholder-count="3"><option value="{{ o.v }}">{{ o.l }}</option></sc-for></select>
+
 <sc-if value="{{ r.genDraft }}" hint-placeholder-val="{{ false }}"><span style="padding:4px 8px;border-radius:999px;background:#E3A72F;color:#141110;font:500 9px/1 'DM Mono',monospace;letter-spacing:.14em">DRAFT</span></sc-if>
 </div>
 <sc-if value="{{ r.open }}" hint-placeholder-val="{{ false }}">
@@ -773,7 +773,7 @@ const LIST_HEAD = {
   newin: ['Choose the New in pieces', 'One list for both places. Tap pieces below to add them; use the arrows to change the order.'],
   rack: ['Choose the four best sellers', 'One list for both places. Tap a piece below to fill the next empty place; use the arrows to change the order.'],
   wall: ['The tiles on the wall', 'Laid out like the site: three columns, top to bottom. Columns 1 and 3 drift up, the middle one drifts down, and each loops forever.'],
-  catalog: ['Which pieces show, and how', 'Every piece in Wix Stores. Prices, photos, descriptions, sizes and stock are edited in Wix; here you choose whether each one shows on the site, and its name, category and search details.'],
+  catalog: ['Which pieces show, in what order', 'Top to bottom is the order of the shop. Use ↑ ↓ to move a piece, Shown/Hidden to take it off the site, and For to put it under Women, Men or both. Prices, photos, descriptions, sizes and stock are edited in Wix.'],
   events: ['The appearances', 'Newest first: the first one is also the featured show. Tap one to edit it.'],
   pairs: ['Pairs', 'A piece and the piece that goes with it. Each shows the other under “Wears with”.'],
   piece: ['Choose a piece', 'Pick the piece, then choose what its page shows. Nothing chosen keeps the automatic choice.'],
@@ -897,7 +897,7 @@ class Component extends DCLogic {
     const newest = (rows, col) => { const by = {}; rows.slice().sort((a, b) => UPD(a) < UPD(b) ? -1 : UPD(a) > UPD(b) ? 1 : 0).forEach(r => { if (by[r.title]) W.dup[col].push(by[r.title]._id); by[r.title] = r; }); return Object.values(by); };
     const ord = a => a.slice().sort((x, y) => ((x.order || 0) - (y.order || 0)) || String(x._id).localeCompare(String(y._id)));
     copy = newest(copy, 'StudioHomeCopy'); slots = newest(slots, 'StudioSiteSlots');
-    { c.catalog = {}; metaRows.forEach(r => { if (r.productId) c.catalog[r.productId] = { hidden: !!r.hidden, displayName: r.displayName || '', category: r.category || '', gender: r.gender || '', hook: r.hook || '', best: r.best == null || r.best === '' ? '?' : +r.best ? String(+r.best) : '', restock: typeof r.restock === 'boolean' ? (r.restock ? 'yes' : 'no') : '', seoTitle: r.seoTitle || '', seoDescription: r.seoDescription || '', seedId: r.seedId || '', wearsWith: Array.isArray(r.wearsWith) ? r.wearsWith : [], showcase: Array.isArray(r.showcase) ? r.showcase : [], wallQuote: r.wallQuote || '' }; });
+    { c.catalog = {}; metaRows.forEach(r => { if (r.productId) c.catalog[r.productId] = { hidden: !!r.hidden, displayName: r.displayName || '', category: r.category || '', gender: r.gender || '', hook: r.hook || '', best: r.best == null || r.best === '' ? '?' : +r.best ? String(+r.best) : '', restock: typeof r.restock === 'boolean' ? (r.restock ? 'yes' : 'no') : '', seoTitle: r.seoTitle || '', seoDescription: r.seoDescription || '', seedId: r.seedId || '', wearsWith: Array.isArray(r.wearsWith) ? r.wearsWith : [], pos: r.pos == null || r.pos === '' ? null : +r.pos, showcase: Array.isArray(r.showcase) ? r.showcase : [], wallQuote: r.wallQuote || '' }; });
       if (shop) this.linkShop(c, shop, metaRows.length > 0); Object.keys(c.catalog).forEach(k => { if (c.catalog[k].best === '?') c.catalog[k].best = ''; });
       copy.forEach(r => { if (!COPY.some(f => f[0] === r.title)) return; W.copy[r.title] = r._id; if (typeof r.text === 'string' && r.text.trim()) c.copy[r.title] = r.text; });
       ord(sizes).forEach((r, i) => { W.sizes[i] = r._id; if (c.sizes[i] && r.rows && r.rows.rows) Object.assign(c.sizes[i], { rows: r.rows.rows, note: r.note || '', sz: r.sizes || c.sizes[i].sz }); });
@@ -1049,7 +1049,7 @@ class Component extends DCLogic {
     const prows = shop.map((p, i) => { const m = cat[p.wixId] || {}, b = parseInt(m.best, 10);
       return { _id: 'p-' + p.wixId, title: p.name, productId: p.wixId, slug: p.slug, seedId: p.seedId || m.seedId || '', hidden: !!m.hidden, displayName: (m.displayName || '').trim(),
         category: m.category || '', gender: m.gender || '', hook: (m.hook || '').trim(), best: isNaN(b) ? 0 : b, restock: m.restock === 'yes' ? true : m.restock === 'no' ? false : null,
-        seoTitle: (m.seoTitle || '').trim(), seoDescription: (m.seoDescription || '').trim(), wearsWith: (m.wearsWith || []).slice(0, 3), showcase: (m.showcase || []).filter(u => /^https:/.test(u)).slice(0, 8), wallQuote: (m.wallQuote || '').trim(), order: i }; });
+        seoTitle: (m.seoTitle || '').trim(), seoDescription: (m.seoDescription || '').trim(), wearsWith: (m.wearsWith || []).slice(0, 3), showcase: (m.showcase || []).filter(u => /^https:/.test(u)).slice(0, 8), wallQuote: (m.wallQuote || '').trim(), pos: m.pos == null || m.pos === '' ? null : +m.pos, order: i }; });
     await Promise.all([save('StudioHomeCopy', copy), save('StudioSizeGuide', sizes), save('StudioSiteSlots', slots),
       // Older publishes left duplicate rows for some words; the site could show either. Clear them out.
       drop('StudioHomeCopy', W.dup.StudioHomeCopy.filter(x => !copy.some(r => r.data._id === x))), drop('StudioSiteSlots', W.dup.StudioSiteSlots.filter(x => !slots.some(r => r.data._id === x))),
@@ -1342,17 +1342,25 @@ class Component extends DCLogic {
       out.catQ = st.catQ || ''; out.setCatQ = e => this.setState({ catQ: e.target.value });
       const effG = p => { const m = cat[p.wixId] || {}, sd = SEED_CG[p.seedId || m.seedId]; return m.gender || (sd ? sd[1] : /unisex|shirt|vest/i.test(p.name) ? 'u' : 'w'); };
       const effC = p => { const m = cat[p.wixId] || {}, sd = SEED_CG[p.seedId || m.seedId]; return m.category || (sd ? sd[0] : 'Collection'); };
-      const list = (shop || []).filter(p => { const m = cat[p.wixId] || {}; return (f === 'all' || (f === 'shown' && !m.hidden) || (f === 'hidden' && m.hidden) || (f === 'new' && m.fresh) || (/^[wmu]$/.test(f) && effG(p) === f)) && (!q || (p.name + ' ' + p.slug).toLowerCase().includes(q)); });
+      /* The order pieces show in the shop: positions set here first, then the design's own pieces, then the rest as in Wix. */
+      const seedAt = id => { const k = c.products.findIndex(x => x.id === id && !x.wix); return k < 0 ? 1e5 : k; };
+      const ordered = (shop || []).map((p, i) => ({ p, i })).sort((a, b) => { const pa = (cat[a.p.wixId] || {}).pos, pb = (cat[b.p.wixId] || {}).pos;
+        return ((pa ?? 1e6) - (pb ?? 1e6)) || (seedAt(a.p.seedId) - seedAt(b.p.seedId)) || (a.i - b.i); }).map(x => x.p);
+      const shownOrder = ordered.filter(p => !(cat[p.wixId] || {}).hidden);
+      const list = ordered.filter(p => { const m = cat[p.wixId] || {}; return (f === 'all' || (f === 'shown' && !m.hidden) || (f === 'hidden' && m.hidden) || (f === 'new' && m.fresh) || (/^[wmu]$/.test(f) && effG(p) === f)) && (!q || (p.name + ' ' + p.slug).toLowerCase().includes(q)); });
       out.catN = (shop || []).length ? list.length + ' OF ' + shop.length + ' PIECES · ' + ['w', 'm', 'u'].map(g => (shop || []).filter(p => !(cat[p.wixId] || {}).hidden && effG(p) === g).length + ' ' + GEN_L[g].toUpperCase()).join(' · ') + ' SHOWING' : '';
-      out.catRows = list.map(p => { const m = cat[p.wixId] || {}, o = pcat[p.wixId] || {}, open = st.catOpen === p.wixId, nm = (m.displayName || '').trim() || (this.prodById(p.id) || {}).name || p.name;
+      const move = (p, d) => { const k = list.indexOf(p), q = list[k + d]; if (!q) return; const ids = ordered.map(x => x.wixId), a = ids.indexOf(p.wixId), b = ids.indexOf(q.wixId); [ids[a], ids[b]] = [ids[b], ids[a]];
+        this.edit('order-' + Date.now(), 'Shop order · ' + ((cat[p.wixId] || {}).displayName || p.name) + (d < 0 ? ' up' : ' down'), cc => { ids.forEach((id, n) => { cc.catalog[id] = Object.assign({}, cc.catalog[id], { pos: n + 1 }); }); }); };
+      out.catRows = list.map((p, li) => { const m = cat[p.wixId] || {}, o = pcat[p.wixId] || {}, open = st.catOpen === p.wixId, nm = (m.displayName || '').trim() || (this.prodById(p.id) || {}).name || p.name;
         const set = (k, label) => e => { const v = e && e.target ? (e.target.type === 'checkbox' ? e.target.checked : e.target.value) : e; this.edit('cat-' + p.wixId + '-' + k, label + ' · ' + nm, cc => { cc.catalog[p.wixId] = Object.assign({}, cc.catalog[p.wixId], { [k]: v, fresh: false }); }); };
-        const dirty = ['hidden', 'displayName', 'category', 'gender', 'hook', 'best', 'restock', 'seoTitle', 'seoDescription'].some(k => (m[k] || '') !== (o[k] || ''));
+        const dirty = ['hidden', 'displayName', 'category', 'gender', 'hook', 'best', 'restock', 'seoTitle', 'seoDescription', 'pos'].some(k => (m[k] || '') !== (o[k] || ''));
         const sd = m.seoDescription || '';
         return { ...this.media(p.img ? { kind: 'image', src: wsrc(p.img), focal: { x: 50, y: 20 } } : null), name: nm, wixName: p.name, price: p.price == null ? 'NO PRICE IN WIX' : '£' + Number(p.price).toFixed(2).replace(/\.00$/, ''),
           url: '/shop/' + p.slug, sizes: p.sizes.length ? p.sizes.join(' · ') : 'ONE SIZE', linked: p.seedId ? 'MATCHED TO THE DESIGN’S ' + ((this.prodById(p.seedId) || {}).name || p.seedId).toUpperCase() : 'NEW TO THE DESIGN',
           shown: !m.hidden, hidden: !!m.hidden, showL: m.hidden ? 'HIDDEN' : 'SHOWN', showBg: m.hidden ? 'transparent' : '#141110', showFg: m.hidden ? '#141110' : '#FBF8F2', rowOp: m.hidden ? 0.55 : 1,
           isNew: !!m.fresh, draft: dirty, open, notOpen: !open, toggle: () => this.edit('cat-' + p.wixId + '-hidden', (m.hidden ? 'Shown · ' : 'Hidden · ') + nm, cc => { cc.catalog[p.wixId] = Object.assign({}, cc.catalog[p.wixId], { hidden: !m.hidden, fresh: false }); }),
           expand: () => this.setState({ catOpen: open ? null : p.wixId }), moreL: open ? 'CLOSE' : 'DETAILS',
+          posL: m.hidden ? '—' : '№ ' + (shownOrder.indexOf(p) + 1), up: () => move(p, -1), down: () => move(p, 1), upOp: li > 0 ? 1 : 0.3, downOp: li < list.length - 1 ? 1 : 0.3,
           gens2: ['w', 'm', 'u'].map(g => { const on = effG(p) === g; return { l: GEN_L[g].toUpperCase(), bg: on ? '#141110' : 'transparent', fg: on ? '#FBF8F2' : '#141110', go: () => this.edit('cat-' + p.wixId + '-gender', 'For ' + GEN_L[g].toLowerCase() + ' · ' + nm, cc => { cc.catalog[p.wixId] = Object.assign({}, cc.catalog[p.wixId], { gender: g, fresh: false }); }) }; }),
           catE: effC(p), cats2: (window.NGW ? window.NGW.CATEGORIES : []).map(x => ({ v: x, l: x })), genDraft: (m.gender || '') !== (o.gender || '') || (m.category || '') !== (o.category || ''),
           cats: opt(CATS, m.category || ''), cat: m.category || '', setCat: set('category', 'Category'), gens: opt(GEN, m.gender || ''), gen: m.gender || '', setGen: set('gender', 'Who it’s for'),
