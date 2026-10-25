@@ -256,6 +256,13 @@
 <button onClick="{{ r.toggle }}" title="Show or hide on the site" style="flex:none;height:38px;min-width:92px;padding:0 14px;border-radius:999px;border:1.5px solid #141110;background:{{ r.showBg }};color:{{ r.showFg }};font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer">{{ r.showL }}</button>
 <button onClick="{{ r.expand }}" hidden="{{ simple }}" style="flex:none;height:38px;padding:0 14px;border-radius:999px;border:1.5px solid rgba(20,17,16,.35);background:transparent;color:#141110;font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em;cursor:pointer">{{ r.moreL }}</button>
 </div>
+<div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;padding-left:66px;opacity:{{ r.rowOp }}">
+<span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em;color:#6A6057;margin-right:2px">FOR</span>
+<sc-for list="{{ r.gens2 }}" as="g" hint-placeholder-count="3"><button onClick="{{ g.go }}" style="height:34px;padding:0 13px;border-radius:999px;border:1.5px solid #141110;background:{{ g.bg }};color:{{ g.fg }};cursor:pointer;white-space:nowrap;font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em">{{ g.l }}</button></sc-for>
+<span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em;color:#6A6057;margin:0 2px 0 10px">TYPE</span>
+<select value="{{ r.catE }}" onChange="{{ r.setCat }}" style="height:34px;padding:0 12px;border-radius:999px;border:1.5px solid #141110;background:transparent;font:400 14px 'Bricolage Grotesque';color:#141110;outline:none;min-width:0"><sc-for list="{{ r.cats2 }}" as="o" hint-placeholder-count="3"><option value="{{ o.v }}">{{ o.l }}</option></sc-for></select>
+<sc-if value="{{ r.genDraft }}" hint-placeholder-val="{{ false }}"><span style="padding:4px 8px;border-radius:999px;background:#E3A72F;color:#141110;font:500 9px/1 'DM Mono',monospace;letter-spacing:.14em">DRAFT</span></sc-if>
+</div>
 <sc-if value="{{ r.open }}" hint-placeholder-val="{{ false }}">
 <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,220px),1fr));gap:12px;padding:6px 0 4px 66px">
 <label style="display:flex;flex-direction:column;gap:8px;min-width:0"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#6A6057">NAME ON THE SITE</span><input value="{{ r.dName }}" onChange="{{ r.setDName }}" placeholder="{{ r.namePh }}" style="height:44px;padding:0 16px;border-radius:999px;border:1.5px solid #141110;background:transparent;font:400 15px 'Bricolage Grotesque';color:#141110;outline:none;min-width:0"></label>
@@ -644,6 +651,10 @@ const WSIZE = (u, w) => { const b = FULL(u); return /^https:\/\/static\.wixstati
 const UPD = r => String((r && r._updatedDate && (r._updatedDate.$date || r._updatedDate)) || '');
 const LOOK = it => String(it.name || '').toLowerCase().replace(/\s+\d+(?=\.\w+$)/, '').replace(/\.(jpe?g|png|heic|webp)$/, '') + '|' + (it.w ? it.w + 'x' + it.h : it.kb);
 const SIMPLE_KEY = 'ngwisa-studio-simple';
+/* Each built-in piece's own category and who it's for, as the design has them (used when the Studio leaves them blank).
+   Pieces only in Wix default to Collection, and to Everyone if the name says unisex, shirt or vest, else Women. */
+const SEED_CG = { rahrah: ['Sets', 'w'], 'rahrah-white': ['Sets', 'w'], 'main-character': ['Tops', 'w'], manyi: ['Tops', 'w'], mawa: ['Dresses', 'w'], mimche: ['Dresses', 'w'], muna: ['Sets', 'w'], 'mita-dress': ['Dresses', 'w'], yem: ['Dresses', 'w'], tatah: ['Tailoring', 'u'], 'mita-set': ['Sets', 'w'], 'gong-waistcoat': ['Tailoring', 'm'] };
+const GEN_L = { w: 'Women', m: 'Men', u: 'Everyone' };
 const fkb = v => v >= 1024 ? (v / 1024).toFixed(1) + ' MB' : v + ' KB';
 const FOLDERS = [['all', 'All'], ['campaign', 'SS27 campaign'], ['products', 'Products'], ['events', 'Appearances'], ['worn', 'Worn by you'], ['film', 'Film']];
 const FL = Object.fromEntries(FOLDERS);
@@ -1218,7 +1229,7 @@ class Component extends DCLogic {
 
     if (st.view === 'start') {
       const jobs = [['Change the opening film', 'home', 'film'], ['Choose the New in pieces (Home & The Loop)', 'home', 'newin'], ['Pick the four best sellers (Home & Shop)', 'home', 'rack'], ['Change the Worn by you wall', 'home', 'wall'],
-        ['Hide or show a piece in the shop', 'shop', 'all'], ['Add or edit an appearance', 'journal', 'appearances'], ['Edit the size guide', 'product', 'sizes'], ['Change contact details & footer', 'home', 'letters']];
+        ['Show or hide a piece, set women / men / category', 'shop', 'all'], ['Add or edit an appearance', 'journal', 'appearances'], ['Edit the size guide', 'product', 'sizes'], ['Change contact details & footer', 'home', 'letters']];
       out.jobs = jobs.map(j => ({ label: j[0], where: PAGES.find(p => p.id === j[1]).name.toUpperCase() + ' › ' + PAGES.find(p => p.id === j[1]).secs.find(g => g.id === j[2]).name.toUpperCase(), go: () => this.goSec(j[1], j[2]) }));
       out.sitePages = PAGES.map(P => ({ name: P.name, path: P.id === 'product' ? '/shop/<piece>' : P.id === 'account' ? 'ACCOUNT ICON, ANY PAGE' : P.path, k: cnt['pg:' + P.id] || 0, hasK: (cnt['pg:' + P.id] || 0) > 0,
         secs: P.secs.map((g, i) => ({ label: pad(i) + ' · ' + g.name, go: () => this.goSec(P.id, i), dot: this.secDraft(g) })) }));
@@ -1299,10 +1310,12 @@ class Component extends DCLogic {
       const RS = [['', 'Built-in'], ['yes', 'Will be restocking'], ['no', 'Won’t be restocking']];
       out.catLoading = !shop && !this.shopErr; out.catErr = !shop && !!this.shopErr; out.catErrL = 'COULDN’T LOAD WIX STORES · ' + String(this.shopErr || '').toUpperCase().slice(0, 80);
       out.catNoColl = !!shop && !!(this.wixBad && this.wixBad.has('StudioProducts')); out.catFirst = !!shop && !this.prodRows && !out.catNoColl; out.hasShop = !!shop;
-      out.catF = [['all', 'All'], ['shown', 'Showing'], ['hidden', 'Hidden'], ['new', 'New in Wix']].map(x => ({ label: x[1].toUpperCase(), bg: f === x[0] ? '#141110' : 'transparent', fg: f === x[0] ? '#FBF8F2' : '#141110', go: () => this.setState({ catF: x[0] }) }));
+      out.catF = [['all', 'All'], ['shown', 'Showing'], ['hidden', 'Hidden'], ['new', 'New in Wix'], ['w', 'Women'], ['m', 'Men'], ['u', 'Everyone']].map(x => ({ label: x[1].toUpperCase(), bg: f === x[0] ? '#141110' : 'transparent', fg: f === x[0] ? '#FBF8F2' : '#141110', go: () => this.setState({ catF: x[0] }) }));
       out.catQ = st.catQ || ''; out.setCatQ = e => this.setState({ catQ: e.target.value });
-      const list = (shop || []).filter(p => { const m = cat[p.wixId] || {}; return (f === 'all' || (f === 'shown' && !m.hidden) || (f === 'hidden' && m.hidden) || (f === 'new' && m.fresh)) && (!q || (p.name + ' ' + p.slug).toLowerCase().includes(q)); });
-      out.catN = (shop || []).length ? list.length + ' OF ' + shop.length + ' PIECES' : '';
+      const effG = p => { const m = cat[p.wixId] || {}, sd = SEED_CG[p.seedId || m.seedId]; return m.gender || (sd ? sd[1] : /unisex|shirt|vest/i.test(p.name) ? 'u' : 'w'); };
+      const effC = p => { const m = cat[p.wixId] || {}, sd = SEED_CG[p.seedId || m.seedId]; return m.category || (sd ? sd[0] : 'Collection'); };
+      const list = (shop || []).filter(p => { const m = cat[p.wixId] || {}; return (f === 'all' || (f === 'shown' && !m.hidden) || (f === 'hidden' && m.hidden) || (f === 'new' && m.fresh) || (/^[wmu]$/.test(f) && effG(p) === f)) && (!q || (p.name + ' ' + p.slug).toLowerCase().includes(q)); });
+      out.catN = (shop || []).length ? list.length + ' OF ' + shop.length + ' PIECES · ' + ['w', 'm', 'u'].map(g => (shop || []).filter(p => !(cat[p.wixId] || {}).hidden && effG(p) === g).length + ' ' + GEN_L[g].toUpperCase()).join(' · ') + ' SHOWING' : '';
       out.catRows = list.map(p => { const m = cat[p.wixId] || {}, o = pcat[p.wixId] || {}, open = st.catOpen === p.wixId, nm = (m.displayName || '').trim() || (this.prodById(p.id) || {}).name || p.name;
         const set = (k, label) => e => { const v = e && e.target ? (e.target.type === 'checkbox' ? e.target.checked : e.target.value) : e; this.edit('cat-' + p.wixId + '-' + k, label + ' · ' + nm, cc => { cc.catalog[p.wixId] = Object.assign({}, cc.catalog[p.wixId], { [k]: v, fresh: false }); }); };
         const dirty = ['hidden', 'displayName', 'category', 'gender', 'hook', 'best', 'restock', 'seoTitle', 'seoDescription'].some(k => (m[k] || '') !== (o[k] || ''));
@@ -1312,6 +1325,8 @@ class Component extends DCLogic {
           shown: !m.hidden, hidden: !!m.hidden, showL: m.hidden ? 'HIDDEN' : 'SHOWN', showBg: m.hidden ? 'transparent' : '#141110', showFg: m.hidden ? '#141110' : '#FBF8F2', rowOp: m.hidden ? 0.55 : 1,
           isNew: !!m.fresh, draft: dirty, open, notOpen: !open, toggle: () => this.edit('cat-' + p.wixId + '-hidden', (m.hidden ? 'Shown · ' : 'Hidden · ') + nm, cc => { cc.catalog[p.wixId] = Object.assign({}, cc.catalog[p.wixId], { hidden: !m.hidden, fresh: false }); }),
           expand: () => this.setState({ catOpen: open ? null : p.wixId }), moreL: open ? 'CLOSE' : 'DETAILS',
+          gens2: ['w', 'm', 'u'].map(g => { const on = effG(p) === g; return { l: GEN_L[g].toUpperCase(), bg: on ? '#141110' : 'transparent', fg: on ? '#FBF8F2' : '#141110', go: () => this.edit('cat-' + p.wixId + '-gender', 'For ' + GEN_L[g].toLowerCase() + ' · ' + nm, cc => { cc.catalog[p.wixId] = Object.assign({}, cc.catalog[p.wixId], { gender: g, fresh: false }); }) }; }),
+          catE: effC(p), cats2: (window.NGW ? window.NGW.CATEGORIES : []).map(x => ({ v: x, l: x })), genDraft: (m.gender || '') !== (o.gender || '') || (m.category || '') !== (o.category || ''),
           cats: opt(CATS, m.category || ''), cat: m.category || '', setCat: set('category', 'Category'), gens: opt(GEN, m.gender || ''), gen: m.gender || '', setGen: set('gender', 'Who it’s for'),
           bests: opt(BEST, m.best || ''), best: m.best || '', setBest: e => { const v = e.target.value; this.edit('cat-' + p.wixId + '-best', 'Best-seller rank · ' + nm, cc => { if (v) Object.keys(cc.catalog).forEach(k => { if (k !== p.wixId && String((cc.catalog[k] || {}).best) === v) cc.catalog[k] = { ...cc.catalog[k], best: '' }; }); cc.catalog[p.wixId] = Object.assign({}, cc.catalog[p.wixId], { best: v, fresh: false }); }); }, restocks: opt(RS, m.restock || ''), restock: m.restock || '', setRestock: set('restock', 'Restocking'),
           dName: m.displayName || '', setDName: set('displayName', 'Name on the site'), namePh: (this.prodById(p.id) || {}).name || (window.NGW ? window.NGW.titleCase(p.name) : p.name), hook: m.hook || '', setHook: set('hook', 'Hook line'),
