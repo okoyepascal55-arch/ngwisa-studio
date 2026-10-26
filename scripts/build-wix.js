@@ -81,6 +81,8 @@ const urls = Object.keys(PAGES).map(k => '<url><loc>' + esc(SITE + H(PAGES[k].pa
 /* Wix answers /sitemap.xml and /robots.txt itself, so the sitemap is published under its own name and robots.txt
    (set through Wix's SEO settings) points to it. */
 fs.writeFileSync(path.join(OUT, 'ngwisa-sitemap.xml'), '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n' + urls.join('\n') + '\n</urlset>\n');
+// Wix's hosting doesn't serve .xml files, so the same list also goes out as a plain-text sitemap (one address a line).
+fs.writeFileSync(path.join(OUT, 'sitemap.txt'), Object.keys(PAGES).map(k => SITE + H(PAGES[k].path)).concat(snap.products.map(p => SITE + H('/shop/' + encodeURIComponent(p.slug)))).join('\n') + '\n');
 
 
 // release/ngwisa-wix.zip (stored + deflated with Node's zlib; no extra dependency)
