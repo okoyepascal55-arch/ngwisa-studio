@@ -1004,7 +1004,7 @@ class Component extends DCLogic {
   fromMM(f, folder) { const isV = f.mediaType === 'VIDEO', im = f.media && f.media.image && f.media.image.image, vd = (f.media && f.media.video) || {}, lab = f.labels || [];
     const get = p => { const l = lab.find(x => String(x).indexOf(p) === 0); return l ? l.slice(p.length) : ''; }, fc = get('focal:').split(',').map(Number);
     const res = (vd.resolutions || []).slice().sort((a, b) => (b.height || 0) - (a.height || 0));
-    const vurl = (res.find(r => (r.height || 0) <= 1080) || res[0] || {}).url || f.url;
+    const vurl = (res.find(r => Math.min(r.height || 0, r.width || r.height || 0) <= 1080) || res[0] || {}).url || f.url;
     return { id: 'mm-' + f.id, wixId: f.id, labels: lab, src: isV ? vurl : f.url + '/v1/fit/w_1200,h_1200,q_80/f.jpg', poster: isV && vd.posters && vd.posters[0] ? vd.posters[0].url : '', name: f.displayName || 'Wix file', folder, kind: isV ? 'video' : 'image',
       w: (im && im.width) || (res[0] && res[0].width) || 0, h: (im && im.height) || (res[0] && res[0].height) || 0, kb: Math.round((+f.sizeInBytes || 0) / 1024), alt: get('alt:'), focal: fc.length === 2 && !isNaN(fc[0]) ? { x: fc[0], y: fc[1] } : { x: 50, y: 40 }, focalSet: fc.length === 2 && !isNaN(fc[0]), consent: get('consent:') === 'yes' ? true : null, needsConsent: get('person:') === 'yes',
       at: f.createdDate ? new Date(f.createdDate).toLocaleDateString('en-GB', { day: 'numeric', month: 'short' }).toUpperCase() : 'WIX', inWix: true, dur: vd.duration ? Math.floor(vd.duration / 60) + ':' + String(Math.round(vd.duration % 60)).padStart(2, '0') : '' }; }

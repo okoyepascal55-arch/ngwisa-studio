@@ -89,7 +89,7 @@
 </section>
 
 <section data-sec="1" data-screen-label="Home 06 The Wall" onMouseEnter="{{ wallIn }}" onMouseLeave="{{ wallOut }}" style="position:relative;height:100svh;scroll-snap-align:start;background:#141110;color:#FBF8F2;overflow:hidden">
-<div data-wall="1" data-wscrub="1" style="position:absolute;inset:-6% -2%;display:grid;grid-template-columns:{{ wallGrid }};gap:10px;padding:0 10px;transform-style:preserve-3d;cursor:ns-resize">
+<div data-wall="1" data-wscrub="1" style="position:absolute;inset:-6% 0;display:grid;grid-template-columns:{{ wallGrid }};gap:10px;padding:0 10px;transform-style:preserve-3d;cursor:ns-resize">
 <sc-for list="{{ wallCols }}" as="col" hint-placeholder-count="3">
 <div style="overflow:visible">
 <div data-wcol="{{ col.dir }}" style="display:flex;flex-direction:column;gap:10px;will-change:transform">
@@ -543,7 +543,7 @@
 </div>
 </section>
 <section data-screen-label="Product wall" onMouseEnter="{{ wallIn }}" onMouseLeave="{{ wallOut }}" style="position:relative;height:100svh;background:#141110;color:#FBF8F2;overflow:hidden">
-<div data-wall="1" data-wscrub="1" style="position:absolute;inset:-6% -2%;display:grid;grid-template-columns:{{ wallGrid }};gap:10px;padding:0 10px;transform-style:preserve-3d;cursor:ns-resize">
+<div data-wall="1" data-wscrub="1" style="position:absolute;inset:-6% 0;display:grid;grid-template-columns:{{ wallGrid }};gap:10px;padding:0 10px;transform-style:preserve-3d;cursor:ns-resize">
 <sc-for list="{{ ppWallCols }}" as="col" hint-placeholder-count="3">
 <div style="overflow:visible">
 <div data-wcol="{{ col.dir }}" style="display:flex;flex-direction:column;gap:10px;will-change:transform">
@@ -1494,7 +1494,7 @@ class Component extends DCLogic {
     const t = Object.assign({}, COPY_DEF, st.copy || {}); const SL = st.slots || {}; const SM = st.slotMeta || {}; const tq = t;
     ART.forEach((x, i) => { const k = 'st' + (i + 1); x.t = t[k + 'T'] || x.t; x.k = t[k + 'K'] || x.k; x.ctaL = t[k + 'Cta'] || x.ctaL; const ps = [t[k + 'P1'], t[k + 'P2'], t[k + 'P3']].filter(v => v && v.trim()); if (ps.length) x.paras = ps; });
     const si = {}; Object.keys(SPOTS).forEach(id => { const [k, alt, pos] = SPOTS[id], m = SM[id] || {}; si[k] = SL[id] || ''; si[k + 'Alt'] = m.alt || alt; si[k + 'Pos'] = m.pos || pos; });
-    const heroVid = (st.mob && SL['hero-film-m']) || SL['hero-film'] || '';
+    const heroVid = ((st.mob && SL['hero-film-m']) || SL['hero-film'] || '').replace(st.mob ? /\/1080p\/mp4\// : /^$/, '/720p/mp4/');
     const go = (p, x) => () => this.go(p, x);
     const open = id => () => this.openQuick(id);
     const secLabels = SECS[st.page];
@@ -1556,7 +1556,7 @@ const sCard = (p, i, pre) => { const key = pre + p.id, on = st.shov === key;
       scRef: el => { if (el && el !== this.sc) { this.sc = el; this.setupWhenReady(el, 0); } },
       onScroll: e => this.onSc(e.currentTarget),
       showDots: !st.mob && secLabels.length > 0 && !st.menu,
-      jCols: st.mob ? '22px 60px minmax(0,1fr)' : '56px 76px minmax(0,1fr) auto', jGap: st.mob ? '14px' : '20px', jK: st.mob ? 'none' : 'block',
+      jCols: st.mob ? '20px 76px minmax(0,1fr)' : '56px 76px minmax(0,1fr) auto', jGap: st.mob ? '12px' : '20px', jK: st.mob ? 'none' : 'block',
       chipWrap: st.mob ? 'nowrap' : 'wrap', frameInset: st.mob ? '5px' : '10px', frameR: st.mob ? '14px' : '18px', hdrIn: st.mob ? '12px' : '24px',
       wallGrid: 'repeat(' + WN + ',minmax(0,1fr))', wqF: st.mob ? '13px' : 'clamp(14px,1.15vw,20px)', wtF: st.mob ? '14px' : 'clamp(15px,1.25vw,22px)', wtS: st.mob ? '10px' : '12px', wPad: st.mob ? '10px' : 'clamp(12px,1vw,16px)',
       showCue: !st.mob && secLabels.length > 1 && !st.menu && !st.pp,
