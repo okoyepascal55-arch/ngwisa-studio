@@ -645,6 +645,8 @@
 </div>
 <div style="padding:20px 24px;border-top:1.5px dashed rgba(20,17,16,.3);display:flex;flex-direction:column;gap:14px">
 <div style="display:flex;justify-content:space-between;font:500 12px/1 'DM Mono',monospace;letter-spacing:.12em"><span>SUBTOTAL</span><span>{{ subtotal }}</span></div>
+<div style="display:flex;flex-direction:column;gap:6px"><div style="display:flex;justify-content:space-between;gap:12px;font:500 12px/1 'DM Mono',monospace;letter-spacing:.12em"><span>{{ shipL }}</span><span>{{ shipV }}</span></div><div style="font:500 10px/1.5 'DM Mono',monospace;letter-spacing:.12em;color:#6A6057">{{ shipNote }}</div></div>
+<div style="display:flex;justify-content:space-between;font:600 13px/1 'DM Mono',monospace;letter-spacing:.12em;padding-top:12px;border-top:1px solid rgba(20,17,16,.15)"><span>TOTAL</span><span>{{ bagTotal }}</span></div>
 <sc-if value="{{ bagFill }}" hint-placeholder-val="{{ false }}"><div style="font:500 10px/1.5 'DM Mono',monospace;letter-spacing:.12em;color:#6A6057">SIGNED IN · DELIVERS TO {{ bagFillTo }}</div></sc-if>
 <button onClick="{{ goCheckout }}" style="border:0;cursor:pointer;width:100%;height:52px;display:flex;align-items:center;justify-content:center;border-radius:999px;background:#141110;color:#FBF8F2;font:500 11px/1 'DM Mono',monospace;letter-spacing:.16em">{{ checkoutL }}</button>
 </div>
@@ -1126,6 +1128,12 @@ class Component extends DCLogic {
     if (N && st.member && !st.track[o.id] && o.ful && o.ful !== 'NOT_FULFILLED') N.tracking(o.id).then(t => this.setState({ track: { ...this.state.track, [o.id]: t } })); }
   reorder(O, demo) { if (demo) { this.flash('PREVIEW — SIGN IN TO REORDER'); return; } const N = window.NGW; if (!N) return; this.setState({ roBusy: true });
     N.reorder(O.lines).then(c => { this.setState({ roBusy: false, bag: this.wixBag(c), acct: false, bagOpen: true }); this.flash('ADDED TO BAG'); }).catch(e => { this.setState({ roBusy: false }); this.flash(String(e.message || e).toUpperCase()); }); }
+  /* Where the bag's delivery is priced: a signed-in member's address, else the browser's region (en-GB → GB), else the UK. */
+  shipCountry() { const p = this.prefill(), c = p && p.address && p.address.country; if (c && /^[A-Z]{2}$/i.test(c)) return c.toUpperCase();
+    const m = String((navigator.languages && navigator.languages[0]) || navigator.language || '').match(/[-_]([A-Za-z]{2})$/); return m ? m[1].toUpperCase() : 'GB'; }
+  loadShip() { const N = window.NGW, st = this.state; if (!N || !N.delivery || !st.bag.length) { if (st.bagShip) this.setState({ bagShip: null }); return; }
+    const cc = this.shipCountry(), seq = (this.shipSeq = (this.shipSeq || 0) + 1);
+    N.delivery(cc).then(d => { if (seq === this.shipSeq) this.setState({ bagShip: d ? Object.assign({ cc }, d) : null }); }).catch(() => { if (seq === this.shipSeq) this.setState({ bagShip: null }); }); }
   prefill() { const st = this.state, m = st.member, a = m && st.addrs && st.addrs[st.addrDef || 0]; return a ? { email: m.email, address: { ...a, first: a.first || m.first, last: a.last || m.last } } : null; }
   dash(m) { const st = this.state, demo = !st.member;
     const D = s => s ? new Date(s).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }).toUpperCase() : '';
@@ -1281,7 +1289,7 @@ class Component extends DCLogic {
     document.removeEventListener('click', this.onClickCap, true); document.removeEventListener('scroll', this.onScrollCap, true); removeEventListener('keydown', this.onKey); document.removeEventListener('ng-open', this.onNgOpen); document.removeEventListener('visibilitychange', this.onVis); document.removeEventListener('ng-link', this.onNgLink);
     if (this.io) this.io.disconnect(); removeEventListener('resize', this.onResize2); document.removeEventListener('wheel', this.onWheel); removeEventListener('keydown', this.onPageKey); cancelAnimationFrame(this.anRaf);
   }
-  componentDidUpdate() { this.syncImgs(); if (!IN_EDITOR()) { const t = this.docTitle(); if (document.title !== t) document.title = t; const d = this.docDesc(), m = d && document.querySelector('meta[name="description"]'); if (m && m.getAttribute('content') !== d) m.setAttribute('content', d); } if (this.lastPP !== this.state.pp) { this.lastPP = this.state.pp; setTimeout(() => this.refreshEls(), 150); } }
+  componentDidUpdate() { this.syncImgs(); if (this.lastBag !== this.state.bag) { this.lastBag = this.state.bag; clearTimeout(this.shipT); this.shipT = setTimeout(() => this.loadShip(), 250); } if (!IN_EDITOR()) { const t = this.docTitle(); if (document.title !== t) document.title = t; const d = this.docDesc(), m = d && document.querySelector('meta[name="description"]'); if (m && m.getAttribute('content') !== d) m.setAttribute('content', d); } if (this.lastPP !== this.state.pp) { this.lastPP = this.state.pp; setTimeout(() => this.refreshEls(), 150); } }
   /* Size every changed image for the width it's shown at: read all the widths first, then set all the sources, so the
      browser lays the page out once instead of once per image. */
   syncImgs() { const todo = [...document.querySelectorAll('img[data-img]')].filter(i => { const s = i.getAttribute('data-img'); return s && s.indexOf('{{') < 0 && i.dataset.raw !== s; });
@@ -1546,10 +1554,13 @@ const sCard = (p, i, pre) => { const key = pre + p.id, on = st.shov === key;
       setRef: el => { if (!el) return; const s = el.dataset.s, ss = el.dataset.ss; if (!s || s.indexOf('{{') >= 0 || el.dataset.raw === s) return; el.dataset.raw = s; if (ss) el.setAttribute('srcset', ss); el.setAttribute('src', s); },
       mref: el => { if (!el) return; const v = el.dataset.v || (el.dataset.w ? WXS + el.dataset.w : ''); if (v && el.dataset.raw !== v) { el.dataset.raw = v; IMGQ(el, v); } }, bagCount: st.bag.length, openBag: () => this.setState({ bagOpen: true }), closeBag: () => this.setState({ bagOpen: false }), bagOpen: st.bagOpen, bagEmpty: !st.bag.length,
       bagLines: st.bag.map((b, i) => ({ ...b, price: fmt(b.price), remove: () => { if (b.lineId && window.NGW) window.NGW.removeLine(b.lineId).then(c => this.setState({ bag: this.wixBag(c) })).catch(e => this.flash(String(e.message || e).toUpperCase())); else this.setState({ bag: st.bag.filter((_, j) => j !== i) }); } })),
-      goCheckout: () => { if (!window.NGW) return; this.setState({ ckBusy: true }); window.NGW.checkoutUrl(this.prefill(), location.pathname).then(u => { (window.top || window).location.href = u; }).catch(e => { this.setState({ ckBusy: false }); this.flash(String(e.message || e).toUpperCase()); }); },
+      goCheckout: () => { if (!window.NGW) return; this.setState({ ckBusy: true }); window.NGW.checkoutUrl(this.prefill() || { country: this.shipCountry() }, location.pathname).then(u => { (window.top || window).location.href = u; }).catch(e => { this.setState({ ckBusy: false }); this.flash(String(e.message || e).toUpperCase()); }); },
       bagFill: !!this.prefill(), bagFillTo: (() => { const p = this.prefill(); return p ? [p.address.line1, p.address.postcode].filter(Boolean).join(', ').toUpperCase() : ''; })(),
       checkoutL: st.ckBusy ? 'OPENING SECURE CHECKOUT…' : 'CHECKOUT →',
       subtotal: '£' + bagSub.toFixed(2),
+      ...(() => { const d = st.bagShip; let where = d ? d.cc : ''; try { where = d ? (d.cc === 'GB' ? 'UK' : new Intl.DisplayNames(['en-GB'], { type: 'region' }).of(d.cc)) : ''; } catch (e) {}
+        return { shipL: d ? 'DELIVERY · ' + String(where).toUpperCase() : 'DELIVERY', shipV: d ? (d.amount > 0 ? '£' + d.amount.toFixed(2) : 'FREE') : 'AT CHECKOUT', shipNote: d && d.title ? d.title.toUpperCase() + ' · OTHER OPTIONS AT CHECKOUT' : 'WORKED OUT FROM YOUR ADDRESS AT CHECKOUT',
+          bagTotal: '£' + (d ? (d.total != null ? d.total : bagSub + d.amount) : bagSub).toFixed(2) }; })(),
       loopCards: PV.filter(p => p.isNew).map(p => ({ name: p.name, price: fmt(p.price), img: p.img, alt: p.alt, open: open(p.id) })),
       decks: [['Women', SL['deck-women'] || '02706', (SM['deck-women'] || {}).pos || '50% 22%', 'red'], ['Men', SL['deck-men'] || '02542', (SM['deck-men'] || {}).pos || '50% 20%', 'gold']].map(d => ({ l: d[0], img: IMG(d[1]), pos: d[2], tone: d[3], cta: 'SHOP ' + d[0].toUpperCase() + ' →', go: go('shop', { cat: d[0], tab: 'all' }) })),
       ppVidRef: el => { if (!el) return; const v = el.dataset.v, po = el.dataset.p; if (po && el.getAttribute('poster') !== po) el.setAttribute('poster', po); if (v && el.getAttribute('src') !== v) { el.setAttribute('src', v); try { const pr = el.play(); if (pr && pr.catch) pr.catch(() => {}); } catch (e) {} } }, openFilm: () => this.setState({ filmOpen: true }), closeFilm: () => this.setState({ filmOpen: false }), filmOpen: st.filmOpen, gongVid: SL['gong-film'] || '', gongRef: el => { if (!el) return; const v = el.dataset.v, p = el.dataset.p; if (p && el.getAttribute('poster') !== p) el.setAttribute('poster', p); if (v && el.getAttribute('src') !== v) { el.setAttribute('src', v); try { const pr = el.play(); if (pr && pr.catch) pr.catch(() => {}); } catch (e) {} } }, hasGongVid: !!SL['gong-film'], noGongVid: !SL['gong-film'], gongPoster: SL['home-cast'] || '',

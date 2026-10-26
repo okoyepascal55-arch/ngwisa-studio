@@ -221,6 +221,14 @@
   async function cart() {
     try { const r = await req('/ecom/v2/carts/current', { method: 'GET' }); return r.cart || null; } catch (e) { if (e.status === 404) return null; throw e; }
   }
+  /* Delivery for the bag: what Wix's own rates charge for this cart in a country (the same figure checkout shows). */
+  async function delivery(country) {
+    const r = await req('/ecom/v1/carts/current/estimate-totals', { body: { shippingAddress: { country } } });
+    const sh = r && r.priceSummary && r.priceSummary.shipping, opt = r && r.shippingInfo && r.shippingInfo.selectedCarrierServiceOption;
+    if (!opt || !sh) return null;
+    const tot = r.priceSummary.total;
+    return { amount: Number(sh.amount || 0), title: opt.title || '', total: tot ? Number(tot.amount || 0) : null };
+  }
   async function removeLine(lineItemId) { const r = await req('/ecom/v2/carts/current/remove-line-items', { body: { lineItemIds: [lineItemId] } }); return r.cart || null; }
   /* Hosted Wix checkout. Shoppers who leave come back to `backPath`; paid orders land on /thank-you. */
   async function checkoutUrl(prefill, backPath) {
@@ -233,6 +241,9 @@
       try { const k = await req('/ecom/v1/carts/current/create-checkout', { body: { channelType: 'WEB', email: prefill.email || undefined, shippingAddress: addr, billingAddress: addr } }); if (k && k.checkoutId) checkoutId = k.checkoutId;
         try { await req('/ecom/v1/checkouts/' + checkoutId, { method: 'PATCH', body: { checkout: { shippingInfo: { shippingDestination: { address: addr, contactDetails: { firstName: a.first, lastName: a.last, phone: a.phone || undefined } } }, billingInfo: { address: addr, contactDetails: { firstName: a.first, lastName: a.last, phone: a.phone || undefined } } } } }); } catch (e) {}
       } catch (e) {}
+    }
+    else if (prefill && prefill.country) { /* guest: start checkout in their country so delivery shows before they type an address */
+      try { const k = await req('/ecom/v1/carts/current/create-checkout', { body: { channelType: 'WEB', shippingAddress: { country: prefill.country } } }); if (k && k.checkoutId) checkoutId = k.checkoutId; } catch (e) {}
     }
     const back = origin ? origin + (backPath && backPath.charAt(0) === '/' ? backPath : '/') : '';
     try { sessionStorage.setItem('ngwisa-checkout', JSON.stringify({ checkoutId, at: Date.now() })); } catch (e) {}
@@ -343,5 +354,5 @@
     }, true);
   };
   if (root.document) root.NGFB(root.document);
-  root.NGW = Object.assign({ request: req, accessToken: token, products, studio, catalog, stock, variants, addToCart, cart, removeLine, checkoutUrl, confirmation, login, register, verify, me, logout, isMember, orders, tracking, reorder, updateMe, myAddresses }, CAT);
+  root.NGW = Object.assign({ request: req, accessToken: token, products, studio, catalog, stock, variants, addToCart, cart, removeLine, delivery, checkoutUrl, confirmation, login, register, verify, me, logout, isMember, orders, tracking, reorder, updateMe, myAddresses }, CAT);
 })(typeof window !== 'undefined' ? window : null);
