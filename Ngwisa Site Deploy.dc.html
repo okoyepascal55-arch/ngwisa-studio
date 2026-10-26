@@ -1063,7 +1063,7 @@ const NAV = [['home', 'HOME', 'Home'], ['loop', 'THE LOOP', 'The Loop'], ['shop'
 /* Every page and piece has its own address, so links can be shared, the back button works and search engines can
    index each piece. api/page.js serves the same addresses with the right title, description and preview image. */
 const PATHS = { home: '/', loop: '/the-loop', shop: '/shop', heritage: '/heritage', founders: '/founders-voice', journal: '/journal' };
-const TITLES = { home: 'Ngwisa — Toghu, worn now', loop: 'The Loop — Ngwisa', shop: 'Shop — Ngwisa', heritage: 'Heritage — Ngwisa', founders: 'Founder’s Voice — Ngwisa', journal: 'Journal — Ngwisa' };
+const TITLES = {home: "Ngwisa — Toghu Luxury Fashion | Hand-Embroidered Cameroonian Clothing, Manchester",loop: "The Loop — New Toghu Pieces | Ngwisa",shop: "Shop Toghu Clothing for Women & Men — Ngwisa",heritage: "What Is Toghu? The Royal Cloth of Cameroon — Ngwisa",founders: "Founder’s Voice — The Story Behind Ngwisa",journal: "Journal — Runways, Shows & Atelier Stories | Ngwisa"};
 const ROUTE = path => { const u = String(path || '/').replace(/\/index\.html$/, '').replace(/\.html$/, '').replace(/\/+$/, '') || '/', m = u.match(/^\/shop\/([^/]+)$/);
   if (/^\/studio/i.test(u)) return { studio: true };
   if (m) { let slug = m[1]; try { slug = decodeURIComponent(slug); } catch (e) {} return { page: 'shop', slug }; }
@@ -1400,7 +1400,7 @@ class Component extends DCLogic {
     if (r.thanks && !this.state.thanks) this.showThanks();
     if (Object.keys(set).length) this.setState(set); }
   docTitle() { const st = this.state, p = st.pp ? this.find(st.pp) : null;
-    if (st.thanks) return 'Thank you — Ngwisa'; if (p) return ((p.seo && p.seo.title) || p.name) + ' — Ngwisa';
+    if (st.thanks) return 'Thank you — Ngwisa'; if (p) return ((p.seo && p.seo.title) || p.name) + ' | Ngwisa Luxury African Fashion';
     const t = (this.state.copy || {})['seo' + st.page.charAt(0).toUpperCase() + st.page.slice(1) + 'T']; return t || TITLES[st.page] || 'Ngwisa'; }
   /* Search description set in the Studio, applied as soon as it's published (the built page carries the one from the last deploy). */
   docDesc() { const st = this.state, p = st.pp ? this.find(st.pp) : null; if (st.thanks) return '';
