@@ -1130,7 +1130,10 @@ class Component extends DCLogic {
     N.reorder(O.lines).then(c => { this.setState({ roBusy: false, bag: this.wixBag(c), acct: false, bagOpen: true }); this.flash('ADDED TO BAG'); }).catch(e => { this.setState({ roBusy: false }); this.flash(String(e.message || e).toUpperCase()); }); }
   /* Where the bag's delivery is priced: a signed-in member's address, else the browser's region (en-GB → GB), else the UK. */
   shipCountry() { const p = this.prefill(), c = p && p.address && p.address.country; if (c && /^[A-Z]{2}$/i.test(c)) return c.toUpperCase();
-    const m = String((navigator.languages && navigator.languages[0]) || navigator.language || '').match(/[-_]([A-Za-z]{2})$/); return m ? m[1].toUpperCase() : 'GB'; }
+    /* Many UK and European browsers say en-US, so the language's region only counts when the clock agrees (US only in America/…). */
+    let tz = ''; try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) {} if (tz === 'Europe/London') return 'GB';
+    const m = String((navigator.languages && navigator.languages[0]) || navigator.language || '').match(/[-_]([A-Za-z]{2})$/), r = m ? m[1].toUpperCase() : '';
+    return r && !((r === 'US' || r === 'CA') && !/^America\//.test(tz)) ? r : 'GB'; }
   loadShip() { const N = window.NGW, st = this.state; if (!N || !N.delivery || !st.bag.length) { if (st.bagShip) this.setState({ bagShip: null }); return; }
     const cc = this.shipCountry(), seq = (this.shipSeq = (this.shipSeq || 0) + 1);
     N.delivery(cc).then(d => { if (seq === this.shipSeq) this.setState({ bagShip: d ? Object.assign({ cc }, d) : null }); }).catch(() => { if (seq === this.shipSeq) this.setState({ bagShip: null }); }); }
