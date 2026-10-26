@@ -35,7 +35,11 @@ const copyDir = (from, to) => { fs.mkdirSync(to, { recursive: true }); for (cons
   if (fs.statSync(a).isDirectory()) copyDir(a, b); else if (f !== 'app.html' && f !== '404.html' && f !== 'ngwisa-wix.zip' && !hashedTwin(from, f)) fs.copyFileSync(a, b); } };
 copyDir(DIST, OUT);
 
-const PREBUILT = [...new Set(snap.products.map(p => p.slug).concat(snap.seed.map(s => s.slug)))];
+/* Old short addresses of pieces that are in Wix (/shop/rahrah) aren't prebuilt: they'd only repeat the Wix piece's page
+   (and push the upload past Wix's limit). 404.html is the site itself, so they still open in the browser. */
+const normN = s => String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim(), wixNames = new Set(snap.products.map(p => normN(p.name)));
+const slugs = new Set(snap.products.map(p => p.slug).concat(snap.seed.filter(s => !snap.products.some(p => p.slug === s.slug) && !wixNames.has(normN(s.name))).map(s => s.slug)));
+const PREBUILT = [...slugs];
 const BUILD = (process.env.VERCEL_GIT_COMMIT_SHA || '').slice(0, 7) || new Date().toISOString();
 const esc8 = o => JSON.stringify(o).replace(/</g, '\\u003c');
 /* NG_BOOT: the published photos, films and words at build time, so the first render is already right (no design
@@ -61,7 +65,6 @@ const write = (route, html) => { const f = route === '/' ? 'index.html' : route.
   fs.mkdirSync(path.dirname(p), { recursive: true }); fs.writeFileSync(p, html); return f; };
 
 const routes = Object.keys(PAGES).map(k => PAGES[k].path).concat(['/thank-you', '/studio']);
-const slugs = new Set(snap.products.map(p => p.slug).concat(snap.seed.map(s => s.slug)));
 let n = 0; const skipped = [];
 for (const r of routes) { write(r, page(r).html); n++; }
 for (const s of slugs) { const r = '/shop/' + encodeURIComponent(s), o = page(r); if (o.status !== 200) { skipped.push(s); continue; } write('/shop/' + s, o.html); n++; }
