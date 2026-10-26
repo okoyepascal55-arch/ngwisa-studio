@@ -2,7 +2,7 @@
    dist/. Wix's headless hosting serves files only, so instead of api/page.js every address is prebuilt as its own
    folder/index.html with its title, description, share image and structured data:
      /  /the-loop  /shop  /heritage  /founders-voice  /journal  /thank-you  /studio  /shop/<every piece>
-   plus sitemap.xml, robots.txt and a 404.html that is the site itself, so a piece added in Wix after the build still
+   plus ngwisa-sitemap.xml (Wix answers /sitemap.xml and /robots.txt itself) and a 404.html that is the site itself, so a piece added in Wix after the build still
    opens in the browser. The Studio saves through the same api/studio.js, running on Vercel (NG_STUDIO_API).
 
    Usage: npm run build && node scripts/build-wix.js [snapshot.json]
@@ -35,10 +35,9 @@ const copyDir = (from, to) => { fs.mkdirSync(to, { recursive: true }); for (cons
   if (fs.statSync(a).isDirectory()) copyDir(a, b); else if (f !== 'app.html' && f !== '404.html' && f !== 'ngwisa-wix.zip' && !hashedTwin(from, f)) fs.copyFileSync(a, b); } };
 copyDir(DIST, OUT);
 
-/* Old short addresses of pieces that are in Wix (/shop/rahrah) aren't prebuilt: they'd only repeat the Wix piece's page
-   (and push the upload past Wix's limit). 404.html is the site itself, so they still open in the browser. */
-const normN = s => String(s || '').toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim(), wixNames = new Set(snap.products.map(p => normN(p.name)));
-const slugs = new Set(snap.products.map(p => p.slug).concat(snap.seed.filter(s => !snap.products.some(p => p.slug === s.slug) && !wixNames.has(normN(s.name))).map(s => s.slug)));
+/* Every piece's address, plus the old short addresses of the design's pieces (/shop/rahrah), so links shared before
+   still open: Wix's hosting shows its own "page wasn't found" for any file that isn't here. */
+const slugs = new Set(snap.products.map(p => p.slug).concat(snap.seed.map(s => s.slug)));
 const PREBUILT = [...slugs];
 const BUILD = (process.env.VERCEL_GIT_COMMIT_SHA || '').slice(0, 7) || new Date().toISOString();
 const esc8 = o => JSON.stringify(o).replace(/</g, '\\u003c');
@@ -72,15 +71,17 @@ for (const s of slugs) { const r = '/shop/' + encodeURIComponent(s), o = page(r)
 const nf = render('/__missing__', snap, SITE, { html: true });
 fs.writeFileSync(path.join(OUT, '404.html'), shell.replace(/<title>[^<]*<\/title>\s*<!--ng:head-->/, nf.head + '\n' + apiTag).replace('<!--ng:body-->', ''));
 
-// sitemap.xml and robots.txt
+// The sitemap
 const esc = s => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;');
 const day = s => { const d = s ? new Date(s) : null; return d && !isNaN(d) ? d.toISOString().slice(0, 10) : ''; };
 const H = p => p === '/' ? p : p + '.html';
 const urls = Object.keys(PAGES).map(k => '<url><loc>' + esc(SITE + H(PAGES[k].path)) + '</loc><priority>' + (k === 'home' ? '1.0' : k === 'shop' ? '0.9' : '0.7') + '</priority></url>')
   .concat(snap.products.map(p => '<url><loc>' + esc(SITE + H('/shop/' + encodeURIComponent(p.slug))) + '</loc>' + (day(p.updated) ? '<lastmod>' + day(p.updated) + '</lastmod>' : '') + '<priority>0.8</priority>'
     + (p.imgs && p.imgs[0] ? '<image:image><image:loc>' + esc(p.imgs[0]) + '</image:loc></image:image>' : '') + '</url>'));
-fs.writeFileSync(path.join(OUT, 'sitemap.xml'), '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n' + urls.join('\n') + '\n</urlset>\n');
-fs.writeFileSync(path.join(OUT, 'robots.txt'), ['User-agent: *', 'Disallow: /studio', 'Disallow: /thank-you', '', 'Sitemap: ' + SITE + '/sitemap.xml', ''].join('\n'));
+/* Wix answers /sitemap.xml and /robots.txt itself, so the sitemap is published under its own name and robots.txt
+   (set through Wix's SEO settings) points to it. */
+fs.writeFileSync(path.join(OUT, 'ngwisa-sitemap.xml'), '<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">\n' + urls.join('\n') + '\n</urlset>\n');
+
 
 // release/ngwisa-wix.zip (stored + deflated with Node's zlib; no extra dependency)
 const files = []; (function walk(d) { for (const f of fs.readdirSync(d)) { const p = path.join(d, f); if (fs.statSync(p).isDirectory()) walk(p); else files.push(p); } })(OUT);
