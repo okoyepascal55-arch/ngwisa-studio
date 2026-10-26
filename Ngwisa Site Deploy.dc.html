@@ -89,7 +89,7 @@
 </section>
 
 <section data-sec="1" data-screen-label="Home 06 The Wall" onMouseEnter="{{ wallIn }}" onMouseLeave="{{ wallOut }}" style="position:relative;height:100svh;scroll-snap-align:start;background:#141110;color:#FBF8F2;overflow:hidden">
-<div data-wall="1" data-wscrub="1" style="position:absolute;inset:-6% 0;display:grid;grid-template-columns:{{ wallGrid }};gap:10px;padding:0 10px;transform-style:preserve-3d;cursor:ns-resize">
+<div data-wall="1" data-wscrub="1" style="position:absolute;inset:-6% 0;display:grid;grid-template-columns:{{ wallGrid }};gap:10px;padding:0 calc(2.5% + 10px);transform-style:preserve-3d;cursor:ns-resize">
 <sc-for list="{{ wallCols }}" as="col" hint-placeholder-count="3">
 <div style="overflow:visible">
 <div data-wcol="{{ col.dir }}" style="display:flex;flex-direction:column;gap:10px;will-change:transform">
@@ -543,7 +543,7 @@
 </div>
 </section>
 <section data-screen-label="Product wall" onMouseEnter="{{ wallIn }}" onMouseLeave="{{ wallOut }}" style="position:relative;height:100svh;background:#141110;color:#FBF8F2;overflow:hidden">
-<div data-wall="1" data-wscrub="1" style="position:absolute;inset:-6% 0;display:grid;grid-template-columns:{{ wallGrid }};gap:10px;padding:0 10px;transform-style:preserve-3d;cursor:ns-resize">
+<div data-wall="1" data-wscrub="1" style="position:absolute;inset:-6% 0;display:grid;grid-template-columns:{{ wallGrid }};gap:10px;padding:0 calc(2.5% + 10px);transform-style:preserve-3d;cursor:ns-resize">
 <sc-for list="{{ ppWallCols }}" as="col" hint-placeholder-count="3">
 <div style="overflow:visible">
 <div data-wcol="{{ col.dir }}" style="display:flex;flex-direction:column;gap:10px;will-change:transform">
