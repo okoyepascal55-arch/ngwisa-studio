@@ -1,4 +1,4 @@
-/* Ngwisa ↔ Wix (gong gallery headless site). Visitor-token REST client: catalog, cart, hosted checkout, members.
+/* Ngwisa ↔ Wix (headless site). Visitor-token REST client: catalog, cart, hosted checkout, members.
    Shapes follow wix-headless-templates storefront/rest/cart.ts + shared/rest/client.ts.
 
    One file, two homes:
@@ -47,11 +47,15 @@
     const main = img(p.media && p.media.main) || imgs[0] || '';
     if (main && imgs.indexOf(main) < 0) imgs.unshift(main);
     const vs = parseVariants(p);
+    /* Films in the product's Wix gallery: the 720p copy (or the largest under it) and Wix's first-frame still. */
+    const videos = media.filter(m => m && m.video).map(m => { const v = m.video, rs = (v.resolutions || []).filter(r => r.url && /mp4/.test(r.format || r.url));
+      const pick = rs.find(r => r.quality === '720p') || rs.slice().sort((a, b) => (b.height || 0) - (a.height || 0)).find(r => Math.min(r.height || 0, r.width || 0) <= 720) || rs[0];
+      const id = v.id || m.id || ''; return pick ? { src: pick.url, poster: id ? 'https://static.wixstatic.com/media/' + id + 'f000.jpg' : '' } : null; }).filter(Boolean);
     const seo = (p.seoData && p.seoData.tags) || [];
     const tag = (type, prop) => { const t = seo.find(x => x.type === type && (!prop || (x.props && (x.props.name === prop || x.props.property === prop)))); return t ? (t.children || (t.props && t.props.content) || '') : ''; };
     return {
       wixId: p.id, slug: p.slug || slugify(p.name), name: p.name || '', key: norm(p.name), visible: p.visible !== false,
-      price: pr ? Number(pr.amount) : null, img: main, imgs, desc: htmlText(p.plainDescription || ''),
+      price: pr ? Number(pr.amount) : null, img: main, imgs, videos, desc: htmlText(p.plainDescription || ''),
       variants: vs, inStock: !(p.inventory && p.inventory.availabilityStatus === 'OUT_OF_STOCK'),
       seoTitle: tag('title'), seoDescription: tag('meta', 'description'), updated: p.updatedDate || '',
     };
@@ -81,6 +85,7 @@
       if (w.price != null) p.price = w.price;
       if (w.imgs && w.imgs.length) { p.imgs = w.imgs.slice(0, 6); p.img = w.imgs[0]; p.alt = w.imgs[1] || w.imgs[0]; }
       if (w.desc) p.desc = w.desc;
+      p.videos = w.videos && w.videos.length ? w.videos : [];
       if (m) {
         if (typeof m.displayName === 'string' && m.displayName.trim()) p.name = m.displayName.trim();
         if (m.category) p.cat = m.category;

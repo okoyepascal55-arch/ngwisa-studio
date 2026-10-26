@@ -72,7 +72,7 @@
 <!-- START HERE -->
 <sc-if value="{{ isStart }}" hint-placeholder-val="{{ true }}">
 <div style="display:flex;flex-direction:column;gap:34px;max-width:1100px">
-<button onClick="{{ goSoon }}" style="display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding:16px 20px;border:0;border-radius:18px;background:{{ soonBg }};color:#141110;cursor:pointer;text-align:left"><span style="font:600 16px/1.4 'Bricolage Grotesque'">{{ soonL }}</span><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.14em;white-space:nowrap">CHANGE →</span></button>
+
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:14px">
 <div style="display:flex;flex-direction:column;gap:10px;padding:22px;border-radius:22px;background:#141110;color:#FBF8F2"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#E3A72F">1 · FIND THE PART</span><span style="font:700 21px/1.15 'Bricolage Grotesque'">The menu is the website.</span><span style="font:400 15px/1.5 'Bricolage Grotesque';color:#D9D2C7;text-wrap:pretty">Every page is listed, and under it every part in the order visitors scroll through it. Each part tells you exactly what visitors see there.</span></div>
 <div style="display:flex;flex-direction:column;gap:10px;padding:22px;border-radius:22px;background:#FFFFFF;border:1.5px solid rgba(20,17,16,.12)"><span style="font:500 10px/1 'DM Mono',monospace;letter-spacing:.16em;color:#D81219">2 · CHANGE IT</span><span style="font:700 21px/1.15 'Bricolage Grotesque'">Photos, words and lists.</span><span style="font:400 15px/1.5 'Bricolage Grotesque';color:#3A3430;text-wrap:pretty">Anything you change is marked <b>DRAFT</b> with a yellow dot. Only you see drafts. Undo takes back the last change.</span></div>
@@ -716,8 +716,6 @@ const STORY = n => [['#', 'Story ' + n], ['st' + n + 'T', 'Title'], ['st' + n + 
 const SEO = (k, name) => ({ id: 'seo', name: 'Google & link previews', see: 'Not shown on the page itself: the title and short description Google shows for ' + name + ', and the preview when someone shares the link (WhatsApp, Instagram, iMessage).',
   fields: [['seo' + k + 'T', 'Title (up to 60 characters)'], ['seo' + k + 'D', 'Description (up to 160 characters)']], note: 'Leave empty to keep the built-in wording. Google picks up a change on its next visit; link previews in chat apps update after the next site deploy.' });
 const PAGES = [
-  { id: 'soon', name: 'Coming soon', path: '/', sub: 'The page every visitor sees instead of the website while it is switched on. You (signed in here) still see the full site.', secs: [
-    { id: 'switch', name: 'On or off', see: 'While on, anyone opening ngwisa.com sees only this page: the logo, a title, a line, a note, and buttons to email the atelier or open Instagram. Turn it off when the site is ready to open.', list: 'soon', fields: [['csTitle', 'Title'], ['csLine', 'Line under the title'], ['csNote', 'Small note']], note: 'Like every change, switching it takes effect when you press Publish to site.' }] },
   { id: 'home', name: 'Home', path: '/', sub: 'The front page. Visitors scroll through eight full-screen parts, in this order.', secs: [
     { id: 'film', name: 'Opening film', see: 'The first screen: a film playing silently on a loop behind the menu. Laptops get the wide cut, phones the upright cut, and the still shows while the film loads.', slots: ['hero-film', 'hero-film-m', 'hero-poster'] },
     { id: 'newin', name: 'New in', see: 'A rail of the newest pieces with a title and a button to The Loop. Tapping a piece opens it. The Loop page shows these same pieces, in the same order.', fields: [['loopHead', 'Title'], ['loopBtn', 'Button']], list: 'newin' },
@@ -851,7 +849,7 @@ class Component extends DCLogic {
     let ok = m.id === OWNER_ID, why = '';
     try { await this.api('/wix-data/v2/items/query', { body: { dataCollectionId: 'StudioVersions', query: { cursorPaging: { limit: 1 } } } }); ok = true; }
     catch (e) { if (e.status === 401 || e.status === 403) { ok = false; why = e.status === 403 ? 'Signed in as ' + (m.email || 'a member') + ', but this account can’t edit the Studio yet. Ask the owner to add it.' : e.message; } }
-    if (ok) { this.me = m; try { localStorage.setItem('ngwisa-preview', '1'); } catch (e) {} this.setState({ authed: true, lBusy: false, lp: '', lErr: '' }); this.loadWix(); this.startSync(); }
+    if (ok) { this.me = m; this.setState({ authed: true, lBusy: false, lp: '', lErr: '' }); this.loadWix(); this.startSync(); }
     else this.setState({ authed: false, lBusy: false, lErr: why }); }
   myName() { const m = this.me || {}; return m.first || (m.email ? String(m.email).split('@')[0] : '') || this.role(); }
   logout() { const N = window.NGW; clearInterval(this.syncT); this.setState({ authed: false, wixLive: false }); if (N) N.logout(); }
