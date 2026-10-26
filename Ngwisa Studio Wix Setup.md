@@ -81,3 +81,8 @@ The browser never holds the API key, and the Studio collections stay **admin-onl
 - **The website · page by page**: Home, The Loop, Shop, Heritage, Founder's Voice, Journal, Product pages, Sign-in. Under each page, its parts in the order visitors scroll through them (the same parts as the site's side dots). Each part opens on its own screen with what visitors see there, a link to it on the site, and everything that can be changed in it: photo spots, words, and its list (New in rail, best-seller rack, the Wall, which pieces show, appearances, pairs, size guide).
 - **Used across the site**: Photos & films (the Media Manager library) and Publish history.
 - The part definitions live in `PAGES` in the Studio file; add a part there when a section is added to the site.
+
+## Search (SEO)
+- Every page and piece is prebuilt with its own title, description, share image and structured data (store, website, product with price and stock, breadcrumbs). Page titles and descriptions are editable in Studio › Site copy (seo…T / seo…D).
+- Wix answers `/robots.txt` and `/sitemap.xml` itself and its hosting doesn't serve `.xml` files, so the sitemap is `https://www.ngwisa.com/sitemap.txt` and robots.txt (set through Wix's SEO settings) points to it.
+- Deploying: send the upload as `headers: { 'Content-Type': mp.contentType }, body: mp.body` from `wix.multipart(entries)`; passing the multipart object itself as the body fails.
