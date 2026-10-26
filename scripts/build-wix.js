@@ -27,8 +27,12 @@ const shell = fs.readFileSync(path.join(DIST, 'app.html'), 'utf8');
 snap.seed = seedFrom(shell);
 
 fs.rmSync(OUT, { recursive: true, force: true });
+/* Unversioned copies (support.js next to support.ccabf4eac5.js) aren't loaded by the built pages, and Wix's upload
+   takes at most 10 MB per deploy, so only the versioned file goes in. */
+const hashedTwin = (dir, f) => { const m = f.match(/^(.*?)((?:\.dc)?\.\w+)$/); if (!m) return false; const re = new RegExp('^' + m[1].replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '[.-][0-9a-f]{10}' + m[2].replace(/\./g, '\\.') + '$');
+  return fs.readdirSync(dir).some(g => g !== f && re.test(g)); };
 const copyDir = (from, to) => { fs.mkdirSync(to, { recursive: true }); for (const f of fs.readdirSync(from)) { const a = path.join(from, f), b = path.join(to, f);
-  if (fs.statSync(a).isDirectory()) copyDir(a, b); else if (f !== 'app.html' && f !== '404.html') fs.copyFileSync(a, b); } };
+  if (fs.statSync(a).isDirectory()) copyDir(a, b); else if (f !== 'app.html' && f !== '404.html' && f !== 'ngwisa-wix.zip' && !hashedTwin(from, f)) fs.copyFileSync(a, b); } };
 copyDir(DIST, OUT);
 
 const PREBUILT = [...new Set(snap.products.map(p => p.slug).concat(snap.seed.map(s => s.slug)))];
@@ -94,6 +98,7 @@ fs.mkdirSync(path.join(ROOT, 'release'), { recursive: true });
 const zip = Buffer.concat(parts.concat([cd, end])); fs.writeFileSync(path.join(ROOT, 'release', 'ngwisa-wix.zip'), zip);
 if (INTO_DIST) fs.writeFileSync(path.join(DIST, 'ngwisa-wix.zip'), zip);
 const total = files.reduce((t, f) => t + fs.statSync(f).size, 0);
+if (total > 9.5 * 1048576) console.warn('WARNING: dist-wix is ' + (total / 1048576).toFixed(2) + ' MB; Wix takes at most 10 MB per deploy.');
 console.log('dist-wix: ' + files.length + ' files, ' + n + ' pages, ' + (total / 1048576).toFixed(1) + ' MB; release/ngwisa-wix.zip ' + (zip.length / 1048576).toFixed(2) + ' MB'
   + (snap.products.length ? '' : ' (no catalogue snapshot: only built-in pieces prebuilt)') + (skipped.length ? '; not prebuilt: ' + skipped.join(', ') : ''));
 })().catch(e => { console.error(e); process.exit(1); });
